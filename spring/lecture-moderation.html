@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>In-Depth Guide: Moderation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- MathJax Configuration -->
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']]
+        }
+      };
+    </script>
+    <!-- MathJax for LaTeX rendering -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <!-- Chart.js for graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        :root {
+            /* Theme: "Amber Night" */
+            --bg-color: #18181b;           /* zinc-900 */
+            --text-color: #d4d4d8;         /* zinc-300 */
+            --card-bg: #27272a;           /* zinc-800 */
+            --header-text: #fafafa;         /* zinc-50 */
+            --subtle-text: #a1a1aa;       /* zinc-400 */
+            --border-color: #3f3f46;       /* zinc-700 */
+            --active-tab-border: #facc15; /* amber-400 */
+            --info-box-bg: #451a03;         /* amber-950 */
+            --info-box-border: #f59e0b;   /* amber-500 */
+            --info-box-text: #fef3c7;       /* amber-100 */
+            --table-bg: #3f3f46;           /* zinc-700 */
+            --chart-bg: #18181b;           /* zinc-900 */
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+        h1, h2, h3, h4 {
+            font-weight: 700;
+            color: var(--header-text);
+        }
+        h2 {
+            border-bottom: 2px solid var(--active-tab-border);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .content-wrapper {
+            background-color: var(--card-bg);
+        }
+        .info-box {
+            background-color: var(--info-box-bg);
+            border: 1px solid var(--info-box-border);
+            color: var(--info-box-text);
+        }
+        .data-table-wrapper {
+            background-color: var(--table-bg);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+        }
+        .data-table-wrapper table thead {
+            background-color: #52525b; /* zinc-600 */
+        }
+        .chart-wrapper {
+            background-color: var(--chart-bg);
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            border-radius: 0.5rem;
+        }
+    </style>
+</head>
+<body class="transition-colors duration-300">
+
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-8 relative">
+            <h1 class="text-4xl md:text-5xl font-bold">Lecture Guide: Moderation</h1>
+            <p class="text-xl mt-2 text-gray-400">Understanding When and How Relationships Change</p>
+        </header>
+
+        <div class="content-wrapper w-full p-6 md:p-8 rounded-lg shadow-2xl">
+            
+            <!-- Section 1: Defining Moderation -->
+            <section id="definition" class="mb-12">
+                <h2 class="text-2xl md:text-3xl">What is Moderation?</h2>
+                <p class="mb-4">In regression, we often want to know more than just whether one variable predicts another. We want to know *under what conditions* that prediction holds true. This is where moderation comes in.</p>
+                <div class="p-4 rounded-lg info-box">
+                    <p class="text-lg">A <strong>moderator</strong> is a variable that changes the strength or direction of the relationship between a predictor (IV) and an outcome (DV).</p>
+                </div>
+                <p class="mt-4">Essentially, a moderator analysis tests for an <strong>interaction</strong>. It tells you that the effect of your main predictor isn't constant—it depends on the level of your moderator variable.</p>
+            </section>
+
+            <!-- Section 2: First Example -->
+            <section id="example1" class="mb-12">
+                <h2 class="text-2xl md:text-3xl">Example 1: Experience as a Moderator of Memory</h2>
+                <p class="mb-4">This classic example explores whether expertise (years of experience) moderates the effect of list structure on memory recall. Researchers compared expert taxi drivers and novices on their ability to recall a configured route versus a random list of streets.</p>
+                
+                <h3 class="text-xl font-semibold mt-8 mb-4">The Interaction Plot</h3>
+                <p class="mb-4">The interaction is best visualized in a plot. We can see that for novices, the list type doesn't matter. For experts, their memory is vastly superior but *only* for the configured route. Experience moderates the effect of list structure.</p>
+                <div class="my-6 chart-wrapper">
+                    <h4 class="text-left text-lg font-semibold mb-2">Interaction Plot: Mean Items Recalled</h4>
+                    <canvas id="moderationChart1"></canvas>
+                </div>
+
+                <h3 class="text-xl font-semibold mt-8 mb-4">Testing the Moderation with Regression (Experts Only)</h3>
+                <p class="mb-4">To quantify the moderation effect within the expert group, we can run a simple linear regression. We create a new variable, "Memory Advantage," calculated as (Configured Recall - Random Recall). We then see if "Years of Experience" can predict this advantage.</p>
+                <div class="data-table-wrapper">
+                    <h4 class="font-semibold text-lg mb-2">JASP Regression Output for Experts</h4>
+                    <p class="text-sm mb-2">Predicting Memory Advantage from Years of Experience</p>
+                    <table class="w-full text-sm text-left">
+                       <thead class="text-xs uppercase"><tr><th class="px-4 py-2">Model Component</th><th class="px-4 py-2">Value</th><th class="px-4 py-2">Interpretation</th></tr></thead>
+                       <tbody>
+                           <tr class="border-t border-gray-700"><td class="px-4 py-2 font-semibold">R²</td><td class="px-4 py-2">0.760</td><td class="px-4 py-2">76% of the variance in memory advantage is explained by years of experience.</td></tr>
+                           <tr class="border-t border-gray-700"><td class="px-4 py-2 font-semibold">ANOVA F-test</td><td class="px-4 py-2">F(1, 18) = 57.16, p < .001</td><td class="px-4 py-2">The overall regression model is significant.</td></tr>
+                           <tr class="border-t border-gray-700"><td class="px-4 py-2 font-semibold">Slope for Experience ($b_1$)</td><td class="px-4 py-2">0.421, p < .001</td><td class="px-4 py-2">For each extra year of experience, the memory advantage increases by 0.421 points. This is a significant predictor.</td></tr>
+                       </tbody>
+                    </table>
+                </div>
+            </section>
+            
+            <!-- Section 3: Second Example -->
+            <section id="example2">
+                <h2 class="text-2xl md:text-3xl">Example 2: Interactivity as a Moderator of Anxiety's Effect</h2>
+                <p class="mb-4">This example explores if the level of interactivity in a task moderates the relationship between Maths Anxiety and calculation errors. The "Impact of Suppression" is the DV, representing the performance cost of a secondary task.</p>
+                
+                <h3 class="text-xl font-semibold mt-8 mb-4">Visualizing the Moderation</h3>
+                <p class="mb-4">The two scatterplots below show the relationship between Maths Anxiety Score and the Impact of Suppression under two different conditions: Low Interactivity and High Interactivity.</p>
+                <div class="grid md:grid-cols-2 gap-6 my-6">
+                    <div class="chart-wrapper">
+                        <h4 class="text-center text-lg font-semibold mb-2">Low Interactivity</h4>
+                        <canvas id="moderationChart2_low"></canvas>
+                    </div>
+                    <div class="chart-wrapper">
+                        <h4 class="text-center text-lg font-semibold mb-2">High Interactivity</h4>
+                        <canvas id="moderationChart2_high"></canvas>
+                    </div>
+                </div>
+                <p class="mb-4">In the <strong>Low Interactivity</strong> condition, there is a clear positive relationship: as maths anxiety increases, the negative impact of the secondary task also increases. In the <strong>High Interactivity</strong> condition, the relationship disappears; the line is flat. This shows that interactivity is a moderator.</p>
+
+                <h3 class="text-xl font-semibold mt-8 mb-4">Testing with Regression</h3>
+                <p class="mb-4">We can confirm this by running separate regression analyses for each condition.</p>
+                <div class="data-table-wrapper">
+                    <h4 class="font-semibold text-lg mb-2">Regression Output for Low Interactivity Condition</h4>
+                    <table class="w-full text-sm text-left">
+                       <thead class="text-xs uppercase"><tr><th class="px-4 py-2">Model Component</th><th class="px-4 py-2">Value</th><th class="px-4 py-2">Interpretation</th></tr></thead>
+                       <tbody>
+                           <tr class="border-t border-gray-700"><td class="px-4 py-2 font-semibold">ANOVA F-test</td><td class="px-4 py-2">F(1, 50) = 9.79, p = .003</td><td class="px-4 py-2">The regression model is significant.</td></tr>
+                           <tr class="border-t border-gray-700"><td class="px-4 py-2 font-semibold">Slope for MAS ($b_1$)</td><td class="px-4 py-2">0.158, p = .003</td><td class="px-4 py-2">Maths Anxiety Score is a significant predictor of performance cost in the low interactivity condition.</td></tr>
+                       </tbody>
+                    </table>
+                </div>
+                 <p class="mt-4">A similar regression for the High Interactivity condition would show that Maths Anxiety is *not* a significant predictor, confirming the moderation effect.</p>
+            </section>
+
+        </div>
+    </div>
+
+    <script>
+        // --- Chart Rendering Functions ---
+        function renderModerationChart1() {
+            const ctx = document.getElementById('moderationChart1');
+            if (!ctx) return;
+            if (Chart.getChart(ctx)) Chart.getChart(ctx).destroy();
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Configured Route', 'Random List'],
+                    datasets: [
+                        { label: 'Experts', data: [14.70, 6.40], borderColor: '#facc15', backgroundColor: '#facc15', tension: 0.1, fill: false, pointRadius: 5, borderWidth: 2 },
+                        { label: 'Novices', data: [6.45, 6.50], borderColor: '#38bdf8', backgroundColor: '#38bdf8', tension: 0.1, fill: false, pointRadius: 5, borderWidth: 2 }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { position: 'top', labels: { color: '#fafafa' } } },
+                    scales: {
+                        y: { beginAtZero: false, title: { display: true, text: 'Mean Items Recalled', color: '#fafafa' }, ticks: { color: '#fafafa' }, grid: { color: 'rgba(255, 255, 255, 0.25)' } },
+                        x: { title: { display: true, text: 'List Type', color: '#fafafa' }, ticks: { color: '#fafafa' }, grid: { color: 'rgba(255, 255, 255, 0.25)' } }
+                    }
+                }
+            });
+        }
+
+        function renderModerationChart2() {
+            const lowData = [{x: 57, y: 5}, {x: 31, y: 11.8}, {x: 37, y: -1.6}, {x: 43, y: 2.8}, {x: 59, y: 2.4}, {x: 38, y: 1.8}, {x: 51, y: 2}, {x: 67, y: 8.6}, {x: 49, y: -5.2}, {x: 43, y: 1.6}, {x: 73, y: 3}, {x: 67, y: 4.8}, {x: 51, y: -3.4}, {x: 51, y: 4.6}, {x: 39, y: -0.4}, {x: 34, y: -1.2}, {x: 69, y: -2.6}, {x: 44, y: 0.4}, {x: 42, y: -1.4}, {x: 73, y: 6.8}, {x: 50, y: 2.6}, {x: 57, y: -2.4}, {x: 60, y: -9.4}, {x: 53, y: 2.8}, {x: 48, y: 2.4}, {x: 52, y: 0.8}, {x: 78, y: -3.8}, {x: 85, y: 20.6}, {x: 44, y: -1}, {x: 65, y: -7.4}, {x: 51, y: 3.6}, {x: 80, y: 10.6}, {x: 59, y: 1.2}, {x: 92, y: 22}, {x: 76, y: 3.8}, {x: 63, y: -2.2}, {x: 84, y: 3.2}, {x: 65, y: 14.6}, {x: 42, y: 1.6}, {x: 69, y: -22.8}, {x: 42, y: 6.8}, {x: 63, y: -9}, {x: 55, y: 5.8}, {x: 72, y: -6.2}, {x: 53, y: -2.2}, {x: 79, y: 0.4}, {x: 60, y: -1.6}, {x: 67, y: 18}, {x: 26, y: -2.6}, {x: 53, y: 2}, {x: 73, y: -15.2}, {x: 41, y: 0}];
+            const highData = [{x: 57, y: 3.6}, {x: 31, y: 1.8}, {x: 37, y: 4.4}, {x: 43, y: 1.6}, {x: 59, y: 1.2}, {x: 38, y: 1.2}, {x: 51, y: -0.2}, {x: 67, y: 9}, {x: 49, y: -0.2}, {x: 43, y: -1.6}, {x: 73, y: 15.2}, {x: 67, y: 7.2}, {x: 51, y: -3}, {x: 51, y: 4.8}, {x: 39, y: 0}, {x: 34, y: 7}, {x: 69, y: 3}, {x: 44, y: -2}, {x: 42, y: 0.2}, {x: 73, y: -6.6}, {x: 50, y: 1}, {x: 57, y: 3}, {x: 60, y: 4.4}, {x: 53, y: -0.4}, {x: 48, y: 1.2}, {x: 52, y: 2.2}, {x: 78, y: 7.6}, {x: 85, y: 0}, {x: 44, y: 1.8}, {x: 65, y: 2.4}, {x: 51, y: -1}, {x: 80, y: 11.6}, {x: 59, y: -1.4}, {x: 92, y: 0.8}, {x: 76, y: -4.6}, {x: 63, y: 0.8}, {x: 84, y: -0.8}, {x: 65, y: -0.2}, {x: 42, y: 0.2}, {x: 69, y: -1.4}, {x: 42, y: 6}, {x: 63, y: 3}, {x: 55, y: 0.8}, {x: 72, y: -0.6}, {x: 53, y: 5}, {x: 79, y: 0.6}, {x: 60, y: 3}, {x: 67, y: -0.4}, {x: 26, y: 4}, {x: 53, y: 2.6}, {x: 73, y: 4}, {x: 41, y: -0.6}];
+
+            const lowLine = [{x: 20, y: -4.956 + 0.158 * 20}, {x: 100, y: -4.956 + 0.158 * 100}];
+            const highLine = [{x: 20, y: 1.799}, {x: 100, y: 1.799}]; 
+
+            const commonOptions = {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { min: -25, max: 25, title: { display: true, text: 'Impact of Suppression', color: '#fafafa' }, ticks: { color: '#fafafa' }, grid: { color: 'rgba(255, 255, 255, 0.25)' } },
+                    x: { min: 20, max: 100, title: { display: true, text: 'Maths Anxiety Score', color: '#fafafa' }, ticks: { color: '#fafafa' }, grid: { color: 'rgba(255, 255, 255, 0.25)' } }
+                }
+            };
+
+            const ctxLow = document.getElementById('moderationChart2_low');
+            if(ctxLow) {
+                if (Chart.getChart(ctxLow)) Chart.getChart(ctxLow).destroy();
+                new Chart(ctxLow, {
+                    type: 'scatter',
+                    data: { datasets: [{ label: 'Data', data: lowData, backgroundColor: '#facc15' }, { label: 'Regression Line', data: lowLine, type: 'line', borderColor: '#38bdf8', fill: false, pointRadius: 0, borderWidth: 2.5 }] },
+                    options: commonOptions
+                });
+            }
+
+            const ctxHigh = document.getElementById('moderationChart2_high');
+            if(ctxHigh) {
+                if (Chart.getChart(ctxHigh)) Chart.getChart(ctxHigh).destroy();
+                new Chart(ctxHigh, {
+                    type: 'scatter',
+                    data: { datasets: [{ label: 'Data', data: highData, backgroundColor: '#facc15' }, { label: 'Regression Line', data: highLine, type: 'line', borderColor: '#38bdf8', fill: false, pointRadius: 0, borderWidth: 2.5 }] },
+                    options: commonOptions
+                });
+            }
+        }
+
+        // --- INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            renderModerationChart1();
+            renderModerationChart2();
+        });
+    </script>
+
+</body>
+</html>
