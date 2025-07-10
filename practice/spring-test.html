@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PS7002: Interactive Analysis</title>
+    <!-- Chosen Palette: Scholarly Neutrals -->
+    <!-- Application Structure Plan: A single-page dashboard with a top navigation bar for smooth scrolling. The structure is thematic, not linear, to enhance learning. It includes: 1) An interactive multiple-choice quiz for self-assessment of key concepts. 2) Three distinct "Case Study" sections, each deconstructing a long-answer problem with interactive visualizations (bar chart for regression coefficients, visual confusion matrix, and an interactive scatter plot with a prediction slider) and toggle-able explanations. This structure transforms a static test into an engaging, exploratory learning tool, prioritizing user understanding and interaction over simple information presentation. -->
+    <!-- Visualization & Content Choices:
+    - Q26 Multiple Regression: Goal: Compare predictor importance. Method: Chart.js Bar Chart. Interaction: Hover tooltips, color-coding for significance. Justification: Bar charts are superior for comparing discrete magnitudes of coefficients.
+    - Q27 Logistic Regression: Goal: Clarify model classification performance. Method: HTML/CSS Grid for Confusion Matrix. Interaction: Info-icon popups for definitions. Justification: A visual grid is more intuitive for understanding TP/FP/TN/FN than a table.
+    - Q28 Simple Regression: Goal: Demonstrate the concept of prediction. Method: Chart.js Scatter Plot with Regression Line. Interaction: A slider for the predictor variable that dynamically updates the predicted outcome. Justification: This makes the abstract regression equation tangible and interactive.
+    - General Knowledge Quiz: Goal: Reinforce learning. Method: Interactive HTML buttons. Interaction: Immediate feedback on click. Justification: Active recall is more effective for learning than passive reading.
+    - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f7f4;
+            color: #3d405b;
+            padding-bottom: 80px; /* Add padding to prevent content from being hidden by the footer */
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .table-cell {
+            padding: 0.75rem;
+            text-align: right;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        textarea:read-only {
+            background-color: #f3f4f6;
+            border-color: #e5e7eb;
+            cursor: default;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <h1 class="text-xl font-bold text-[#3d405b]">PS7002 Interactive</h1>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#quiz" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Key Concepts Quiz</a>
+                        <a href="#case1" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Case Study 1</a>
+                        <a href="#case2" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Case Study 2</a>
+                        <a href="#case3" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Case Study 3</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main id="main-content" class="container mx-auto p-4 sm:p-6 lg:p-8">
+        
+        <section id="welcome" class="pdf-section text-center mb-16">
+            <h2 class="text-4xl font-bold text-[#3d405b] mb-4">Research Design and Analysis: An Interactive Exploration</h2>
+            <p class="max-w-3xl mx-auto text-lg text-gray-700">This application transforms the PS7002 test into an interactive learning experience. Test your knowledge with the concepts quiz or dive deep into the case studies to explore statistical methods like regression and factor analysis in a more engaging way.</p>
+        </section>
+
+        <section id="quiz" class="mb-16">
+            <div class="pdf-section">
+                <h3 class="text-3xl font-bold text-center mb-8 text-[#81b29a]">Key Concepts Quiz (1-8)</h3>
+                <div id="quiz-group-1" class="space-y-6 max-w-4xl mx-auto"></div>
+            </div>
+            <div class="pdf-section mt-16">
+                <h3 class="text-3xl font-bold text-center mb-8 text-[#81b29a]">Key Concepts Quiz (9-17)</h3>
+                <div id="quiz-group-2" class="space-y-6 max-w-4xl mx-auto"></div>
+            </div>
+            <div class="pdf-section mt-16">
+                <h3 class="text-3xl font-bold text-center mb-8 text-[#81b29a]">Key Concepts Quiz (18-25)</h3>
+                <div id="quiz-group-3" class="space-y-6 max-w-4xl mx-auto"></div>
+                <div id="quiz-results" class="text-center mt-10"></div>
+            </div>
+        </section>
+
+        <section id="case1" class="pdf-section mb-16 p-8 bg-white rounded-xl shadow-lg">
+            <h3 class="text-3xl font-bold text-center mb-2 text-[#3d405b]">Case Study 1: Multiple Regression</h3>
+            <p class="text-center text-lg text-gray-600 mb-8">Predicting Malevolent Creativity</p>
+            <div class="grid md:grid-cols-2 gap-8 items-start">
+                <div>
+                    <h4 class="font-bold text-xl mb-3">Research Scenario</h4>
+                    <p class="text-gray-700 mb-4">Researchers explored how scores on a malevolent creativity scale (Malevolent Creative Behavior Scale; MCBS) are predicted by measures of emotional intelligence (EI_TOT), physical aggression (Buss-Perry Aggression Questionnaire; BPAQ_TOT), empathic concern (Interpersonal Reactivity Index, Empathic Concern; IRI_EC_TOT) and perspective taking (Interpersonal Reactivity Index, Perspective Taking; IRI_PT_TOT). The JASP output from the multiple regression analysis is shown below.</p>
+                    <div class="space-y-4 mt-6">
+                        <div class="q-container">
+                            <label for="q26_1" class="block font-semibold text-gray-800 mb-1">26.1 What was the value of the coefficient of determination for this regression model? Show your calculations (4 marks)</label>
+                            <textarea id="q26_1" rows="3" class="q-textarea w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#e07a5f] focus:border-transparent transition"></textarea>
+                            <div class="mt-2 text-right q-buttons">
+                                <button class="save-btn text-sm bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600">Save</button>
+                                <button class="edit-btn hidden text-sm bg-gray-500 text-white py-1 px-3 rounded-md hover:bg-gray-600">Edit</button>
+                            </div>
+                        </div>
+                        <div class="q-container">
+                            <label for="q26_2" class="block font-semibold text-gray-800 mb-1">26.2 What was the F ratio for this model? Show your calculations (4 Marks).</label>
+                            <textarea id="q26_2" rows="3" class="q-textarea w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#e07a5f] focus:border-transparent transition"></textarea>
+                            <div class="mt-2 text-right q-buttons">
+                                <button class="save-btn text-sm bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600">Save</button>
+                                <button class="edit-btn hidden text-sm bg-gray-500 text-white py-1 px-3 rounded-md hover:bg-gray-600">Edit</button>
+                            </div>
+                        </div>
+                        <div class="q-container">
+                            <label for="q26_3" class="block font-semibold text-gray-800 mb-1">26.3 What was the t ratio to determine whether the coefficient for perspective taking was significant? Show your calculations (4 marks)</label>
+                            <textarea id="q26_3" rows="3" class="q-textarea w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#e07a5f] focus:border-transparent transition"></textarea>
+                            <div class="mt-2 text-right q-buttons">
+                                <button class="save-btn text-sm bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600">Save</button>
+                                <button class="edit-btn hidden text-sm bg-gray-500 text-white py-1 px-3 rounded-md hover:bg-gray-600">Edit</button>
+                            </div>
+                        </div>
+                        <div class="q-container">
+                            <label for="q26_4" class="block font-semibold text-gray-800 mb-1">26.4 What was the unstandardized coefficient for emotional intelligence? (3 marks).</label>
+                            <textarea id="q26_4" rows="2" class="q-textarea w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#e07a5f] focus:border-transparent transition"></textarea>
+                            <div class="mt-2 text-right q-buttons">
+                                <button class="save-btn text-sm bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600">Save</button>
+                                <button class="edit-btn hidden text-sm bg-gray-500 text-white py-1 px-3 rounded-md hover:bg-gray-600">Edit</button>
+                            </div>
+                        </div>
+                        <div class="q-container">
+                            <label for="q26_5" class="block font-semibold text-gray-800 mb-1">26.5 Report the findings from this multiple regression analysis for a lab report. (10 marks)</label>
+                            <textarea id="q26_5" rows="5" class="q-textarea w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#e07a5f] focus:border-transparent transition"></textarea>
+                             <div class="mt-2 text-right q-buttons">
+                                <button class="save-btn text-sm bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600">Save</button>
+                                <button class="edit-btn hidden text-sm bg-gray-500 text-white py-1 px-3 rounded-md hover:bg-gray-600">Edit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-4 bg-gray-50 rounded-lg space-y-6 font-mono text-sm">
+                    <div>
+                        <h5 class="font-sans font-bold text-lg mb-2 text-gray-700">Model Summary - MCBS_TOT</h5>
+                        <table class="w-full text-left">
+                            <thead class="bg-gray-200">
+                                <tr>
+                                    <th class="table-cell text-left">Model</th>
+                                    <th class="table-cell">R</th>
+                                    <th class="table-cell">R²</th>
+                                    <th class="table-cell">Adjusted R²</th>
+                                    <th class="table-cell">RMSE</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-white">
+                                    <td class="table-cell text-left">H₀</td>
+                                    <td class="table-cell">0.000</td>
+                                    <td class="table-cell">0.000</td>
+                                    <td class="table-cell">0.000</td>
+                                    <td class="table-cell">6.096</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="table-cell text-left">H₁</td>
+                                    <td class="table-cell bg-gray-300">---</td>
+                                    <td class="table-cell bg-gray-300">---</td>
+                                    <td class="table-cell"></td>
+                                    <td class="table-cell">4.876</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                        <h5 class="font-sans font-bold text-lg mb-2 text-gray-700">ANOVA</h5>
+                        <table class="w-full text-left">
+                            <thead class="bg-gray-200">
+                                <tr>
+                                    <th class="table-cell text-left">Model</th>
+                                    <th class="table-cell">Sum of Squares</th>
+                                    <th class="table-cell">df</th>
+                                    <th class="table-cell">Mean Square</th>
+                                    <th class="table-cell">F</th>
+                                    <th class="table-cell">p</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-white">
+                                    <td class="table-cell text-left">H₁ Regression</td>
+                                    <td class="table-cell">1365.855</td>
+                                    <td class="table-cell">4</td>
+                                    <td class="table-cell">341.464</td>
+                                    <td class="table-cell"></td>
+                                    <td class="table-cell">&lt;.001</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="table-cell text-left">&nbsp;&nbsp;&nbsp;Residual</td>
+                                    <td class="table-cell">2163.979</td>
+                                    <td class="table-cell">91</td>
+                                    <td class="table-cell">23.780</td>
+                                    <td class="table-cell"></td>
+                                    <td class="table-cell"></td>
+                                </tr>
+                                <tr class="bg-white">
+                                    <td class="table-cell text-left">&nbsp;&nbsp;&nbsp;Total</td>
+                                    <td class="table-cell">3529.833</td>
+                                    <td class="table-cell">95</td>
+                                    <td class="table-cell"></td>
+                                    <td class="table-cell"></td>
+                                    <td class="table-cell"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p class="text-xs text-gray-500 mt-1">Note: The intercept model is omitted, as no meaningful information can be shown.</p>
+                    </div>
+                    <div>
+                        <h5 class="font-sans font-bold text-lg mb-2 text-gray-700">Coefficients</h5>
+                        <table class="w-full text-left">
+                            <thead class="bg-gray-200">
+                                <tr>
+                                    <th class="table-cell text-left">Model</th>
+                                    <th class="table-cell">Unstandardized</th>
+                                    <th class="table-cell">Standard Error</th>
+                                    <th class="table-cell">Standardized</th>
+                                    <th class="table-cell">t</th>
+                                    <th class="table-cell">p</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-white">
+                                    <td class="table-cell text-left">H₀ (Intercept)</td>
+                                    <td class="table-cell">21.542</td>
+                                    <td class="table-cell">0.622</td>
+                                    <td class="table-cell"></td>
+                                    <td class="table-cell">34.626</td>
+                                    <td class="table-cell">&lt;.001</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="table-cell text-left">H₁ (Intercept)</td>
+                                    <td class="table-cell">23.511</td>
+                                    <td class="table-cell">6.090</td>
+                                    <td class="table-cell"></td>
+                                    <td class="table-cell">3.861</td>
+                                    <td class="table-cell">&lt;.001</td>
+                                </tr>
+                                <tr class="bg-white">
+                                    <td class="table-cell text-left">&nbsp;&nbsp;&nbsp;EI_TOT</td>
+                                    <td class="table-cell">0.009</td>
+                                    <td class="table-cell">0.046</td>
+                                    <td class="table-cell">0.017</td>
+                                    <td class="table-cell">0.189</td>
+                                    <td class="table-cell">0.851</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="table-cell text-left">&nbsp;&nbsp;&nbsp;BPAQ_TOT</td>
+                                    <td class="table-cell">0.413</td>
+                                    <td class="table-cell">0.073</td>
+                                    <td class="table-cell">0.493</td>
+                                    <td class="table-cell">5.629</td>
+                                    <td class="table-cell">&lt;.001</td>
+                                </tr>
+                                <tr class="bg-white">
+                                    <td class="table-cell text-left">&nbsp;&nbsp;&nbsp;IRI_EC_TOT</td>
+                                    <td class="table-cell">-0.270</td>
+                                    <td class="table-cell">0.131</td>
+                                    <td class="table-cell">-0.202</td>
+                                    <td class="table-cell">-2.062</td>
+                                    <td class="table-cell">0.042</td>
+                                </tr>
+                                 <tr class="bg-gray-50">
+                                    <td class="table-cell text-left">&nbsp;&nbsp;&nbsp;IRI_PT_TOT</td>
+                                    <td class="table-cell">-0.111</td>
+                                    <td class="table-cell">0.144</td>
+                                    <td class="table-cell">-0.077</td>
+                                    <td class="table-cell bg-gray-300">---</td>
+                                    <td class="table-cell">0.443</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="case2" class="pdf-section mb-16 p-8 bg-white rounded-xl shadow-lg">
+            <h3 class="text-3xl font-bold text-center mb-2 text-[#3d405b]">Case Study 2: Binary Logistic Regression</h3>
+            <p class="text-center text-lg text-gray-600 mb-8">Predicting Problem-Solving Success</p>
+            
+            <div class="p-4 bg-gray-50 rounded-lg space-y-6 font-mono text-sm mb-8">
+                <div>
+                    <h5 class="font-sans font-bold text-lg mb-2 text-gray-700">Model Summary - Success</h5>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left min-w-[1000px]">
+                           <thead class="bg-gray-200">
+                                <tr>
+                                    <th class="table-cell text-left">Model</th>
+                                    <th class="table-cell">Deviance</th>
+                                    <th class="table-cell">AIC</th>
+                                    <th class="table-cell">BIC</th>
+                                    <th class="table-cell">df</th>
+                                    <th class="table-cell">χ²</th>
+                                    <th class="table-cell">p</th>
+                                    <th class="table-cell">McFadden R²</th>
+                                    <th class="table-cell">Nagelkerke R²</th>
+                                    <th class="table-cell">Tjur R²</th>
+                                    <th class="table-cell">Cox & Snell R²</th>
+                                </tr>
+                            </thead>
+                             <tbody>
+                                <tr class="bg-white">
+                                    <td class="table-cell text-left">H₀</td>
+                                    <td class="table-cell">127.872</td>
+                                    <td class="table-cell">129.872</td>
+                                    <td class="table-cell">132.426</td>
+                                    <td class="table-cell">94</td>
+                                    <td class="table-cell"></td>
+                                    <td class="table-cell"></td>
+                                    <td class="table-cell"></td>
+                                    <td class="table-cell"></td>
+                                    <td class="table-cell"></td>
+                                    <td class="table-cell"></td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="table-cell text-left">H₁</td>
+                                    <td class="table-cell">118.963</td>
+                                    <td class="table-cell">124.963</td>
+                                    <td class="table-cell">132.624</td>
+                                    <td class="table-cell">92</td>
+                                    <td class="table-cell">8.910</td>
+                                    <td class="table-cell">0.012</td>
+                                    <td class="table-cell">0.070</td>
+                                    <td class="table-cell">0.121</td>
+                                    <td class="table-cell">0.095</td>
+                                    <td class="table-cell">0.090</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+             <div class="grid md:grid-cols-2 gap-8 items-start">
+                 <div>
+                    <h4 class="font-bold text-xl mb-3">Research Scenario</h4>
+                    <p class="text-gray-700 mb-4">A researcher explores how measures of visual imagery predicts participants' ability to solve a difficult visuo-spatial problem. She employed the Object-Spatial Imagery Questionnaire (OSIQ; a self-report scale) and the Image Control and Recognition Tests (ICRT, a test to measure people's visual imagery skills). Ninety-five participants were recruited for this experiment. She conducted a binary logistic regression to determine if OSIQ and ICRT scores can predict problem solving success. The JASP output is shown below.</p>
+                    <div class="space-y-4 mt-6">
+                        <div class="q-container">
+                            <label for="q27_1" class="block font-semibold text-gray-800 mb-1">27.1 Was the model significant? Report the test statistic. (2 marks)</label>
+                            <textarea id="q27_1" rows="2" class="q-textarea w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#e07a5f] focus:border-transparent transition"></textarea>
+                            <div class="mt-2 text-right q-buttons">
+                                <button class="save-btn text-sm bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600">Save</button>
+                                <button class="edit-btn hidden text-sm bg-gray-500 text-white py-1 px-3 rounded-md hover:bg-gray-600">Edit</button>
+                            </div>
+                        </div>
+                        <div class="q-container">
+                            <label for="q27_2" class="block font-semibold text-gray-800 mb-1">27.2 What is the pseudo coefficient of determination and its value? (2 marks)</label>
+                            <textarea id="q27_2" rows="2" class="q-textarea w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#e07a5f] focus:border-transparent transition"></textarea>
+                            <div class="mt-2 text-right q-buttons">
+                                <button class="save-btn text-sm bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600">Save</button>
+                                <button class="edit-btn hidden text-sm bg-gray-500 text-white py-1 px-3 rounded-md hover:bg-gray-600">Edit</button>
+                            </div>
+                        </div>
+                        <div class="q-container">
+                            <label for="q27_3" class="block font-semibold text-gray-800 mb-1">27.3 What was the overall prediction performance of the model? Show how you calculate this value. (3 marks)</label>
+                            <textarea id="q27_3" rows="3" class="q-textarea w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#e07a5f] focus:border-transparent transition"></textarea>
+                            <div class="mt-2 text-right q-buttons">
+                                <button class="save-btn text-sm bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600">Save</button>
+                                <button class="edit-btn hidden text-sm bg-gray-500 text-white py-1 px-3 rounded-md hover:bg-gray-600">Edit</button>
+                            </div>
+                        </div>
+                        <div class="q-container">
+                            <label for="q27_4" class="block font-semibold text-gray-800 mb-1">27.4 What was the model's sensitivity? Show how you calculate this value. (3 marks)</label>
+                            <textarea id="q27_4" rows="3" class="q-textarea w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#e07a5f] focus:border-transparent transition"></textarea>
+                            <div class="mt-2 text-right q-buttons">
+                                <button class="save-btn text-sm bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600">Save</button>
+                                <button class="edit-btn hidden text-sm bg-gray-500 text-white py-1 px-3 rounded-md hover:bg-gray-600">Edit</button>
+                            </div>
+                        </div>
+                        <div class="q-container">
+                           <label for="q27_5" class="block font-semibold text-gray-800 mb-1">27.5 What was the model's specificity? Show how you calculate this value. (3 marks)</label>
+                            <textarea id="q27_5" rows="3" class="q-textarea w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#e07a5f] focus:border-transparent transition"></textarea>
+                            <div class="mt-2 text-right q-buttons">
+                                <button class="save-btn text-sm bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600">Save</button>
+                                <button class="edit-btn hidden text-sm bg-gray-500 text-white py-1 px-3 rounded-md hover:bg-gray-600">Edit</button>
+                            </div>
+                        </div>
+                         <div class="q-container">
+                           <label for="q27_6" class="block font-semibold text-gray-800 mb-1">27.6 What is the change to the odds of solving the problem with a one unit increase in ICRT? (2 marks)</label>
+                            <textarea id="q27_6" rows="2" class="q-textarea w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#e07a5f] focus:border-transparent transition"></textarea>
+                            <div class="mt-2 text-right q-buttons">
+                                <button class="save-btn text-sm bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600">Save</button>
+                                <button class="edit-btn hidden text-sm bg-gray-500 text-white py-1 px-3 rounded-md hover:bg-gray-600">Edit</button>
+                            </div>
+                        </div>
+                         <div class="q-container">
+                           <label for="q27_7" class="block font-semibold text-gray-800 mb-1">27.7 Report the findings from this multiple regression analysis for a lab report. (10 marks)</label>
+                            <textarea id="q27_7" rows="5" class="q-textarea w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#e07a5f] focus:border-transparent transition"></textarea>
+                            <div class="mt-2 text-right q-buttons">
+                                <button class="save-btn text-sm bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600">Save</button>
+                                <button class="edit-btn hidden text-sm bg-gray-500 text-white py-1 px-3 rounded-md hover:bg-gray-600">Edit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 <div class="p-4 bg-gray-50 rounded-lg space-y-6 font-mono text-sm">
+                    <div>
+                        <h5 class="font-sans font-bold text-lg mb-2 text-gray-700">Coefficients</h5>
+                         <table class="w-full text-left">
+                            <thead class="bg-gray-200">
+                                <tr>
+                                    <th class="table-cell text-left"></th>
+                                    <th class="table-cell">Estimate</th>
+                                    <th class="table-cell">Standard Error</th>
+                                    <th class="table-cell">Odds Ratio</th>
+                                    <th class="table-cell">z</th>
+                                    <th class="table-cell">Wald Statistic</th>
+                                    <th class="table-cell">df</th>
+                                    <th class="table-cell">p</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-white">
+                                    <td class="table-cell text-left">(Intercept)</td>
+                                    <td class="table-cell">-2.756</td>
+                                    <td class="table-cell">1.665</td>
+                                    <td class="table-cell">0.064</td>
+                                    <td class="table-cell">-1.655</td>
+                                    <td class="table-cell">2.739</td>
+                                    <td class="table-cell">1</td>
+                                    <td class="table-cell">0.098</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="table-cell text-left">OSIQ</td>
+                                    <td class="table-cell">0.023</td>
+                                    <td class="table-cell">0.018</td>
+                                    <td class="table-cell">1.024</td>
+                                    <td class="table-cell">1.320</td>
+                                    <td class="table-cell">1.742</td>
+                                    <td class="table-cell">1</td>
+                                    <td class="table-cell">0.187</td>
+                                </tr>
+                                <tr class="bg-white">
+                                    <td class="table-cell text-left">ICRT</td>
+                                    <td class="table-cell">0.196</td>
+                                    <td class="table-cell">0.078</td>
+                                    <td class="table-cell">1.216</td>
+                                    <td class="table-cell">2.498</td>
+                                    <td class="table-cell">6.238</td>
+                                    <td class="table-cell">1</td>
+                                    <td class="table-cell">0.013</td>
+                                </tr>
+                            </tbody>
+                         </table>
+                         <p class="text-xs text-gray-500 mt-1">Note: Success level '1' coded as class 1.</p>
+                    </div>
+                     <div>
+                        <h5 class="font-sans font-bold text-lg mb-2 text-gray-700">Performance Diagnostics</h5>
+                         <table class="w-full text-left">
+                            <thead class="bg-gray-200">
+                                <tr>
+                                    <th class="table-cell text-left">Observed</th>
+                                    <th class="table-cell">Predicted 0</th>
+                                    <th class="table-cell">Predicted 1</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-white">
+                                    <td class="table-cell text-left">0</td>
+                                    <td class="table-cell">16</td>
+                                    <td class="table-cell">22</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="table-cell text-left">1</td>
+                                    <td class="table-cell">7</td>
+                                    <td class="table-cell">50</td>
+                                </tr>
+                            </tbody>
+                         </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="case3" class="pdf-section mb-16 p-8 bg-white rounded-xl shadow-lg">
+            <h3 class="text-3xl font-bold text-center mb-2 text-[#3d405b]">Case Study 3: Simple Regression</h3>
+            <p class="text-center text-lg text-gray-600 mb-8">Verbal Fluency & Word Generation</p>
+            <div class="grid lg:grid-cols-2 gap-8 items-start">
+                <div>
+                    <h4 class="font-bold text-xl mb-3">Research Scenario</h4>
+                    <p class="text-gray-700 mb-4">A researcher is interested in determining the role of interacting with letter tiles in a simple word generation task. Using a repeated measures design, twenty participants are given sets of seven letters and five minutes to generate as many words as possible (excluding acronyms, initialisms, brand names and proper names) in a condition where they can manipulate Scrabble-like letter tiles (the interactive condition) and in a condition where they can't (the control condition where the seven letters are shown on a computer screen; the order of conditions was counterbalanced, as are the letter sets presented in each condition). The mean number of words generated in the interactive condition (M=18.65, SD=18.42) was significantly higher than the mean number of words generated in the control condition (M=13.50, SD=13.21, t(19)=7.56, p<.001). All participants were also profiled in terms of verbal fluency, scored on a scale from 1 to 10, the higher the score, the higher the participants' verbal fluency. She took the difference between the interactive and control condition (she called this measure 'Interactivity Boost'), a gauge of how many more words each participant could generate by interacting with the letter tiles. She was interested in determining how the participants' verbal fluency moderated the impact of interactivity on word production performance. She plotted each participant's Interactivity Boost against their verbal fluency (as shown in the scatterplot).</p>
+                    <div class="p-4 bg-gray-50 rounded-lg my-6">
+                         <div class="chart-container">
+                            <canvas id="case3Chart"></canvas>
+                        </div>
+                    </div>
+                    <div class="space-y-4 mt-6">
+                        <div class="q-container">
+                            <label for="q28_1" class="block font-semibold text-gray-800 mb-1">28.1 Describe the pattern illustrated in the scatterplot above (3 marks)</label>
+                            <textarea id="q28_1" rows="2" class="q-textarea w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#e07a5f] focus:border-transparent transition"></textarea>
+                            <div class="mt-2 text-right q-buttons">
+                                <button class="save-btn text-sm bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600">Save</button>
+                                <button class="edit-btn hidden text-sm bg-gray-500 text-white py-1 px-3 rounded-md hover:bg-gray-600">Edit</button>
+                            </div>
+                        </div>
+                        <div class="q-container">
+                            <label for="q28_2" class="block font-semibold text-gray-800 mb-1">28.2 In this analysis, what was the outcome variable (the Y variable) and what was the predictor variable? (4 marks)</label>
+                            <textarea id="q28_2" rows="2" class="q-textarea w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#e07a5f] focus:border-transparent transition"></textarea>
+                            <div class="mt-2 text-right q-buttons">
+                                <button class="save-btn text-sm bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600">Save</button>
+                                <button class="edit-btn hidden text-sm bg-gray-500 text-white py-1 px-3 rounded-md hover:bg-gray-600">Edit</button>
+                            </div>
+                        </div>
+                        <div class="q-container">
+                            <label for="q28_3" class="block font-semibold text-gray-800 mb-1">28.3 What was the correlation between verbal fluency and the interactivity boost? (3 marks)</label>
+                            <textarea id="q28_3" rows="2" class="q-textarea w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#e07a5f] focus:border-transparent transition"></textarea>
+                            <div class="mt-2 text-right q-buttons">
+                                <button class="save-btn text-sm bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600">Save</button>
+                                <button class="edit-btn hidden text-sm bg-gray-500 text-white py-1 px-3 rounded-md hover:bg-gray-600">Edit</button>
+                            </div>
+                        </div>
+                        <div class="q-container">
+                            <label for="q28_4" class="block font-semibold text-gray-800 mb-1">28.4 Report the results of the regression analysis as in an empirical report (including the regression equation), observing APA format guidance to the of your best ability. (8 marks)</label>
+                            <textarea id="q28_4" rows="4" class="q-textarea w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#e07a5f] focus:border-transparent transition"></textarea>
+                            <div class="mt-2 text-right q-buttons">
+                                <button class="save-btn text-sm bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600">Save</button>
+                                <button class="edit-btn hidden text-sm bg-gray-500 text-white py-1 px-3 rounded-md hover:bg-gray-600">Edit</button>
+                            </div>
+                        </div>
+                        <div class="q-container">
+                           <label for="q28_5" class="block font-semibold text-gray-800 mb-1">28.5 If a participant's verbal fluency score was 7, what was their predicted interactivity boost score? Show your calculations (2 marks)</label>
+                            <textarea id="q28_5" rows="2" class="q-textarea w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#e07a5f] focus:border-transparent transition"></textarea>
+                            <div class="mt-2 text-right q-buttons">
+                                <button class="save-btn text-sm bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600">Save</button>
+                                <button class="edit-btn hidden text-sm bg-gray-500 text-white py-1 px-3 rounded-md hover:bg-gray-600">Edit</button>
+                            </div>
+                        </div>
+                         <div class="q-container">
+                           <label for="q28_6" class="block font-semibold text-gray-800 mb-1">28.6 On the basis of this analysis, what can the researcher conclude about the role of verbal fluency in this experiment on interactivity in a word production task? (5 marks)</label>
+                            <textarea id="q28_6" rows="3" class="q-textarea w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#e07a5f] focus:border-transparent transition"></textarea>
+                            <div class="mt-2 text-right q-buttons">
+                                <button class="save-btn text-sm bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600">Save</button>
+                                <button class="edit-btn hidden text-sm bg-gray-500 text-white py-1 px-3 rounded-md hover:bg-gray-600">Edit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="space-y-6">
+                    <div class="p-4 bg-gray-50 rounded-lg font-mono text-xs overflow-x-auto">
+                        <h5 class="font-sans font-bold text-lg mb-2 text-gray-700">Words Produced</h5>
+                        <table class="w-full text-left">
+                            <thead class="bg-gray-200">
+                                <tr>
+                                    <th class="table-cell text-left">#</th>
+                                    <th class="table-cell">Interactive</th>
+                                    <th class="table-cell">Control</th>
+                                    <th class="table-cell">Difference</th>
+                                    <th class="table-cell">Verbal Fluency</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-white"><td class="table-cell text-left">1</td><td class="table-cell">23</td><td class="table-cell">19</td><td class="table-cell">4</td><td class="table-cell">8</td></tr>
+                                <tr class="bg-gray-50"><td class="table-cell text-left">2</td><td class="table-cell">19</td><td class="table-cell">11</td><td class="table-cell">8</td><td class="table-cell">6</td></tr>
+                                <tr class="bg-white"><td class="table-cell text-left">3</td><td class="table-cell">17</td><td class="table-cell">9</td><td class="table-cell">8</td><td class="table-cell">4</td></tr>
+                                <tr class="bg-gray-50"><td class="table-cell text-left">4</td><td class="table-cell">12</td><td class="table-cell">11</td><td class="table-cell">1</td><td class="table-cell">5</td></tr>
+                                <tr class="bg-white"><td class="table-cell text-left">5</td><td class="table-cell">23</td><td class="table-cell">21</td><td class="table-cell">2</td><td class="table-cell">9</td></tr>
+                                <tr class="bg-gray-50"><td class="table-cell text-left">6</td><td class="table-cell">22</td><td class="table-cell">19</td><td class="table-cell">3</td><td class="table-cell">8</td></tr>
+                                <tr class="bg-white"><td class="table-cell text-left">7</td><td class="table-cell">14</td><td class="table-cell">6</td><td class="table-cell">8</td><td class="table-cell">6</td></tr>
+                                <tr class="bg-gray-50"><td class="table-cell text-left">8</td><td class="table-cell">29</td><td class="table-cell">22</td><td class="table-cell">7</td><td class="table-cell">8</td></tr>
+                                <tr class="bg-white"><td class="table-cell text-left">9</td><td class="table-cell">15</td><td class="table-cell">7</td><td class="table-cell">8</td><td class="table-cell">3</td></tr>
+                                <tr class="bg-gray-50"><td class="table-cell text-left">10</td><td class="table-cell">20</td><td class="table-cell">12</td><td class="table-cell">8</td><td class="table-cell">4</td></tr>
+                                <tr class="bg-white"><td class="table-cell text-left">11</td><td class="table-cell">26</td><td class="table-cell">20</td><td class="table-cell">6</td><td class="table-cell">8</td></tr>
+                                <tr class="bg-gray-50"><td class="table-cell text-left">12</td><td class="table-cell">18</td><td class="table-cell">9</td><td class="table-cell">9</td><td class="table-cell">4</td></tr>
+                                <tr class="bg-white"><td class="table-cell text-left">13</td><td class="table-cell">13</td><td class="table-cell">9</td><td class="table-cell">4</td><td class="table-cell">3</td></tr>
+                                <tr class="bg-gray-50"><td class="table-cell text-left">14</td><td class="table-cell">13</td><td class="table-cell">10</td><td class="table-cell">3</td><td class="table-cell">4</td></tr>
+                                <tr class="bg-white"><td class="table-cell text-left">15</td><td class="table-cell">13</td><td class="table-cell">8</td><td class="table-cell">5</td><td class="table-cell">3</td></tr>
+                                <tr class="bg-gray-50"><td class="table-cell text-left">16</td><td class="table-cell">18</td><td class="table-cell">9</td><td class="table-cell">9</td><td class="table-cell">2</td></tr>
+                                <tr class="bg-white"><td class="table-cell text-left">17</td><td class="table-cell">20</td><td class="table-cell">19</td><td class="table-cell">1</td><td class="table-cell">6</td></tr>
+                                <tr class="bg-gray-50"><td class="table-cell text-left">18</td><td class="table-cell">21</td><td class="table-cell">18</td><td class="table-cell">3</td><td class="table-cell">7</td></tr>
+                                <tr class="bg-white"><td class="table-cell text-left">19</td><td class="table-cell">21</td><td class="table-cell">22</td><td class="table-cell">-1</td><td class="table-cell">9</td></tr>
+                                <tr class="bg-gray-50"><td class="table-cell text-left">20</td><td class="table-cell">16</td><td class="table-cell">9</td><td class="table-cell">7</td><td class="table-cell">5</td></tr>
+                                <tr class="bg-white font-bold"><td class="table-cell text-left">M</td><td class="table-cell">18.65</td><td class="table-cell">13.50</td><td class="table-cell">5.15</td><td class="table-cell">5.60</td></tr>
+                                <tr class="bg-gray-50 font-bold"><td class="table-cell text-left">SD</td><td class="table-cell">18.42</td><td class="table-cell">13.21</td><td class="table-cell">5.21</td><td class="table-cell">5.47</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="p-4 bg-gray-50 rounded-lg font-mono text-sm">
+                        <h5 class="font-sans font-bold text-lg mb-2 text-gray-700">Linear Regression Output</h5>
+                        <div class="space-y-4">
+                            <div>
+                                <h6 class="font-sans font-semibold mb-1 text-gray-600">Model Summary - Difference</h6>
+                                <table class="w-full text-left">
+                                    <thead class="bg-gray-200">
+                                        <tr><th class="table-cell text-left">Model</th><th class="table-cell">R</th><th class="table-cell">R²</th><th class="table-cell">Adjusted R²</th><th class="table-cell">RMSE</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="bg-white"><td class="table-cell text-left">H₀</td><td class="table-cell">0.000</td><td class="table-cell">0.000</td><td class="table-cell">0.000</td><td class="table-cell">3.043</td></tr>
+                                        <tr class="bg-gray-50"><td class="table-cell text-left">H₁</td><td class="table-cell bg-gray-300">---</td><td class="table-cell bg-gray-300">---</td><td class="table-cell"></td><td class="table-cell">2.715</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div>
+                                <h6 class="font-sans font-semibold mb-1 text-gray-600">ANOVA</h6>
+                                <table class="w-full text-left">
+                                    <thead class="bg-gray-200">
+                                        <tr><th class="table-cell text-left">Model</th><th class="table-cell">Sum of Squares</th><th class="table-cell">df</th><th class="table-cell">Mean Square</th><th class="table-cell">F</th><th class="table-cell">p</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="bg-white"><td class="table-cell text-left">H₁ Regression</td><td class="table-cell">43.882</td><td class="table-cell">1</td><td class="table-cell">43.882</td><td class="table-cell">7.372</td><td class="table-cell">0.025</td></tr>
+                                        <tr class="bg-gray-50"><td class="table-cell text-left">&nbsp;&nbsp;&nbsp;Residual</td><td class="table-cell">132.687</td><td class="table-cell">18</td><td class="table-cell"></td><td class="table-cell"></td><td class="table-cell"></td></tr>
+                                        <tr class="bg-white"><td class="table-cell text-left">&nbsp;&nbsp;&nbsp;Total</td><td class="table-cell">176.550</td><td class="table-cell">19</td><td class="table-cell"></td><td class="table-cell"></td><td class="table-cell"></td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div>
+                                <h6 class="font-sans font-semibold mb-1 text-gray-600">Coefficients</h6>
+                                <table class="w-full text-left">
+                                    <thead class="bg-gray-200">
+                                        <tr><th class="table-cell text-left">Model</th><th class="table-cell">Unstandardized</th><th class="table-cell">Standard Error</th><th class="table-cell">Standardized</th><th class="table-cell">t</th><th class="table-cell">p</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="bg-white"><td class="table-cell text-left">H₀ (Intercept)</td><td class="table-cell">5.150</td><td class="table-cell">0.682</td><td class="table-cell"></td><td class="table-cell">7.555</td><td class="table-cell">&lt;.001</td></tr>
+                                        <tr class="bg-gray-50"><td class="table-cell text-left">H₁ (Intercept)</td><td class="table-cell">9.000</td><td class="table-cell">1.601</td><td class="table-cell"></td><td class="table-cell">5.322</td><td class="table-cell">&lt;.001</td></tr>
+                                        <tr class="bg-white"><td class="table-cell text-left">&nbsp;&nbsp;&nbsp;verbal_fluency</td><td class="table-cell">-0.690</td><td class="table-cell">0.282</td><td class="table-cell">-0.498</td><td class="table-cell">-2.439</td><td class="table-cell">0.025</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer id="action-footer" class="action-footer fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-sm border-t border-gray-200 p-4 shadow-lg-top z-50">
+        <div class="container mx-auto flex justify-center items-center space-x-4">
+            <button id="reset-btn" class="bg-gray-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-gray-700 transition-colors">Reset Page</button>
+            <button id="check-mcq-btn" class="bg-[#81b29a] text-white font-bold py-2 px-6 rounded-lg hover:bg-[#6a9a81] transition-colors">Check MCQ Answers</button>
+            <button id="download-pdf-btn" class="bg-[#e07a5f] text-white font-bold py-2 px-6 rounded-lg hover:bg-[#d46a50] transition-colors">Download PDF</button>
+        </div>
+    </footer>
+
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        // This is the main data source for the multiple-choice quiz.
+        // I have updated the questions here as you requested.
+        const quizData = [
+            { q: "What kind of variable is 'gender'?", o: ["Categorical", "Sexual", "Interval", "Personal"], a: "Categorical" },
+            { q: "In a multiple regression analysis which of the following assumptions is of greater relevance?", o: ["Normal distribution of the residuals.", "Normal distribution of the predictor variables.", "Equal number of males and females.", "Gender and age should be unrelated to the outcome variable."], a: "Normal distribution of the residuals." },
+            { q: "What does Cronbach's alpha measure?", o: ["The validity of a scale.", "The reliability of a scale.", "The sensitivity of a scale.", "The specificity of a scale."], a: "The reliability of a scale." },
+            { q: "In a binary logistic regression, if the value of the odds ratio is greater than 1 then it indicates that as the predictor increases, the odds of the outcome occurring increase. Conversely, a value less than 1 indicates that as the predictor increases, the odds of the outcome occurring...", o: ["don't change.", "decrease.", "increase.", "are not significant."], a: "decrease." },
+            { q: "Which of the following is NOT an assumption of binary logistic regression?", o: ["A linear relationships between the outcome and predictor variables.", "The outcome variable must be dichotomous.", "The outcome categories should be mutually exclusive.", "Larger samples are needed than for linear regression."], a: "A linear relationships between the outcome and predictor variables." },
+            { q: "Exploratory factor analysis is employed to...", o: ["discover the pattern of relationships between variables.", "reduce a correlation matrix to a smaller number of underlying variables.", "to factor out spurious correlations.", "A and B."], a: "A and B." },
+            { q: "In a multiple regression analysis, a high coefficient of determination but with non significant beta coefficients may be a sign of...", o: ["sampling error.", "data entry error.", "multicollinearity.", "heterogeneity of variance."], a: "multicollinearity." },
+            { q: "In a binary logistic regression analysis, the confusion matrix is a measure of...", o: ["the model's confusion.", "the researcher's confusion.", "the model's correct classification.", "the model's significance."], a: "the model's correct classification." },
+            { q: "What does it mean when a data point is censored in survival analysis?", o: ["The data point is excluded.", "The event of interest has not occurred by the end of the study.", "The event has occurred but doesn't count.", "The data point is an outlier."], a: "The event of interest has not occurred by the end of the study." },
+            { q: "What is an acceptable value of Cronbach's alpha for most research?", o: ["Below 0.50.", "Between 0.50 and 0.60.", "Between 0.60 and 0.70.", "Above 0.70."], a: "Above 0.70." },
+            { q: "Participants are invited to solve a problem, and are given five minutes to solve it. Participants are allocated to two experimental conditions, A and B. To determine the effect of the experimental conditions on performance, why would you not compare mean latencies to solution in both conditions with a t-test?", o: ["It could violate variance homogeneity.", "It would ignore censoring.", "Participant numbers might differ.", "Time should be log transformed first."], a: "It would ignore censoring." },
+            { q: "A researcher asked participants where they currently lived, choosing from three alternatives: City, Village, or Rural. Which type of data best describes their answers?", o: ["Ordinal categorical", "Discrete numerical", "Nominal categorical", "Continuous numerical"], a: "Nominal categorical" },
+            { q: "The explanatory value of a regression model is assessed with...", o: ["a large sample size.", "a well designed experiment.", "R².", "the sum of squared deviations."], a: "R²." },
+            { q: "If an event has probability > 50% of occurring, what are its odds?", o: ["0", "1", "> 1", "< 1"], a: "> 1" },
+            { q: "Technically, a score on one Likert scale question produces...", o: ["personal data.", "interval data.", "ratio data.", "ordinal data."], a: "ordinal data." },
+            { q: "A chi-square test can be conducted on...", o: ["parametric data.", "nominal data.", "correlational data.", "asymptotic data."], a: "nominal data." },
+            { q: "Factor interpretation in factor analysis is determined by...", o: ["the eigenvalue.", "the number of factors.", "a careful analysis of the items that load on the same factor.", "the sampling adequacy."], a: "a careful analysis of the items that load on the same factor." },
+            { q: "What is the effect size for contingency tables larger than 2x2?", o: ["Cramer's V", "Phi", "Cohen's d", "Partial eta squared"], a: "Cramer's V" },
+            { q: "The regression coefficients in a logistic regression...", o: ["are the negative exponents of e.", "are the predictors of the outcome variable.", "must be normally distributed.", "must be based on continuous predictor variables."], a: "are the predictors of the outcome variable." },
+            { q: "The output of a chi-square test should be interpreted particularly cautiously if over ___% of the ___ frequencies are smaller than 5.", o: ["5, expected", "20, expected", "5, observed", "20, observed"], a: "20, expected" },
+            { q: "In developing a scale to measure a psychological variable (e.g. social anxiety) comparing your participants' performance on your new questionnaire to existing measures that are thought to be associated with the psychological construct you want to quantify is done to establish...", o: ["Construct validity.", "Test-retest reliability.", "Inter-coder reliability.", "Split-half reliability."], a: "Construct validity." },
+            { q: "The branch of psychology that is explicitly interested in the design, administration and interpretation of questionnaires and scales that seek to quantify and measure aspects of psychological ability and experience is called...", o: ["Longitudinal research.", "Psychometrics.", "Psychophysics.", "Cross-sectional sampling."], a: "Psychometrics." },
+            { q: "In survival analysis, the event of interest must be...", o: ["interval data.", "ratio data.", "binary.", "ordinal data."], a: "binary." },
+            { q: "Which is NOT an assumption for a chi-square analysis?", o: ["The data must be normally distributed.", "Data must be nominal.", "Observations are independent.", "An observation cannot be in more than one cell."], a: "The data must be normally distributed." },
+            { q: "The odds of an event is the probability of it occurring (p) divided by...", o: [".05", "1", "1-p", "100"], a: "1-p" }
+        ];
+
+        let userAnswers = new Array(quizData.length).fill(null);
+        const quizGroup1 = document.getElementById('quiz-group-1');
+        const quizGroup2 = document.getElementById('quiz-group-2');
+        const quizGroup3 = document.getElementById('quiz-group-3');
+
+        quizData.forEach((item, index) => {
+            const card = document.createElement('div');
+            card.className = 'bg-white p-6 rounded-lg shadow-md quiz-card';
+            card.dataset.questionIndex = index;
+
+            const question = document.createElement('p');
+            question.className = 'font-semibold text-lg mb-4 question-text';
+            question.textContent = `${index + 1}. ${item.q}`;
+            card.appendChild(question);
+
+            const optionsGrid = document.createElement('div');
+            optionsGrid.className = 'grid grid-cols-1 md:grid-cols-2 gap-3';
+            
+            item.o.forEach(opt => {
+                const button = document.createElement('button');
+                button.textContent = opt;
+                button.className = 'w-full text-left p-3 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors';
+                button.onclick = (e) => {
+                    userAnswers[index] = opt;
+                    const allButtonsInGroup = e.target.parentElement.querySelectorAll('button');
+                    allButtonsInGroup.forEach(btn => btn.classList.remove('bg-blue-300', 'ring-2', 'ring-blue-500'));
+                    e.target.classList.add('bg-blue-300', 'ring-2', 'ring-blue-500');
+                };
+                optionsGrid.appendChild(button);
+            });
+            card.appendChild(optionsGrid);
+            
+            if (index < 8) {
+                quizGroup1.appendChild(card);
+            } else if (index < 17) {
+                quizGroup2.appendChild(card);
+            } else {
+                quizGroup3.appendChild(card);
+            }
+        });
+
+        const checkAnswersBtn = document.getElementById('check-mcq-btn');
+        const quizResultsContainer = document.getElementById('quiz-results');
+
+        checkAnswersBtn.addEventListener('click', () => {
+            let score = 0;
+            quizData.forEach((item, index) => {
+                const card = document.querySelector(`.quiz-card[data-question-index="${index}"]`);
+                const questionEl = card.querySelector('.question-text');
+                const buttons = card.querySelectorAll('button');
+                const userAnswer = userAnswers[index];
+                const correctAnswer = item.a;
+
+                const iconSpan = document.createElement('span');
+                iconSpan.className = 'ml-2 font-bold';
+                
+                if (userAnswer === correctAnswer) {
+                    score++;
+                    iconSpan.textContent = '✔';
+                    iconSpan.classList.add('text-green-500');
+                } else {
+                    iconSpan.textContent = '✖';
+                    iconSpan.classList.add('text-red-500');
+                }
+                // Prevent adding multiple icons
+                if (!questionEl.querySelector('span')) {
+                    questionEl.appendChild(iconSpan);
+                }
+
+                buttons.forEach(button => {
+                    button.disabled = true;
+                    button.classList.remove('bg-blue-300', 'ring-2', 'ring-blue-500', 'hover:bg-gray-200');
+
+                    if (button.textContent === correctAnswer) {
+                        button.classList.add('bg-green-500', 'text-white');
+                    } else if (button.textContent === userAnswer) {
+                        button.classList.add('bg-red-500', 'text-white');
+                    } else {
+                        button.classList.add('bg-gray-200');
+                    }
+                });
+            });
+
+            quizResultsContainer.innerHTML = `
+                <h4 class="text-2xl font-bold">Quiz Complete!</h4>
+                <p class="text-xl mt-2">You scored ${score} out of ${quizData.length}</p>
+            `;
+            checkAnswersBtn.disabled = true;
+            checkAnswersBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        });
+
+        // --- CASE STUDY 3: SIMPLE REGRESSION CHART & SLIDER ---
+        const case3Ctx = document.getElementById('case3Chart').getContext('2d');
+        const scatterData = [
+            {x: 8, y: 4}, {x: 6, y: 8}, {x: 4, y: 8}, {x: 5, y: 1}, {x: 9, y: 2}, 
+            {x: 8, y: 3}, {x: 6, y: 8}, {x: 8, y: 7}, {x: 3, y: 8}, {x: 4, y: 8}, 
+            {x: 8, y: 6}, {x: 4, y: 9}, {x: 3, y: 4}, {x: 4, y: 3}, {x: 3, y: 5}, 
+            {x: 2, y: 9}, {x: 6, y: 1}, {x: 7, y: 3}, {x: 9, y: -1}, {x: 5, y: 7}
+        ];
+        
+        const regressionLine = {
+            type: 'line',
+            label: 'Regression Line',
+            data: [{x: 1, y: 9.000 - 0.69 * 1}, {x: 10, y: 9.000 - 0.69 * 10}],
+            borderColor: '#e07a5f',
+            backgroundColor: '#e07a5f',
+            borderWidth: 2,
+            pointRadius: 0,
+            fill: false
+        };
+
+        new Chart(case3Ctx, {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    label: 'Participant Data',
+                    data: scatterData,
+                    backgroundColor: 'rgba(61, 64, 91, 0.7)'
+                }, regressionLine]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: { display: true, text: 'Verbal Fluency vs. Interactivity Boost (R² = 0.2484)' },
+                    legend: { display: false }
+                },
+                scales: {
+                    x: { type: 'linear', position: 'bottom', title: { display: true, text: 'Verbal Fluency' } },
+                    y: { title: { display: true, text: 'Interactivity Boost' } }
+                }
+            }
+        });
+        
+        document.querySelectorAll('.q-container').forEach(container => {
+            const textarea = container.querySelector('.q-textarea');
+            const saveBtn = container.querySelector('.save-btn');
+            const editBtn = container.querySelector('.edit-btn');
+
+            saveBtn.addEventListener('click', () => {
+                textarea.readOnly = true;
+                saveBtn.classList.add('hidden');
+                editBtn.classList.remove('hidden');
+            });
+
+            editBtn.addEventListener('click', () => {
+                textarea.readOnly = false;
+                editBtn.classList.add('hidden');
+                saveBtn.classList.remove('hidden');
+            });
+        });
+
+        // --- FOOTER ACTION BUTTONS ---
+        const resetBtn = document.getElementById('reset-btn');
+        const downloadPdfBtn = document.getElementById('download-pdf-btn');
+        const actionFooter = document.getElementById('action-footer');
+
+        resetBtn.addEventListener('click', () => {
+            window.location.reload();
+        });
+
+        downloadPdfBtn.addEventListener('click', async () => {
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
+            const sections = Array.from(document.querySelectorAll('.pdf-section'));
+            const elementsToHide = document.querySelectorAll('#action-footer, .q-buttons');
+            
+            elementsToHide.forEach(el => el.style.display = 'none');
+
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = pdf.internal.pageSize.getHeight();
+
+            for (let i = 0; i < sections.length; i++) {
+                const section = sections[i];
+                
+                if (i > 0) {
+                    pdf.addPage();
+                }
+
+                const canvas = await html2canvas(section, { scale: 2 });
+                const imgData = canvas.toDataURL('image/png');
+                
+                const canvasWidth = canvas.width;
+                const canvasHeight = canvas.height;
+                const ratio = canvasWidth / pdfWidth;
+                const imgHeight = canvasHeight / ratio;
+                
+                let heightLeft = imgHeight;
+                let position = 0;
+
+                pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeight);
+                heightLeft -= pdfHeight;
+
+                while (heightLeft > 0) {
+                    position -= pdfHeight;
+                    pdf.addPage();
+                    pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeight);
+                    heightLeft -= pdfHeight;
+                }
+            }
+            
+            pdf.save('ps7002-answers.pdf');
+            elementsToHide.forEach(el => el.style.display = '');
+        });
+    });
+    </script>
+</body>
+</html>

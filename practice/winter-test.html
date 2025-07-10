@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PS7002 TB1: Interactive Test</title>
+    <!-- Chosen Palette: Scholarly Neutrals -->
+    <!-- Application Structure Plan: A single-page dashboard with a top navigation bar for smooth scrolling. The structure is thematic, not linear, to enhance learning. It includes: 1) An interactive multiple-choice quiz, grouped into sections of 5 for better PDF page handling. 2) Three distinct "Case Study" sections for the long-answer problems, each with its own data tables and interactive visualizations. This structure transforms a static test into an engaging, exploratory learning tool. -->
+    <!-- Visualization & Content Choices:
+    - Case Study 26 (Simple Regression): Goal: Explore relationship between variables. Method: Chart.js Scatter Plot. Interaction: Hover tooltips. Justification: A scatter plot is the standard and most effective way to visualize a correlation and regression.
+    - Case Study 27 (One-Way ANOVA): Goal: Compare group means. Method: Chart.js Bar Chart. Interaction: Hover tooltips. Justification: Bar charts are excellent for comparing discrete group means visually.
+    - Case Study 28 (Mixed ANOVA): Goal: Visualize the interaction effect. Method: Chart.js Line Chart (Interaction Plot). Interaction: Hover tooltips, distinct series for groups. Justification: An interaction plot is the standard method for interpreting ANOVA interaction effects.
+    - MCQ Quiz: Goal: Reinforce learning. Method: Interactive HTML buttons with delayed checking. Interaction: Select answers, then click a final button to grade. Justification: This mimics a real test-taking experience.
+    - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f7f4;
+            color: #3d405b;
+            padding-bottom: 80px;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        .square-chart-container {
+             position: relative;
+            width: 100%;
+            max-width: 450px;
+            height: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .funnel-plot-container {
+            position: relative;
+            width: 100%;
+            max-width: 350px;
+            height: 250px;
+            margin: 1rem auto;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .table-cell {
+            padding: 0.75rem;
+            text-align: right;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        textarea:read-only {
+            background-color: #f3f4f6;
+            border-color: #e5e7eb;
+            cursor: default;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <h1 class="text-xl font-bold text-[#3d405b]">PS7002 TB1 Interactive</h1>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#quiz" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">MCQ Quiz</a>
+                        <a href="#case26" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Case Study 26</a>
+                        <a href="#case27" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Case Study 27</a>
+                        <a href="#case28" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Case Study 28</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main id="main-content" class="container mx-auto p-4 sm:p-6 lg:p-8">
+        
+        <section id="welcome" class="pdf-section text-center mb-16">
+            <h2 class="text-4xl font-bold text-[#3d405b] mb-4">Teaching Block 1: An Interactive Test</h2>
+            <p class="max-w-3xl mx-auto text-lg text-gray-700">This application transforms the PS7002 TB1 test into an interactive learning experience. Use it to test your knowledge and explore the case studies in a dynamic format.</p>
+        </section>
+
+        <section id="quiz" class="mb-16">
+            <div class="pdf-section">
+                <h3 class="text-3xl font-bold text-center mb-8 text-[#81b29a]">Part 1: Multiple Choice (1-5)</h3>
+                <div id="quiz-group-1" class="space-y-6 max-w-4xl mx-auto"></div>
+            </div>
+            <div class="pdf-section mt-16">
+                <h3 class="text-3xl font-bold text-center mb-8 text-[#81b29a]">Part 1: Multiple Choice (6-10)</h3>
+                <div id="quiz-group-2" class="space-y-6 max-w-4xl mx-auto"></div>
+            </div>
+            <div class="pdf-section mt-16">
+                <h3 class="text-3xl font-bold text-center mb-8 text-[#81b29a]">Part 1: Multiple Choice (11-15)</h3>
+                <div id="quiz-group-3" class="space-y-6 max-w-4xl mx-auto"></div>
+            </div>
+            <div class="pdf-section mt-16">
+                <h3 class="text-3xl font-bold text-center mb-8 text-[#81b29a]">Part 1: Multiple Choice (16-20)</h3>
+                <div id="quiz-group-4" class="space-y-6 max-w-4xl mx-auto"></div>
+            </div>
+            <div class="pdf-section mt-16">
+                <h3 class="text-3xl font-bold text-center mb-8 text-[#81b29a]">Part 1: Multiple Choice (21-25)</h3>
+                <div id="quiz-group-5" class="space-y-6 max-w-4xl mx-auto"></div>
+                <div id="quiz-results" class="text-center mt-10"></div>
+            </div>
+        </section>
+
+        <section id="case26" class="pdf-section mb-16 p-8 bg-white rounded-xl shadow-lg">
+            <h3 class="text-3xl font-bold text-center mb-2 text-[#3d405b]">Part 2: Case Study 26</h3>
+            <p class="text-center text-lg text-gray-600 mb-8">Maths Anxiety and Mental Arithmetic</p>
+            <div class="grid lg:grid-cols-2 gap-8 items-start">
+                <div>
+                    <h4 class="font-bold text-xl mb-3">Research Scenario</h4>
+                    <p class="text-gray-700 mb-4">A researcher examined mental arithmetic performance for a set of long additions in a sample of 52 participants. Her dependent measure was absolute calculation error (absolute deviation from the correct total). Her research explored how loading up working memory with a secondary task (such as concurrently rehearsing a list of words) might impact performance on the primary mental arithmetic task. She was interested in determining how mathematics anxiety scores (MAS) predicted calculation errors in a condition where participants completed the sums while having to perform a secondary working memory task (she called this dependent variable, 'errorload'). She plotted the errors as a function of MAS and determined their degree of correlation. She also performed a simple regression analysis to help her predict a participant's error from his or her level of maths anxiety.</p>
+                    <div class="p-4 bg-gray-50 rounded-lg my-6">
+                        <div class="chart-container">
+                            <canvas id="case26Chart"></canvas>
+                        </div>
+                    </div>
+                    <div class="space-y-4 mt-6">
+                        <div class="q-container">
+                            <label for="q26_a" class="block font-semibold text-gray-800 mb-1">a) Examining the scatterplot, how would you describe the relationship between error and maths anxiety scores? (5 marks)</label>
+                            <textarea id="q26_a" rows="3" class="q-textarea w-full p-2 border border-gray-300 rounded-md"></textarea>
+                            <div class="mt-2 text-right q-buttons"><button class="save-btn text-sm bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600">Save</button><button class="edit-btn hidden text-sm bg-gray-500 text-white py-1 px-3 rounded-md hover:bg-gray-600">Edit</button></div>
+                        </div>
+                        <div class="q-container">
+                            <label for="q26_b" class="block font-semibold text-gray-800 mb-1">b) What was the correlation between error and maths anxiety? Describe it in a full sentence along with the correlation coefficient, degrees of freedom and p value as per APA guidance (5 marks)</label>
+                            <textarea id="q26_b" rows="3" class="q-textarea w-full p-2 border border-gray-300 rounded-md"></textarea>
+                            <div class="mt-2 text-right q-buttons"><button class="save-btn text-sm bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600">Save</button><button class="edit-btn hidden text-sm bg-gray-500 text-white py-1 px-3 rounded-md hover:bg-gray-600">Edit</button></div>
+                        </div>
+                        <div class="q-container">
+                            <label for="q26_c" class="block font-semibold text-gray-800 mb-1">c) Was the regression analysis significant? Using well-structured sentences, Report the F ratio and the coefficient of determination (5 marks).</label>
+                            <textarea id="q26_c" rows="3" class="q-textarea w-full p-2 border border-gray-300 rounded-md"></textarea>
+                            <div class="mt-2 text-right q-buttons"><button class="save-btn text-sm bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600">Save</button><button class="edit-btn hidden text-sm bg-gray-500 text-white py-1 px-3 rounded-md hover:bg-gray-600">Edit</button></div>
+                        </div>
+                         <div class="q-container">
+                            <label for="q26_d" class="block font-semibold text-gray-800 mb-1">d) Report the regression equation (5 marks)</label>
+                            <textarea id="q26_d" rows="2" class="q-textarea w-full p-2 border border-gray-300 rounded-md"></textarea>
+                            <div class="mt-2 text-right q-buttons"><button class="save-btn text-sm bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600">Save</button><button class="edit-btn hidden text-sm bg-gray-500 text-white py-1 px-3 rounded-md hover:bg-gray-600">Edit</button></div>
+                        </div>
+                         <div class="q-container">
+                            <label for="q26_e" class="block font-semibold text-gray-800 mb-1">e) If a participant's maths anxiety score is 80, what is his or her predicted calculation error on the mental arithmetic task? (5 marks)</label>
+                            <textarea id="q26_e" rows="2" class="q-textarea w-full p-2 border border-gray-300 rounded-md"></textarea>
+                            <div class="mt-2 text-right q-buttons"><button class="save-btn text-sm bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600">Save</button><button class="edit-btn hidden text-sm bg-gray-500 text-white py-1 px-3 rounded-md hover:bg-gray-600">Edit</button></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-4 bg-gray-50 rounded-lg space-y-6 font-mono text-sm">
+                    <div>
+                        <h5 class="font-sans font-bold text-lg mb-2 text-gray-700">Model Summary - error_load</h5>
+                        <table class="w-full text-left">
+                            <thead class="bg-gray-200"><tr><th class="table-cell text-left">Model</th><th class="table-cell">R</th><th class="table-cell">R²</th><th class="table-cell">Adjusted R²</th><th class="table-cell">RMSE</th></tr></thead>
+                            <tbody>
+                                <tr class="bg-white"><td class="table-cell text-left">H₀</td><td class="table-cell">0.000</td><td class="table-cell">0.000</td><td class="table-cell">0.000</td><td class="table-cell">5.604</td></tr>
+                                <tr class="bg-gray-50"><td class="table-cell text-left">H₁</td><td class="table-cell">0.498</td><td class="table-cell">0.248</td><td class="table-cell">0.233</td><td class="table-cell">4.909</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                        <h5 class="font-sans font-bold text-lg mb-2 text-gray-700">ANOVA</h5>
+                        <table class="w-full text-left">
+                            <thead class="bg-gray-200"><tr><th class="table-cell text-left">Model</th><th class="table-cell">Sum of Squares</th><th class="table-cell">df</th><th class="table-cell">Mean Square</th><th class="table-cell">F</th><th class="table-cell">p</th></tr></thead>
+                            <tbody>
+                                <tr class="bg-white"><td class="table-cell text-left">H₁ Regression</td><td class="table-cell">396.911</td><td class="table-cell">1</td><td class="table-cell">396.911</td><td class="table-cell">16.470</td><td class="table-cell">&lt;.001</td></tr>
+                                <tr class="bg-gray-50"><td class="table-cell text-left">&nbsp;&nbsp;&nbsp;Residual</td><td class="table-cell">1204.982</td><td class="table-cell">50</td><td class="table-cell">24.100</td><td class="table-cell"></td><td class="table-cell"></td></tr>
+                                <tr class="bg-white"><td class="table-cell text-left">&nbsp;&nbsp;&nbsp;Total</td><td class="table-cell">1601.892</td><td class="table-cell">51</td><td class="table-cell"></td><td class="table-cell"></td><td class="table-cell"></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                        <h5 class="font-sans font-bold text-lg mb-2 text-gray-700">Coefficients</h5>
+                        <table class="w-full text-left">
+                            <thead class="bg-gray-200"><tr><th class="table-cell text-left">Model</th><th class="table-cell">Unstandardized</th><th class="table-cell">Standard Error</th><th class="table-cell">Standardized</th><th class="table-cell">t</th><th class="table-cell">p</th></tr></thead>
+                            <tbody>
+                                <tr class="bg-white"><td class="table-cell text-left">H₀ (Intercept)</td><td class="table-cell">6.777</td><td class="table-cell">0.777</td><td class="table-cell"></td><td class="table-cell">8.720</td><td class="table-cell">&lt;.001</td></tr>
+                                <tr class="bg-gray-50"><td class="table-cell text-left">H₁ (Intercept)</td><td class="table-cell">-3.930</td><td class="table-cell">2.725</td><td class="table-cell"></td><td class="table-cell">-1.442</td><td class="table-cell">0.155</td></tr>
+                                <tr class="bg-white"><td class="table-cell text-left">&nbsp;&nbsp;&nbsp;MAS</td><td class="table-cell">0.189</td><td class="table-cell">0.047</td><td class="table-cell">0.498</td><td class="table-cell">4.058</td><td class="table-cell">&lt;.001</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="case27" class="pdf-section mb-16 p-8 bg-white rounded-xl shadow-lg">
+            <h3 class="text-3xl font-bold text-center mb-2 text-[#3d405b]">Part 2: Case Study 27</h3>
+            <p class="text-center text-lg text-gray-600 mb-8">Amphetamine Dose and Task Performance</p>
+             <div class="grid lg:grid-cols-2 gap-8 items-start">
+                 <div>
+                    <h4 class="font-bold text-xl mb-3">Research Scenario</h4>
+                    <p class="text-gray-700 mb-4">Researchers are exploring how an amphetamine dose helps adult participants with an attention deficit disorder complete tasks in the correct order in a planning task scenario (the scenario involves preparation for a holiday). Eighty participants with ADD are randomly allocated to one of four groups (n=20 in each group): 0mg (placebo), 1mg, 2mg, and 3mg. The data are plotted below.</p>
+                     <div class="p-4 bg-gray-50 rounded-lg my-6">
+                        <div class="chart-container">
+                            <canvas id="case27Chart"></canvas>
+                        </div>
+                    </div>
+                    <div class="space-y-4 mt-6">
+                        <div class="q-container">
+                            <label for="q27_a" class="block font-semibold text-gray-800 mb-1">a) Describe the pattern in the data in plain English (2 marks)</label>
+                            <textarea id="q27_a" rows="2" class="q-textarea w-full p-2 border border-gray-300 rounded-md"></textarea>
+                            <div class="mt-2 text-right q-buttons"><button class="save-btn text-sm bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600">Save</button><button class="edit-btn hidden text-sm bg-gray-500 text-white py-1 px-3 rounded-md hover:bg-gray-600">Edit</button></div>
+                        </div>
+                        <div class="q-container">
+                            <label for="q27_b" class="block font-semibold text-gray-800 mb-1">b) The graph uses the standard errors for the error bars. Calculate the standard error of the mean for each of the four groups. (4 marks)</label>
+                            <textarea id="q27_b" rows="3" class="q-textarea w-full p-2 border border-gray-300 rounded-md"></textarea>
+                            <div class="mt-2 text-right q-buttons"><button class="save-btn text-sm bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600">Save</button><button class="edit-btn hidden text-sm bg-gray-500 text-white py-1 px-3 rounded-md hover:bg-gray-600">Edit</button></div>
+                        </div>
+                        <div class="q-container">
+                            <label for="q27_c" class="block font-semibold text-gray-800 mb-1">c) What type of analysis of variance was conducted on these data? (2 marks)</label>
+                            <textarea id="q27_c" rows="2" class="q-textarea w-full p-2 border border-gray-300 rounded-md"></textarea>
+                            <div class="mt-2 text-right q-buttons"><button class="save-btn text-sm bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600">Save</button><button class="edit-btn hidden text-sm bg-gray-500 text-white py-1 px-3 rounded-md hover:bg-gray-600">Edit</button></div>
+                        </div>
+                         <div class="q-container">
+                            <label for="q27_d" class="block font-semibold text-gray-800 mb-1">d) On the basis of the JASP output below, report the analysis of variance as in psychological science report. (4 marks)</label>
+                            <textarea id="q27_d" rows="3" class="q-textarea w-full p-2 border border-gray-300 rounded-md"></textarea>
+                            <div class="mt-2 text-right q-buttons"><button class="save-btn text-sm bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600">Save</button><button class="edit-btn hidden text-sm bg-gray-500 text-white py-1 px-3 rounded-md hover:bg-gray-600">Edit</button></div>
+                        </div>
+                         <div class="q-container">
+                            <label for="q27_e" class="block font-semibold text-gray-800 mb-1">e) The researchers used the following planned comparisons. Describe what hypothesis each contrast is testing. (6 marks)</label>
+                            <textarea id="q27_e" rows="4" class="q-textarea w-full p-2 border border-gray-300 rounded-md"></textarea>
+                            <div class="mt-2 text-right q-buttons"><button class="save-btn text-sm bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600">Save</button><button class="edit-btn hidden text-sm bg-gray-500 text-white py-1 px-3 rounded-md hover:bg-gray-600">Edit</button></div>
+                        </div>
+                         <div class="q-container">
+                            <label for="q27_f" class="block font-semibold text-gray-800 mb-1">f) Report each contrast as in a psychological science report. What dose should the researchers recommend on the basis of their findings? (7 marks)</label>
+                            <textarea id="q27_f" rows="4" class="q-textarea w-full p-2 border border-gray-300 rounded-md"></textarea>
+                            <div class="mt-2 text-right q-buttons"><button class="save-btn text-sm bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600">Save</button><button class="edit-btn hidden text-sm bg-gray-500 text-white py-1 px-3 rounded-md hover:bg-gray-600">Edit</button></div>
+                        </div>
+                    </div>
+                </div>
+                 <div class="p-4 bg-gray-50 rounded-lg space-y-6 font-mono text-sm">
+                     <div>
+                        <h5 class="font-sans font-bold text-lg mb-2 text-gray-700">Descriptives</h5>
+                         <table class="w-full text-left">
+                            <thead class="bg-gray-200"><tr><th class="table-cell text-left"></th><th class="table-cell">N</th><th class="table-cell">Mean</th><th class="table-cell">Std. Deviation</th><th class="table-cell">Std. Error</th></tr></thead>
+                            <tbody>
+                                <tr class="bg-white"><td class="table-cell text-left">placebo</td><td class="table-cell">20</td><td class="table-cell">4.0500</td><td class="table-cell">2.06410</td><td class="table-cell"></td></tr>
+                                <tr class="bg-gray-50"><td class="table-cell text-left">1mg</td><td class="table-cell">20</td><td class="table-cell">5.9000</td><td class="table-cell">1.61897</td><td class="table-cell"></td></tr>
+                                <tr class="bg-white"><td class="table-cell text-left">2mg</td><td class="table-cell">20</td><td class="table-cell">7.8500</td><td class="table-cell">2.15883</td><td class="table-cell"></td></tr>
+                                <tr class="bg-gray-50"><td class="table-cell text-left">3mg</td><td class="table-cell">20</td><td class="table-cell">8.5500</td><td class="table-cell">2.91051</td><td class="table-cell"></td></tr>
+                                <tr class="bg-white"><td class="table-cell text-left">Total</td><td class="table-cell">80</td><td class="table-cell">6.5875</td><td class="table-cell">2.81809</td><td class="table-cell">.31507</td></tr>
+                            </tbody>
+                         </table>
+                    </div>
+                    <div>
+                        <h5 class="font-sans font-bold text-lg mb-2 text-gray-700">ANOVA - task_number</h5>
+                         <table class="w-full text-left">
+                            <thead class="bg-gray-200"><tr><th class="table-cell text-left">Cases</th><th class="table-cell">Sum of Squares</th><th class="table-cell">df</th><th class="table-cell">Mean Square</th><th class="table-cell">F</th><th class="table-cell">p</th><th class="table-cell">η²p</th></tr></thead>
+                            <tbody>
+                                <tr class="bg-white"><td class="table-cell text-left">group</td><td class="table-cell">247.138</td><td class="table-cell">3</td><td class="table-cell">82.379</td><td class="table-cell">16.465</td><td class="table-cell">&lt;.001</td><td class="table-cell">0.394</td></tr>
+                                <tr class="bg-gray-50"><td class="table-cell text-left">Residuals</td><td class="table-cell">380.250</td><td class="table-cell">76</td><td class="table-cell">5.003</td><td class="table-cell"></td><td class="table-cell"></td><td class="table-cell"></td></tr>
+                            </tbody>
+                         </table>
+                    </div>
+                     <div>
+                        <h5 class="font-sans font-bold text-lg mb-2 text-gray-700">Test for Equality of Variances (Levene's)</h5>
+                         <table class="w-full text-left">
+                            <thead class="bg-gray-200"><tr><th class="table-cell">F</th><th class="table-cell">df1</th><th class="table-cell">df2</th><th class="table-cell">p</th></tr></thead>
+                            <tbody><tr class="bg-white"><td class="table-cell">2.301</td><td class="table-cell">3.000</td><td class="table-cell">76.000</td><td class="table-cell">0.084</td></tr></tbody>
+                         </table>
+                    </div>
+                    <div>
+                        <h5 class="font-sans font-bold text-lg mb-2 text-gray-700">Custom for group</h5>
+                        <table class="w-full text-left">
+                            <thead class="bg-gray-200"><tr><th class="table-cell text-left">group</th><th class="table-cell">Contrast 1</th><th class="table-cell">Contrast 2</th><th class="table-cell">Contrast 3</th></tr></thead>
+                            <tbody>
+                                <tr class="bg-white"><td class="table-cell text-left">0mg</td><td class="table-cell">3</td><td class="table-cell">0</td><td class="table-cell">0</td></tr>
+                                <tr class="bg-gray-50"><td class="table-cell text-left">1mg</td><td class="table-cell">-1</td><td class="table-cell">2</td><td class="table-cell">0</td></tr>
+                                <tr class="bg-white"><td class="table-cell text-left">2mg</td><td class="table-cell">-1</td><td class="table-cell">-1</td><td class="table-cell">1</td></tr>
+                                <tr class="bg-gray-50"><td class="table-cell text-left">3mg</td><td class="table-cell">-1</td><td class="table-cell">-1</td><td class="table-cell">-1</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                     <div>
+                        <h5 class="font-sans font-bold text-lg mb-2 text-gray-700">Custom Contrast - group</h5>
+                         <table class="w-full text-left">
+                            <thead class="bg-gray-200"><tr><th class="table-cell text-left">Comparison</th><th class="table-cell">Estimate</th><th class="table-cell">SE</th><th class="table-cell">df</th><th class="table-cell">t</th><th class="table-cell">p</th></tr></thead>
+                            <tbody>
+                                <tr class="bg-white"><td class="table-cell text-left">1</td><td class="table-cell">-10.150</td><td class="table-cell">1.733</td><td class="table-cell">76</td><td class="table-cell">-5.858</td><td class="table-cell">&lt;.001</td></tr>
+                                <tr class="bg-gray-50"><td class="table-cell text-left">2</td><td class="table-cell">-4.600</td><td class="table-cell">1.225</td><td class="table-cell">76</td><td class="table-cell">-3.755</td><td class="table-cell">&lt;.001</td></tr>
+                                <tr class="bg-white"><td class="table-cell text-left">3</td><td class="table-cell">-0.700</td><td class="table-cell">0.707</td><td class="table-cell">76</td><td class="table-cell">-0.990</td><td class="table-cell">0.325</td></tr>
+                            </tbody>
+                         </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="case28" class="pdf-section mb-16 p-8 bg-white rounded-xl shadow-lg">
+            <h3 class="text-3xl font-bold text-center mb-2 text-[#3d405b]">Part 2: Case Study 28</h3>
+            <p class="text-center text-lg text-gray-600 mb-8">Expertise and Memory</p>
+            <div class="grid lg:grid-cols-2 gap-8 items-start">
+                <div>
+                    <h4 class="font-bold text-xl mb-3">Research Scenario</h4>
+                    <p class="text-gray-700 mb-4">Researchers explored the role of expertise in memory. They recruited experienced London cab drivers (experts) and a group of university undergraduates studying at a university in London (novices). The two groups of participants were presented with two lists of 20 London Street names, one list configured an actual route through London, the other, made up of different street names, was a random collection of street names (the order of presentation was counterbalanced across participants). The data plotted below is the mean number of correctly recalled street names for each of the two groups of participants in both conditions.</p>
+                    <div class="p-4 bg-gray-50 rounded-lg my-6">
+                         <div class="square-chart-container">
+                            <canvas id="case28Chart"></canvas>
+                        </div>
+                    </div>
+                    <div class="space-y-4 mt-6">
+                        <div class="q-container">
+                            <label for="q28_a" class="block font-semibold text-gray-800 mb-1">a) Describe the pattern in the data in plain English (3 marks)</label>
+                            <textarea id="q28_a" rows="3" class="q-textarea w-full p-2 border border-gray-300 rounded-md"></textarea>
+                            <div class="mt-2 text-right q-buttons"><button class="save-btn text-sm bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600">Save</button><button class="edit-btn hidden text-sm bg-gray-500 text-white py-1 px-3 rounded-md hover:bg-gray-600">Edit</button></div>
+                        </div>
+                        <div class="q-container">
+                            <label for="q28_b" class="block font-semibold text-gray-800 mb-1">b) what would be the appropriate analysis of variance for these data? (4 marks)</label>
+                            <textarea id="q28_b" rows="2" class="q-textarea w-full p-2 border border-gray-300 rounded-md"></textarea>
+                            <div class="mt-2 text-right q-buttons"><button class="save-btn text-sm bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600">Save</button><button class="edit-btn hidden text-sm bg-gray-500 text-white py-1 px-3 rounded-md hover:bg-gray-600">Edit</button></div>
+                        </div>
+                         <div class="q-container">
+                            <label for="q28_c" class="block font-semibold text-gray-800 mb-1">c) Enter the missing values in this redacted ANOVA table (2 marks each)</label>
+                            <textarea id="q28_c" rows="3" class="q-textarea w-full p-2 border border-gray-300 rounded-md"></textarea>
+                            <div class="mt-2 text-right q-buttons"><button class="save-btn text-sm bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600">Save</button><button class="edit-btn hidden text-sm bg-gray-500 text-white py-1 px-3 rounded-md hover:bg-gray-600">Edit</button></div>
+                        </div>
+                        <div class="q-container">
+                            <label for="q28_d" class="block font-semibold text-gray-800 mb-1">d) On the basis of the JASP output, report the analysis of variance as in psychological science report. (5 marks)</label>
+                            <textarea id="q28_d" rows="3" class="q-textarea w-full p-2 border border-gray-300 rounded-md"></textarea>
+                            <div class="mt-2 text-right q-buttons"><button class="save-btn text-sm bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600">Save</button><button class="edit-btn hidden text-sm bg-gray-500 text-white py-1 px-3 rounded-md hover:bg-gray-600">Edit</button></div>
+                        </div>
+                        <div class="q-container">
+                           <label for="q28_e" class="block font-semibold text-gray-800 mb-1">e) Why is there no need to check the assumption of sphericity for the repeated measures factor? (2 marks)</label>
+                            <textarea id="q28_e" rows="2" class="q-textarea w-full p-2 border border-gray-300 rounded-md"></textarea>
+                            <div class="mt-2 text-right q-buttons"><button class="save-btn text-sm bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600">Save</button><button class="edit-btn hidden text-sm bg-gray-500 text-white py-1 px-3 rounded-md hover:bg-gray-600">Edit</button></div>
+                        </div>
+                         <div class="q-container">
+                           <label for="q28_f" class="block font-semibold text-gray-800 mb-1">f) Is it fair to say that cab drivers have developed better memory skills than university students? Refer to the ANOVA to support your answer (3 marks)</label>
+                            <textarea id="q28_f" rows="3" class="q-textarea w-full p-2 border border-gray-300 rounded-md"></textarea>
+                            <div class="mt-2 text-right q-buttons"><button class="save-btn text-sm bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600">Save</button><button class="edit-btn hidden text-sm bg-gray-500 text-white py-1 px-3 rounded-md hover:bg-gray-600">Edit</button></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="space-y-6">
+                    <div class="p-4 bg-gray-50 rounded-lg font-mono text-sm">
+                        <h5 class="font-sans font-bold text-lg mb-2 text-gray-700">Within Subjects Effects</h5>
+                        <table class="w-full text-left">
+                            <thead class="bg-gray-200"><tr><th class="table-cell text-left">Cases</th><th class="table-cell">Sum of Squares</th><th class="table-cell">df</th><th class="table-cell">Mean Square</th><th class="table-cell">F</th><th class="table-cell">p</th></tr></thead>
+                            <tbody>
+                                <tr class="bg-white"><td class="table-cell text-left">Type of list</td><td class="table-cell">348.613</td><td class="table-cell">1</td><td class="table-cell">348.613</td><td class="table-cell">97.712</td><td class="table-cell">&lt;.001</td></tr>
+                                <tr class="bg-gray-50"><td class="table-cell text-left">Type of list * Group</td><td class="table-cell">340.313</td><td class="table-cell">1</td><td class="table-cell">340.313</td><td class="table-cell">95.232</td><td class="table-cell">&lt;.001</td></tr>
+                                <tr class="bg-white"><td class="table-cell text-left">Residuals</td><td class="table-cell">135.575</td><td class="table-cell">38</td><td class="table-cell">3.568</td><td class="table-cell"></td><td class="table-cell"></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                     <div class="p-4 bg-gray-50 rounded-lg font-mono text-sm">
+                        <h5 class="font-sans font-bold text-lg mb-2 text-gray-700">Between Subjects Effects</h5>
+                        <table class="w-full text-left">
+                            <thead class="bg-gray-200"><tr><th class="table-cell text-left">Cases</th><th class="table-cell">Sum of Squares</th><th class="table-cell">df</th><th class="table-cell">Mean Square</th><th class="table-cell">F</th><th class="table-cell">p</th></tr></thead>
+                            <tbody>
+                                <tr class="bg-white"><td class="table-cell text-left">Group</td><td class="table-cell">680.625</td><td class="table-cell">1</td><td class="table-cell">680.625</td><td class="table-cell">126.066</td><td class="table-cell">&lt;.001</td></tr>
+                                <tr class="bg-gray-50"><td class="table-cell text-left">Residuals</td><td class="table-cell">205.175</td><td class="table-cell">38</td><td class="table-cell">5.399</td><td class="table-cell"></td><td class="table-cell"></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer id="action-footer" class="action-footer fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-sm border-t border-gray-200 p-4 shadow-lg-top z-50">
+        <div class="container mx-auto flex justify-center items-center space-x-4">
+            <button id="reset-btn" class="bg-gray-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-gray-700 transition-colors">Reset Page</button>
+            <button id="check-mcq-btn" class="bg-[#81b29a] text-white font-bold py-2 px-6 rounded-lg hover:bg-[#6a9a81] transition-colors">Check MCQ Answers</button>
+            <button id="download-pdf-btn" class="bg-[#e07a5f] text-white font-bold py-2 px-6 rounded-lg hover:bg-[#d46a50] transition-colors">Download PDF</button>
+        </div>
+    </footer>
+
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        const quizData = [
+            { q: "How many independent variables are there in a 2x2 mixed design?", o: ["4", "2", "1 with 2 levels", "4 experimental groups"], a: "2" },
+            { q: "At the heart of the determining the correlation between two variables is the calculation and sum of", o: ["deviations from the mean.", "the products of standardized scores.", "squared deviations from the mean.", "Z scores."], a: "the products of standardized scores." },
+            { q: "In a 2x2 between-subjects experiment, the cross over interaction is significant, with a large effect size. What is (are) the implication (s) of this significant interaction for the interpretation of the main effects?", o: ["The main effects are much less important.", "The interpretation of the main effects must take into account the significant interaction.", "The main effects can explain some of the variance in the data.", "All of the above."], a: "All of the above." },
+            { q: "Calculating a correlation between two variables is only possible when the two variables are measured along the same scale. How is this possible when, for example, the correlation between height (in cm) and weight (in kg) is calculated?", o: ["It is not possible.", "Deviations from the mean are correlated (not the raw scores).", "The correlation proceeds on the basis of the absolute values.", "The scores are standardized first."], a: "The scores are standardized first." },
+            { q: "A repeated measures design assesses taste ratings for a beverage as a function of its sugar content (low, high) and its degree of caffeine (no caffeine, low degree, high degree). This design is a", o: ["2x2 repeated measures design.", "2x2 between beverage design.", "2x3 repeated measures design.", "2x2 mixed design."], a: "2x3 repeated measures design." },
+            { q: "How should the data for the previous scenario be entered in Excel for JASP?", o: ["In 3 columns (one for taste ratings, and the other two coding for sugar and caffeine).", "In 2 columns (one for each IV)", "In 4 columns.", "In 6 columns (one for each of the experimental conditions)."], a: "In 6 columns (one for each of the experimental conditions)." },
+            { q: "In a regression equation, b₀ refers to", o: ["the intercept.", "where the regression line intersects the Y axis.", "the standardized residuals.", "A and B."], a: "A and B." },
+            { q: "What is a conceptual replication?", o: ["Similar comparison and similar measures are reported to assess a conceptually similar phenomenon.", "Different comparisons and different measures are reported to assess a conceptually similar phenomenon.", "Different comparisons and different measures are reported to assess an identical phenomenon.", "A pre-registered report."], a: "Different comparisons and different measures are reported to assess a conceptually similar phenomenon." },
+            { q: "The correct rejection of the null hypothesis is also called", o: ["the effect size.", "the coefficient of correction.", "power.", "a type III error."], a: "power." },
+            { q: "In a meta-analysis, the researchers generate a funnel plot of effect sizes against a measure of study size. The plot is illustrated on the right. This is ___ funnel plot, with missing data points suggesting that the meta-analysis will ___ the treatment effect.", o: ["a symmetric, truly estimate.", "a triangular, truly estimate.", "an asymmetric, overestimate.", "an asymmetric, underestimate."], a: "an asymmetric, overestimate." },
+            { q: "In a 2x2 between subjects analysis of variance, there is (are)", o: ["one important F ratio.", "one main effect.", "three F ratios.", "2 or 4 F ratios."], a: "three F ratios." },
+            { q: "R² in a regression model is the ___ variance between the Y and X variable.", o: ["shared", "significant", "critical", "important"], a: "shared" },
+            { q: "According to Simmons et al. (2011) which of the following is NOT a common researcher's degree of freedom?", o: ["choosing among independent variables.", "choosing sample size.", "using covariates.", "reporting subsets of experimental conditions."], a: "choosing among independent variables." },
+            { q: "In a repeated measures design", o: ["participants are tested in all conditions.", "individual differences add a substantial amount of noise.", "individual differences are removed from the within-condition variance.", "A & C."], a: "A & C." },
+            { q: "A researcher assessed memory abilities in children aged 5-6, 7-8, and 9-10. The scores should be analysed using", o: ["a series of t tests", "a between-subjects analysis of variance", "a repeated measures analysis of variance", "a mixed analysis of variance."], a: "a between-subjects analysis of variance" },
+            { q: "Based on the Levene's test (F=1.057, p=0.361), was the assumption of homogeneity of variance met?", o: ["Yes because p > .05", "No because p < .05", "Yes because F is greater than 1.", "No because F is close to 1."], a: "Yes because p > .05" },
+            { q: "In a one-way ANOVA, if the F ratio is smaller than 1, this means that", o: ["the numerator estimate of variance is larger than the denominator.", "the denominator estimate of variance is larger than the numerator.", "the null hypothesis cannot be rejected.", "B and C."], a: "B and C." },
+            { q: "In a 2x2 between-subjects ANOVA, a significant interaction F ratio means that", o: ["the influence of one IV is not constant across the levels of the other IV.", "the lines in the plot of the four means cross.", "the Levene's test was not significant.", "the main effects are also significant."], a: "the influence of one IV is not constant across the levels of the other IV." },
+            { q: "In a mixed experimental design one or more IVs is manipulated between subjects, and one or more IVs are", o: ["repeated measures.", "measuring demographic information (such as gender).", "mixed with the others.", "None of the above."], a: "repeated measures." },
+            { q: "At the heart of determining the correlation between two variables is the calculation and sum of", o: ["deviations from the mean.", "the products of standardized scores.", "squared deviations from the mean.", "Z scores."], a: "the products of standardized scores." },
+            { q: "In a simple regression (errors regressed on maths anxiety), what is the correlation between these two variables?", o: [".484", ".056", ".015", "-.590"], a: "-.590" },
+            { q: "What is the proportion of variance in error scores explained by maths anxiety?", o: [".768", ".348", ".484", ".046"], a: ".348" },
+            { q: "What is a false positive?", o: ["A Type II error", "A non significant p value.", "A type I error.", "A true negative."], a: "A type I error." },
+            { q: "An F ratio is a ratio of two estimates of variance. If the denominator is larger than the numerator, the F ratio", o: ["may be significant.", "is greater than 1, hence significant.", "is smaller than 1, possibly still significant.", "is smaller than 1."], a: "is smaller than 1." },
+            { q: "R² in a regression model is the shared variance between the Y and X variable and it is called the coefficient of", o: ["implication.", "determination.", "contamination.", "hyperaction."], a: "determination." }
+        ];
+
+        let userAnswers = new Array(quizData.length).fill(null);
+        const quizGroups = [
+            document.getElementById('quiz-group-1'),
+            document.getElementById('quiz-group-2'),
+            document.getElementById('quiz-group-3'),
+            document.getElementById('quiz-group-4'),
+            document.getElementById('quiz-group-5')
+        ];
+
+        quizData.forEach((item, index) => {
+            const card = document.createElement('div');
+            card.className = 'bg-white p-6 rounded-lg shadow-md quiz-card';
+            card.dataset.questionIndex = index;
+
+            const question = document.createElement('p');
+            question.className = 'font-semibold text-lg mb-4 question-text';
+            question.textContent = `${index + 1}. ${item.q}`;
+            card.appendChild(question);
+            
+            // Add funnel plot for question 10
+            if (index === 9) {
+                const chartContainer = document.createElement('div');
+                chartContainer.className = 'funnel-plot-container';
+                const canvas = document.createElement('canvas');
+                canvas.id = 'funnelPlotChart';
+                chartContainer.appendChild(canvas);
+                card.appendChild(chartContainer);
+            }
+
+            if (index === 14 || index === 20) {
+                const tableContainer = document.createElement('div');
+                tableContainer.className = 'my-4 p-2 bg-gray-50 rounded-md font-mono text-xs';
+                if(index === 14) {
+                    tableContainer.innerHTML = `
+                        <h6 class="font-sans font-semibold mb-1 text-gray-600">Descriptives - memory_score</h6>
+                        <table class="w-full text-left">
+                            <thead class="bg-gray-200"><tr><th class="table-cell text-left">Group</th><th class="table-cell">Mean</th><th class="table-cell">SD</th><th class="table-cell">N</th></tr></thead>
+                            <tbody>
+                                <tr class="bg-white"><td class="table-cell text-left">5-6 years old</td><td class="table-cell">43.500</td><td class="table-cell">20.359</td><td class="table-cell">10</td></tr>
+                                <tr class="bg-gray-50"><td class="table-cell text-left">7-8 years old</td><td class="table-cell">50.000</td><td class="table-cell">19.026</td><td class="table-cell">10</td></tr>
+                                <tr class="bg-white"><td class="table-cell text-left">9-10 years old</td><td class="table-cell">75.500</td><td class="table-cell">13.159</td><td class="table-cell">10</td></tr>
+                            </tbody>
+                        </table>
+                        <h6 class="font-sans font-semibold mb-1 mt-2 text-gray-600">Test for Equality of Variances (Levene's)</h6>
+                        <table class="w-full text-left">
+                            <thead class="bg-gray-200"><tr><th class="table-cell">F</th><th class="table-cell">df1</th><th class="table-cell">df2</th><th class="table-cell">p</th></tr></thead>
+                            <tbody><tr class="bg-white"><td class="table-cell">1.057</td><td class="table-cell">2.000</td><td class="table-cell">27.000</td><td class="table-cell">0.361</td></tr></tbody>
+                        </table>
+                    `;
+                } else {
+                     tableContainer.innerHTML = `
+                        <h6 class="font-sans font-semibold mb-1 text-gray-600">Coefficients</h6>
+                        <table class="w-full text-left">
+                            <thead class="bg-gray-200"><tr><th class="table-cell text-left">Model</th><th class="table-cell">Unstandardized</th><th class="table-cell">Standard Error</th><th class="table-cell">Standardized</th><th class="table-cell">t</th><th class="table-cell">p</th></tr></thead>
+                            <tbody>
+                                <tr class="bg-white"><td class="table-cell text-left">H₀ (Intercept)</td><td class="table-cell">27.182</td><td class="table-cell">11.928</td><td class="table-cell"></td><td class="table-cell">2.279</td><td class="table-cell">0.046</td></tr>
+                                <tr class="bg-gray-50"><td class="table-cell text-left">H₁ (Intercept)</td><td class="table-cell">87.359</td><td class="table-cell">29.279</td><td class="table-cell"></td><td class="table-cell">2.984</td><td class="table-cell">0.015</td></tr>
+                                <tr class="bg-white"><td class="table-cell text-left">&nbsp;&nbsp;&nbsp;MAS</td><td class="table-cell">-1.061</td><td class="table-cell">0.484</td><td class="table-cell">-0.590</td><td class="table-cell">-2.191</td><td class="table-cell">0.056</td></tr>
+                            </tbody>
+                        </table>
+                    `;
+                }
+                card.appendChild(tableContainer);
+            }
+
+            const optionsGrid = document.createElement('div');
+            optionsGrid.className = 'grid grid-cols-1 md:grid-cols-2 gap-3';
+            
+            item.o.forEach(opt => {
+                const button = document.createElement('button');
+                button.textContent = opt;
+                button.className = 'w-full text-left p-3 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors';
+                button.onclick = (e) => {
+                    userAnswers[index] = opt;
+                    const allButtonsInGroup = e.target.parentElement.querySelectorAll('button');
+                    allButtonsInGroup.forEach(btn => btn.classList.remove('bg-blue-300', 'ring-2', 'ring-blue-500'));
+                    e.target.classList.add('bg-blue-300', 'ring-2', 'ring-blue-500');
+                };
+                optionsGrid.appendChild(button);
+            });
+            card.appendChild(optionsGrid);
+            
+            if (index < 5) quizGroups[0].appendChild(card);
+            else if (index < 10) quizGroups[1].appendChild(card);
+            else if (index < 15) quizGroups[2].appendChild(card);
+            else if (index < 20) quizGroups[3].appendChild(card);
+            else quizGroups[4].appendChild(card);
+        });
+
+        const checkAnswersBtn = document.getElementById('check-mcq-btn');
+        const quizResultsContainer = document.getElementById('quiz-results');
+
+        checkAnswersBtn.addEventListener('click', () => {
+            let score = 0;
+            quizData.forEach((item, index) => {
+                const card = document.querySelector(`.quiz-card[data-question-index="${index}"]`);
+                const questionEl = card.querySelector('.question-text');
+                const buttons = card.querySelectorAll('button');
+                const userAnswer = userAnswers[index];
+                const correctAnswer = item.a;
+
+                const iconSpan = document.createElement('span');
+                iconSpan.className = 'ml-2 font-bold';
+                
+                if (userAnswer === correctAnswer) {
+                    score++;
+                    iconSpan.textContent = '✔';
+                    iconSpan.classList.add('text-green-500');
+                } else {
+                    iconSpan.textContent = '✖';
+                    iconSpan.classList.add('text-red-500');
+                }
+                questionEl.appendChild(iconSpan);
+
+                buttons.forEach(button => {
+                    button.disabled = true;
+                    button.classList.remove('bg-blue-300', 'ring-2', 'ring-blue-500', 'hover:bg-gray-200');
+
+                    if (button.textContent === correctAnswer) {
+                        button.classList.add('bg-green-500', 'text-white');
+                    } else if (button.textContent === userAnswer) {
+                        button.classList.add('bg-red-500', 'text-white');
+                    } else {
+                        button.classList.add('bg-gray-200');
+                    }
+                });
+            });
+
+            quizResultsContainer.innerHTML = `
+                <h4 class="text-2xl font-bold">Quiz Complete!</h4>
+                <p class="text-xl mt-2">You scored ${score} out of ${quizData.length}</p>
+            `;
+            checkAnswersBtn.disabled = true;
+            checkAnswersBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        });
+        
+        document.querySelectorAll('.q-container').forEach(container => {
+            const textarea = container.querySelector('.q-textarea');
+            const saveBtn = container.querySelector('.save-btn');
+            const editBtn = container.querySelector('.edit-btn');
+
+            saveBtn.addEventListener('click', () => {
+                textarea.readOnly = true;
+                saveBtn.classList.add('hidden');
+                editBtn.classList.remove('hidden');
+            });
+
+            editBtn.addEventListener('click', () => {
+                textarea.readOnly = false;
+                editBtn.classList.add('hidden');
+                saveBtn.classList.remove('hidden');
+            });
+        });
+
+        // --- FOOTER ACTION BUTTONS ---
+        const resetBtn = document.getElementById('reset-btn');
+        const downloadPdfBtn = document.getElementById('download-pdf-btn');
+        const actionFooter = document.getElementById('action-footer');
+
+        resetBtn.addEventListener('click', () => {
+            window.location.reload();
+        });
+
+        downloadPdfBtn.addEventListener('click', async () => {
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
+            const sections = Array.from(document.querySelectorAll('.pdf-section'));
+            const elementsToHide = document.querySelectorAll('#action-footer, .q-buttons');
+            
+            elementsToHide.forEach(el => el.style.display = 'none');
+
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = pdf.internal.pageSize.getHeight();
+
+            for (let i = 0; i < sections.length; i++) {
+                const section = sections[i];
+                
+                if (i > 0) {
+                    pdf.addPage();
+                }
+
+                const canvas = await html2canvas(section, { scale: 2 });
+                const imgData = canvas.toDataURL('image/png');
+                
+                const canvasWidth = canvas.width;
+                const canvasHeight = canvas.height;
+                const ratio = canvasWidth / pdfWidth;
+                const imgHeight = canvasHeight / ratio;
+                
+                let heightLeft = imgHeight;
+                let position = 0;
+
+                pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeight);
+                heightLeft -= pdfHeight;
+
+                while (heightLeft > 0) {
+                    position -= pdfHeight;
+                    pdf.addPage();
+                    pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeight);
+                    heightLeft -= pdfHeight;
+                }
+            }
+            
+            pdf.save('ps7002-tb1-answers.pdf');
+            elementsToHide.forEach(el => el.style.display = '');
+        });
+
+        // --- CHARTS ---
+        // Function to safely create a chart (destroys existing one if necessary)
+        function createChart(canvasId, config) {
+            const existingChart = Chart.getChart(canvasId);
+            if (existingChart) {
+                existingChart.destroy();
+            }
+            const ctx = document.getElementById(canvasId).getContext('2d');
+            new Chart(ctx, config);
+        }
+
+        // Funnel Plot for Question 10
+        const funnelData = [];
+        for (let i = 0; i < 120; i++) {
+            const precision = Math.random() * 10;
+            let effectSize = (Math.random() - 0.5) * 0.8; // Adjusted for new range
+            effectSize = effectSize * (1 - (precision / 12)); // Taper the effect size
+            
+            if (effectSize < -0.25 && precision < 4) {
+                continue;
+            }
+            funnelData.push({ x: effectSize, y: precision });
+        }
+        const funnelPlotConfig = {
+            type: 'scatter',
+            data: {
+                datasets: [
+                {
+                    label: 'Study Effect Size',
+                    data: funnelData,
+                    backgroundColor: 'rgba(99, 5, 27, 0.7)',
+                    borderColor: 'rgba(99, 5, 27, 1)',
+                    pointRadius: 4,
+                },
+                {
+                    type: 'line',
+                    label: 'Line of No Effect',
+                    data: [{x: 0, y: 0}, {x: 0, y: 10}],
+                    borderColor: 'rgba(0, 0, 0, 0.5)',
+                    borderWidth: 1.5,
+                    pointRadius: 0,
+                    fill: false,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    title: { display: false },
+                    tooltip: { enabled: false }
+                },
+                scales: {
+                    x: {
+                        title: { display: true, text: 'Effect size' },
+                        min: -1,
+                        max: 1,
+                    },
+                    y: {
+                        title: { display: true, text: 'Precision' },
+                        min: 0,
+                        max: 10
+                    }
+                },
+                animation: {
+                    onComplete: (context) => {
+                        const chart = context.chart;
+                        if (!chart || !chart.ctx) return; // Guard clause
+                        const ctx = chart.ctx;
+                        const xScale = chart.scales.x;
+                        const yScale = chart.scales.y;
+                        if (!xScale || !yScale) return; // Guard clause
+
+                        ctx.save();
+                        ctx.font = '12px Inter';
+                        ctx.fillStyle = 'black';
+                        ctx.textAlign = 'center';
+                        
+                        // Arrow
+                        const arrowStartX = xScale.getPixelForValue(-0.2);
+                        const arrowStartY = yScale.getPixelForValue(6);
+                        const arrowEndX = xScale.getPixelForValue(-0.4);
+                        const arrowEndY = yScale.getPixelForValue(2.5);
+
+                        ctx.beginPath();
+                        ctx.moveTo(arrowStartX, arrowStartY);
+                        ctx.lineTo(arrowEndX, arrowEndY);
+                        ctx.lineTo(arrowEndX + 5, arrowEndY + 2);
+                        ctx.moveTo(arrowEndX, arrowEndY);
+                        ctx.lineTo(arrowEndX - 2, arrowEndY + 5);
+                        ctx.strokeStyle = 'black';
+                        ctx.lineWidth = 2;
+                        ctx.stroke();
+
+                        // Text Box
+                        const textX = arrowStartX + 5;
+                        const textY = arrowStartY - 15;
+                        ctx.fillStyle = '#3d405b';
+                        ctx.fillRect(textX, textY, 110, 25);
+                        ctx.fillStyle = 'white';
+                        ctx.fillText('Missing data points.', textX + 55, textY + 17);
+                        ctx.restore();
+                    }
+                }
+            }
+        };
+        createChart('funnelPlotChart', funnelPlotConfig);
+
+
+        const case26ScatterData = [
+            {x: 28, y: 6}, {x: 35, y: 1}, {x: 38, y: 2.5}, {x: 40, y: 2}, {x: 41, y: 2.5}, 
+            {x: 42, y: 2}, {x: 42, y: 3}, {x: 43, y: 2.5}, {x: 45, y: 4}, {x: 48, y: 1}, 
+            {x: 48, y: 5}, {x: 50, y: 3}, {x: 51, y: 4.5}, {x: 52, y: 7.5}, {x: 55, y: 11.5}, 
+            {x: 56, y: 8}, {x: 58, y: 10.5}, {x: 59, y: 9}, {x: 62, y: 12}, {x: 63, y: 18}, 
+            {x: 64, y: 9.5}, {x: 65, y: 16}, {x: 68, y: 4}, {x: 68, y: 10}, {x: 70, y: 19.5}, 
+            {x: 72, y: 5}, {x: 75, y: 7.5}, {x: 78, y: 6}, {x: 80, y: 11}, {x: 92, y: 2}, 
+            {x: 45, y: 13.5}
+        ];
+        const case26Config = {
+            type: 'scatter',
+            data: { datasets: [{ label: 'Error vs. MAS', data: case26ScatterData, backgroundColor: 'rgba(61, 64, 91, 0.7)' }] },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { title: { display: true, text: 'Error Load vs. Maths Anxiety Score' } }, scales: { x: { title: { display: true, text: 'MAS' } }, y: { title: { display: true, text: 'Error Load' } } } }
+        };
+        createChart('case26Chart', case26Config);
+
+        const case27Data = {
+            labels: ['Placebo', '1mg', '2mg', '3mg'],
+            datasets: [{ 
+                label: 'Mean Number of Tasks', 
+                data: [4.05, 5.90, 7.85, 8.55], 
+                backgroundColor: '#81b29a',
+                error: [0.4615, 0.3620, 0.4827, 0.6508]
+            }]
+        };
+        const case27Config = {
+            type: 'bar',
+            data: case27Data,
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false, 
+                plugins: { 
+                    title: { display: true, text: 'Mean Number of Tasks by Amphetamine Dose' }, 
+                    legend: {display: false} 
+                },
+                scales: {
+                    y: {
+                        min: 0,
+                        max: 10
+                    }
+                }
+            },
+            plugins: [{
+                id: 'errorBars',
+                afterDraw(chart, args, options) {
+                    const { ctx, chartArea: { top, bottom, left, right }, scales: { x, y } } = chart;
+                    ctx.save();
+                    ctx.strokeStyle = '#3d405b';
+                    ctx.lineWidth = 1.5;
+
+                    chart.data.datasets[0].data.forEach((datapoint, index) => {
+                        const error = chart.data.datasets[0].error[index];
+                        const bar = chart.getDatasetMeta(0).data[index];
+                        const x_pos = bar.x;
+                        const y_pos = bar.y;
+                        const y_error_top = y.getPixelForValue(datapoint + error);
+                        const y_error_bottom = y.getPixelForValue(datapoint - error);
+                        
+                        ctx.beginPath();
+                        ctx.moveTo(x_pos, y_error_top);
+                        ctx.lineTo(x_pos, y_error_bottom);
+                        ctx.stroke();
+                        ctx.beginPath();
+                        ctx.moveTo(x_pos - 5, y_error_top);
+                        ctx.lineTo(x_pos + 5, y_error_top);
+                        ctx.stroke();
+                        ctx.beginPath();
+                        ctx.moveTo(x_pos - 5, y_error_bottom);
+                        ctx.lineTo(x_pos + 5, y_error_bottom);
+                        ctx.stroke();
+                    });
+                    ctx.restore();
+                }
+            }]
+        };
+        createChart('case27Chart', case27Config);
+        
+        const case28Config = {
+            type: 'line',
+            data: {
+                labels: ['Configured', 'Random'],
+                datasets: [
+                    { 
+                        label: 'Novices', 
+                        data: [6.3, 5.9], 
+                        borderColor: '#e07a5f', 
+                        backgroundColor: '#f8f7f4',
+                        pointRadius: 6,
+                        pointBorderColor: '#e07a5f',
+                        pointBorderWidth: 2,
+                        fill: false 
+                    },
+                    { 
+                        label: 'Experts', 
+                        data: [14.5, 6.1], 
+                        borderColor: '#3d405b', 
+                        backgroundColor: '#3d405b',
+                        pointRadius: 6,
+                        fill: false 
+                    }
+                ]
+            },
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false, 
+                plugins: { 
+                    title: { display: true, text: 'Memory Recall by Expertise and List Type' } 
+                }, 
+                scales: { 
+                    y: { 
+                        min: 4, 
+                        max: 18, 
+                        grid: { display: false },
+                        title: {
+                            display: true, 
+                            text: 'Mean Number of Correctly Recalled Street Names'
+                        } 
+                    },
+                    x: {
+                        offset: true,
+                        grid: { display: false }
+                    }
+                } 
+            }
+        };
+        createChart('case28Chart', case28Config);
+    });
+    </script>
+</body>
+</html>
