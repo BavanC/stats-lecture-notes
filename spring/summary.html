@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spring Statistics Revision Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- MathJax Configuration -->
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']]
+        }
+      };
+    </script>
+    <!-- MathJax for LaTeX rendering -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <!-- Chart.js for graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        /* Dark Mode is Default */
+        :root {
+            --bg-color: #111827; /* gray-900 */
+            --text-color: #d1d5db; /* gray-300 */
+            --card-bg: #1f2937; /* gray-800 */
+            --header-text: #f9fafb; /* gray-50 */
+            --subtle-text: #9ca3af; /* gray-400 */
+            --border-color: #374151; /* gray-700 */
+            --tab-hover-bg: #4b5563; /* gray-600 */
+            --active-tab-border: #34d399; /* emerald-400 */
+            --active-tab-text: #ecfdf5; /* emerald-50 */
+            --info-box-bg: #064e3b; /* emerald-900 */
+            --info-box-border: #10b981; /* emerald-500 */
+            --info-box-text: #a7f3d0; /* emerald-200 */
+            --table-bg: #2d3748; /* gray-800, a bit lighter */
+            --chart-bg: #374151; /* gray-700 */
+            --application-bg: #4a044e; /* A dark purple for application corners */
+            --application-border: #a855f7; /* A brighter purple for the border */
+            --application-text: #f3e8ff; /* A light purple for text */
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+        h1, h2, h3, h4 {
+            font-weight: 700;
+        }
+        header h1 { color: var(--header-text); }
+        header p { color: var(--subtle-text); }
+        main {
+            background-color: var(--card-bg);
+        }
+        .nav-button {
+            padding: 0.75rem 1.5rem;
+            font-size: 1.125rem; /* text-lg */
+            font-weight: 600;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .nav-button.active {
+            background-color: var(--active-tab-border);
+            color: var(--bg-color);
+        }
+        .nav-button:not(.active):hover {
+            background-color: var(--tab-hover-bg);
+        }
+        .section-content {
+            display: none;
+        }
+        .section-content > h2 {
+            border-color: var(--active-tab-border);
+        }
+        .info-box {
+            background-color: var(--info-box-bg);
+            border: 1px solid var(--info-box-border);
+            color: var(--info-box-text);
+        }
+        .application-corner {
+            background-color: var(--application-bg);
+            border: 1px solid var(--application-border);
+            color: var(--application-text);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-top: 1.5rem;
+        }
+        .application-corner h4 {
+            color: #f3e8ff;
+            font-size: 1.125rem;
+            border-bottom: 1px solid var(--application-border);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        details > summary {
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--active-tab-text);
+            transition: color 0.2s;
+        }
+        details > summary:hover {
+            color: #a7f3d0;
+        }
+        details div {
+            padding: 1rem;
+            margin-top: 0.5rem;
+            border-left: 2px solid var(--active-tab-border);
+            background-color: #111827;
+        }
+        .data-table-wrapper {
+            background-color: var(--table-bg);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+        }
+        .data-table-wrapper h4 {
+            font-weight: 600;
+            font-size: 1.125rem;
+            margin-bottom: 0.5rem;
+            color: var(--header-text);
+        }
+        .data-table-wrapper table thead {
+            background-color: #4a5568;
+        }
+        .chart-wrapper {
+            background-color: var(--chart-bg);
+            padding: 1rem;
+            border-radius: 0.5rem;
+        }
+    </style>
+</head>
+<body class="transition-colors duration-300">
+
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-8 relative">
+            <h1 class="text-4xl md:text-5xl font-bold">Spring Statistics Guide</h1>
+            <p class="text-xl mt-2">Moderation, Categorical Data, and Advanced Regression Models</p>
+        </header>
+
+        <main id="main-content" class="w-full p-6 md:p-8 rounded-lg shadow-md">
+            
+            <!-- Main Section Navigation -->
+            <nav aria-label="Main Content Sections" class="mb-8">
+                <ul role="tablist" class="flex flex-wrap gap-4 justify-center">
+                    <li role="presentation"><button role="tab" id="btn-moderation" class="nav-button active" onclick="switchContent(event, 'moderation')">Moderation</button></li>
+                    <li role="presentation"><button role="tab" id="btn-categorical" class="nav-button" onclick="switchContent(event, 'categorical')">Categorical Data</button></li>
+                    <li role="presentation"><button role="tab" id="btn-logistic" class="nav-button" onclick="switchContent(event, 'logistic')">Logistic Regression</button></li>
+                    <li role="presentation"><button role="tab" id="btn-survival" class="nav-button" onclick="switchContent(event, 'survival')">Survival Analysis</button></li>
+                    <li role="presentation"><button role="tab" id="btn-factor" class="nav-button" onclick="switchContent(event, 'factor')">Factor Analysis</button></li>
+                </ul>
+            </nav>
+
+            <!-- Section: Moderation -->
+            <div id="moderation" role="tabpanel" aria-labelledby="btn-moderation" class="section-content" style="display: block;">
+                <h2 class="text-2xl md:text-3xl font-bold border-b-2 pb-2 mb-4">Moderation</h2>
+                <p class="mb-4">In statistics, a moderator is a third variable that changes the strength or direction of the relationship between an independent variable (IV) and a dependent variable (DV). It answers the question: "When does the IV affect the DV?"</p>
+                <div class="p-4 rounded-lg info-box">
+                    <p><strong>The Core Idea:</strong> The effect of X on Y is different depending on the level of Z. Here, Z is the moderator.</p>
+                </div>
+
+                <h3 class="text-xl font-semibold mt-6 mb-2">Example: Experience as a Moderator</h3>
+                <p class="mb-4">Researchers explored how expertise affects memory. They compared expert taxi drivers and novice students on their ability to recall London street names from two list types: a configured route and a random list. Here, the relationship between List Type (IV) and Memory (DV) is expected to change based on Experience (Moderator).</p>
+                <div class="my-6 chart-wrapper">
+                    <h4 class="text-left text-lg font-semibold mb-2" style="color: var(--header-text);">Interaction Plot: Experience and Memory</h4>
+                    <canvas id="moderationChart"></canvas>
+                </div>
+                <p class="mb-4">The plot clearly shows an interaction. For novices, there's no difference in recall between list types. For experts, there's a huge advantage for the configured route. Experience moderates the effect of list type on memory.</p>
+                
+                <h3 class="text-xl font-semibold mt-6 mb-2">Testing Moderation with Regression</h3>
+                <p class="mb-4">We can test this by running a regression analysis. For the expert taxi drivers, we can predict the memory advantage (Configured score - Random score) from their years of experience.</p>
+                <div class="data-table-wrapper">
+                    <h4 class="font-semibold text-lg mb-2">JASP Regression Output for Experts</h4>
+                    <p class="text-sm mb-2">Predicting Memory Advantage from Years of Experience</p>
+                    <table class="w-full text-sm text-left">
+                       <thead class="text-xs uppercase"><tr><th class="px-4 py-2">Model Component</th><th class="px-4 py-2">Value</th><th class="px-4 py-2">Interpretation</th></tr></thead>
+                       <tbody>
+                           <tr class="border-t border-gray-600"><td class="px-4 py-2 font-semibold">R²</td><td class="px-4 py-2">0.760</td><td class="px-4 py-2">76% of the variance in memory advantage is explained by years of experience.</td></tr>
+                           <tr class="border-t border-gray-600"><td class="px-4 py-2 font-semibold">ANOVA F-test</td><td class="px-4 py-2">F(1, 19) = 60.25, p < .001</td><td class="px-4 py-2">The overall regression model is significant.</td></tr>
+                           <tr class="border-t border-gray-600"><td class="px-4 py-2 font-semibold">Intercept ($b_0$)</td><td class="px-4 py-2">-12.344</td><td class="px-4 py-2">The predicted memory advantage for a driver with 0 years experience.</td></tr>
+                           <tr class="border-t border-gray-600"><td class="px-4 py-2 font-semibold">Slope for Experience ($b_1$)</td><td class="px-4 py-2">0.421, p < .001</td><td class="px-4 py-2">For each extra year of experience, the memory advantage increases by 0.421 points. This is a significant predictor.</td></tr>
+                       </tbody>
+                    </table>
+                </div>
+                <div class="application-corner">
+                    <h4>How to Write It Up</h4>
+                    <p>"To test if years of experience moderated the effect of list type on memory recall for experts, a simple linear regression was performed. Experience was a significant predictor of the memory advantage (configured recall - random recall), $F(1, 19) = 60.25, p < .001$, accounting for 76% of the variance ($R^2 = .760$). For each additional year of experience, the memory advantage increased by 0.421 points ($b = 0.421, p < .001$)."</p>
+                </div>
+            </div>
+
+            <!-- Section: Categorical Data -->
+            <div id="categorical" role="tabpanel" aria-labelledby="btn-categorical" class="section-content">
+                <h2 class="text-2xl md:text-3xl font-bold border-b-2 pb-2 mb-4">Categorical Data & The Chi-Square Test</h2>
+                <p class="mb-4">When your data consists of counts or frequencies within different categories (e.g., how many people chose 'Yes' vs. 'No'), you can't use tests like ANOVA or regression. Instead, you use the Chi-Square ($\chi^2$) test.</p>
+                
+                <h3 class="text-xl font-semibold mt-6 mb-2">Two Main Uses for Chi-Square</h3>
+                <ul class="list-disc list-inside pl-4 space-y-3">
+                    <li><strong>Goodness of Fit Test:</strong> Used to determine if the observed frequencies in a single categorical variable differ from what we would expect by chance. (e.g., "Do students prefer one newspaper over others, or are preferences equally distributed?")</li>
+                    <li><strong>Test of Association:</strong> Used to see if there is a relationship (an association) between two categorical variables. (e.g., "Is there an association between a person's gender and their degree classification?")</li>
+                </ul>
+
+                <h3 class="text-xl font-semibold mt-6 mb-2">The Core Logic: Observed vs. Expected</h3>
+                <p class="mb-4">The Chi-Square test works by comparing the frequencies you actually observed in your data with the frequencies you would expect to see if there was no effect or no association (i.e., if the null hypothesis were true). The formula is:</p>
+                <p class="text-center text-xl font-mono my-2 p-2 bg-gray-900 rounded-lg">$$\chi^2 = \sum \frac{(\text{Observed Frequency} - \text{Expected Frequency})^2}{\text{Expected Frequency}}$$</p>
+                <p>A large $\chi^2$ value means there's a big difference between what you observed and what you expected, suggesting a significant result.</p>
+
+                <h3 class="text-xl font-semibold mt-6 mb-2">Example: Test of Association</h3>
+                <p class="mb-4">Is there an association between gender and degree classification? We have the following observed counts:</p>
+                <div class="data-table-wrapper">
+                    <h4 class="font-semibold text-lg mb-2">Observed Frequencies: Gender & Degree Class</h4>
+                    <table class="w-full text-sm text-center">
+                        <thead><tr><th></th><th class="p-2">First</th><th class="p-2">2:1</th><th class="p-2">2:2</th><th class="p-2">Third</th><th class="p-2 font-bold">Total</th></tr></thead>
+                        <tbody>
+                            <tr class="border-t border-gray-600"><td class="p-2 font-bold">Female</td><td class="p-2">21</td><td class="p-2">62</td><td class="p-2">39</td><td class="p-2">4</td><td class="p-2 font-bold">126</td></tr>
+                            <tr class="border-t border-gray-600"><td class="p-2 font-bold">Male</td><td class="p-2">3</td><td class="p-2">17</td><td class="p-2">29</td><td class="p-2">17</td><td class="p-2 font-bold">66</td></tr>
+                            <tr class="border-t border-gray-600 font-bold"><td class="p-2">Total</td><td class="p-2">24</td><td class="p-2">79</td><td class="p-2">68</td><td class="p-2">21</td><td class="p-2 font-bold">192</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <details class="p-4 mt-6 rounded-lg bg-gray-800">
+                    <summary>Calculating Expected Frequencies</summary>
+                    <div>
+                        <p>The expected frequency for each cell is calculated with the formula:</p>
+                        <p class="text-center font-mono my-2">$$E = \frac{(\text{Row Total} \times \text{Column Total})}{\text{Grand Total}}$$</p>
+                        <p>For the 'Female' / 'First' cell: $E = (126 \times 24) / 192 = 15.75$</p>
+                        <p>For the 'Male' / 'Third' cell: $E = (66 \times 21) / 192 = 7.22$</p>
+                    </div>
+                </details>
+                
+                <h3 class="text-xl font-semibold mt-6 mb-2">Effect Size: Cramer's V</h3>
+                <p class="mb-4">For contingency tables larger than 2x2, Cramer's V is used as a measure of effect size, indicating the strength of the association. It ranges from 0 to 1.</p>
+
+                <div class="application-corner">
+                    <h4>How to Write It Up</h4>
+                    <p>"A chi-square test of association was performed to examine the relationship between gender and degree classification. There was a significant association between the two variables, $\chi^2(3, N=192) = 33.14, p < .001$. This indicates that male and female students did not achieve degree classifications in equal proportions. The effect size, as measured by Cramer's V, was .415, suggesting a medium-to-large association."</p>
+                </div>
+            </div>
+
+            <!-- Section: Logistic Regression -->
+            <div id="logistic" role="tabpanel" aria-labelledby="btn-logistic" class="section-content">
+                <h2 class="text-2xl md:text-3xl font-bold border-b-2 pb-2 mb-4">Binary Logistic Regression</h2>
+                <p class="mb-4">Use logistic regression when your outcome (DV) is dichotomous (i.e., has only two categories, like Pass/Fail, Yes/No, Malignant/Benign) and you want to predict which category a case belongs to based on one or more predictor variables (which can be continuous or categorical).</p>
+                
+                <h3 class="text-xl font-semibold mt-6 mb-2">The Core Logic: Predicting Probabilities & Odds</h3>
+                <p class="mb-4">Unlike linear regression which predicts a continuous value, logistic regression predicts the <strong>probability</strong> of an outcome occurring. It does this by modeling the <strong>log odds</strong> of the outcome. The odds are the probability of an event occurring divided by the probability of it not occurring.</p>
+                <p class="text-center text-xl font-mono my-2 p-2 bg-gray-900 rounded-lg">$$Odds = \frac{p}{1-p}$$</p>
+                <p class="mb-4">The key output is the <strong>Odds Ratio (OR)</strong>, which tells you how the odds of the outcome change for a one-unit increase in a predictor.</p>
+                <ul class="list-disc list-inside pl-4 space-y-2">
+                    <li><strong>Odds Ratio > 1:</strong> As the predictor increases, the odds of the outcome occurring increase.</li>
+                    <li><strong>Odds Ratio < 1:</strong> As the predictor increases, the odds of the outcome occurring decrease.</li>
+                </ul>
+
+                <h3 class="text-xl font-semibold mt-6 mb-2">Example: Predicting Exam Success</h3>
+                <p class="mb-4">Can we predict whether a student will Pass (1) or Fail (0) a stats exam based on their fear of stats, computers, and maths?</p>
+                <div class="data-table-wrapper">
+                    <h4 class="font-semibold text-lg mb-2">JASP Logistic Regression Output</h4>
+                    <p class="text-sm mb-2">Key results from the analysis.</p>
+                    <table class="w-full text-sm text-left">
+                       <thead class="text-xs uppercase"><tr><th class="px-4 py-2">Model Component</th><th class="px-4 py-2">Value</th><th class="px-4 py-2">Interpretation</th></tr></thead>
+                       <tbody>
+                           <tr class="border-t border-gray-600"><td class="px-4 py-2 font-semibold">Overall Model Fit ($\chi^2$)</td><td class="px-4 py-2">$\chi^2(97) = 33.16, p < .001$</td><td class="px-4 py-2">The model with predictors is a significantly better fit than a model with no predictors.</td></tr>
+                           <tr class="border-t border-gray-600"><td class="px-4 py-2 font-semibold">Nagelkerke R²</td><td class="px-4 py-2">0.375</td><td class="px-4 py-2">A pseudo-R² value. Roughly 37.5% of the variance in exam outcome is explained by the model.</td></tr>
+                           <tr class="border-t border-gray-600"><td class="px-4 py-2 font-semibold">Stats Fear (Predictor)</td><td class="px-4 py-2">OR = 1.319, p < .001</td><td class="px-4 py-2">A significant predictor. For a one-unit increase in the stats fear score (less fear), the odds of passing increase by a factor of 1.319.</td></tr>
+                           <tr class="border-t border-gray-600"><td class="px-4 py-2 font-semibold">Computer Fear (Predictor)</td><td class="px-4 py-2">p = .811</td><td class="px-4 py-2">Not a significant predictor.</td></tr>
+                           <tr class="border-t border-gray-600"><td class="px-4 py-2 font-semibold">Maths Fear (Predictor)</td><td class="px-4 py-2">p = .746</td><td class="px-4 py-2">Not a significant predictor.</td></tr>
+                       </tbody>
+                    </table>
+                </div>
+                
+                <h3 class="text-xl font-semibold mt-6 mb-2">Model Performance: The Confusion Matrix</h3>
+                <p class="mb-4">The confusion matrix shows how well our model correctly classified cases.</p>
+                <ul class="list-disc list-inside pl-4 space-y-2">
+                    <li><strong>Sensitivity:</strong> The percentage of true positives correctly identified (e.g., of all who actually passed, what percentage did we predict would pass?). Here, it was 64.4%.</li>
+                    <li><strong>Specificity:</strong> The percentage of true negatives correctly identified (e.g., of all who actually failed, what percentage did we predict would fail?). Here, it was 75.0%.</li>
+                </ul>
+
+                <div class="application-corner">
+                    <h4>How to Write It Up</h4>
+                    <p>"A logistic regression was conducted to predict exam success (pass/fail) from fear of stats, computers, and maths. The overall model was statistically significant, $\chi^2(3, N=101) = 33.16, p < .001$. The model explained 37.5% (Nagelkerke R²) of the variance in exam outcome and correctly classified 70.3% of cases. Sensitivity was 64.4%, while specificity was 75.0%. Of the three predictors, only fear of stats was statistically significant (p < .001), with an odds ratio of 1.32."</p>
+                </div>
+            </div>
+
+            <!-- Section: Survival Analysis -->
+            <div id="survival" role="tabpanel" aria-labelledby="btn-survival" class="section-content">
+                <h2 class="text-2xl md:text-3xl font-bold border-b-2 pb-2 mb-4">Survival Analysis</h2>
+                <p class="mb-4">Survival analysis is used to analyze longitudinal data on the time it takes for an event to occur. The "event" can be anything binary, not just death—it could be recovery from illness, relapse, or failure to maintain abstinence.</p>
+                <div class="p-4 rounded-lg info-box">
+                    <p><strong>Why not just use a t-test?</strong> A t-test on the average time-to-event would ignore a crucial piece of information: <strong>censoring</strong>.</p>
+                </div>
+                <h3 class="text-xl font-semibold mt-6 mb-2">Censoring: The Key Concept</h3>
+                <p class="mb-4">A subject is 'censored' if the event of interest has not occurred for them by the end of the study, or if they drop out or are lost to follow-up. Survival analysis is specifically designed to handle this missing information correctly.</p>
+
+                <h3 class="text-xl font-semibold mt-6 mb-2">Kaplan-Meier Curves & The Log-Rank Test</h3>
+                <p class="mb-4">The most common way to visualize survival data is with a <strong>Kaplan-Meier survival curve</strong>, which shows the probability of surviving (i.e., the event not happening) over time. To statistically compare the survival distributions of two or more groups, we use the <strong>Log-Rank Test</strong>.</p>
+                
+                <h3 class="text-xl font-semibold mt-6 mb-2">Example: Dry January</h3>
+                <p class="mb-4">Does a daily text message of encouragement help people stay abstinent during "Dry January"? Two groups (Text Message vs. Control) are followed for 31 days. The "event" is breaking abstinence.</p>
+                <div class="my-6 chart-wrapper">
+                    <h4 class="text-left text-lg font-semibold mb-2" style="color: var(--header-text);">Kaplan-Meier Survival Plot</h4>
+                    <canvas id="survivalChart"></canvas>
+                </div>
+                <p class="mb-4">The plot shows the probability of remaining abstinent (surviving) over time. The Control group's survival probability drops much more quickly than the Text Message group's.</p>
+                
+                <div class="application-corner">
+                    <h4>How to Write It Up</h4>
+                    <p>"A log-rank test was conducted to compare the abstinence survival distributions of the Text Message and Control groups. The median abstinence time for the text message group was 17 days, while the median for the control group was 7 days. The survival distributions for the two groups were statistically significantly different, $\chi^2(1, N=32) = 7.64, p = .006$. This indicates that the daily text message intervention significantly increased the time participants remained abstinent."</p>
+                </div>
+            </div>
+
+            <!-- Section: Factor Analysis -->
+            <div id="factor" role="tabpanel" aria-labelledby="btn-factor" class="section-content">
+                <h2 class="text-2xl md:text-3xl font-bold border-b-2 pb-2 mb-4">Exploratory Factor Analysis (EFA)</h2>
+                <p class="mb-4">EFA is a data reduction technique used to identify underlying, unobservable variables—called <strong>latent variables</strong> or <strong>factors</strong>—from a set of observed, correlated variables. It's often used in questionnaire development to see if groups of questions are measuring the same underlying construct.</p>
+                
+                <h3 class="text-xl font-semibold mt-6 mb-2">The Core Logic: Finding Clusters</h3>
+                <p class="mb-4">EFA works by examining the correlation matrix of all your variables (e.g., questionnaire items). It looks for clusters of items that are highly correlated with each other but have low correlations with items outside that cluster. Each cluster represents a potential underlying factor.</p>
+
+                <h3 class="text-xl font-semibold mt-6 mb-2">Key Steps and Checks</h3>
+                <ul class="list-disc list-inside pl-4 space-y-3">
+                    <li><strong>Is the data suitable?</strong> Before starting, you must check two things:
+                        <ul>
+                            <li><strong>Kaiser-Meyer-Olkin (KMO) Test:</strong> Measures sampling adequacy. Should be > .7.</li>
+                            <li><strong>Bartlett's Test of Sphericity:</strong> Checks if there are sufficient correlations among the variables to proceed. Should be significant (p < .05).</li>
+                        </ul>
+                    </li>
+                    <li><strong>How many factors to keep?</strong> This is a key decision. A common method is <strong>Parallel Analysis</strong> (the default in JASP), which compares your data's eigenvalues to those from random data and suggests keeping factors with eigenvalues greater than chance.</li>
+                    <li><strong>Factor Rotation:</strong> Rotation makes the factor structure easier to interpret. <strong>Oblique</strong> rotations (like 'oblimin') are often preferred as they allow the factors to be correlated, which is common in psychology.</li>
+                    <li><strong>Interpreting Loadings:</strong> The factor loading is the correlation between an item and a factor. A high loading (e.g., > .4) suggests the item is a good measure of that factor. The goal is 'simple structure', where each item loads strongly on only one factor.</li>
+                </ul>
+
+                <h3 class="text-xl font-semibold mt-6 mb-2">Example: Teachers' Beliefs Questionnaire</h3>
+                <p class="mb-4">A 15-item questionnaire on teaching styles was given to 600 participants. EFA was used to see if there were underlying belief structures.</p>
+                <div class="data-table-wrapper">
+                    <h4 class="font-semibold text-lg mb-2">EFA Results Summary</h4>
+                    <table class="w-full text-sm text-left">
+                       <thead class="text-xs uppercase"><tr><th class="px-4 py-2">Model Component</th><th class="px-4 py-2">Value</th><th class="px-4 py-2">Interpretation</th></tr></thead>
+                       <tbody>
+                           <tr class="border-t border-gray-600"><td class="px-4 py-2 font-semibold">KMO Test</td><td class="px-4 py-2">.869</td><td class="px-4 py-2">Excellent sampling adequacy.</td></tr>
+                           <tr class="border-t border-gray-600"><td class="px-4 py-2 font-semibold">Bartlett's Test</td><td class="px-4 py-2">p < .001</td><td class="px-4 py-2">The data is suitable for factor analysis.</td></tr>
+                           <tr class="border-t border-gray-600"><td class="px-4 py-2 font-semibold">Number of Factors</td><td class="px-4 py-2">4</td><td class="px-4 py-2">Parallel analysis suggested a four-factor solution.</td></tr>
+                           <tr class="border-t border-gray-600"><td class="px-4 py-2 font-semibold">Total Variance Explained</td><td class="px-4 py-2">47%</td><td class="px-4 py-2">The four factors together explain 47% of the total variance in the 15 items.</td></tr>
+                           <tr class="border-t border-gray-600"><td class="px-4 py-2 font-semibold">Model Fit (RMSEA)</td><td class="px-4 py-2">.056</td><td class="px-4 py-2">Indicates a good model fit (values < .08 are considered good).</td></tr>
+                       </tbody>
+                    </table>
+                </div>
+                <p class="mt-4">After examining which items loaded onto which of the four factors, the factors were named: 1. Social Learning, 2. Inclusivity, 3. Self-Directed Learning, 4. Clarity.</p>
+
+                <div class="application-corner">
+                    <h4>How to Write It Up</h4>
+                    <p>"An exploratory factor analysis was conducted on 15 items using an oblique (oblimin) rotation. The KMO measure of sampling adequacy was .87 and Bartlett's test of sphericity was significant ($\chi^2(105) = 2983.77, p < .001$). A parallel analysis suggested a four-factor solution that explained 47% of the variance and had a good fit (RMSEA = .056). Items were interpreted using a .40 loading criterion. The four factors were labelled 'Social Learning' (e.g., "children learn best through collaborative activities"), 'Inclusivity', 'Self-Directed Learning', and 'Clarity'."</p>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        /**
+         * Switches between main content sections.
+         */
+        function switchContent(evt, contentId) {
+            const contentPanels = document.getElementsByClassName('section-content');
+            for (let panel of contentPanels) {
+                panel.style.display = "none";
+            }
+
+            const tabButtons = document.getElementsByClassName('nav-button');
+            for (let button of tabButtons) {
+                button.classList.remove("active");
+            }
+
+            const targetPanel = document.getElementById(contentId);
+            if (targetPanel) {
+                targetPanel.style.display = "block";
+                evt.currentTarget.classList.add("active");
+            }
+        }
+        
+        // --- Chart Rendering Functions ---
+        
+        function renderModerationChart() {
+            const ctx = document.getElementById('moderationChart');
+            if (!ctx) return;
+            if (Chart.getChart(ctx)) Chart.getChart(ctx).destroy();
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Configured Route', 'Random List'],
+                    datasets: [
+                        { label: 'Experts', data: [14.70, 6.40], borderColor: '#34d399', backgroundColor: '#34d399', tension: 0.1, fill: false, pointRadius: 5 },
+                        { label: 'Novices', data: [6.45, 6.50], borderColor: '#a855f7', backgroundColor: '#a855f7', tension: 0.1, fill: false, pointRadius: 5 }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { position: 'top', labels: { color: 'var(--header-text)' } } },
+                    scales: {
+                        y: { beginAtZero: false, title: { display: true, text: 'Mean Items Recalled', color: 'var(--text-color)' }, ticks: { color: 'var(--text-color)' }, grid: { color: 'var(--border-color)' } },
+                        x: { title: { display: true, text: 'List Type', color: 'var(--text-color)' }, ticks: { color: 'var(--text-color)' }, grid: { color: 'var(--border-color)' } }
+                    }
+                }
+            });
+        }
+
+        function renderSurvivalChart() {
+            const ctx = document.getElementById('survivalChart');
+            if (!ctx) return;
+            if (Chart.getChart(ctx)) Chart.getChart(ctx).destroy();
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [0, 6, 7, 11, 15, 16, 17, 21, 24, 31],
+                    datasets: [
+                        { label: 'Text Message', data: [1.0, 0.875, 0.875, 0.8125, 0.625, 0.5625, 0.5, 0.375, 0.25, 0.1875], borderColor: '#34d399', backgroundColor: '#34d399', tension: 0, fill: false, pointRadius: 4, stepped: true },
+                        { label: 'Control', data: [1.0, 0.6875, 0.5625, 0.4375, 0.4375, 0.4375, 0.4375, 0.4375, 0.4375, 0.0625], borderColor: '#a855f7', backgroundColor: '#a855f7', tension: 0, fill: false, pointRadius: 4, stepped: true }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { position: 'top', labels: { color: 'var(--header-text)' } } },
+                    scales: {
+                        y: { min: 0, max: 1, title: { display: true, text: 'Probability of Abstinence (Survival)', color: 'var(--text-color)' }, ticks: { color: 'var(--text-color)' }, grid: { color: 'var(--border-color)' } },
+                        x: { min: 0, max: 31, title: { display: true, text: 'Day of January', color: 'var(--text-color)' }, ticks: { color: 'var(--text-color)' }, grid: { color: 'var(--border-color)' } }
+                    }
+                }
+            });
+        }
+
+
+        // --- INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set initial state
+            document.querySelector('#btn-moderation').click();
+            
+            // Render charts
+            renderModerationChart();
+            renderSurvivalChart();
+        });
+    </script>
+
+</body>
+</html>
