@@ -30,12 +30,12 @@
             --text-color: #d4d4d8;         /* zinc-300 */
             --card-bg: #27272a;           /* zinc-800 */
             --header-text: #fafafa;         /* zinc-50 */
-            --subtle-text: #a1a1aa;       /* zinc-400 */
-            --border-color: #3f3f46;       /* zinc-700 */
+            --subtle-text: #a1a1aa;         /* zinc-400 */
+            --border-color: #3f3f46;         /* zinc-700 */
             --active-tab-border: #facc15; /* amber-400 */
             --info-box-bg: #451a03;         /* amber-950 */
             --info-box-border: #f59e0b;   /* amber-500 */
-            --info-box-text: #fef3c7;       /* amber-100 */
+            --info-box-text: #fef3c7;         /* amber-100 */
             --table-bg: #3f3f46;           /* zinc-700 */
             --chart-bg: #18181b;           /* zinc-900 */
         }
@@ -76,6 +76,141 @@
             padding: 1rem;
             border-radius: 0.5rem;
         }
+        /* Clickable box styling */
+        details > summary {
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--header-text);
+            background-color: var(--border-color);
+            padding: 0.75rem 1rem;
+            border-radius: 0.375rem;
+            transition: background-color 0.2s;
+            list-style: none; /* Hide default arrow */
+            position: relative;
+        }
+        details > summary::-webkit-details-marker {
+            display: none; /* Hide default arrow for Safari */
+        }
+        details > summary::before {
+            content: '►'; /* Collapsed state icon */
+            position: absolute;
+            right: 1rem;
+            transform: rotate(0deg);
+            transition: transform 0.2s;
+        }
+        details[open] > summary::before {
+            transform: rotate(90deg); /* Expanded state icon */
+        }
+        details > summary:hover {
+            background-color: #52525b;
+        }
+        details > div {
+            padding: 1rem;
+            margin-top: 0.5rem;
+            border-left: 3px solid var(--active-tab-border);
+            background-color: #18181b;
+        }
+        /* Modal Styles */
+        #modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            pointer-events: none;
+        }
+        #modal-overlay.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        #data-popup-card {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.95);
+            width: 90%;
+            max-width: 500px;
+            max-height: 85vh;
+            background-color: var(--card-bg);
+            border: 1px solid var(--active-tab-border);
+            border-radius: 0.75rem;
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            z-index: 1000;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+            pointer-events: none;
+        }
+        #data-popup-card.visible {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+            pointer-events: auto;
+        }
+        .data-card-content {
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+        /* Interactive JASP Table Styles */
+        .interactive-cell {
+            cursor: pointer;
+            background-color: #facc1520; /* Amber with transparency */
+            border: 1px solid #facc15;
+            border-radius: 4px;
+            padding: 2px 4px;
+            transition: background-color 0.2s;
+            display: inline-block;
+        }
+        .interactive-cell:hover {
+            background-color: #facc1550;
+        }
+        /* Explanation Popup Styles */
+        #explanation-popup {
+            position: absolute;
+            background-color: #18181b;
+            border: 1px solid #facc15;
+            color: #d4d4d8;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3);
+            z-index: 1050;
+            width: 300px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            pointer-events: none;
+        }
+        #explanation-popup.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        #explanation-popup .arrow {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-style: solid;
+        }
+        /* Arrow pointing up */
+        #explanation-popup.arrow-down .arrow {
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 10px 10px 0 10px;
+            border-color: #facc15 transparent transparent transparent;
+        }
+        /* Arrow pointing down */
+        #explanation-popup.arrow-up .arrow {
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 0 10px 10px 10px;
+            border-color: transparent transparent #facc15 transparent;
+        }
     </style>
 </head>
 <body class="transition-colors duration-300">
@@ -91,7 +226,7 @@
             <!-- Section 1: Defining Moderation -->
             <section id="definition" class="mb-12">
                 <h2 class="text-2xl md:text-3xl">What is Moderation?</h2>
-                <p class="mb-4">In regression, we often want to know more than just whether one variable predicts another. We want to know *under what conditions* that prediction holds true. This is where moderation comes in.</p>
+                <p class="mb-4">In regression, we often want to know more than just whether one variable predicts another. We want to know <em>under what conditions</em> that prediction holds true. This is where moderation comes in.</p>
                 <div class="p-4 rounded-lg info-box">
                     <p class="text-lg">A <strong>moderator</strong> is a variable that changes the strength or direction of the relationship between a predictor (IV) and an outcome (DV).</p>
                 </div>
@@ -103,26 +238,75 @@
                 <h2 class="text-2xl md:text-3xl">Example 1: Experience as a Moderator of Memory</h2>
                 <p class="mb-4">This classic example explores whether expertise (years of experience) moderates the effect of list structure on memory recall. Researchers compared expert taxi drivers and novices on their ability to recall a configured route versus a random list of streets.</p>
                 
-                <h3 class="text-xl font-semibold mt-8 mb-4">The Interaction Plot</h3>
-                <p class="mb-4">The interaction is best visualized in a plot. We can see that for novices, the list type doesn't matter. For experts, their memory is vastly superior but *only* for the configured route. Experience moderates the effect of list structure.</p>
+                <h3 class="text-xl font-semibold mt-8 mb-4">Visualizing the Interaction</h3>
+                <p class="mb-4">The bar chart clearly shows the interaction. For Novice Students, performance is nearly identical for both list types. For Expert Taxi Drivers, however, recall is vastly superior for the real-world route compared to the random list. This demonstrates that expertise moderates the effect of list structure on memory.</p>
                 <div class="my-6 chart-wrapper">
-                    <h4 class="text-left text-lg font-semibold mb-2">Interaction Plot: Mean Items Recalled</h4>
+                    <div class="flex justify-between items-center mb-2">
+                         <h4 class="text-left text-lg font-semibold">Bar Chart: Mean Items Recalled</h4>
+                         <button onclick="showDataCard('barChartData')" class="text-sm bg-zinc-600 hover:bg-zinc-500 text-white py-1 px-3 rounded-md transition-colors">View Raw Data</button>
+                    </div>
                     <canvas id="moderationChart1"></canvas>
                 </div>
 
-                <h3 class="text-xl font-semibold mt-8 mb-4">Testing the Moderation with Regression (Experts Only)</h3>
-                <p class="mb-4">To quantify the moderation effect within the expert group, we can run a simple linear regression. We create a new variable, "Memory Advantage," calculated as (Configured Recall - Random Recall). We then see if "Years of Experience" can predict this advantage.</p>
-                <div class="data-table-wrapper">
-                    <h4 class="font-semibold text-lg mb-2">JASP Regression Output for Experts</h4>
-                    <p class="text-sm mb-2">Predicting Memory Advantage from Years of Experience</p>
-                    <table class="w-full text-sm text-left">
-                       <thead class="text-xs uppercase"><tr><th class="px-4 py-2">Model Component</th><th class="px-4 py-2">Value</th><th class="px-4 py-2">Interpretation</th></tr></thead>
-                       <tbody>
-                           <tr class="border-t border-gray-700"><td class="px-4 py-2 font-semibold">R²</td><td class="px-4 py-2">0.760</td><td class="px-4 py-2">76% of the variance in memory advantage is explained by years of experience.</td></tr>
-                           <tr class="border-t border-gray-700"><td class="px-4 py-2 font-semibold">ANOVA F-test</td><td class="px-4 py-2">F(1, 18) = 57.16, p < .001</td><td class="px-4 py-2">The overall regression model is significant.</td></tr>
-                           <tr class="border-t border-gray-700"><td class="px-4 py-2 font-semibold">Slope for Experience ($b_1$)</td><td class="px-4 py-2">0.421, p < .001</td><td class="px-4 py-2">For each extra year of experience, the memory advantage increases by 0.421 points. This is a significant predictor.</td></tr>
-                       </tbody>
-                    </table>
+                <h3 class="text-xl font-semibold mt-8 mb-4">Testing the Moderation with Regression</h3>
+                <p class="mb-4">To quantify the moderation effect within the expert group, we can run a simple linear regression. We create a new variable, "Memory Advantage," calculated as (Real-World Route Recall - Random Recall). We then see if "Years of Experience" can predict this advantage.</p>
+                
+                <div class="my-6 chart-wrapper">
+                     <div class="flex justify-between items-center mb-2">
+                         <h4 class="text-left text-lg font-semibold">Scatterplot: Memory Advantage vs. Experience</h4>
+                         <button onclick="showDataCard('scatterPlotData')" class="text-sm bg-zinc-600 hover:bg-zinc-500 text-white py-1 px-3 rounded-md transition-colors">View Raw Data</button>
+                    </div>
+                    <canvas id="experienceScatterplot"></canvas>
+                </div>
+
+                <div class="space-y-4">
+                    <details>
+                        <summary>JASP Output: Model Summary</summary>
+                        <div>
+                            <div class="data-table-wrapper">
+                                <table class="w-full text-sm text-left">
+                                    <thead class="text-xs"><tr><th class="px-4 py-2">Model</th><th class="px-4 py-2">R</th><th class="px-4 py-2">R²</th><th class="px-4 py-2">Adjusted R²</th><th class="px-4 py-2">RMSE</th></tr></thead>
+                                    <tbody>
+                                     <tr class="border-t border-gray-700"><td class="px-4 py-2">H₀</td><td class="px-4 py-2">0.000</td><td class="px-4 py-2">0.000</td><td class="px-4 py-2">0.000</td><td class="px-4 py-2">2.900</td></tr>
+                                     <tr class="border-t border-gray-700"><td class="px-4 py-2">H₁</td><td class="px-4 py-2">0.872</td><td class="px-4 py-2">0.760</td><td class="px-4 py-2">0.748</td><td class="px-4 py-2">1.457</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p class="mt-4"><strong>Interpretation:</strong> The R² value of 0.760 indicates that 76% of the variance in the "Memory Advantage" can be explained by the "Years of Experience" predictor. This is a very large effect.</p>
+                        </div>
+                    </details>
+                    <details>
+                        <summary>JASP Output: ANOVA</summary>
+                        <div>
+                            <div class="data-table-wrapper">
+                                <table class="w-full text-sm text-left">
+                                    <thead class="text-xs"><tr><th class="px-4 py-2">Model</th><th class="px-4 py-2"></th><th class="px-4 py-2">Sum of Squares</th><th class="px-4 py-2">df</th><th class="px-4 py-2">Mean Square</th><th class="px-4 py-2">F</th><th class="px-4 py-2">p</th></tr></thead>
+                                    <tbody>
+                                     <tr class="border-t border-gray-700"><td class="px-4 py-2">H₁</td><td class="px-4 py-2">Regression</td><td class="px-4 py-2">127.876</td><td class="px-4 py-2">1</td><td class="px-4 py-2">127.876</td><td class="px-4 py-2">60.253</td><td class="px-4 py-2">&lt; .001</td></tr>
+                                     <tr class="border-t border-gray-700"><td></td><td class="px-4 py-2">Residual</td><td class="px-4 py-2">40.324</td><td class="px-4 py-2">19</td><td class="px-4 py-2">2.122</td><td class="px-4 py-2"></td><td class="px-4 py-2"></td></tr>
+                                     <tr class="border-t border-gray-700"><td></td><td class="px-4 py-2">Total</td><td class="px-4 py-2">168.200</td><td class="px-4 py-2">20</td><td class="px-4 py-2"></td><td class="px-4 py-2"></td><td class="px-4 py-2"></td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p class="mt-4"><strong>Interpretation:</strong> The ANOVA table tells us if the overall regression model is statistically significant. Here, the F-value is large and the p-value is less than .001, meaning our model (using experience to predict memory advantage) is a significant fit for the data.</p>
+                        </div>
+                    </details>
+                    <details>
+                        <summary>JASP Output: Coefficients</summary>
+                        <div>
+                            <div class="data-table-wrapper">
+                                <table class="w-full text-sm text-left">
+                                    <thead class="text-xs"><tr><th class="px-4 py-2">Model</th><th class="px-4 py-2"></th><th class="px-4 py-2">Unstandardized</th><th class="px-4 py-2">Standard Error</th><th class="px-4 py-2">Standardized</th><th class="px-4 py-2">t</th><th class="px-4 py-2">p</th></tr></thead>
+                                    <tbody>
+                                     <tr class="border-t border-gray-700"><td class="px-4 py-2">H₀</td><td class="px-4 py-2">(Intercept)</td><td class="px-4 py-2">-8.300</td><td class="px-4 py-2">0.633</td><td class="px-4 py-2"></td><td class="px-4 py-2">-13.116</td><td class="px-4 py-2">&lt; .001</td></tr>
+                                     <tr class="border-t border-gray-700"><td class="px-4 py-2">H₁</td><td class="px-4 py-2">(Intercept)</td><td class="px-4 py-2">-12.344</td><td class="px-4 py-2">0.610</td><td class="px-4 py-2"></td><td class="px-4 py-2">-20.227</td><td class="px-4 py-2">&lt; .001</td></tr>
+                                     <tr class="border-t border-gray-700"><td></td><td class="px-4 py-2">years_exp</td><td class="px-4 py-2">0.421</td><td class="px-4 py-2">0.054</td><td class="px-4 py-2">0.872</td><td class="px-4 py-2">7.762</td><td class="px-4 py-2">&lt; .001</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p class="mt-4"><strong>Interpretation:</strong> This table gives us the values for the regression equation: Memory Advantage = -12.344 + 0.421 * (Years of Experience). The p-value for `years_exp` is < .001, confirming it is a significant predictor of the memory advantage.</p>
+                        </div>
+                    </details>
                 </div>
             </section>
             
@@ -146,52 +330,367 @@
                 <p class="mb-4">In the <strong>Low Interactivity</strong> condition, there is a clear positive relationship: as maths anxiety increases, the negative impact of the secondary task also increases. In the <strong>High Interactivity</strong> condition, the relationship disappears; the line is flat. This shows that interactivity is a moderator.</p>
 
                 <h3 class="text-xl font-semibold mt-8 mb-4">Testing with Regression</h3>
-                <p class="mb-4">We can confirm this by running separate regression analyses for each condition.</p>
-                <div class="data-table-wrapper">
-                    <h4 class="font-semibold text-lg mb-2">Regression Output for Low Interactivity Condition</h4>
-                    <table class="w-full text-sm text-left">
-                       <thead class="text-xs uppercase"><tr><th class="px-4 py-2">Model Component</th><th class="px-4 py-2">Value</th><th class="px-4 py-2">Interpretation</th></tr></thead>
-                       <tbody>
-                           <tr class="border-t border-gray-700"><td class="px-4 py-2 font-semibold">ANOVA F-test</td><td class="px-4 py-2">F(1, 50) = 9.79, p = .003</td><td class="px-4 py-2">The regression model is significant.</td></tr>
-                           <tr class="border-t border-gray-700"><td class="px-4 py-2 font-semibold">Slope for MAS ($b_1$)</td><td class="px-4 py-2">0.158, p = .003</td><td class="px-4 py-2">Maths Anxiety Score is a significant predictor of performance cost in the low interactivity condition.</td></tr>
-                       </tbody>
-                    </table>
+                <p class="mb-4">Here is the full regression output for the Low Interactivity condition. Click on the highlighted cells for an explanation.</p>
+                
+                <div class="space-y-4 mt-6">
+                    <details open>
+                        <summary>JASP Output: Model Summary</summary>
+                        <div>
+                            <div class="data-table-wrapper">
+                                <table class="w-full text-sm text-left">
+                                    <thead class="text-xs"><tr><th class="px-4 py-2">Model</th><th class="px-4 py-2">R</th><th class="px-4 py-2">R²</th><th class="px-4 py-2">Adjusted R²</th><th class="px-4 py-2">RMSE</th></tr></thead>
+                                    <tbody>
+                                        <tr class="border-t border-gray-700"><td class="px-4 py-2">H₀</td><td class="px-4 py-2">0.000</td><td class="px-4 py-2">0.000</td><td class="px-4 py-2">0.000</td><td class="px-4 py-2">5.779</td></tr>
+                                        <tr class="border-t border-gray-700"><td class="px-4 py-2"><span class="interactive-cell" onclick="showExplanation(this, 'h1_line')">H₁</span></td><td class="px-4 py-2"><span class="interactive-cell" onclick="showExplanation(this, 'r_value')">0.405</span></td><td class="px-4 py-2"><span class="interactive-cell" onclick="showExplanation(this, 'r_squared')">0.164</span></td><td class="px-4 py-2">0.147</td><td class="px-4 py-2">5.336</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </details>
+                    <details open>
+                        <summary>JASP Output: ANOVA</summary>
+                        <div>
+                            <div class="data-table-wrapper">
+                                <table class="w-full text-sm text-left">
+                                    <thead class="text-xs"><tr><th class="px-4 py-2">Model</th><th class="px-4 py-2"></th><th class="px-4 py-2">Sum of Squares</th><th class="px-4 py-2">df</th><th class="px-4 py-2">Mean Square</th><th class="px-4 py-2">F</th><th class="px-4 py-2">p</th></tr></thead>
+                                    <tbody>
+                                        <tr class="border-t border-gray-700"><td class="px-4 py-2">H₁</td><td class="px-4 py-2">Regression</td><td class="px-4 py-2">278.855</td><td class="px-4 py-2">1</td><td class="px-4 py-2">278.855</td><td class="px-4 py-2">9.788</td><td class="px-4 py-2">0.003</td></tr>
+                                        <tr class="border-t border-gray-700"><td></td><td class="px-4 py-2">Residual</td><td class="px-4 py-2">1424.526</td><td class="px-4 py-2">50</td><td class="px-4 py-2">28.491</td><td class="px-4 py-2"></td><td class="px-4 py-2"></td></tr>
+                                        <tr class="border-t border-gray-700"><td></td><td class="px-4 py-2">Total</td><td class="px-4 py-2">1703.381</td><td class="px-4 py-2">51</td><td class="px-4 py-2"></td><td class="px-4 py-2"></td><td class="px-4 py-2"></td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </details>
+                    <details open>
+                        <summary>JASP Output: Coefficients</summary>
+                        <div>
+                            <div class="data-table-wrapper">
+                                <table class="w-full text-sm text-left">
+                                    <thead class="text-xs"><tr><th class="px-4 py-2">Model</th><th class="px-4 py-2"></th><th class="px-4 py-2">Unstandardized</th><th class="px-4 py-2">Standard Error</th><th class="px-4 py-2">Standardized</th><th class="px-4 py-2">t</th><th class="px-4 py-2">p</th></tr></thead>
+                                    <tbody>
+                                        <tr class="border-t border-gray-700"><td class="px-4 py-2">H₁</td><td class="px-4 py-2">(Intercept)</td><td class="px-4 py-2">-4.956</td><td class="px-4 py-2">2.963</td><td class="px-4 py-2"></td><td class="px-4 py-2">-1.673</td><td class="px-4 py-2">0.101</td></tr>
+                                        <tr class="border-t border-gray-700"><td></td><td class="px-4 py-2">MAS</td><td class="px-4 py-2">0.158</td><td class="px-4 py-2">0.051</td><td class="px-4 py-2"><span class="interactive-cell" onclick="showExplanation(this, 'std_beta')">0.405</span></td><td class="px-4 py-2">3.129</td><td class="px-4 py-2">0.003</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </details>
                 </div>
-                 <p class="mt-4">A similar regression for the High Interactivity condition would show that Maths Anxiety is *not* a significant predictor, confirming the moderation effect.</p>
+                <p class="mt-4">A similar regression for the High Interactivity condition would show that Maths Anxiety is <em>not</em> a significant predictor, confirming the moderation effect.</p>
             </section>
 
         </div>
     </div>
+    
+    <!-- Modal for Raw Data -->
+    <div id="modal-overlay" onclick="hideDataCard()"></div>
+    <div id="data-popup-card">
+        <div class="flex justify-between items-center mb-4">
+            <h3 id="data-card-title" class="text-2xl">Raw Data</h3>
+            <button onclick="hideDataCard()" class="text-2xl font-bold hover:text-red-500 transition-colors">&times;</button>
+        </div>
+        <div id="data-card-content" class="data-card-content">
+            <!-- Data table will be injected here -->
+        </div>
+    </div>
+    <!-- Explanation Popup -->
+    <div id="explanation-popup">
+        <div id="explanation-content"></div>
+        <div class="arrow"></div>
+    </div>
+
 
     <script>
+        // --- DATA STORE ---
+        let chartData = {};
+        
+        // Function to load CSV data
+        async function loadCSVData(filename) {
+            try {
+                const response = await fetch(`../resources/moderation-data/${filename}`);
+                const csvText = await response.text();
+                const lines = csvText.trim().split('\n');
+                const headers = lines[0].split(',');
+                const data = [];
+                
+                for (let i = 1; i < lines.length; i++) {
+                    const values = lines[i].split(',');
+                    const row = {};
+                    headers.forEach((header, index) => {
+                        row[header.trim()] = values[index] ? values[index].trim() : '';
+                    });
+                    data.push(row);
+                }
+                
+                return data;
+            } catch (error) {
+                console.error(`Error loading ${filename}:`, error);
+                return [];
+            }
+        }
+        
+        // Function to create HTML table from CSV data
+        function createTableFromData(data, title) {
+            if (!data || data.length === 0) return '<p>No data available</p>';
+            
+            const headers = Object.keys(data[0]);
+            let html = `<h4 class="font-bold mb-2">${title}</h4>`;
+            html += '<table class="w-full text-sm text-left">';
+            html += '<thead class="bg-zinc-600"><tr>';
+            headers.forEach(header => {
+                html += `<th class="p-1">${header}</th>`;
+            });
+            html += '</tr></thead><tbody>';
+            
+            data.forEach(row => {
+                html += '<tr class="border-t border-zinc-500">';
+                headers.forEach(header => {
+                    html += `<td>${row[header]}</td>`;
+                });
+                html += '</tr>';
+            });
+            
+            html += '</tbody></table>';
+            return html;
+        }
+
+        // --- UI FUNCTIONS ---
+        const modalOverlay = document.getElementById('modal-overlay');
+        const dataPopupCard = document.getElementById('data-popup-card');
+        const dataCardContent = document.getElementById('data-card-content');
+        const dataCardTitle = document.getElementById('data-card-title');
+        const explanationPopup = document.getElementById('explanation-popup');
+        const explanationContent = document.getElementById('explanation-content');
+        // Explanations for interactive regression table cells
+        const explanations = {
+            h1_line: "We are interested in the H₁ line, which represents our alternative hypothesis - that the regression model including our predictor (Maths Anxiety Score) is a better fit for the data than the null model (H₀) which only includes the intercept.",
+            r_squared: "R² = the proportion of variation explained by the model (in the sample). Adjusted R² = the percentage of variation explained by the model (in the population).",
+            r_value: "The R value reported in the Model Summary box is the same as the Standardized Beta coefficient for mathematics anxiety scores (in the Coefficients table).",
+            std_beta: "The Standardized Beta coefficient is the same as the R value in the Model Summary box. It represents the strength and direction of the relationship between the predictor and the outcome."
+        };
+
+        async function showDataCard(dataType) {
+            if (dataType === 'barChartData') {
+                dataCardTitle.innerText = 'Raw Data: Mean Items Recalled';
+                const rawData = await loadCSVData('raw-bar-chart-data.csv');
+                // Organize data into columns: Expert/Real, Expert/Random, Novice/Real, Novice/Random
+                const columns = [
+                    { label: 'Expert/Real', data: [] },
+                    { label: 'Expert/Random', data: [] },
+                    { label: 'Novice/Real', data: [] },
+                    { label: 'Novice/Random', data: [] }
+                ];
+                rawData.forEach(row => {
+                    if (row.Group === 'Expert' && row['List Type'] === 'Real') columns[0].data.push(Number(row.Score));
+                    if (row.Group === 'Expert' && row['List Type'] === 'Random') columns[1].data.push(Number(row.Score));
+                    if (row.Group === 'Novice' && row['List Type'] === 'Real') columns[2].data.push(Number(row.Score));
+                    if (row.Group === 'Novice' && row['List Type'] === 'Random') columns[3].data.push(Number(row.Score));
+                });
+                // Find max length for rows
+                const maxRows = Math.max(...columns.map(col => col.data.length));
+                // Helper functions for stats
+                function mean(arr) { return arr.length ? (arr.reduce((a,b) => a+b,0)/arr.length) : 0; }
+                function sd(arr) {
+                    const m = mean(arr);
+                    return arr.length ? Math.sqrt(arr.reduce((a,b) => a + Math.pow(b-m,2), 0) / (arr.length-1)) : 0;
+                }
+                function sem(arr) { return arr.length ? sd(arr)/Math.sqrt(arr.length) : 0; }
+                // Build table HTML
+                let html = '<table class="w-full text-sm text-center">';
+                html += '<thead><tr><th></th>';
+                columns.forEach(col => { html += `<th>${col.label}</th>`; });
+                html += '</tr></thead><tbody>';
+                for (let i = 0; i < maxRows; i++) {
+                    html += '<tr>';
+                    html += '<td></td>'; // Empty cell for row label
+                    columns.forEach(col => {
+                        html += `<td>${col.data[i] !== undefined ? col.data[i] : ''}</td>`;
+                    });
+                    html += '</tr>';
+                }
+                // Summary rows
+                html += '<tr style="font-weight:bold"><td style="text-align:right;padding-right:0.5em">M</td>';
+                columns.forEach(col => { html += `<td style="font-weight:bold">${mean(col.data).toFixed(2)}</td>`; });
+                html += '</tr>';
+                html += '<tr style="font-weight:bold;font-style:italic"><td style="text-align:right;padding-right:0.5em">SD</td>';
+                columns.forEach(col => { html += `<td style="font-weight:bold">${sd(col.data).toFixed(2)}</td>`; });
+                html += '</tr>';
+                html += '<tr style="font-weight:bold;font-style:italic"><td style="text-align:right;padding-right:0.5em">SEM</td>';
+                columns.forEach(col => { html += `<td style="font-weight:bold">${sem(col.data).toFixed(2)}</td>`; });
+                html += '</tr>';
+                html += '</tbody></table>';
+                dataCardContent.innerHTML = html;
+            } else if (dataType === 'barChartSummary') {
+                dataCardTitle.innerText = 'Summary: Mean Items Recalled';
+                const summaryData = await loadCSVData('bar-chart-data.csv');
+                dataCardContent.innerHTML = createTableFromData(summaryData, 'Summary Table');
+            } else if (dataType === 'scatterPlotData') {
+                dataCardTitle.innerText = 'Raw Data: Memory Advantage';
+                const data = await loadCSVData('scatter-plot-data.csv');
+                dataCardContent.innerHTML = createTableFromData(data, 'Memory Advantage Data');
+            }
+            modalOverlay.classList.add('visible');
+            dataPopupCard.classList.add('visible');
+        }
+
+        function hideDataCard() {
+            modalOverlay.classList.remove('visible');
+            dataPopupCard.classList.remove('visible');
+        }
+
+        function showExplanation(element, key) {
+            explanationContent.innerText = explanations[key];
+            const targetRect = element.getBoundingClientRect();
+            explanationPopup.style.visibility = 'hidden';
+            explanationPopup.classList.add('visible');
+            const popupRect = explanationPopup.getBoundingClientRect();
+            // Add scroll position to get absolute document coordinates
+            const scrollY = window.scrollY || window.pageYOffset;
+            const scrollX = window.scrollX || window.pageXOffset;
+            let top = targetRect.top + scrollY - popupRect.height - 15;
+            let left = targetRect.left + scrollX + (targetRect.width / 2) - (popupRect.width / 2);
+            if (left < 10) left = 10;
+            if ((left + popupRect.width) > document.documentElement.scrollWidth - 10) {
+                left = document.documentElement.scrollWidth - popupRect.width - 10;
+            }
+            if ((targetRect.top - popupRect.height - 15) < 10) { // Check viewport position
+                top = targetRect.bottom + scrollY + 15;
+                explanationPopup.classList.remove('arrow-down');
+                explanationPopup.classList.add('arrow-up');
+            } else {
+                explanationPopup.classList.remove('arrow-up');
+                explanationPopup.classList.add('arrow-down');
+            }
+            explanationPopup.style.top = `${top}px`;
+            explanationPopup.style.left = `${left}px`;
+            explanationPopup.style.visibility = 'visible';
+        }
+        function hideExplanation() {
+            explanationPopup.classList.remove('visible');
+        }
+        document.addEventListener('click', function(event) {
+            if (!explanationPopup.contains(event.target) && !event.target.closest('.interactive-cell')) {
+                hideExplanation();
+            }
+        });
+
         // --- Chart Rendering Functions ---
-        function renderModerationChart1() {
+        async function renderModerationChart1() {
             const ctx = document.getElementById('moderationChart1');
             if (!ctx) return;
             if (Chart.getChart(ctx)) Chart.getChart(ctx).destroy();
+            const data = await loadCSVData('bar-chart-data.csv');
+            if (!data || data.length === 0) return;
+            // Use concise codes for chart labels
+            const experts = data.filter(row => row.Group === 'Expert');
+            const novices = data.filter(row => row.Group === 'Novice');
+            const realWorldData = [
+                experts.find(row => row['List Type'] === 'Real')?.['Mean Items Recalled'] || 0,
+                novices.find(row => row['List Type'] === 'Real')?.['Mean Items Recalled'] || 0
+            ];
+            const randomData = [
+                experts.find(row => row['List Type'] === 'Random')?.['Mean Items Recalled'] || 0,
+                novices.find(row => row['List Type'] === 'Random')?.['Mean Items Recalled'] || 0
+            ];
             new Chart(ctx, {
-                type: 'line',
+                type: 'bar',
                 data: {
-                    labels: ['Configured Route', 'Random List'],
+                    labels: ['Expert', 'Novice'],
                     datasets: [
-                        { label: 'Experts', data: [14.70, 6.40], borderColor: '#facc15', backgroundColor: '#facc15', tension: 0.1, fill: false, pointRadius: 5, borderWidth: 2 },
-                        { label: 'Novices', data: [6.45, 6.50], borderColor: '#38bdf8', backgroundColor: '#38bdf8', tension: 0.1, fill: false, pointRadius: 5, borderWidth: 2 }
+                        {
+                            label: 'Real',
+                            data: realWorldData,
+                            backgroundColor: '#facc15', // Amber
+                            borderColor: '#fde047',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Random',
+                            data: randomData,
+                            backgroundColor: '#38bdf8', // Light Blue
+                            borderColor: '#7dd3fc',
+                            borderWidth: 1
+                        }
                     ]
                 },
                 options: {
                     responsive: true,
                     plugins: { legend: { position: 'top', labels: { color: '#fafafa' } } },
                     scales: {
-                        y: { beginAtZero: false, title: { display: true, text: 'Mean Items Recalled', color: '#fafafa' }, ticks: { color: '#fafafa' }, grid: { color: 'rgba(255, 255, 255, 0.25)' } },
-                        x: { title: { display: true, text: 'List Type', color: '#fafafa' }, ticks: { color: '#fafafa' }, grid: { color: 'rgba(255, 255, 255, 0.25)' } }
+                        y: { 
+                            beginAtZero: true, 
+                            title: { display: true, text: 'Mean Items Recalled', color: '#fafafa' }, 
+                            ticks: { color: '#fafafa' }, 
+                            grid: { color: 'rgba(255, 255, 255, 0.25)' } 
+                        },
+                        x: { 
+                            title: { display: false }, 
+                            ticks: { color: '#fafafa' }, 
+                            grid: { color: 'rgba(255, 255, 255, 0.25)' } 
+                        }
+                    }
+                }
+            });
+        }
+        
+        async function renderExperienceScatterplot() {
+            const ctx = document.getElementById('experienceScatterplot');
+            if (!ctx) return;
+            if (Chart.getChart(ctx)) Chart.getChart(ctx).destroy();
+            
+            const data = await loadCSVData('scatter-plot-data.csv');
+            if (!data || data.length === 0) return;
+            
+            const dataPoints = data.map(row => ({
+                x: parseFloat(row['Years Experience']),
+                y: parseFloat(row['Memory Advantage'])
+            }));
+            
+            const regressionLine = [{x: 0, y: -12.344}, {x: 25, y: -12.344 + (0.421 * 25)}];
+
+            new Chart(ctx, {
+                type: 'scatter',
+                data: {
+                    datasets: [
+                        { label: 'Data', data: dataPoints, backgroundColor: '#facc15' }, 
+                        { 
+                            label: 'Regression Line', 
+                            data: regressionLine, 
+                            type: 'line', 
+                            borderColor: '#38bdf8', 
+                            fill: false, 
+                            pointRadius: 0, 
+                            borderWidth: 2.5,
+                            borderDash: [5, 5] // This makes the line dashed
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { min: -16, max: 0, title: { display: true, text: 'Memory Advantage (Real - Random)', color: '#fafafa' }, ticks: { color: '#fafafa' }, grid: { color: 'rgba(255, 255, 255, 0.25)' } },
+                        x: { min: 0, max: 25, title: { display: true, text: 'Years of Experience', color: '#fafafa' }, ticks: { color: '#fafafa' }, grid: { color: 'rgba(255, 255, 255, 0.25)' } }
                     }
                 }
             });
         }
 
-        function renderModerationChart2() {
-            const lowData = [{x: 57, y: 5}, {x: 31, y: 11.8}, {x: 37, y: -1.6}, {x: 43, y: 2.8}, {x: 59, y: 2.4}, {x: 38, y: 1.8}, {x: 51, y: 2}, {x: 67, y: 8.6}, {x: 49, y: -5.2}, {x: 43, y: 1.6}, {x: 73, y: 3}, {x: 67, y: 4.8}, {x: 51, y: -3.4}, {x: 51, y: 4.6}, {x: 39, y: -0.4}, {x: 34, y: -1.2}, {x: 69, y: -2.6}, {x: 44, y: 0.4}, {x: 42, y: -1.4}, {x: 73, y: 6.8}, {x: 50, y: 2.6}, {x: 57, y: -2.4}, {x: 60, y: -9.4}, {x: 53, y: 2.8}, {x: 48, y: 2.4}, {x: 52, y: 0.8}, {x: 78, y: -3.8}, {x: 85, y: 20.6}, {x: 44, y: -1}, {x: 65, y: -7.4}, {x: 51, y: 3.6}, {x: 80, y: 10.6}, {x: 59, y: 1.2}, {x: 92, y: 22}, {x: 76, y: 3.8}, {x: 63, y: -2.2}, {x: 84, y: 3.2}, {x: 65, y: 14.6}, {x: 42, y: 1.6}, {x: 69, y: -22.8}, {x: 42, y: 6.8}, {x: 63, y: -9}, {x: 55, y: 5.8}, {x: 72, y: -6.2}, {x: 53, y: -2.2}, {x: 79, y: 0.4}, {x: 60, y: -1.6}, {x: 67, y: 18}, {x: 26, y: -2.6}, {x: 53, y: 2}, {x: 73, y: -15.2}, {x: 41, y: 0}];
-            const highData = [{x: 57, y: 3.6}, {x: 31, y: 1.8}, {x: 37, y: 4.4}, {x: 43, y: 1.6}, {x: 59, y: 1.2}, {x: 38, y: 1.2}, {x: 51, y: -0.2}, {x: 67, y: 9}, {x: 49, y: -0.2}, {x: 43, y: -1.6}, {x: 73, y: 15.2}, {x: 67, y: 7.2}, {x: 51, y: -3}, {x: 51, y: 4.8}, {x: 39, y: 0}, {x: 34, y: 7}, {x: 69, y: 3}, {x: 44, y: -2}, {x: 42, y: 0.2}, {x: 73, y: -6.6}, {x: 50, y: 1}, {x: 57, y: 3}, {x: 60, y: 4.4}, {x: 53, y: -0.4}, {x: 48, y: 1.2}, {x: 52, y: 2.2}, {x: 78, y: 7.6}, {x: 85, y: 0}, {x: 44, y: 1.8}, {x: 65, y: 2.4}, {x: 51, y: -1}, {x: 80, y: 11.6}, {x: 59, y: -1.4}, {x: 92, y: 0.8}, {x: 76, y: -4.6}, {x: 63, y: 0.8}, {x: 84, y: -0.8}, {x: 65, y: -0.2}, {x: 42, y: 0.2}, {x: 69, y: -1.4}, {x: 42, y: 6}, {x: 63, y: 3}, {x: 55, y: 0.8}, {x: 72, y: -0.6}, {x: 53, y: 5}, {x: 79, y: 0.6}, {x: 60, y: 3}, {x: 67, y: -0.4}, {x: 26, y: 4}, {x: 53, y: 2.6}, {x: 73, y: 4}, {x: 41, y: -0.6}];
+        async function renderModerationChart2() {
+            const lowData = await loadCSVData('low-interactivity-data.csv');
+            const highData = await loadCSVData('high-interactivity-data.csv');
+            
+            if (!lowData || !highData || lowData.length === 0 || highData.length === 0) return;
+            
+            const lowDataPoints = lowData.map(row => ({
+                x: parseFloat(row['Maths Anxiety Score']),
+                y: parseFloat(row['Impact of Suppression'])
+            }));
+            const highDataPoints = highData.map(row => ({
+                x: parseFloat(row['Maths Anxiety Score']),
+                y: parseFloat(row['Impact of Suppression'])
+            }));
 
             const lowLine = [{x: 20, y: -4.956 + 0.158 * 20}, {x: 100, y: -4.956 + 0.158 * 100}];
             const highLine = [{x: 20, y: 1.799}, {x: 100, y: 1.799}]; 
@@ -210,7 +709,7 @@
                 if (Chart.getChart(ctxLow)) Chart.getChart(ctxLow).destroy();
                 new Chart(ctxLow, {
                     type: 'scatter',
-                    data: { datasets: [{ label: 'Data', data: lowData, backgroundColor: '#facc15' }, { label: 'Regression Line', data: lowLine, type: 'line', borderColor: '#38bdf8', fill: false, pointRadius: 0, borderWidth: 2.5 }] },
+                    data: { datasets: [{ label: 'Data', data: lowDataPoints, backgroundColor: '#facc15' }, { label: 'Regression Line', data: lowLine, type: 'line', borderColor: '#38bdf8', fill: false, pointRadius: 0, borderWidth: 2.5 }] },
                     options: commonOptions
                 });
             }
@@ -220,16 +719,17 @@
                 if (Chart.getChart(ctxHigh)) Chart.getChart(ctxHigh).destroy();
                 new Chart(ctxHigh, {
                     type: 'scatter',
-                    data: { datasets: [{ label: 'Data', data: highData, backgroundColor: '#facc15' }, { label: 'Regression Line', data: highLine, type: 'line', borderColor: '#38bdf8', fill: false, pointRadius: 0, borderWidth: 2.5 }] },
+                    data: { datasets: [{ label: 'Data', data: highDataPoints, backgroundColor: '#facc15' }, { label: 'Regression Line', data: highLine, type: 'line', borderColor: '#38bdf8', fill: false, pointRadius: 0, borderWidth: 2.5 }] },
                     options: commonOptions
                 });
             }
         }
 
         // --- INITIALIZATION ---
-        document.addEventListener('DOMContentLoaded', () => {
-            renderModerationChart1();
-            renderModerationChart2();
+        document.addEventListener('DOMContentLoaded', async () => {
+            await renderModerationChart1();
+            await renderExperienceScatterplot();
+            await renderModerationChart2();
         });
     </script>
 
