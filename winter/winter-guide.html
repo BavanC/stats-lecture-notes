@@ -569,7 +569,7 @@
                                 <ul class="list-disc list-inside pl-4 space-y-2 mt-4">
                                     <li><strong>What it is:</strong> An assumption for <strong>Repeated-Measures ANOVAs</strong> with 3 or more levels. It means the variances of the differences between all possible pairs of conditions are roughly equal.</li>
                                     <li><strong>How to check it:</strong> Use <strong><span class="glossary-term" data-term-id="mauchlys-test">Mauchly's Test of Sphericity</span></strong>.</li>
-                                    <li><strong>The Rule:</strong> If Mauchly's test is <strong>not significant</strong> (<em>p</em> > .05), the assumption is met and you can use the standard "Sphericity Assumed" ANOVA results. If it <strong>is significant</strong> (<em>p</em> < .05), the assumption is violated, and you must report the results using a correction (e.g., the <strong><span class="glossary-term" data-term-id="greenhouse-geisser">Greenhouse-Geisser</span></strong> or **Huynh-Feldt** correction). JASP provides these automatically.</li>
+                                    <li><strong>The Rule:</strong> If Mauchly's test is <strong>not significant</strong> (<em>p</em> > .05), the assumption is met and you can use the standard "Sphericity Assumed" ANOVA results. If it <strong>is significant</strong> (<em>p</em> < .05), the assumption is violated, and you must report the results using a correction (e.g., the <strong><span class="glossary-term" data-term-id="greenhouse-geisser">Greenhouse-Geisser</span></strong> or <strong>Huynh-Feldt</strong> correction). JASP provides these automatically.</li>
                                 </ul>
                             </div>
                         </details>
@@ -742,7 +742,7 @@
                             </table>
                         </div>
                         <h3 class="text-xl font-semibold mt-8 mb-2">How to Interpret the JASP Output</h3>
-                        <p class="mb-4">A two-way ANOVA gives you three F-ratios. Here’s how to read the table step-by-step:</p>
+                        <p class="mb-4">A two-way ANOVA gives you three F-ratios. Here's how to read the table step-by-step:</p>
                         <div class="data-table-wrapper">
                             <h4 class="font-semibold text-lg mb-2">JASP ANOVA Summary Table</h4>
                              <table class="w-full text-sm text-left">
@@ -1152,7 +1152,7 @@
                     </div>
                     
                     <h3 class="text-xl font-semibold mt-8 mb-2">Interpreting Assumption Checks Cheat Sheet</h3>
-                    <p class="mb-4">Your software will test key assumptions for you. Here’s how to read the results.</p>
+                    <p class="mb-4">Your software will test key assumptions for you. Here's how to read the results.</p>
                      <div class="data-table-wrapper">
                         <table class="w-full text-left">
                             <thead class="text-base">
@@ -1171,7 +1171,7 @@
                                 <tr class="border-t border-gray-600">
                                     <td class="p-3 font-semibold"><span class="glossary-term" data-term-id="mauchlys-test">Mauchly's Test</span></td>
                                     <td class="p-3">Testing <span class="glossary-term" data-term-id="sphericity">Sphericity</span> (for Repeated-Measures ANOVAs with 3+ levels)</td>
-                                    <td class="p-3">If p-value is <strong>> .05</strong>, the assumption is met. Use the "Sphericity Assumed" results.<br>If p-value is <strong>&lt; .05</strong>, the assumption is violated. Use the "<span class="glossary-term" data-term-id="greenhouse-geisser">Greenhouse-Geisser</span>" correction results.</td>
+                                    <td class="p-3">If p-value is <strong>> .05</strong>, the assumption is met. Use the "Sphericity Assumed" results.<br>If p-value is <strong>&lt; .05</strong>, the assumption is violated. Use the "<span class="glossary-term" data-term-id="greenhouse-geisser">Greenhouse-Geisser</span>" correction results. JASP provides these automatically.</td>
                                 </tr>
                             </tbody>
                         </table>
