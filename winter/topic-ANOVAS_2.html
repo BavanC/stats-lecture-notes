@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Factorial ANOVA Topics</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']]
+        }
+      };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <!-- Chart.js for graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg-color: #111827;
+            --text-color: #d1d5db;
+            --card-bg: #1f2937;
+            --header-text: #f9fafb;
+            --subtle-text: #9ca3af;
+            --border-color: #374151;
+            --tab-hover-bg: #4b5563;
+            --active-tab-border: #60a5fa;
+            --active-tab-text: #eff6ff;
+            --glossary-term-color: #60a5fa;
+            --glossary-term-hover: #93c5fd;
+            --info-box-bg: #1e3a8a;
+            --info-box-border: #2563eb;
+            --info-box-text: #dbeafe;
+            --table-bg: #2d3748;
+            --chart-bg: #374151;
+            --application-bg: #064e3b;
+            --application-border: #10b981;
+            --application-text: #a7f3d0;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+        h1, h2, h3, h4 {
+            font-weight: 700;
+        }
+        /* Glossary Popup Styling */
+        #glossary-popup {
+            display: none;
+            position: absolute;
+            background-color: var(--card-bg);
+            border: 1px solid var(--active-tab-border);
+            color: var(--text-color);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            max-width: 300px;
+            z-index: 1000;
+        }
+        /* Persistent Glossary Button Styling */
+        #btn-glossary-toggle {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        #btn-glossary-toggle:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        }
+        @media (min-width: 1024px) {
+            .container {
+                padding-right: 120px;
+            }
+        }
+        header h1 { color: var(--header-text); }
+        header p { color: var(--subtle-text); }
+        main {
+            background-color: var(--card-bg);
+        }
+        .nav-button {
+            padding: 0.75rem 1.5rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .nav-button.active {
+            background-color: var(--active-tab-border);
+            color: var(--bg-color);
+        }
+        .nav-button:not(.active):hover {
+            background-color: var(--tab-hover-bg);
+        }
+        .section-content {
+            display: none;
+        }
+        .info-box {
+            background-color: var(--info-box-bg);
+            border: 1px solid var(--info-box-border);
+            color: var(--info-box-text);
+        }
+        .application-corner {
+            background-color: var(--application-bg);
+            border: 1px solid var(--application-border);
+            color: var(--application-text);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-top: 1.5rem;
+        }
+        .application-corner h4 {
+            color: #d1fae5;
+            font-size: 1.125rem;
+            border-bottom: 1px solid var(--application-border);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .glossary-term {
+            color: var(--glossary-term-color);
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: underline;
+            text-decoration-style: dotted;
+        }
+        .glossary-term:hover {
+            color: var(--glossary-term-hover);
+        }
+        
+        /* Table Styling */
+        .data-table-wrapper {
+            background-color: var(--table-bg);
+            padding: 1rem;
+            border-radius: 0.5rem;
+        }
+        .data-table-wrapper h4 {
+            font-weight: 600;
+            font-size: 1.125rem; /* text-lg */
+            margin-bottom: 0.5rem;
+            color: var(--header-text);
+        }
+        .data-table-wrapper table thead {
+            background-color: #4a5568; /* gray-600 */
+        }
+        .data-table-wrapper table tfoot {
+             background-color: #1a202c; /* gray-900 */
+        }
+        .table-summary-col {
+            background-color: #1a202c; /* gray-900 */
+        }
+
+        /* Chart Styling */
+        .chart-wrapper {
+            background-color: var(--chart-bg);
+            padding: 1rem;
+            border-radius: 0.5rem;
+        }
+        .chart-wrapper > h4 { /* Title for the entire wrapper */
+            font-weight: 600;
+            font-size: 1.125rem; /* text-lg */
+            margin-bottom: 0.5rem;
+            color: var(--header-text);
+        }
+    </style>
+</head>
+<body class="transition-colors duration-300">
+    <button id="menu-btn" onclick="openMenu()" style="display:none" class="fixed top-4 left-4 z-50 bg-emerald-600 text-white px-4 py-2 rounded shadow hover:bg-emerald-700">☰ Menu</button>
+    <div id="menu-container"></div>
+    <!-- Persistent Glossary Toggle Button -->
+    <button id="btn-glossary-toggle" class="fixed top-4 right-4 z-50 bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 transition-colors duration-200 flex items-center gap-2">
+        <span class="glossary-icon">📚</span>
+        <span class="glossary-text">Glossary</span>
+    </button>
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-8 relative">
+            <h1 class="text-4xl md:text-5xl font-bold">Factorial ANOVA Topics</h1>
+            <p class="text-xl mt-2">Two-Way Independent, Two-Way Repeated, and Mixed ANOVA</p>
+        </header>
+        <div id="page-grid" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Main Content -->
+            <main class="w-full lg:col-span-2 p-6 md:p-8 rounded-lg shadow-md">
+                <nav aria-label="Factorial ANOVA Tabs" class="mb-8">
+                    <ul role="tablist" class="flex flex-wrap gap-4 justify-center">
+                        <li role="presentation"><button role="tab" id="btn-ind-fact" aria-controls="ind-fact" class="nav-button active" onclick="switchContent(event, 'ind-fact', 'section-content', 'nav-button')">Two-Way Independent</button></li>
+                        <li role="presentation"><button role="tab" id="btn-rm-fact" aria-controls="rm-fact" class="nav-button" onclick="switchContent(event, 'rm-fact', 'section-content', 'nav-button')">Two-Way Repeated</button></li>
+                        <li role="presentation"><button role="tab" id="btn-mixed-fact" aria-controls="mixed-fact" class="nav-button" onclick="switchContent(event, 'mixed-fact', 'section-content', 'nav-button')">Mixed ANOVA</button></li>
+                    </ul>
+                </nav>
+                <div id="ind-fact" role="tabpanel" aria-labelledby="btn-ind-fact" class="section-content" style="display: block;">
+                    <h2 class="text-2xl md:text-3xl font-bold border-b-2 pb-2 mb-4">Two-Way Independent <span class="glossary-term" data-term-id="factorial-anova-glossary">ANOVA</span></h2>
+                    <p class="mb-4">A Two-Way ANOVA is used when you have <strong>two <span class="glossary-term" data-term-id="iv">independent variables</span></strong> (also called factors). For example, a 2x2 design has two IVs, each with two levels. A 2x3 design has two IVs, one with two levels and one with three. A Two-Way ANOVA allows you to test:</p>
+                    <ul class="list-disc list-inside pl-4 space-y-3">
+                        <li><strong><span class="glossary-term" data-term-id="main-effect">Main Effect</span> of IV 1:</strong> The overall effect of your first factor, ignoring the levels of the second.</li>
+                        <li><strong>Main Effect of IV 2:</strong> The overall effect of your second factor, ignoring the levels of the first.</li>
+                        <li><strong><span class="glossary-term" data-term-id="interaction-effect">Interaction Effect</span>:</strong> This is the most interesting part. It tests whether the effect of one independent variable <strong>depends on the level</strong> of the other independent variable.</li>
+                    </ul>
+                    <div class="application-corner">
+                        <h4>Application Corner: Counting the F-Ratios</h4>
+                        <p>A Two-Way ANOVA always tests three things, so you will always get <strong>three important F-ratios</strong> in your output table.</p>
+                        <ul class="list-disc list-inside space-y-2 mt-2">
+                            <li>One F-ratio for the Main Effect of your first IV.</li>
+                            <li>One F-ratio for the Main Effect of your second IV.</li>
+                            <li>One F-ratio for the Interaction between them.</li>
+                        </ul>
+                    </div>
+                    <div class="mt-6 p-4 rounded-lg info-box">
+                        <p><strong>The Golden Rule of Interactions:</strong> Always interpret the interaction effect first! If it's significant, it qualifies the main effects. This means the main effects might be misleading on their own, because the interaction tells you the full story is more complex.</p>
+                    </div>
+                    <h3 class="text-xl font-semibold mt-8 mb-2">A Worked Example: Therapy and Drugs</h3>
+                    <p class="mb-4">Imagine a study with two IVs: Therapy (CBT vs. No Therapy) and Drug (Placebo, Anxifree, Joyzepam). This is a 2x3 independent ANOVA. We want to see how these two factors, and their combination, affect mood gain.</p>
+                    <div class="data-table-wrapper">
+                        <h4 class="font-semibold text-lg mb-2">Mean Mood Gain Scores</h4>
+                        <table class="w-full text-sm text-center">
+                            <thead>
+                                <tr><th class="p-2"></th><th class="p-2">No Therapy</th><th class="p-2">CBT</th><th class="p-2 table-summary-col">Drug Mean</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-gray-700"><td class="p-2 font-semibold">Placebo</td><td class="p-1">0.3</td><td class="p-1">0.6</td><td class="p-1 table-summary-col">0.5</td></tr>
+                                <tr class="border-b border-gray-700"><td class="p-2 font-semibold">Anxifree</td><td class="p-1">0.4</td><td class="p-1">1.0</td><td class="p-1 table-summary-col">0.7</td></tr>
+                                <tr><td class="p-2 font-semibold">Joyzepam</td><td class="p-1">1.5</td><td class="p-1">1.5</td><td class="p-1 table-summary-col">1.5</td></tr>
+                            </tbody>
+                            <tfoot class="font-bold">
+                                <tr><td class="p-2">Therapy Mean</td><td class="p-2">0.7</td><td class="p-2">1.0</td><td class="p-2 table-summary-col"></td></tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <h3 class="text-xl font-semibold mt-8 mb-2">How to Interpret the JASP Output</h3>
+                    <p class="mb-4">A two-way ANOVA gives you three F-ratios. Here's how to read the table step-by-step:</p>
+                    <div class="data-table-wrapper">
+                        <h4 class="font-semibold text-lg mb-2">JASP ANOVA Summary Table</h4>
+                        <table class="w-full text-sm text-left">
+                            <thead class="text-xs uppercase">
+                                <tr><th class="px-4 py-2 lowercase">cases</th><th class="px-4 py-2 lowercase">sum of squares</th><th class="px-4 py-2 lowercase">df</th><th class="px-4 py-2 lowercase">mean square</th><th class="px-4 py-2 lowercase">f</th><th class="px-4 py-2 lowercase">p</th><th class="px-4 py-2 lowercase">$\eta_p^2$</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-gray-700"><td class="px-4 py-2 font-semibold">drug</td><td class="px-4 py-2">3.453</td><td class="px-4 py-2">2</td><td class="px-4 py-2">1.727</td><td class="px-4 py-2">31.714</td><td class="px-4 py-2">&lt; .001</td><td class="px-4 py-2">0.713</td></tr>
+                                <tr class="border-b border-gray-700"><td class="px-4 py-2 font-semibold">therapy</td><td class="px-4 py-2">0.467</td><td class="px-4 py-2">1</td><td class="px-4 py-2">0.467</td><td class="px-4 py-2">8.582</td><td class="px-4 py-2">.013</td><td class="px-4 py-2">0.096</td></tr>
+                                <tr class="border-b border-gray-700"><td class="px-4 py-2 font-semibold">drug * therapy</td><td class="px-4 py-2">0.271</td><td class="px-4 py-2">2</td><td class="px-4 py-2">0.136</td><td class="px-4 py-2">2.490</td><td class="px-4 py-2">.125</td><td class="px-4 py-2">0.056</td></tr>
+                                <tr class="bg-gray-900"><td class="px-4 py-2 font-semibold">Residuals</td><td class="px-4 py-2">0.653</td><td class="px-4 py-2">12</td><td class="px-4 py-2">0.054</td><td class="px-4 py-2"></td><td class="px-4 py-2"></td><td class="px-4 py-2"></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="space-y-4 mt-6">
+                        <p><strong>Step 1: Check the interaction effect.</strong> Look at the `drug * therapy` line. The p-value is .125. Since this is greater than .05, the interaction is <strong>not significant</strong>. This tells us that the effect of the drug is the same regardless of therapy, and vice versa. Because there is no interaction, we can now look at the main effects with confidence.</p>
+                        <p><strong>Step 2: Check the main effect of `drug`.</strong> The p-value is `< .001`, which is significant. This means that at least one of the drug conditions is different from another. However, it doesn't tell us <em>where</em> the difference is. We need <span class="glossary-term" data-term-id="post-hoc">post-hoc tests</span> for this.</p>
+                        <p><strong>Step 3: Check the main effect of `therapy`.</strong> The p-value is `.013`, which is significant. Since there are only two levels (CBT and No Therapy), we don't need post-hoc tests. We can conclude that, overall, CBT resulted in greater mood gain than no therapy.</p>
+                    </div>
+                    <h3 class="text-xl font-semibold mt-8 mb-2">Post-Hoc Tests for the Main Effect of 'Drug'</h3>
+                    <p class="mb-4">Because the main effect of drug was significant, we run post-hoc tests to see which groups differ. The table below shows <span class="glossary-term" data-term-id="bonferroni-correction">Bonferroni-corrected</span> comparisons.</p>
+                    <div class="data-table-wrapper">
+                        <h4 class="font-semibold text-lg mb-2">Post Hoc Comparisons - drug</h4>
+                        <table class="w-full text-sm text-left">
+                            <thead class="text-xs uppercase">
+                                <tr><th class="px-4 py-2"></th><th class="px-4 py-2"></th><th class="px-4 py-2">Mean Difference</th><th class="px-4 py-2">p_bonf</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-gray-700"><td class="px-4 py-2 font-semibold">anxifree</td><td class="px-4 py-2 font-semibold">joyzepam</td><td class="px-4 py-2">-0.767</td><td class="px-4 py-2">&lt;.001</td></tr>
+                                <tr class="border-b border-gray-700"><td class="px-4 py-2"></td><td class="px-4 py-2 font-semibold">placebo</td><td class="px-4 py-2">0.267</td><td class="px-4 py-2">.214</td></tr>
+                                <tr class="border-b border-gray-700"><td class="px-4 py-2 font-semibold">joyzepam</td><td class="px-4 py-2 font-semibold">placebo</td><td class="px-4 py-2">1.033</td><td class="px-4 py-2">&lt;.001</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="mt-4"><strong>Interpretation:</strong> The p-value for comparing Joyzepam and Anxifree is <.001 (significant). The p-value for comparing Joyzepam and Placebo is <.001 (significant). The p-value for comparing Anxifree and Placebo is .214 (not significant). Therefore, Joyzepam leads to significantly higher mood gain than both Anxifree and the placebo.</p>
+                    <h3 class="text-xl font-semibold mt-8 mb-2">Final Write-Up</h3>
+                    <p class="mt-4">"A 2(therapy) x 3(drug) between-subjects ANOVA was conducted. There was a significant main effect of therapy, <em>F</em>(1, 12) = 8.58, <em>p</em> = .013, &eta;<sub>p</sub><sup>2</sup> = .096, indicating that participants who received CBT had a greater mood gain (M = 1.0) than those who did not (M = 0.7). There was also a significant main effect of drug, <em>F</em>(2, 12) = 31.7, <em>p</em> < .001, &eta;<sub>p</sub><sup>2</sup> = .713$. Bonferroni post-hoc tests revealed that mood gain was significantly greater with Joyzepam (M = 1.5) than with either Anxifree (M = 0.7, <em>p</em> < .001) or the placebo (M = 0.5, <em>p</em> < .001). The difference between Anxifree and the placebo was not significant (<em>p</em> = .214). The interaction between therapy and drug was not significant, <em>F</em>(2, 12) = 2.49, <em>p</em> = .125, &eta;<sub>p</sub><sup>2</sup> = .056$."</p>
+                </div>
+                <div id="rm-fact" role="tabpanel" aria-labelledby="btn-rm-fact" class="section-content">
+                    <h2 class="text-2xl md:text-3xl font-bold border-b-2 pb-2 mb-4">Two-Way Repeated-Measures <span class="glossary-term" data-term-id="factorial-anova-glossary">ANOVA</span></h2>
+                    <p class="mb-4">Use this design when you have two <span class="glossary-term" data-term-id="iv">independent variables</span> and the <strong>same participants</strong> take part in all possible conditions.</p>
+                    <div class="application-corner">
+                        <h4>Application Corner: Decoding the Design</h4>
+                        <p>When you see a design described as, for example, a "2x3 repeated-measures design", this tells you everything you need to know:</p>
+                        <ul class="list-disc list-inside space-y-2 mt-2">
+                            <li>The number of numbers tells you how many IVs there are. Here, "2x3" has two numbers, so there are <strong>two IVs</strong>.</li>
+                            <li>Each number tells you how many levels that IV has. So, one IV has <strong>2 levels</strong> (e.g., Sugar: Normal, Extra) and the second IV has <strong>3 levels</strong> (e.g., Caffeine: None, Low, High).</li>
+                            <li>The total number of conditions is just the numbers multiplied: 2 * 3 = <strong>6 conditions</strong>.</li>
+                        </ul>
+                    </div>
+                    <h3 class="text-xl font-semibold mt-8 mb-2">A Worked Example: Fizzy Drinks</h3>
+                    <p class="mb-4">A company tests how liking ratings (0-10) for a drink are affected by two IVs: Caffeine (None, Low, High) and Sugar (Normal, Extra). The same 5 people taste all 6 versions of the drink. This is a 3x2 repeated-measures design.</p>
+                    <div class="data-table-wrapper">
+                        <h4 class="font-semibold text-lg mb-2">Mean Liking Ratings</h4>
+                        <table class="w-full text-sm text-center">
+                            <thead>
+                                <tr><th class="p-2"></th><th class="p-2">No Caffeine</th><th class="p-2">Low Caffeine</th><th class="p-2">High Caffeine</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-gray-700"><td class="p-2 font-semibold">Normal Sugar</td><td class="p-1">2.00</td><td class="p-1">3.00</td><td class="p-1">7.00</td></tr>
+                                <tr><td class="p-2 font-semibold">Extra Sugar</td><td class="p-1">4.40</td><td class="p-1">4.80</td><td class="p-1">4.80</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <h3 class="text-xl font-semibold mt-8 mb-2">Interpreting the JASP Output</h3>
+                    <p class="mb-4">As always, we check the <span class="glossary-term" data-term-id="interaction-effect">interaction</span> first. Remember for repeated-measures, we also need to check the assumption of <span class="glossary-term" data-term-id="sphericity">sphericity</span>.</p>
+                    <div class="data-table-wrapper">
+                        <h4 class="font-semibold text-lg mb-2">JASP Within-Subjects Effects Table</h4>
+                        <table class="w-full text-sm text-left">
+                            <thead class="text-xs uppercase">
+                                <tr><th class="px-4 py-2 lowercase">cases</th><th class="px-4 py-2 lowercase">sum of squares</th><th class="px-4 py-2 lowercase">df</th><th class="px-4 py-2 lowercase">mean square</th><th class="px-4 py-2 lowercase">f</th><th class="px-4 py-2 lowercase">p</th><th class="px-4 py-2 lowercase">$\eta_p^2$</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-gray-700"><td class="px-4 py-2 font-semibold">Caffeine</td><td class="px-4 py-2">39.267</td><td class="px-4 py-2">2</td><td class="px-4 py-2">19.633</td><td class="px-4 py-2">5.531</td><td class="px-4 py-2">.031</td><td class="px-4 py-2">0.580</td></tr>
+                                <tr class="border-b border-gray-700"><td class="px-4 py-2 font-semibold">Sugar</td><td class="px-4 py-2">3.333</td><td class="px-4 py-2">1</td><td class="px-4 py-2">3.333</td><td class="px-4 py-2">1.111</td><td class="px-4 py-2">.351</td><td class="px-4 py-2">0.217</td></tr>
+                                <tr class="border-b border-gray-700"><td class="px-4 py-2 font-semibold">Caffeine * Sugar</td><td class="px-4 py-2">31.267</td><td class="px-4 py-2">2</td><td class="px-4 py-2">15.633</td><td class="px-4 py-2">14.889</td><td class="px-4 py-2">.002</td><td class="px-4 py-2">0.788</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="space-y-4 mt-6">
+                        <p><strong>Step 1: Check the interaction effect.</strong> Look at the `Caffeine * Sugar` line. The p-value is .002. Since this is less than .05, the interaction is <strong>significant</strong>. This is our main finding! It means the effect of caffeine on liking depends on the amount of sugar in the drink. Because the interaction is significant, we should not interpret the <span class="glossary-term" data-term-id="main-effect">main effects</span> directly. The story is in the interaction.</p>
+                        <p><strong>Step 2: Unpack the interaction.</strong> To understand the interaction, we need to look at the effects of one IV at each level of the other IV (this is called a <span class="glossary-term" data-term-id="simple-effects">simple effects</span> analysis). A good way to do this is to look at the graph and run some follow-up tests.</p>
+                    </div>
+                    <div class="my-4 chart-wrapper">
+                        <h4 class="text-center">Interaction Plot: Liking Ratings</h4>
+                        <canvas id="fizzyDrinksChart"></canvas>
+                    </div>
+                    <p class="mb-4">Looking at the graph, the lines are not parallel, which confirms our interaction. For the 'Extra Sugar' drink (red line), liking is fairly flat across caffeine levels. But for the 'Normal Sugar' drink (blue line), liking shoots up dramatically in the 'High Caffeine' condition. This is the interaction. Let's confirm with follow-up <span class="glossary-term" data-term-id="paired-samples-t-test">paired t-tests</span> comparing sugar levels at each caffeine level.</p>
+                    <ul class="list-disc list-inside space-y-2 pl-4 mt-2">
+                        <li>At 'High Caffeine', the difference between Normal Sugar (M=7.0) and Extra Sugar (M=4.8) is significant, <em>t</em>(4) = 2.99, <em>p</em> = .040$.</li>
+                        <li>At 'No' and 'Low' caffeine levels, the differences are not significant.</li>
+                    </ul>
+                    <h3 class="text-xl font-semibold mt-8 mb-2">Final Write-Up</h3>
+                    <p>"A 3(Caffeine: None, Low, High) x 2(Sugar: Normal, Extra) repeated-measures ANOVA was conducted. There was a significant interaction between caffeine and sugar on liking ratings, <em>F</em>(2, 8) = 14.89, <em>p</em> = .002, &eta;<sub>p</sub><sup>2</sup> = .788$. Follow-up paired t-tests to investigate this interaction revealed that for the high caffeine drink, liking was significantly higher with normal sugar (M = 7.00) than with extra sugar (M = 4.80), <em>t</em>(4) = 2.99, <em>p</em> = .040$. There were no significant differences between sugar levels for the no caffeine or low caffeine drinks. This indicates that a high level of caffeine increases the popularity of the drink, but only when it has a normal amount of sugar."</p>
+                </div>
+                <div id="mixed-fact" role="tabpanel" aria-labelledby="btn-mixed-fact" class="section-content">
+                    <h2 class="text-2xl md:text-3xl font-bold border-b-2 pb-2 mb-4"><span class="glossary-term" data-term-id="mixed-anova">Mixed ANOVA</span></h2>
+                    <p class="mb-4">A Mixed ANOVA is your tool of choice when you have a mix of variable types: at least one <strong><span class="glossary-term" data-term-id="between-subjects">between-subjects</span></strong> IV (different groups of people) and at least one <strong><span class="glossary-term" data-term-id="within-subjects">within-subjects</span></strong> IV (everyone does all levels).</p>
+                    <div class="application-corner">
+                        <h4>Application Corner: What Makes a Design "Mixed"?</h4>
+                        <p>A "mixed" design simply means you have a mix of IV types. To identify one, look for:</p>
+                        <ul class="list-disc list-inside space-y-2 mt-2">
+                            <li><strong>At least one Between-Subjects IV:</strong> Where you compare different groups of people. <em>(Example: Comparing an 'Expert' group to a 'Novice' group).</em></li>
+                            <li><strong>At least one Within-Subjects IV:</strong> Where the same people are tested in all conditions. <em>(Example: Testing everyone on a 'Configured' list AND a 'Random' list).</em></li>
+                        </ul>
+                        <p class="mt-2">If your design has both types, it's a mixed design.</p>
+                    </div>
+                    <h3 class="text-xl font-semibold mt-8 mb-2">A Worked Example: Expert Memory</h3>
+                    <p class="mb-4">Researchers test memory for London street names. There are two IVs: Expertise (Expert cab drivers vs. Novice students) and List Type (Configured route vs. Random list). Expertise is a between-subjects factor (you're either an expert or a novice), but List Type is a within-subjects factor, as everyone is tested on both list types.</p>
+                    <h3 class="text-xl font-semibold mt-8 mb-2">Interpreting the JASP Output</h3>
+                    <p class="mb-4">In a mixed ANOVA, JASP gives you two separate output tables for the main analysis: one for the within-subjects effects, and one for the between-subjects effects. Remember the golden rule: interpret the <span class="glossary-term" data-term-id="interaction-effect">interaction</span> first!</p>
+                    <div class="data-table-wrapper">
+                        <h4 class="font-semibold text-lg mb-2">JASP Within-Subjects Effects</h4>
+                        <table class="w-full text-sm text-left">
+                            <thead class="text-xs uppercase">
+                                <tr><th class="px-4 py-2 lowercase">cases</th><th class="px-4 py-2 lowercase">sum of squares</th><th class="px-4 py-2 lowercase">df</th><th class="px-4 py-2 lowercase">mean square</th><th class="px-4 py-2 lowercase">f</th><th class="px-4 py-2 lowercase">p</th><th class="px-4 py-2 lowercase">$\eta_p^2$</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-gray-700"><td class="px-4 py-2 font-semibold">Route</td><td class="px-4 py-2">340.313</td><td class="px-4 py-2">1</td><td class="px-4 py-2">340.313</td><td class="px-4 py-2">107.252</td><td class="px-4 py-2">&lt; .001</td><td class="px-4 py-2">0.738</td></tr>
+                                <tr class="border-b border-gray-700"><td class="px-4 py-2 font-semibold">Route * Group</td><td class="px-4 py-2">348.613</td><td class="px-4 py-2">1</td><td class="px-4 py-2">348.613</td><td class="px-4 py-2">109.868</td><td class="px-4 py-2">&lt; .001</td><td class="px-4 py-2">0.743</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mt-4 data-table-wrapper">
+                        <h4 class="font-semibold text-lg mb-2">JASP Between-Subjects Effects</h4>
+                        <table class="w-full text-sm text-left">
+                            <thead class="text-xs uppercase">
+                                <tr><th class="px-4 py-2 lowercase">cases</th><th class="px-4 py-2 lowercase">sum of squares</th><th class="px-4 py-2 lowercase">df</th><th class="px-4 py-2 lowercase">mean square</th><th class="px-4 py-2 lowercase">f</th><th class="px-4 py-2 lowercase">p</th><th class="px-4 py-2 lowercase">$\eta_p^2$</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-gray-700"><td class="px-4 py-2 font-semibold">Group</td><td class="px-4 py-2">332.113</td><td class="px-4 py-2">1</td><td class="px-4 py-2">332.113</td><td class="px-4 py-2">58.870</td><td class="px-4 py-2">&lt; .001</td><td class="px-4 py-2">0.608</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="space-y-4 mt-6">
+                        <p><strong>Step 1: Check the interaction.</strong> We look in the 'Within-Subjects Effects' table for the `Route * Group` line. The p-value is `< .001`, so we have a <strong>highly significant interaction</strong>. This is our most important finding. It tells us that the effect of the list type (route vs. random) is different depending on whether you are an expert or a novice.</p>
+                        <p><strong>Step 2: Unpack the interaction.</strong> Because the interaction is significant, we must now explore it. We don't just report the <span class="glossary-term" data-term-id="main-effect">main effects</span>. We look at the descriptive statistics and the plot to understand what's happening.</p>
+                        <div class="data-table-wrapper">
+                            <h4 class="font-semibold text-lg mb-2">Descriptive Statistics</h4>
+                            <table class="w-full text-sm text-left">
+                                <thead><tr><th class="p-2">Group</th><th class="p-2">Route Type</th><th class="p-2">Mean Recall</th></tr></thead>
+                                <tbody>
+                                    <tr class="border-b border-gray-700"><td class="p-2">expert</td><td class="p-2">Configured</td><td class="p-2">14.70</td></tr>
+                                    <tr class="border-b border-gray-700"><td class="p-2">expert</td><td class="p-2">Random</td><td class="p-2">6.40</td></tr>
+                                    <tr class="border-b border-gray-700"><td class="p-2">novice</td><td class="p-2">Configured</td><td class="p-2">6.45</td></tr>
+                                    <tr><td class="p-2">novice</td><td class="p-2">Random</td><td class="p-2">6.50</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="mt-4">The means tell the whole story. For novices, their recall is almost identical for configured lists (M=6.45) and random lists (M=6.50). But for experts, there is a huge difference! They are fantastic at recalling a configured route (M=14.70) but no better than novices when the list is random (M=6.40). This is the interaction: expertise only provides an advantage when the material is structured in a meaningful way.</p>
+                    </div>
+                    <h3 class="text-xl font-semibold mt-8 mb-2">Final Write-Up</h3>
+                    <p>"A 2 (Group: expert vs. novice) x 2 (Route: configured vs. random) mixed ANOVA was performed. This revealed a significant interaction between group and route type, <em>F</em>(1, 38) = 109.9, <em>p</em> < .001, &eta;<sub>p</sub><sup>2</sup> = .743$. Analysis of the <span class="glossary-term" data-term-id="simple-effects">simple effects</span> showed that expert taxi drivers recalled significantly more street names when they formed a configured route (M = 14.70) compared to a random list (M = 6.40). In contrast, novices showed no difference in recall between configured (M = 6.45) and random lists (M = 6.50). While the main effects for Group, <em>F</em>(1, 38) = 58.9, <em>p</em> < .001$, and Route, <em>F</em>(1, 38) = 107.3, <em>p</em> < .001$, were also significant, they are qualified by the interaction."</p>
+                </div>
+            </main>
+            <!-- Glossary Sidebar -->
+            <aside id="glossary-sidebar" class="w-full lg:col-span-1 lg:sticky top-8 self-start">
+                <div class="p-6 rounded-lg shadow-md" style="background-color: var(--card-bg);">
+                    <h2 class="text-2xl font-bold border-b-2 pb-2 mb-4">Glossary</h2>
+                    <div id="glossary-content" class="space-y-4 text-sm max-h-[80vh] overflow-y-auto pr-2">
+                        <!-- Glossary content will be loaded from assets/glossary.html -->
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+    <!-- Popup container for glossary terms -->
+    <div id="glossary-popup"></div>
+    <!-- Load glossary functionality from external file -->
+    <script src="../assets/glossary-popup.js"></script>
+    <script>
+    function switchContent(evt, contentId, contentClass = 'section-content', buttonClass = 'nav-button') {
+        const contentPanels = document.getElementsByClassName(contentClass);
+        for (let panel of contentPanels) {
+            panel.style.display = "none";
+        }
+        const tabButtons = document.getElementsByClassName(buttonClass);
+        for (let button of tabButtons) {
+            button.classList.remove("active");
+        }
+        const targetPanel = document.getElementById(contentId);
+        if (targetPanel) {
+            targetPanel.style.display = "block";
+            evt.currentTarget.classList.add("active");
+        }
+    }
+
+    // --- Chart Rendering Functions ---
+    function renderFizzyDrinksChart() {
+        const ctx = document.getElementById('fizzyDrinksChart');
+        if (!ctx) return;
+        if (Chart.getChart(ctx)) Chart.getChart(ctx).destroy();
+        new Chart(ctx, {
+            type: 'line', 
+            data: { 
+                labels: ['No Caffeine', 'Low Caffeine', 'High Caffeine'], 
+                datasets: [
+                    { 
+                        label: 'Normal Sugar', 
+                        data: [2.00, 3.00, 7.00], 
+                        borderColor: '#60a5fa', 
+                        backgroundColor: '#60a5fa', 
+                        tension: 0.1, 
+                        fill: false 
+                    }, 
+                    { 
+                        label: 'Extra Sugar', 
+                        data: [4.40, 4.80, 4.80], 
+                        borderColor: '#f87171', 
+                        backgroundColor: '#f87171', 
+                        tension: 0.1, 
+                        fill: false 
+                    }
+                ] 
+            },
+            options: { 
+                responsive: true, 
+                plugins: { 
+                    legend: { 
+                        position: 'top', 
+                        labels: { color: 'var(--header-text)' } 
+                    }, 
+                    title: { display: false } 
+                }, 
+                scales: { 
+                    y: { 
+                        beginAtZero: true, 
+                        title: { 
+                            display: true, 
+                            text: 'Mean Liking Rating', 
+                            color: 'var(--text-color)' 
+                        }, 
+                        ticks: { color: 'var(--text-color)' }, 
+                        grid: { color: 'var(--border-color)' } 
+                    }, 
+                    x: { 
+                        title: { 
+                            display: true, 
+                            text: 'Caffeine Level', 
+                            color: 'var(--text-color)' 
+                        }, 
+                        ticks: { color: 'var(--text-color)' }, 
+                        grid: { color: 'var(--border-color)' } 
+                    } 
+                } 
+            }
+        });
+    }
+
+    // --- INITIALIZATION ---
+    document.addEventListener('DOMContentLoaded', () => {
+        // Render charts
+        renderFizzyDrinksChart();
+    });
+    </script>
+    <script>
+function openMenu() {
+  document.getElementById('site-menu').style.transform = 'translateX(0)';
+  document.getElementById('menu-backdrop').classList.remove('hidden');
+}
+function closeMenu() {
+  document.getElementById('site-menu').style.transform = 'translateX(-100%)';
+  document.getElementById('menu-backdrop').classList.add('hidden');
+}
+fetch('../assets/shared-menu.html')
+  .then(res => res.text())
+  .then(html => {
+    document.getElementById('menu-container').innerHTML = html;
+    document.getElementById('menu-btn').style.display = '';
+    window.openMenu = function() {
+      document.getElementById('site-menu').style.transform = 'translateX(0)';
+      document.getElementById('menu-backdrop').classList.remove('hidden');
+    };
+    window.closeMenu = function() {
+      document.getElementById('site-menu').style.transform = 'translateX(-100%)';
+      document.getElementById('menu-backdrop').classList.add('hidden');
+    };
+  });
+</script>
+</body>
+</html>

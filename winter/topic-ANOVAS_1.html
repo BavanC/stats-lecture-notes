@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANOVA Topics</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']]
+        }
+      };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        :root {
+            --bg-color: #111827;
+            --text-color: #d1d5db;
+            --card-bg: #1f2937;
+            --header-text: #f9fafb;
+            --subtle-text: #9ca3af;
+            --border-color: #374151;
+            --tab-hover-bg: #4b5563;
+            --active-tab-border: #60a5fa;
+            --active-tab-text: #eff6ff;
+            --glossary-term-color: #60a5fa;
+            --glossary-term-hover: #93c5fd;
+            --info-box-bg: #1e3a8a;
+            --info-box-border: #2563eb;
+            --info-box-text: #dbeafe;
+            --table-bg: #2d3748;
+            --chart-bg: #374151;
+            --application-bg: #064e3b;
+            --application-border: #10b981;
+            --application-text: #a7f3d0;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+        h1, h2, h3, h4 {
+            font-weight: 700;
+        }
+        /* Glossary Popup Styling */
+        #glossary-popup {
+            display: none;
+            position: absolute;
+            background-color: var(--card-bg);
+            border: 1px solid var(--active-tab-border);
+            color: var(--text-color);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            max-width: 300px;
+            z-index: 1000;
+        }
+        /* Persistent Glossary Button Styling */
+        #btn-glossary-toggle {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        #btn-glossary-toggle:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        }
+        @media (min-width: 1024px) {
+            .container {
+                padding-right: 120px;
+            }
+        }
+        header h1 { color: var(--header-text); }
+        header p { color: var(--subtle-text); }
+        main {
+            background-color: var(--card-bg);
+        }
+        .nav-button {
+            padding: 0.75rem 1.5rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .nav-button.active {
+            background-color: var(--active-tab-border);
+            color: var(--bg-color);
+        }
+        .nav-button:not(.active):hover {
+            background-color: var(--tab-hover-bg);
+        }
+        .section-content {
+            display: none;
+        }
+        .info-box {
+            background-color: var(--info-box-bg);
+            border: 1px solid var(--info-box-border);
+            color: var(--info-box-text);
+        }
+        .application-corner {
+            background-color: var(--application-bg);
+            border: 1px solid var(--application-border);
+            color: var(--application-text);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-top: 1.5rem;
+        }
+        .application-corner h4 {
+            color: #d1fae5;
+            font-size: 1.125rem;
+            border-bottom: 1px solid var(--application-border);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .glossary-term {
+            color: var(--glossary-term-color);
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: underline;
+            text-decoration-style: dotted;
+        }
+        .glossary-term:hover {
+            color: var(--glossary-term-hover);
+        }
+        
+        /* Table Styling */
+        .data-table-wrapper {
+            background-color: var(--table-bg);
+            padding: 1rem;
+            border-radius: 0.5rem;
+        }
+        .data-table-wrapper h4 {
+            font-weight: 600;
+            font-size: 1.125rem; /* text-lg */
+            margin-bottom: 0.5rem;
+            color: var(--header-text);
+        }
+        .data-table-wrapper table thead {
+            background-color: #4a5568; /* gray-600 */
+        }
+        .data-table-wrapper table tfoot {
+             background-color: #1a202c; /* gray-900 */
+        }
+        .table-summary-col {
+            background-color: #1a202c; /* gray-900 */
+        }
+
+        /* Chart Styling */
+        .chart-wrapper {
+            background-color: var(--chart-bg);
+            padding: 1rem;
+            border-radius: 0.5rem;
+        }
+        .chart-wrapper > h4 { /* Title for the entire wrapper */
+            font-weight: 600;
+            font-size: 1.125rem; /* text-lg */
+            margin-bottom: 0.5rem;
+            color: var(--header-text);
+        }
+    </style>
+</head>
+<body class="transition-colors duration-300">
+    <button id="menu-btn" onclick="openMenu()" style="display:none" class="fixed top-4 left-4 z-50 bg-emerald-600 text-white px-4 py-2 rounded shadow hover:bg-emerald-700">☰ Menu</button>
+    <div id="menu-container"></div>
+    <!-- Persistent Glossary Toggle Button -->
+    <button id="btn-glossary-toggle" class="fixed top-4 right-4 z-50 bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 transition-colors duration-200 flex items-center gap-2">
+        <span class="glossary-icon">📚</span>
+        <span class="glossary-text">Glossary</span>
+    </button>
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-8 relative">
+            <h1 class="text-4xl md:text-5xl font-bold">ANOVA Topics</h1>
+            <p class="text-xl mt-2">Independent ANOVA, Repeated-Measures ANOVA, and Follow-up Tests</p>
+        </header>
+        <div id="page-grid" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Main Content -->
+            <main class="w-full lg:col-span-2 p-6 md:p-8 rounded-lg shadow-md">
+                <nav aria-label="ANOVA Tabs" class="mb-8">
+                    <ul role="tablist" class="flex flex-wrap gap-4 justify-center">
+                        <li role="presentation"><button role="tab" id="btn-ind-anova" aria-controls="ind-anova" class="nav-button active" onclick="switchContent(event, 'ind-anova', 'section-content', 'nav-button')">Independent ANOVA</button></li>
+                        <li role="presentation"><button role="tab" id="btn-rm-anova" aria-controls="rm-anova" class="nav-button" onclick="switchContent(event, 'rm-anova', 'section-content', 'nav-button')">Repeated-Measures ANOVA</button></li>
+                        <li role="presentation"><button role="tab" id="btn-follow-up-tests" aria-controls="follow-up-tests" class="nav-button" onclick="switchContent(event, 'follow-up-tests', 'section-content', 'nav-button')">Follow-up Tests</button></li>
+                    </ul>
+                </nav>
+                <div id="ind-anova" role="tabpanel" aria-labelledby="btn-ind-anova" class="section-content" style="display: block;">
+                    <h2 class="text-2xl md:text-3xl font-bold border-b-2 pb-2 mb-4">One-Way Independent <span class="glossary-term" data-term-id="anova-glossary">ANOVA</span></h2>
+                    <p class="mb-4">Use a One-Way Independent ANOVA (Analysis of Variance) when you have <strong>one <span class="glossary-term" data-term-id="iv">Independent Variable</span></strong> with <strong>three or more levels</strong>, and each level contains different participants (<span class="glossary-term" data-term-id="between-subjects">between-subjects design</span>).</p>
+                    <h3 class="text-xl font-semibold mt-6 mb-2">The Core Idea: Analyzing <span class="glossary-term" data-term-id="variance">Variance</span></h3>
+                    <p class="mb-4">In any experiment, the scores you measure will vary. ANOVA's main purpose is to figure out <em>why</em> they vary. It splits the total variation in your data into two types:</p>
+                    <ul class="list-disc list-inside pl-4 space-y-3">
+                        <li><strong><span class="glossary-term" data-term-id="systematic-variance">Systematic Variance</span>:</strong> This is the variation we can explain. It's the differences between groups caused by your manipulation. This is the 'Signal'.</li>
+                        <li><strong><span class="glossary-term" data-term-id="unsystematic-variance">Unsystematic Variance</span>:</strong> This is the variation we can't explain. It's the random fluctuation in scores caused by things like individual differences. This is the 'Noise'.</li>
+                    </ul>
+                    <p class="mt-4"><strong>ANOVA's Goal:</strong> To compare the size of the systematic variance to the size of the unsystematic variance. If the 'Signal' is much bigger than the 'Noise', we can conclude that our manipulation had a real effect.</p>
+                    <details class="p-4 mt-6 rounded-lg bg-gray-800">
+                        <summary>Key Assumption: <span class="glossary-term" data-term-id="homogeneity-of-variance">Homogeneity of Variance</span></summary>
+                        <div>
+                            <ul class="list-disc list-inside pl-4 space-y-2 mt-4">
+                                <li><strong>What it is:</strong> An assumption for <strong>Independent ANOVAs</strong>. It means the variance (or spread of scores) in each of your groups should be approximately the same.</li>
+                                <li><strong>How to check it:</strong> Use <strong><span class="glossary-term" data-term-id="levenes-test">Levene's Test</span></strong>. You can ask for this in JASP under 'Assumption Checks'.</li>
+                                <li><strong>The Rule:</strong> If Levene's test is <strong>not significant</strong> (<em>p</em> > .05), the assumption is met and you can proceed with the standard ANOVA. If it is significant (<em>p</em> < .05), the assumption is violated, and you should report the result of a more robust test like the Welch's F-test.</li>
+                            </ul>
+                        </div>
+                    </details>
+                    <h3 class="text-xl font-semibold mt-8 mb-2">A Worked Example: From Raw Data to <span class="glossary-term" data-term-id="f-ratio">F-Ratio</span></h3>
+                    <p class="mb-4">Let's see how this works with a real example. Imagine a clinical trial testing two new drugs ('Anxifree' and 'Joyzepam') against a 'Placebo' to see their effect on mood gain. We have 6 participants per group.</p>
+                    <div class="data-table-wrapper">
+                        <h4 class="font-semibold text-lg mb-2">Raw Data: Mood Gain Scores</h4>
+                        <table class="w-full text-sm text-center">
+                            <thead>
+                                <tr><th class="p-2">Anxifree</th><th class="p-2">Joyzepam</th><th class="p-2">Placebo</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td class="p-1">0.6</td><td class="p-1">1.4</td><td class="p-1">0.5</td></tr>
+                                <tr><td class="p-1">0.4</td><td class="p-1">1.7</td><td class="p-1">0.3</td></tr>
+                                <tr><td class="p-1">0.2</td><td class="p-1">1.3</td><td class="p-1">0.1</td></tr>
+                                <tr><td class="p-1">1.1</td><td class="p-1">1.8</td><td class="p-1">0.6</td></tr>
+                                <tr><td class="p-1">0.8</td><td class="p-1">1.3</td><td class="p-1">0.9</td></tr>
+                                <tr><td class="p-1">1.2</td><td class="p-1">1.4</td><td class="p-1">0.3</td></tr>
+                            </tbody>
+                            <tfoot class="font-bold">
+                                <tr><td class="p-2">Mean = 0.7</td><td class="p-2">Mean = 1.5</td><td class="p-2">Mean = 0.5</td></tr>
+                                <tr><td colspan="3" class="p-2">Grand Mean = 0.9</td></tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <div class="space-y-4 mt-6">
+                        <details class="p-4 rounded-lg bg-gray-800">
+                            <summary>Step 1: Calculate the <span class="glossary-term" data-term-id="sum-of-squares">Sum of Squares</span> (SS)</summary>
+                            <div>
+                                <p class="mb-2">First, we calculate our two core components of variance by summing up the squared distances.</p>
+                                <p class="mt-4"><strong>Within-Groups SS ($SS_W$): The 'Noise'</strong></p>
+                                <p>The formula is $$SS_W = \sum(x_i - \bar{x}_{\text{group}})^2$$ In words, this means for every individual score ($x_i$), we subtract the mean of its group ($\bar{x}_{\text{group}}$), square the result, and then sum ($\sum$) all of these squared differences together.</p>
+                                <p class="mt-2">After doing this for all scores, the total is: <strong>$SS_W = 1.41$</strong></p>
+                                <p class="mt-4"><strong>Between-Groups SS ($SS_B$): The 'Signal'</strong></p>
+                                <p>The formula is $$SS_B = \sum n_{\text{group}}(\bar{x}_{\text{group}} - \bar{x}_{\text{grand}})^2$$ In words, this means for each group, we take the difference between the group mean and the grand mean, square it, multiply it by the number of people in that group, and finally, sum the results for all groups.</p>
+                                <p class="mt-2">Adding these up gives the total: <strong>$SS_B = 3.36$</strong></p>
+                            </div>
+                        </details>
+                        <details class="p-4 rounded-lg bg-gray-800">
+                            <summary>Step 2: Calculate the Mean Squares (MS)</summary>
+                            <div>
+                                <p class="mb-2">Next, we find the average variance by dividing the SS values by their <span class="glossary-term" data-term-id="degrees-of-freedom">degrees of freedom</span> (df).</p>
+                                <ul class="list-disc list-inside pl-4 space-y-2">
+                                    <li>$df_B = (\text{Number of groups} - 1) = 3 - 1 = 2$</li>
+                                    <li>$df_W = (\text{Total participants} - \text{Number of groups}) = 18 - 3 = 15$</li>
+                                </ul>
+                                <p class="mt-3">$$MS_B = \frac{SS_B}{df_B} = \frac{3.36}{2} = 1.68$$</p>
+                                <p>$$MS_W = \frac{SS_W}{df_W} = \frac{1.41}{15} = 0.094$$</p>
+                            </div>
+                        </details>
+                        <details class="p-4 rounded-lg bg-gray-800">
+                            <summary>Step 3: Calculate the F-Ratio</summary>
+                            <div>
+                                <p>Finally, we divide the 'Signal' by the 'Noise' to get our F-ratio.</p>
+                                <p class="text-center text-lg font-mono my-2 p-2 bg-gray-900 rounded">$$F = \frac{MS_B}{MS_W} = \frac{1.68}{0.094} = 17.87$$</p>
+                            </div>
+                        </details>
+                    </div>
+                    <div class="application-corner">
+                        <h4>Application Corner: Calculating Standard Error</h4>
+                        <p>Error bars on graphs often show the Standard Error of the Mean (SEM), which tells us how precise our estimate of the group mean is. You can calculate it from the descriptive statistics table.</p>
+                        <p class="mt-2"><strong>Formula:</strong> SEM = <span class="glossary-term" data-term-id="standard-deviation">Standard Deviation</span> (SD) / &radic;(Sample Size (N))</p>
+                        <p class="mt-4"><strong>Example:</strong> Let's say a 'No-Caffeine' group (N=25) has a mean score of 50 and a Standard Deviation of 10.</p>
+                        <ul class="list-disc list-inside space-y-2 mt-2">
+                            <li>SEM = 10 / &radic;(25)</li>
+                            <li>SEM = 10 / 5</li>
+                            <li><strong>SEM = 2.0</strong></li>
+                        </ul>
+                        <p class="mt-2">So, the error bar for this group would extend from 48 to 52 (50 &plusmn; 2.0).</p>
+                    </div>
+                </div>
+                <div id="rm-anova" role="tabpanel" aria-labelledby="btn-rm-anova" class="section-content">
+                    <h2 class="text-2xl md:text-3xl font-bold border-b-2 pb-2 mb-4">One-Way Repeated-Measures <span class="glossary-term" data-term-id="anova-glossary">ANOVA</span></h2>
+                    <p class="mb-4">Use a One-Way Repeated-Measures ANOVA when you have <strong>one <span class="glossary-term" data-term-id="iv">Independent Variable</span></strong> with <strong>three or more levels</strong>, and the <strong>same participants</strong> are tested in all conditions (<span class="glossary-term" data-term-id="within-subjects">within-subjects design</span>).</p>
+                    <h3 class="text-xl font-semibold mt-6 mb-2">The Big Advantage: More <span class="glossary-term" data-term-id="power">Power</span></h3>
+                    <p class="mb-4">Repeated-measures designs are powerful. Because the same people are in each condition, we can account for the 'noise' caused by individual differences. By mathematically removing this individual 'noise', we make our error term smaller.</p>
+                    <div class="p-4 rounded-lg bg-gray-800">
+                        <p class="text-center">A smaller denominator (Noise) leads to a larger <span class="glossary-term" data-term-id="f-ratio">F-ratio</span>, making the test more sensitive to finding a real effect.</p>
+                        <p class="text-center text-xl font-mono my-2 p-2 bg-gray-900 rounded-lg">$$F = \frac{\text{Signal}}{\text{Noise} - \text{Individual Differences}}$$</p>
+                    </div>
+                    <details class="p-4 mt-6 rounded-lg bg-gray-800">
+                        <summary>Key Assumption: <span class="glossary-term" data-term-id="sphericity">Sphericity</span></summary>
+                        <div>
+                            <ul class="list-disc list-inside pl-4 space-y-2 mt-4">
+                                <li><strong>What it is:</strong> An assumption for <strong>Repeated-Measures ANOVAs</strong> with 3 or more levels. It means the variances of the differences between all possible pairs of conditions are roughly equal.</li>
+                                <li><strong>How to check it:</strong> Use <strong><span class="glossary-term" data-term-id="mauchlys-test">Mauchly's Test of Sphericity</span></strong>.</li>
+                                <li><strong>The Rule:</strong> If Mauchly's test is <strong>not significant</strong> (<em>p</em> > .05), the assumption is met and you can use the standard "Sphericity Assumed" ANOVA results. If it <strong>is significant</strong> (<em>p</em> < .05), the assumption is violated, and you must report the results using a correction (e.g., the <strong><span class="glossary-term" data-term-id="greenhouse-geisser">Greenhouse-Geisser</span></strong> or <strong>Huynh-Feldt</strong> correction). JASP provides these automatically.</li>
+                            </ul>
+                        </div>
+                    </details>
+                    <h3 class="text-xl font-semibold mt-8 mb-2">A Worked Example: Aphasia Study</h3>
+                    <p class="mb-4">Imagine a study testing 6 patients with aphasia on three different word-recognition tasks: Speech, Conceptual, and Syntax. Each patient does all three tasks.</p>
+                    <div class="data-table-wrapper">
+                        <h4 class="font-semibold text-lg mb-2">Raw Data: Task Scores (out of 10)</h4>
+                        <table class="w-full text-sm text-center">
+                            <thead>
+                                <tr><th class="p-2">Patient</th><th class="p-2">Speech</th><th class="p-2">Conceptual</th><th class="p-2">Syntax</th><th class="p-2 table-summary-col">Patient Mean</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-gray-700"><td class="p-1 font-bold">1</td><td class="p-1">8</td><td class="p-1">7</td><td class="p-1">6</td><td class="p-1 table-summary-col">7.00</td></tr>
+                                <tr class="border-b border-gray-700"><td class="p-1 font-bold">2</td><td class="p-1">7</td><td class="p-1">8</td><td class="p-1">6</td><td class="p-1 table-summary-col">7.00</td></tr>
+                                <tr class="border-b border-gray-700"><td class="p-1 font-bold">3</td><td class="p-1">9</td><td class="p-1">5</td><td class="p-1">3</td><td class="p-1 table-summary-col">5.67</td></tr>
+                                <tr class="border-b border-gray-700"><td class="p-1 font-bold">4</td><td class="p-1">5</td><td class="p-1">4</td><td class="p-1">5</td><td class="p-1 table-summary-col">4.67</td></tr>
+                                <tr class="border-b border-gray-700"><td class="p-1 font-bold">5</td><td class="p-1">6</td><td class="p-1">6</td><td class="p-1">2</td><td class="p-1 table-summary-col">4.67</td></tr>
+                                <tr><td class="p-1 font-bold">6</td><td class="p-1">8</td><td class="p-1">7</td><td class="p-1">4</td><td class="p-1 table-summary-col">6.33</td></tr>
+                            </tbody>
+                            <tfoot class="font-bold">
+                                <tr><td class="p-2">Condition Mean</td><td class="p-2">7.17</td><td class="p-2">6.17</td><td class="p-2">4.33</td><td class="p-2 table-summary-col">Grand Mean = 5.89</td></tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <div class="space-y-4 mt-6">
+                        <details class="p-4 rounded-lg bg-gray-800">
+                            <summary>Step 1: Calculate Main <span class="glossary-term" data-term-id="sum-of-squares">Sums of Squares</span> (SS)</summary>
+                            <div>
+                                <p class="mt-2"><strong>Between-Conditions SS ($SS_{conditions}$): The 'Signal'</strong> = <strong>$24.78$</strong></p>
+                                <p class="mt-4"><strong>Within-Conditions SS ($SS_W$): The Total 'Noise'</strong> = <strong>$35.0$</strong></p>
+                            </div>
+                        </details>
+                        <details class="p-4 rounded-lg bg-gray-800">
+                            <summary>Step 2: Isolate the Individual Differences (SS_subjects)</summary>
+                            <div>
+                                <p>The total variance due to individual differences: <strong>$SS_{\text{subjects}} = 17.11$</strong></p>
+                            </div>
+                        </details>
+                        <details class="p-4 rounded-lg bg-gray-800">
+                            <summary>Step 3: Calculate the Residual/Error SS</summary>
+                            <div>
+                                <p>$$SS_{\text{residual}} = SS_W - SS_{\text{subjects}} = 35.0 - 17.11 = 17.89$$</p>
+                            </div>
+                        </details>
+                        <details class="p-4 rounded-lg bg-gray-800">
+                            <summary>Step 4: Calculate the Mean Squares (MS) and F-Ratio</summary>
+                            <div>
+                                <p>$$MS_{\text{conditions}} = \frac{SS_{\text{conditions}}}{df_{\text{conditions}}} = \frac{24.78}{2} = 12.39$$</p>
+                                <p>$$MS_{\text{residual}} = \frac{SS_{\text{residual}}}{df_{\text{residual}}} = \frac{17.89}{10} = 1.79$$</p>
+                                <p class="mt-4 text-center text-lg font-mono">$$F = \frac{MS_{\text{conditions}}}{MS_{\text{residual}}} = \frac{12.39}{1.79} = 6.92$$</p>
+                            </div>
+                        </details>
+                    </div>
+                    <div class="application-corner">
+                        <h4>Application Corner: Data Entry for JASP</h4>
+                        <p>For a <strong>Repeated-Measures</strong> design, your data needs to be in <strong>wide format</strong>. This means each participant gets one row, and each condition gets its own column.</p>
+                        <p class="mt-4"><strong>Example:</strong> In a study with 3 conditions (e.g., No-Drug, Low-Dose, High-Dose), your spreadsheet would look like this:</p>
+                        <table class="w-full text-left mt-2 bg-gray-900 rounded">
+                            <thead><tr class="bg-gray-700">
+                                <th class="p-2">Participant_ID</th><th class="p-2">No_Drug_Score</th><th class="p-2">Low_Dose_Score</th><th class="p-2">High_Dose_Score</th>
+                            </tr></thead>
+                            <tbody>
+                                <tr class="border-t border-gray-600"><td class="p-2">1</td><td class="p-2">15</td><td class="p-2">18</td><td class="p-2">22</td></tr>
+                                <tr class="border-t border-gray-600"><td class="p-2">2</td><td class="p-2">12</td><td class="p-2">16</td><td class="p-2">19</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="follow-up-tests" role="tabpanel" aria-labelledby="btn-follow-up-tests" class="section-content">
+                    <h2 class="text-2xl md:text-3xl font-bold border-b-2 pb-2 mb-4">Follow-Up Tests for <span class="glossary-term" data-term-id="anova-glossary">ANOVA</span></h2>
+                    <p class="mb-4">A significant <span class="glossary-term" data-term-id="f-ratio">F-ratio</span> in an ANOVA is an exciting start! It tells you that there's a difference <em>somewhere</em> among your groups. However, it's an omnibus test, meaning it doesn't tell you <em>which specific</em> groups differ from each other. To find that out, you need to conduct follow-up tests.</p>
+                    <p class="mb-4">There are two main types, and the one you choose depends on your research plan.</p>
+                    <h3 class="text-xl font-semibold mt-8 mb-2"><span class="glossary-term" data-term-id="planned-comparisons">Planned Comparisons</span> (Contrasts)</h3>
+                    <p class="mb-4">You use planned comparisons when you had specific, theory-driven hypotheses <strong>before</strong> you even collected the data. You're not just exploring; you're testing pre-defined questions.</p>
+                    <ul class="list-disc list-inside pl-4 space-y-2">
+                        <li><strong>Example Hypotheses:</strong> "I predict that any drug (Joyzepam or Anxifree) will be better than a placebo" and "I predict Joyzepam will be more effective than Anxifree."</li>
+                        <li><strong>Advantage:</strong> They are more statistically powerful than <span class="glossary-term" data-term-id="post-hoc">post-hoc tests</span>, meaning you have a better chance of finding a real effect if one exists.</li>
+                        <li><strong>How it works:</strong> You assign weights to your groups to create "chunks" of variance to compare. For example, to compare both drugs to the placebo, you could assign weights like: Placebo = -2, Anxifree = +1, Joyzepam = +1.</li>
+                    </ul>
+                    <div class="p-4 mt-2 rounded-lg bg-gray-800">
+                        <p class="font-semibold">Example Write-Up:</p>
+                        <p class="mt-2">"Planned contrasts revealed that participants in the drug groups had a significantly larger mood gain than those who received a placebo, <em>t</em>(15) = 4.27, <em>p</em> < .001$. A second contrast showed that participants who took Joyzepam experienced a significantly larger mood gain than those who took Anxifree, <em>t</em>(15) = 4.36, <em>p</em> < .001$."</p>
+                    </div>
+                    <div class="application-corner">
+                        <h4>Application Corner: Decoding Planned Contrasts</h4>
+                        <p>Contrast codes can look confusing, but they are just asking specific questions. The key is that positive numbers are compared against negative numbers, and groups coded '0' are ignored.</p>
+                        <p class="mt-4"><strong>Scenario:</strong> A study compares four therapies: Control (no therapy), CBT, Psychodynamic, and Humanistic.</p>
+                        <div class="data-table-wrapper mt-2">
+                            <table class="w-full text-left">
+                                <thead><tr><th class="p-2">Group</th><th class="p-2">Contrast 1</th><th class="p-2">Contrast 2</th></tr></thead>
+                                <tbody>
+                                    <tr class="border-t border-gray-600"><td class="p-2">Control</td><td class="p-2 text-red-400">-3</td><td class="p-2">0</td></tr>
+                                    <tr class="border-t border-gray-600"><td class="p-2">CBT</td><td class="p-2 text-green-400">+1</td><td class="p-2 text-red-400">-2</td></tr>
+                                    <tr class="border-t border-gray-600"><td class="p-2">Psychodynamic</td><td class="p-2 text-green-400">+1</td><td class="p-2 text-green-400">+1</td></tr>
+                                    <tr class="border-t border-gray-600"><td class="p-2">Humanistic</td><td class="p-2 text-green-400">+1</td><td class="p-2 text-green-400">+1</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <ul class="list-disc list-inside space-y-2 mt-4">
+                            <li><strong>Contrast 1 is asking:</strong> "Is the Control group different from the average of ALL THREE therapy groups?" (Red vs. Green)</li>
+                            <li><strong>Contrast 2 is asking:</strong> "Ignoring the Control group, is the CBT group different from the average of the Psychodynamic and Humanistic groups?" (Red vs. Green, Control is ignored)</li>
+                        </ul>
+                    </div>
+                    <h3 class="text-xl font-semibold mt-8 mb-2">Post-Hoc Tests</h3>
+                    <p class="mb-4">You use post-hoc tests when you don't have specific hypotheses beforehand. You're in an exploratory mode, comparing every possible pair of groups to see where the differences lie.</p>
+                    <ul class="list-disc list-inside pl-4 space-y-2">
+                        <li><strong>Example Question:</strong> "Is there any difference between Placebo, Anxifree, and Joyzepam?"</li>
+                        <li><strong>Disadvantage:</strong> Because you're doing multiple tests, the risk of a <span class="glossary-term" data-term-id="type-i-error">Type I error</span> (a false positive) increases. To combat this, post-hoc tests include a correction.</li>
+                        <li><strong>Common Corrections:</strong> The <strong><span class="glossary-term" data-term-id="bonferroni-correction">Bonferroni correction</span></strong> is a common but very conservative choice. It adjusts the p-value for each comparison to keep the overall error rate at .05. JASP offers several options.</li>
+                    </ul>
+                    <div class="p-4 mt-2 rounded-lg bg-gray-800">
+                        <p class="font-semibold">Example Write-Up:</p>
+                        <p class="mt-2">"A one-way ANOVA revealed a significant effect of drug on mood gain, <em>F</em>(2, 15) = 19.3, <em>p</em> < .001$. Post-hoc tests using the Bonferroni correction indicated that Joyzepam produced a significantly larger mood change than both Anxifree (<em>p</em> = .002) and the placebo (<em>p</em> < .001). The difference between Anxifree and the placebo was not significant (<em>p</em> = .451)."</p>
+                    </div>
+                </div>
+            </main>
+            <!-- Glossary Sidebar -->
+            <aside id="glossary-sidebar" class="w-full lg:col-span-1 lg:sticky top-8 self-start">
+                <div class="p-6 rounded-lg shadow-md" style="background-color: var(--card-bg);">
+                    <h2 class="text-2xl font-bold border-b-2 pb-2 mb-4">Glossary</h2>
+                    <div id="glossary-content" class="space-y-4 text-sm max-h-[80vh] overflow-y-auto pr-2">
+                        <!-- Glossary content will be loaded from assets/glossary.html -->
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+    <!-- Popup container for glossary terms -->
+    <div id="glossary-popup"></div>
+    <!-- Load glossary functionality from external file -->
+    <script src="../assets/glossary-popup.js"></script>
+    <script>
+    function switchContent(evt, contentId, contentClass = 'section-content', buttonClass = 'nav-button') {
+        const contentPanels = document.getElementsByClassName(contentClass);
+        for (let panel of contentPanels) {
+            panel.style.display = "none";
+        }
+        const tabButtons = document.getElementsByClassName(buttonClass);
+        for (let button of tabButtons) {
+            button.classList.remove("active");
+        }
+        const targetPanel = document.getElementById(contentId);
+        if (targetPanel) {
+            targetPanel.style.display = "block";
+            evt.currentTarget.classList.add("active");
+        }
+    }
+    </script>
+    <script>
+function openMenu() {
+  document.getElementById('site-menu').style.transform = 'translateX(0)';
+  document.getElementById('menu-backdrop').classList.remove('hidden');
+}
+function closeMenu() {
+  document.getElementById('site-menu').style.transform = 'translateX(-100%)';
+  document.getElementById('menu-backdrop').classList.add('hidden');
+}
+fetch('../assets/shared-menu.html')
+  .then(res => res.text())
+  .then(html => {
+    document.getElementById('menu-container').innerHTML = html;
+    document.getElementById('menu-btn').style.display = '';
+    window.openMenu = function() {
+      document.getElementById('site-menu').style.transform = 'translateX(0)';
+      document.getElementById('menu-backdrop').classList.remove('hidden');
+    };
+    window.closeMenu = function() {
+      document.getElementById('site-menu').style.transform = 'translateX(-100%)';
+      document.getElementById('menu-backdrop').classList.add('hidden');
+    };
+  });
+</script>
+</body>
+</html> 
