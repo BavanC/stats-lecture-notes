@@ -53,6 +53,34 @@
         h1, h2, h3, h4 {
             font-weight: 700;
         }
+        /* Glossary Popup Styling */
+        #glossary-popup {
+            display: none;
+            position: absolute;
+            background-color: var(--card-bg);
+            border: 1px solid var(--active-tab-border);
+            color: var(--text-color);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            max-width: 300px;
+            z-index: 1000;
+        }
+        /* Persistent Glossary Button Styling */
+        #btn-glossary-toggle {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        #btn-glossary-toggle:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        }
+        @media (min-width: 1024px) {
+            .container {
+                padding-right: 120px;
+            }
+        }
         header h1 { color: var(--header-text); }
         header p { color: var(--subtle-text); }
         main {
@@ -154,218 +182,239 @@
 <body class="transition-colors duration-300">
     <button id="menu-btn" onclick="openMenu()" style="display:none" class="fixed top-4 left-4 z-50 bg-emerald-600 text-white px-4 py-2 rounded shadow hover:bg-emerald-700">☰ Menu</button>
     <div id="menu-container"></div>
+    <!-- Persistent Glossary Toggle Button -->
+    <button id="btn-glossary-toggle" class="fixed top-4 right-4 z-50 bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 transition-colors duration-200 flex items-center gap-2">
+        <span class="glossary-icon">📚</span>
+        <span class="glossary-text">Glossary</span>
+    </button>
     <div class="container mx-auto p-4 md:p-8">
         <header class="text-center mb-8 relative">
             <h1 class="text-4xl md:text-5xl font-bold">Correlation & Regression Topics</h1>
             <p class="text-xl mt-2">Understanding Relationships and Prediction in Psychology</p>
         </header>
-        <main class="w-full p-6 md:p-8 rounded-lg shadow-md">
-            <nav aria-label="Correlation & Regression Tabs" class="mb-8">
-                <ul role="tablist" class="flex flex-wrap gap-4 justify-center">
-                    <li role="presentation"><button role="tab" id="btn-correlation" aria-controls="correlation" class="nav-button active" onclick="switchContent(event, 'correlation', 'section-content', 'nav-button')">Correlation</button></li>
-                    <li role="presentation"><button role="tab" id="btn-simple-regression" aria-controls="simple-regression" class="nav-button" onclick="switchContent(event, 'simple-regression', 'section-content', 'nav-button')">Simple Regression</button></li>
-                    <li role="presentation"><button role="tab" id="btn-multiple-regression" aria-controls="multiple-regression" class="nav-button" onclick="switchContent(event, 'multiple-regression', 'section-content', 'nav-button')">Multiple Regression</button></li>
-                </ul>
-            </nav>
-            <div id="correlation" role="tabpanel" aria-labelledby="btn-correlation" class="section-content" style="display: block;">
-                <h2 class="text-2xl md:text-3xl font-bold border-b-2 pb-2 mb-4"><span class="glossary-term" data-term-id="correlation-glossary">Correlation</span></h2>
-                <p class="mb-4">While ANOVA looks for differences between group means, correlation looks for <strong>relationships</strong> between continuous variables. It tells us if two variables tend to move together, and how strongly.</p>
-                
-                <div class="application-corner">
-                    <h4>Application Corner: The Heart of Correlation</h4>
-                    <p>How can you correlate two things measured on different scales, like height (cm) and weight (kg)?</p>
-                    <p class="mt-2">The answer is <strong>standardization</strong>. Before correlating, the analysis converts all scores on each variable into <strong>standardized scores</strong> (also known as Z-scores). A Z-score simply expresses how many standard deviations a raw score is from its own mean. This puts both variables onto the same standardized scale.</p>
-                    <p class="mt-2">At its core, the correlation calculation is based on the <strong>sum of the products of these standardized scores</strong> for each participant. This standardized approach is what makes correlation so versatile.</p>
-                </div>
+        <div id="page-grid" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Main Content -->
+            <main class="w-full lg:col-span-2 p-6 md:p-8 rounded-lg shadow-md">
+                <nav aria-label="Correlation & Regression Tabs" class="mb-8">
+                    <ul role="tablist" class="flex flex-wrap gap-4 justify-center">
+                        <li role="presentation"><button role="tab" id="btn-correlation" aria-controls="correlation" class="nav-button active" onclick="switchContent(event, 'correlation', 'section-content', 'nav-button')">Correlation</button></li>
+                        <li role="presentation"><button role="tab" id="btn-simple-regression" aria-controls="simple-regression" class="nav-button" onclick="switchContent(event, 'simple-regression', 'section-content', 'nav-button')">Simple Regression</button></li>
+                        <li role="presentation"><button role="tab" id="btn-multiple-regression" aria-controls="multiple-regression" class="nav-button" onclick="switchContent(event, 'multiple-regression', 'section-content', 'nav-button')">Multiple Regression</button></li>
+                    </ul>
+                </nav>
+                <div id="correlation" role="tabpanel" aria-labelledby="btn-correlation" class="section-content" style="display: block;">
+                    <h2 class="text-2xl md:text-3xl font-bold border-b-2 pb-2 mb-4"><span class="glossary-term" data-term-id="correlation-glossary">Correlation</span></h2>
+                    <p class="mb-4">While ANOVA looks for differences between group means, correlation looks for <strong>relationships</strong> between continuous variables. It tells us if two variables tend to move together, and how strongly.</p>
+                    
+                    <div class="application-corner">
+                        <h4>Application Corner: The Heart of Correlation</h4>
+                        <p>How can you correlate two things measured on different scales, like height (cm) and weight (kg)?</p>
+                        <p class="mt-2">The answer is <strong>standardization</strong>. Before correlating, the analysis converts all scores on each variable into <strong>standardized scores</strong> (also known as Z-scores). A Z-score simply expresses how many standard deviations a raw score is from its own mean. This puts both variables onto the same standardized scale.</p>
+                        <p class="mt-2">At its core, the correlation calculation is based on the <strong>sum of the products of these standardized scores</strong> for each participant. This standardized approach is what makes correlation so versatile.</p>
+                    </div>
 
-                <h3 class="text-xl font-semibold mt-6 mb-2">Visualizing Relationships: <span class="glossary-term" data-term-id="scatterplot">Scatterplots</span></h3>
-                <p class="mb-4">The best way to start understanding a correlation is to look at a scatterplot. Each dot represents one participant's scores on two variables. The overall pattern of the dots gives you a visual clue about the strength and direction of the relationship.</p>
-                <div class="my-6 chart-wrapper">
-                    <h4 class="text-left">Example Scatterplots</h4>
-                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-2">
-                        <div>
-                            <h4 class="text-lg font-semibold text-center mb-2" style="color: var(--header-text);">Strong Positive</h4>
-                            <canvas id="corrChartStrongPositive"></canvas>
-                        </div>
-                        <div>
-                            <h4 class="text-lg font-semibold text-center mb-2" style="color: var(--header-text);">Weak Positive</h4>
-                            <canvas id="corrChartWeakPositive"></canvas>
-                        </div>
-                        <div>
-                            <h4 class="text-lg font-semibold text-center mb-2" style="color: var(--header-text);">Strong Negative</h4>
-                            <canvas id="corrChartStrongNegative"></canvas>
-                        </div>
-                        <div>
-                            <h4 class="text-lg font-semibold text-center mb-2" style="color: var(--header-text);">Weak Negative</h4>
-                            <canvas id="corrChartWeakNegative"></canvas>
+                    <h3 class="text-xl font-semibold mt-6 mb-2">Visualizing Relationships: <span class="glossary-term" data-term-id="scatterplot">Scatterplots</span></h3>
+                    <p class="mb-4">The best way to start understanding a correlation is to look at a scatterplot. Each dot represents one participant's scores on two variables. The overall pattern of the dots gives you a visual clue about the strength and direction of the relationship.</p>
+                    <div class="my-6 chart-wrapper">
+                        <h4 class="text-left">Example Scatterplots</h4>
+                         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-2">
+                            <div>
+                                <h4 class="text-lg font-semibold text-center mb-2" style="color: var(--header-text);">Strong Positive</h4>
+                                <canvas id="corrChartStrongPositive"></canvas>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-semibold text-center mb-2" style="color: var(--header-text);">Weak Positive</h4>
+                                <canvas id="corrChartWeakPositive"></canvas>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-semibold text-center mb-2" style="color: var(--header-text);">Strong Negative</h4>
+                                <canvas id="corrChartStrongNegative"></canvas>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-semibold text-center mb-2" style="color: var(--header-text);">Weak Negative</h4>
+                                <canvas id="corrChartWeakNegative"></canvas>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <h3 class="text-xl font-semibold mt-6 mb-2">The Correlation Coefficient (<span class="glossary-term" data-term-id="pearsons-r">Pearson's r</span>)</h3>
-                <p class="mb-4">The result of a correlation is a single number, Pearson's <em>r</em>, which tells us two crucial things about the linear relationship between two variables:</p>
-                <ul class="list-disc list-inside pl-4 space-y-3">
-                    <li><strong>Direction:</strong> Is the relationship positive or negative? A positive <em>r</em> means as one variable goes up, the other tends to go up. A negative <em>r</em> means as one goes up, the other tends to go down.</li>
-                    <li><strong>Strength:</strong> How strong is the relationship? The value of <em>r</em> ranges from -1 to +1.
-                        <ul class="list-disc list-inside pl-6 mt-2">
-                            <li><em>r</em> close to 0 = very weak or no linear relationship.</li>
-                            <li><em>r</em> close to 1 or -1 = very strong linear relationship.</li>
-                            <li>General rules of thumb for psychology: &plusmn;.1 (small), &plusmn;.3 (medium), &plusmn;.5 (large).</li>
-                        </ul>
-                    </li>
-                </ul>
-                <details class="p-4 mt-6 rounded-lg bg-gray-800">
-                    <summary>The Concept of Shared Variance (<span class="glossary-term" data-term-id="coefficient-of-determination">$R^2$</span>)</summary>
-                    <div>
-                        <p>If you square the correlation coefficient (<em>r</em>), you get the <strong>coefficient of determination ($R^2$)</strong>. This value tells you how much of the variance in one variable is "explained" or "shared" by the other variable.</p>
-                        <p class="mt-2">For example, if the correlation between revision hours and exam score is <em>r</em> = .72, then $R^2 = .72^2 = 0.5184$.</p>
-                        <p class="mt-2">This means that <strong>51.84%</strong> of the differences we see in students' exam scores can be accounted for by the differences in their revision hours. The rest of the variance is due to other factors (e.g., sleep, intelligence, luck).</p>
+                    <h3 class="text-xl font-semibold mt-6 mb-2">The Correlation Coefficient (<span class="glossary-term" data-term-id="pearsons-r">Pearson's r</span>)</h3>
+                    <p class="mb-4">The result of a correlation is a single number, Pearson's <em>r</em>, which tells us two crucial things about the linear relationship between two variables:</p>
+                    <ul class="list-disc list-inside pl-4 space-y-3">
+                        <li><strong>Direction:</strong> Is the relationship positive or negative? A positive <em>r</em> means as one variable goes up, the other tends to go up. A negative <em>r</em> means as one goes up, the other tends to go down.</li>
+                        <li><strong>Strength:</strong> How strong is the relationship? The value of <em>r</em> ranges from -1 to +1.
+                            <ul class="list-disc list-inside pl-6 mt-2">
+                                <li><em>r</em> close to 0 = very weak or no linear relationship.</li>
+                                <li><em>r</em> close to 1 or -1 = very strong linear relationship.</li>
+                                <li>General rules of thumb for psychology: &plusmn;.1 (small), &plusmn;.3 (medium), &plusmn;.5 (large).</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <details class="p-4 mt-6 rounded-lg bg-gray-800">
+                        <summary>The Concept of Shared Variance (<span class="glossary-term" data-term-id="coefficient-of-determination">$R^2$</span>)</summary>
+                        <div>
+                            <p>If you square the correlation coefficient (<em>r</em>), you get the <strong>coefficient of determination ($R^2$)</strong>. This value tells you how much of the variance in one variable is "explained" or "shared" by the other variable.</p>
+                            <p class="mt-2">For example, if the correlation between revision hours and exam score is <em>r</em> = .72, then $R^2 = .72^2 = 0.5184$.</p>
+                            <p class="mt-2">This means that <strong>51.84%</strong> of the differences we see in students' exam scores can be accounted for by the differences in their revision hours. The rest of the variance is due to other factors (e.g., sleep, intelligence, luck).</p>
+                        </div>
+                    </details>
+                    <div class="mt-6 p-4 rounded-lg info-box">
+                        <p><strong>Crucial point:</strong> Correlation does not equal causation! Just because two variables are related, it doesn't mean one causes the other. There could be a third, unmeasured variable (a confounding variable) influencing both.</p>
                     </div>
-                </details>
-                <div class="mt-6 p-4 rounded-lg info-box">
-                    <p><strong>Crucial point:</strong> Correlation does not equal causation! Just because two variables are related, it doesn't mean one causes the other. There could be a third, unmeasured variable (a confounding variable) influencing both.</p>
+                    <h3 class="text-xl font-semibold mt-8 mb-2">How to Report a Correlation</h3>
+                    <p>The format is: <em>r</em>(df) = r-value, <em>p</em> = p-value. The <span class="glossary-term" data-term-id="degrees-of-freedom">degrees of freedom</span> (df) for a Pearson correlation is N-2, where N is the number of pairs.</p>
+                    <div class="p-4 mt-2 rounded-lg bg-gray-800">
+                        <p class="font-semibold">Example Write-Up:</p>
+                        <p class="mt-2">"A Pearson's correlation was run to determine the relationship between hours spent revising and final exam score. There was a strong, positive correlation between the two variables, <em>r</em>(28) = .72, <em>p</em> < .001$. This indicates that students who spent more time revising tended to achieve higher exam scores."</p>
+                    </div>
                 </div>
-                <h3 class="text-xl font-semibold mt-8 mb-2">How to Report a Correlation</h3>
-                <p>The format is: <em>r</em>(df) = r-value, <em>p</em> = p-value. The <span class="glossary-term" data-term-id="degrees-of-freedom">degrees of freedom</span> (df) for a Pearson correlation is N-2, where N is the number of pairs.</p>
-                <div class="p-4 mt-2 rounded-lg bg-gray-800">
-                    <p class="font-semibold">Example Write-Up:</p>
-                    <p class="mt-2">"A Pearson's correlation was run to determine the relationship between hours spent revising and final exam score. There was a strong, positive correlation between the two variables, <em>r</em>(28) = .72, <em>p</em> < .001$. This indicates that students who spent more time revising tended to achieve higher exam scores."</p>
-                </div>
-            </div>
-            <div id="simple-regression" role="tabpanel" aria-labelledby="btn-simple-regression" class="section-content">
-                <h2 class="text-2xl md:text-3xl font-bold border-b-2 pb-2 mb-4">Simple Linear <span class="glossary-term" data-term-id="regression">Regression</span></h2>
-                <p class="mb-4">Regression takes correlation a step further. Instead of just describing a relationship, it allows us to <strong>predict</strong> the value of one variable (the outcome or <span class="glossary-term" data-term-id="dv">dependent variable</span>) from the value of another (the predictor or <span class="glossary-term" data-term-id="iv">independent variable</span>).</p>
-                
-                <div class="p-4 rounded-lg info-box">
-                    <p><strong>Key Tip:</strong> In a Simple Linear Regression (with only one predictor), the <strong>Standardized Beta (&beta;)</strong> value in the 'Coefficients' table is <strong>exactly the same as the <span class="glossary-term" data-term-id="pearsons-r">Pearson's r</span> correlation coefficient</strong>.</p>
-                </div>
-                
-                <h3 class="text-xl font-semibold mt-6 mb-2">The <span class="glossary-term" data-term-id="line-of-best-fit">Line of Best Fit</span> & The Regression Equation</h3>
-                <p class="mb-4">Simple regression finds the single best straight line that goes through the data points on a <span class="glossary-term" data-term-id="scatterplot">scatterplot</span>. This line minimizes the overall distance between itself and all the individual data points (this is called the method of least squares). The line is described by a simple equation:</p>
-                <p class="text-center text-xl font-mono my-2 p-2 bg-gray-900 rounded-lg">$$Y = b_0 + b_1X$$</p>
-                <div class="my-4 chart-wrapper">
-                     <h4 class="text-center">Regression Plot: The Line of Best Fit</h4>
-                    <canvas id="regressionLineChart"></canvas>
-                </div>
-                <div class="space-y-3 mt-4">
-                    <p>This equation has two key parts that you can see on the graph:</p>
-                    <ul class="list-disc list-inside pl-4 space-y-2 mt-2">
-                        <li><strong>$b_0$ (The <span class="glossary-term" data-term-id="intercept">Intercept</span>):</strong> This is the value of Y when X is 0. It's the point where the red regression line <strong>crosses the vertical Y-axis</strong>. In our example, if someone did 0 hours of revision, we would predict their exam score to be the intercept value.</li>
-                        <li><strong>$b_1$ (The <span class="glossary-term" data-term-id="slope">Slope</span>):</strong> This represents the steepness of the red line. It tells us how much Y is predicted to change for every one-unit increase in X. A steeper line means a larger slope and a stronger prediction. A flat line means the predictor has no effect.</li>
-                        <li><strong>Y and X:</strong> Y is the outcome variable we are trying to predict (the value on the Y-axis), and X is the predictor variable we are using (the value on the X-axis).</li>
-                    </ul>
-                </div>
-                
-                 <div class="application-corner">
-                    <h4>Application Corner: Making a Prediction</h4>
-                    <p>You can use the regression equation from your output to predict a score. Let's use an example where we predict plant growth (cm) from hours of sunlight (Sunlight).</p>
-                     <p class="mt-2"><strong>JASP Output gives us:</strong> Intercept ($b_0$) = 5.2, and the slope for Sunlight ($b_1$) = 2.1.</p>
-                     <p><strong>Equation:</strong> Growth = 5.2 + (2.1 * Sunlight)</p>
-                     <p class="mt-4"><strong>Question:</strong> What is the predicted growth for a plant that gets 7 hours of sunlight?</p>
-                    <ul class="list-disc list-inside space-y-2 mt-2">
-                        <li>Growth = 5.2 + (2.1 * 7)</li>
-                        <li>Growth = 5.2 + 14.7</li>
-                        <li><strong>Predicted Growth = 19.9 cm</strong></li>
-                    </ul>
-                </div>
-
-                <h3 class="text-xl font-semibold mt-8 mb-2">Interpreting the JASP Output</h3>
-                <p class="mb-4">When you run a simple regression in JASP, you get three key tables to look at.</p>
-                <div class="data-table-wrapper">
-                    <h4 class="font-semibold text-lg mb-2">1. Model Summary</h4>
-                     <table class="w-full text-sm text-left">
-                       <thead class="text-xs uppercase"><tr><th class="px-4 py-2">Model</th><th class="px-4 py-2">R</th><th class="px-4 py-2">R Square</th><th class="px-4 py-2">Adjusted R²</th></tr></thead>
-                       <tbody><tr class="border-b border-gray-700"><td class="px-4 py-2">H₁</td><td class="px-4 py-2">0.544</td><td class="px-4 py-2">0.295</td><td class="px-4 py-2">0.269</td></tr></tbody>
-                    </table>
-                </div>
-                <p class="mt-2 mb-4">The <strong>R</strong> value is the Pearson correlation coefficient. The <strong>R Square</strong> (<span class="glossary-term" data-term-id="coefficient-of-determination">$R^2$</span>) value is the coefficient of determination. It tells you the proportion of variance in the outcome variable that is explained by the predictor. Here, 0.295 means that <strong>29.5%</strong> of the variance in exam scores can be explained by revision hours.</p>
-                
-                <div class="mt-4 data-table-wrapper">
-                    <h4 class="font-semibold text-lg mb-2">2. ANOVA</h4>
-                     <table class="w-full text-sm text-left">
-                       <thead class="text-xs uppercase"><tr><th class="px-4 py-2">Model</th><th class="px-4 py-2"></th><th class="px-4 py-2">Sum of Squares</th><th class="px-4 py-2">df</th><th class="px-4 py-2">F</th><th class="px-4 py-2">p</th></tr></thead>
-                       <tbody><tr class="border-b border-gray-700"><td class="px-4 py-2">H₁</td><td class="px-4 py-2 font-semibold">Regression</td><td class="px-4 py-2">4262.9</td><td class="px-4 py-2">1</td><td class="px-4 py-2">11.32</td><td class="px-4 py-2">.002</td></tr></tbody>
-                    </table>
-                </div>
-                <p class="mt-2 mb-4">The <span class="glossary-term" data-term-id="anova-glossary">ANOVA</span> table tells you if your regression model is statistically significant. If the p-value is less than .05, it means your model (using revision hours to predict scores) is significantly better at predicting the outcome than just using the mean score as a guess. Here, $p = .002$, so our model is significant.</p>
-                
-                <div class="mt-4 data-table-wrapper">
-                    <h4 class="font-semibold text-lg mb-2">3. Coefficients</h4>
-                     <table class="w-full text-sm text-left">
-                       <thead class="text-xs uppercase"><tr><th class="px-4 py-2">Model</th><th class="px-4 py-2">Unstandardized B</th><th class="px-4 py-2">t</th><th class="px-4 py-2">p</th></tr></thead>
-                       <tbody>
-                        <tr class="border-b border-gray-700"><td class="px-4 py-2">(Intercept)</td><td class="px-4 py-2">29.574</td><td class="px-4 py-2">3.136</td><td class="px-4 py-2">.004</td></tr>
-                        <tr class="border-b border-gray-700"><td class="px-4 py-2">revision_hrs</td><td class="px-4 py-2">0.480</td><td class="px-4 py-2">3.365</td><td class="px-4 py-2">.002</td></tr>
-                       </tbody>
-                    </table>
-                </div>
-                <p class="mt-2">This table gives us the values for our equation. The (Intercept) is our $b_0$ (29.574) and the value for our predictor (revision_hrs) is our $b_1$ (0.480). The p-value for the predictor tells us if it significantly contributes to the model. Since $p=.002$, revision hours is a significant predictor.</p>
-                <h3 class="text-xl font-semibold mt-8 mb-2">Final Write-Up</h3>
-                <p>"A simple linear regression was calculated to predict exam scores based on revision hours. A significant regression equation was found (<em>F</em>(1, 27) = 11.32, <em>p</em> = .002), with an <em>R</em><sup>2</sup> of .295. Participants' predicted exam score is equal to 29.57 + 0.48 (revision hours). For every additional hour of revision, the exam score is predicted to increase by 0.48 points. Revision hours was a significant predictor of exam score (<em>p</em> = .002)."</p>
-            </div>
-            <div id="multiple-regression" role="tabpanel" aria-labelledby="btn-multiple-regression" class="section-content">
-                <h2 class="text-2xl md:text-3xl font-bold border-b-2 pb-2 mb-4"><span class="glossary-term" data-term-id="multiple-regression">Multiple Regression</span></h2>
-                <p class="mb-4">Multiple regression is an extension of simple regression. Instead of using just one predictor variable, we use <strong>two or more</strong> to try and predict an outcome. The goal is to see if we can create a better predictive model by including more relevant information.</p>
-                <h3 class="text-xl font-semibold mt-6 mb-2">The Rationale: Explaining More Variance</h3>
-                <p class="mb-4">Each predictor variable explains a certain amount of <span class="glossary-term" data-term-id="variance">variance</span> in the outcome. By combining predictors, we hope to explain more of the total variance than any single predictor could alone. The model tests the combined predictive power of all your chosen variables.</p>
-                <h3 class="text-xl font-semibold mt-8 mb-2">A Worked Example: What Predicts Statistics Exam Scores?</h3>
-                <p class="mb-4">Let's try to predict students' statistics exam scores (our outcome). We'll use three predictor variables: Fear of Stats, Fear of Computers, and Fear of Maths.</p>
-                
-                <div class="application-corner">
-                    <h4>Application Corner: Comparing Predictors</h4>
-                    <p>When you have multiple predictors, you might want to know which one is the most important or strongest. You <strong>cannot</strong> use the 'Unstandardized B' for this, as the predictors might be on different scales.</p>
-                     <p class="mt-2">Instead, you must look at the <strong>Standardized Beta (&beta;)</strong> column. This puts all predictors on the same scale, so they can be directly compared.</p>
-                     <p class="mt-4"><strong>Example:</strong> In our Coefficients table, 'Stats Fear' has a &beta; of <strong>0.529</strong>, while 'Computer Fear' has a &beta; of -0.086 and 'Maths Fear' has a &beta; of 0.070. By comparing the absolute values, we can see that 0.529 is much larger than the others, making 'Stats Fear' the strongest predictor in the model.</p>
-                </div>
-
-                <h3 class="text-xl font-semibold mt-8 mb-2">Interpreting the JASP Output</h3>
-                <p class="mb-4">The interpretation follows a similar logic to simple regression, but now we have to consider the contribution of each predictor.</p>
-                <div class="data-table-wrapper">
-                    <h4 class="font-semibold text-lg mb-2">1. Model Summary</h4>
-                     <table class="w-full text-sm text-left">
-                       <thead class="text-xs uppercase"><tr><th class="px-4 py-2">Model</th><th class="px-4 py-2">R</th><th class="px-4 py-2">R²</th><th class="px-4 py-2">Adjusted R²</th></tr></thead>
-                       <tbody><tr class="border-b border-gray-700"><td class="px-4 py-2">H₁</td><td class="px-4 py-2">0.517</td><td class="px-4 py-2">0.268</td><td class="px-4 py-2">0.245</td></tr></tbody>
-                    </table>
-                </div>
-                <p class="mt-2 mb-4">The <strong><span class="glossary-term" data-term-id="coefficient-of-determination">R²</span></strong> value of 0.268 means that our model (containing all three 'fear' predictors) explains <strong>26.8%</strong> of the variance in exam scores. The <strong>Adjusted R²</strong> is an estimate of how well our model would generalize to the population. A smaller gap between R² and Adjusted R² is better.</p>
-                <div class="mt-4 data-table-wrapper">
-                    <h4 class="font-semibold text-lg mb-2">2. ANOVA</h4>
-                     <table class="w-full text-sm text-left">
-                       <thead class="text-xs uppercase"><tr><th class="px-4 py-2">Model</th><th class="px-4 py-2"></th><th class="px-4 py-2">F</th><th class="px-4 py-2">df1</th><th class="px-4 py-2">df2</th><th class="px-4 py-2">p</th></tr></thead>
-                       <tbody><tr class="border-b border-gray-700"><td class="px-4 py-2">H₁</td><td class="px-4 py-2 font-semibold">Regression</td><td class="px-4 py-2">11.811</td><td class="px-4 py-2">3</td><td class="px-4 py-2">97</td><td class="px-4 py-2">&lt; .001</td></tr></tbody>
-                    </table>
-                </div>
-                <p class="mt-2 mb-4">The <span class="glossary-term" data-term-id="anova-glossary">ANOVA</span> table shows our overall model is significant, $F(3, 97) = 11.81, p < .001$. This means our combination of predictors is significantly better than chance at predicting exam scores.</p>
-                <div class="mt-4 data-table-wrapper">
-                    <h4 class="font-semibold text-lg mb-2">3. Coefficients</h4>
-                     <table class="w-full text-sm text-left">
-                       <thead class="text-xs uppercase"><tr><th class="px-4 py-2">Predictor</th><th class="px-4 py-2">Unstandardized B</th><th class="px-4 py-2">Standardized β</th><th class="px-4 py-2">t</th><th class="px-4 py-2">p</th></tr></thead>
-                       <tbody>
-                        <tr class="border-b border-gray-700"><td class="px-4 py-2">(Intercept)</td><td class="px-4 py-2">-6.315</td><td class="px-4 py-2"></td><td class="px-4 py-2">-0.686</td><td class="px-4 py-2">.494</td></tr>
-                        <tr class="border-b border-gray-700"><td class="px-4 py-2">Stats Fear</td><td class="px-4 py-2">2.384</td><td class="px-4 py-2">0.529</td><td class="px-4 py-2">4.064</td><td class="px-4 py-2">&lt;.001</td></tr>
-                        <tr class="border-b border-gray-700"><td class="px-4 py-2">Computer Fear</td><td class="px-4 py-2">-0.482</td><td class="px-4 py-2">-0.086</td><td class="px-4 py-2">-0.694</td><td class="px-4 py-2">.489</td></tr>
-                        <tr class="border-b border-gray-700"><td class="px-4 py-2">Maths Fear</td><td class="px-4 py-2">0.662</td><td class="px-4 py-2">0.070</td><td class="px-4 py-2">0.633</td><td class="px-4 py-2">.528</td></tr>
-                       </tbody>
-                    </table>
-                </div>
-                <p class="mt-2">This table tells us about each individual predictor. The <strong>p-values</strong> show that only 'Stats Fear' ($p < .001$) is a significant predictor in this model. The other two are not. As discussed in the Application Corner, the <strong>Standardized Beta (&beta;)</strong> values allow us to compare the relative importance of the predictors. Here, Stats Fear (&beta; = .529) is by far the strongest.</p>
-                <details class="p-4 mt-6 rounded-lg bg-gray-800">
-                    <summary>Important Assumptions in Multiple Regression</summary>
-                    <div>
-                        <p>Multiple regression has several key assumptions you need to check:</p>
-                        <ul class="list-disc list-inside pl-4 space-y-2 mt-4">
-                            <li><strong>Linearity:</strong> The relationship between each predictor and the outcome should be linear.</li>
-                            <li><strong>Homoscedasticity:</strong> The variance of the errors (residuals) should be consistent across all levels of the predictors. You check this with a scatterplot of residuals vs. predicted values. You want to see a random cloud of dots, not a funnel shape.</li>
-                            <li><strong>Normality of Residuals:</strong> The errors your model makes should be normally distributed. You can check this with a Q-Q plot or a histogram of the residuals.</li>
-                            <li><strong>No <span class="glossary-term" data-term-id="multicollinearity">Multicollinearity</span>:</strong> Your predictors should not be too highly correlated with each other (e.g., $r > .80$). High correlation makes it difficult to tell which predictor is responsible for the variance. You can check this with a correlation matrix and by looking at VIF and Tolerance statistics in JASP (VIF > 10 or Tolerance < 0.1 are signs of a problem).</li>
+                <div id="simple-regression" role="tabpanel" aria-labelledby="btn-simple-regression" class="section-content">
+                    <h2 class="text-2xl md:text-3xl font-bold border-b-2 pb-2 mb-4">Simple Linear <span class="glossary-term" data-term-id="regression">Regression</span></h2>
+                    <p class="mb-4">Regression takes correlation a step further. Instead of just describing a relationship, it allows us to <strong>predict</strong> the value of one variable (the outcome or <span class="glossary-term" data-term-id="dv">dependent variable</span>) from the value of another (the predictor or <span class="glossary-term" data-term-id="iv">independent variable</span>).</p>
+                    
+                    <div class="p-4 rounded-lg info-box">
+                        <p><strong>Key Tip:</strong> In a Simple Linear Regression (with only one predictor), the <strong>Standardized Beta (&beta;)</strong> value in the 'Coefficients' table is <strong>exactly the same as the <span class="glossary-term" data-term-id="pearsons-r">Pearson's r</span> correlation coefficient</strong>.</p>
+                    </div>
+                    
+                    <h3 class="text-xl font-semibold mt-6 mb-2">The <span class="glossary-term" data-term-id="line-of-best-fit">Line of Best Fit</span> & The Regression Equation</h3>
+                    <p class="mb-4">Simple regression finds the single best straight line that goes through the data points on a <span class="glossary-term" data-term-id="scatterplot">scatterplot</span>. This line minimizes the overall distance between itself and all the individual data points (this is called the method of least squares). The line is described by a simple equation:</p>
+                    <p class="text-center text-xl font-mono my-2 p-2 bg-gray-900 rounded-lg">$$Y = b_0 + b_1X$$</p>
+                    <div class="my-4 chart-wrapper">
+                         <h4 class="text-center">Regression Plot: The Line of Best Fit</h4>
+                        <canvas id="regressionLineChart"></canvas>
+                    </div>
+                    <div class="space-y-3 mt-4">
+                        <p>This equation has two key parts that you can see on the graph:</p>
+                        <ul class="list-disc list-inside pl-4 space-y-2 mt-2">
+                            <li><strong>$b_0$ (The <span class="glossary-term" data-term-id="intercept">Intercept</span>):</strong> This is the value of Y when X is 0. It's the point where the red regression line <strong>crosses the vertical Y-axis</strong>. In our example, if someone did 0 hours of revision, we would predict their exam score to be the intercept value.</li>
+                            <li><strong>$b_1$ (The <span class="glossary-term" data-term-id="slope">Slope</span>):</strong> This represents the steepness of the red line. It tells us how much Y is predicted to change for every one-unit increase in X. A steeper line means a larger slope and a stronger prediction. A flat line means the predictor has no effect.</li>
+                            <li><strong>Y and X:</strong> Y is the outcome variable we are trying to predict (the value on the Y-axis), and X is the predictor variable we are using (the value on the X-axis).</li>
                         </ul>
                     </div>
-                </details>
-                <h3 class="text-xl font-semibold mt-8 mb-2">Final Write-Up</h3>
-                <p>"A multiple regression was run to predict statistics exam scores from fear of stats, fear of computers, and fear of maths. The regression model was statistically significant, <em>F</em>(3, 97) = 11.81, <em>p</em> < .001$, and accounted for 26.8% of the variance in exam scores (<em>R</em><sup>2</sup> = .268). Only fear of statistics was found to be a significant predictor of exam scores (&beta; = .53, <em>p</em> < .001)."</p>
-            </div>
-        </main>
+                    
+                     <div class="application-corner">
+                        <h4>Application Corner: Making a Prediction</h4>
+                        <p>You can use the regression equation from your output to predict a score. Let's use an example where we predict plant growth (cm) from hours of sunlight (Sunlight).</p>
+                         <p class="mt-2"><strong>JASP Output gives us:</strong> Intercept ($b_0$) = 5.2, and the slope for Sunlight ($b_1$) = 2.1.</p>
+                         <p><strong>Equation:</strong> Growth = 5.2 + (2.1 * Sunlight)</p>
+                         <p class="mt-4"><strong>Question:</strong> What is the predicted growth for a plant that gets 7 hours of sunlight?</p>
+                        <ul class="list-disc list-inside space-y-2 mt-2">
+                            <li>Growth = 5.2 + (2.1 * 7)</li>
+                            <li>Growth = 5.2 + 14.7</li>
+                            <li><strong>Predicted Growth = 19.9 cm</strong></li>
+                        </ul>
+                    </div>
+
+                    <h3 class="text-xl font-semibold mt-8 mb-2">Interpreting the JASP Output</h3>
+                    <p class="mb-4">When you run a simple regression in JASP, you get three key tables to look at.</p>
+                    <div class="data-table-wrapper">
+                        <h4 class="font-semibold text-lg mb-2">1. Model Summary</h4>
+                         <table class="w-full text-sm text-left">
+                           <thead class="text-xs uppercase"><tr><th class="px-4 py-2">Model</th><th class="px-4 py-2">R</th><th class="px-4 py-2">R Square</th><th class="px-4 py-2">Adjusted R²</th></tr></thead>
+                           <tbody><tr class="border-b border-gray-700"><td class="px-4 py-2">H₁</td><td class="px-4 py-2">0.544</td><td class="px-4 py-2">0.295</td><td class="px-4 py-2">0.269</td></tr></tbody>
+                        </table>
+                    </div>
+                    <p class="mt-2 mb-4">The <strong>R</strong> value is the Pearson correlation coefficient. The <strong>R Square</strong> (<span class="glossary-term" data-term-id="coefficient-of-determination">$R^2$</span>) value is the coefficient of determination. It tells you the proportion of variance in the outcome variable that is explained by the predictor. Here, 0.295 means that <strong>29.5%</strong> of the variance in exam scores can be explained by revision hours.</p>
+                    
+                    <div class="mt-4 data-table-wrapper">
+                        <h4 class="font-semibold text-lg mb-2">2. ANOVA</h4>
+                         <table class="w-full text-sm text-left">
+                           <thead class="text-xs uppercase"><tr><th class="px-4 py-2">Model</th><th class="px-4 py-2"></th><th class="px-4 py-2">Sum of Squares</th><th class="px-4 py-2">df</th><th class="px-4 py-2">F</th><th class="px-4 py-2">p</th></tr></thead>
+                           <tbody><tr class="border-b border-gray-700"><td class="px-4 py-2">H₁</td><td class="px-4 py-2 font-semibold">Regression</td><td class="px-4 py-2">4262.9</td><td class="px-4 py-2">1</td><td class="px-4 py-2">11.32</td><td class="px-4 py-2">.002</td></tr></tbody>
+                        </table>
+                    </div>
+                    <p class="mt-2 mb-4">The <span class="glossary-term" data-term-id="anova-glossary">ANOVA</span> table tells you if your regression model is statistically significant. If the p-value is less than .05, it means your model (using revision hours to predict scores) is significantly better at predicting the outcome than just using the mean score as a guess. Here, $p = .002$, so our model is significant.</p>
+                    
+                    <div class="mt-4 data-table-wrapper">
+                        <h4 class="font-semibold text-lg mb-2">3. Coefficients</h4>
+                         <table class="w-full text-sm text-left">
+                           <thead class="text-xs uppercase"><tr><th class="px-4 py-2">Model</th><th class="px-4 py-2">Unstandardized B</th><th class="px-4 py-2">t</th><th class="px-4 py-2">p</th></tr></thead>
+                           <tbody>
+                            <tr class="border-b border-gray-700"><td class="px-4 py-2">(Intercept)</td><td class="px-4 py-2">29.574</td><td class="px-4 py-2">3.136</td><td class="px-4 py-2">.004</td></tr>
+                            <tr class="border-b border-gray-700"><td class="px-4 py-2">revision_hrs</td><td class="px-4 py-2">0.480</td><td class="px-4 py-2">3.365</td><td class="px-4 py-2">.002</td></tr>
+                           </tbody>
+                        </table>
+                    </div>
+                    <p class="mt-2">This table gives us the values for our equation. The (Intercept) is our $b_0$ (29.574) and the value for our predictor (revision_hrs) is our $b_1$ (0.480). The p-value for the predictor tells us if it significantly contributes to the model. Since $p=.002$, revision hours is a significant predictor.</p>
+                    <h3 class="text-xl font-semibold mt-8 mb-2">Final Write-Up</h3>
+                    <p>"A simple linear regression was calculated to predict exam scores based on revision hours. A significant regression equation was found (<em>F</em>(1, 27) = 11.32, <em>p</em> = .002), with an <em>R</em><sup>2</sup> of .295. Participants' predicted exam score is equal to 29.57 + 0.48 (revision hours). For every additional hour of revision, the exam score is predicted to increase by 0.48 points. Revision hours was a significant predictor of exam score (<em>p</em> = .002)."</p>
+                </div>
+                <div id="multiple-regression" role="tabpanel" aria-labelledby="btn-multiple-regression" class="section-content">
+                    <h2 class="text-2xl md:text-3xl font-bold border-b-2 pb-2 mb-4"><span class="glossary-term" data-term-id="multiple-regression">Multiple Regression</span></h2>
+                    <p class="mb-4">Multiple regression is an extension of simple regression. Instead of using just one predictor variable, we use <strong>two or more</strong> to try and predict an outcome. The goal is to see if we can create a better predictive model by including more relevant information.</p>
+                    <h3 class="text-xl font-semibold mt-6 mb-2">The Rationale: Explaining More Variance</h3>
+                    <p class="mb-4">Each predictor variable explains a certain amount of <span class="glossary-term" data-term-id="variance">variance</span> in the outcome. By combining predictors, we hope to explain more of the total variance than any single predictor could alone. The model tests the combined predictive power of all your chosen variables.</p>
+                    <h3 class="text-xl font-semibold mt-8 mb-2">A Worked Example: What Predicts Statistics Exam Scores?</h3>
+                    <p class="mb-4">Let's try to predict students' statistics exam scores (our outcome). We'll use three predictor variables: Fear of Stats, Fear of Computers, and Fear of Maths.</p>
+                    
+                    <div class="application-corner">
+                        <h4>Application Corner: Comparing Predictors</h4>
+                        <p>When you have multiple predictors, you might want to know which one is the most important or strongest. You <strong>cannot</strong> use the 'Unstandardized B' for this, as the predictors might be on different scales.</p>
+                         <p class="mt-2">Instead, you must look at the <strong>Standardized Beta (&beta;)</strong> column. This puts all predictors on the same scale, so they can be directly compared.</p>
+                         <p class="mt-4"><strong>Example:</strong> In our Coefficients table, 'Stats Fear' has a &beta; of <strong>0.529</strong>, while 'Computer Fear' has a &beta; of -0.086 and 'Maths Fear' has a &beta; of 0.070. By comparing the absolute values, we can see that 0.529 is much larger than the others, making 'Stats Fear' the strongest predictor in the model.</p>
+                    </div>
+
+                    <h3 class="text-xl font-semibold mt-8 mb-2">Interpreting the JASP Output</h3>
+                    <p class="mb-4">The interpretation follows a similar logic to simple regression, but now we have to consider the contribution of each predictor.</p>
+                    <div class="data-table-wrapper">
+                        <h4 class="font-semibold text-lg mb-2">1. Model Summary</h4>
+                         <table class="w-full text-sm text-left">
+                           <thead class="text-xs uppercase"><tr><th class="px-4 py-2">Model</th><th class="px-4 py-2">R</th><th class="px-4 py-2">R²</th><th class="px-4 py-2">Adjusted R²</th></tr></thead>
+                           <tbody><tr class="border-b border-gray-700"><td class="px-4 py-2">H₁</td><td class="px-4 py-2">0.517</td><td class="px-4 py-2">0.268</td><td class="px-4 py-2">0.245</td></tr></tbody>
+                        </table>
+                    </div>
+                    <p class="mt-2 mb-4">The <strong><span class="glossary-term" data-term-id="coefficient-of-determination">R²</span></strong> value of 0.268 means that our model (containing all three 'fear' predictors) explains <strong>26.8%</strong> of the variance in exam scores. The <strong>Adjusted R²</strong> is an estimate of how well our model would generalize to the population. A smaller gap between R² and Adjusted R² is better.</p>
+                    <div class="mt-4 data-table-wrapper">
+                        <h4 class="font-semibold text-lg mb-2">2. ANOVA</h4>
+                         <table class="w-full text-sm text-left">
+                           <thead class="text-xs uppercase"><tr><th class="px-4 py-2">Model</th><th class="px-4 py-2"></th><th class="px-4 py-2">F</th><th class="px-4 py-2">df1</th><th class="px-4 py-2">df2</th><th class="px-4 py-2">p</th></tr></thead>
+                           <tbody><tr class="border-b border-gray-700"><td class="px-4 py-2">H₁</td><td class="px-4 py-2 font-semibold">Regression</td><td class="px-4 py-2">11.811</td><td class="px-4 py-2">3</td><td class="px-4 py-2">97</td><td class="px-4 py-2">&lt; .001</td></tr></tbody>
+                        </table>
+                    </div>
+                    <p class="mt-2 mb-4">The <span class="glossary-term" data-term-id="anova-glossary">ANOVA</span> table shows our overall model is significant, $F(3, 97) = 11.81, p < .001$. This means our combination of predictors is significantly better than chance at predicting exam scores.</p>
+                    <div class="mt-4 data-table-wrapper">
+                        <h4 class="font-semibold text-lg mb-2">3. Coefficients</h4>
+                         <table class="w-full text-sm text-left">
+                           <thead class="text-xs uppercase"><tr><th class="px-4 py-2">Predictor</th><th class="px-4 py-2">Unstandardized B</th><th class="px-4 py-2">Standardized β</th><th class="px-4 py-2">t</th><th class="px-4 py-2">p</th></tr></thead>
+                           <tbody>
+                            <tr class="border-b border-gray-700"><td class="px-4 py-2">(Intercept)</td><td class="px-4 py-2">-6.315</td><td class="px-4 py-2"></td><td class="px-4 py-2">-0.686</td><td class="px-4 py-2">.494</td></tr>
+                            <tr class="border-b border-gray-700"><td class="px-4 py-2">Stats Fear</td><td class="px-4 py-2">2.384</td><td class="px-4 py-2">0.529</td><td class="px-4 py-2">4.064</td><td class="px-4 py-2">&lt;.001</td></tr>
+                            <tr class="border-b border-gray-700"><td class="px-4 py-2">Computer Fear</td><td class="px-4 py-2">-0.482</td><td class="px-4 py-2">-0.086</td><td class="px-4 py-2">-0.694</td><td class="px-4 py-2">.489</td></tr>
+                            <tr class="border-b border-gray-700"><td class="px-4 py-2">Maths Fear</td><td class="px-4 py-2">0.662</td><td class="px-4 py-2">0.070</td><td class="px-4 py-2">0.633</td><td class="px-4 py-2">.528</td></tr>
+                           </tbody>
+                        </table>
+                    </div>
+                    <p class="mt-2">This table tells us about each individual predictor. The <strong>p-values</strong> show that only 'Stats Fear' ($p < .001$) is a significant predictor in this model. The other two are not. As discussed in the Application Corner, the <strong>Standardized Beta (&beta;)</strong> values allow us to compare the relative importance of the predictors. Here, Stats Fear (&beta; = .529) is by far the strongest.</p>
+                    <details class="p-4 mt-6 rounded-lg bg-gray-800">
+                        <summary>Important Assumptions in Multiple Regression</summary>
+                        <div>
+                            <p>Multiple regression has several key assumptions you need to check:</p>
+                            <ul class="list-disc list-inside pl-4 space-y-2 mt-4">
+                                <li><strong>Linearity:</strong> The relationship between each predictor and the outcome should be linear.</li>
+                                <li><strong>Homoscedasticity:</strong> The variance of the errors (residuals) should be consistent across all levels of the predictors. You check this with a scatterplot of residuals vs. predicted values. You want to see a random cloud of dots, not a funnel shape.</li>
+                                <li><strong>Normality of Residuals:</strong> The errors your model makes should be normally distributed. You can check this with a Q-Q plot or a histogram of the residuals.</li>
+                                <li><strong>No <span class="glossary-term" data-term-id="multicollinearity">Multicollinearity</span>:</strong> Your predictors should not be too highly correlated with each other (e.g., $r > .80$). High correlation makes it difficult to tell which predictor is responsible for the variance. You can check this with a correlation matrix and by looking at VIF and Tolerance statistics in JASP (VIF > 10 or Tolerance < 0.1 are signs of a problem).</li>
+                            </ul>
+                        </div>
+                    </details>
+                    <h3 class="text-xl font-semibold mt-8 mb-2">Final Write-Up</h3>
+                    <p>"A multiple regression was run to predict statistics exam scores from fear of stats, fear of computers, and fear of maths. The regression model was statistically significant, <em>F</em>(3, 97) = 11.81, <em>p</em> < .001$, and accounted for 26.8% of the variance in exam scores (<em>R</em><sup>2</sup> = .268). Only fear of statistics was found to be a significant predictor of exam scores (&beta; = .53, <em>p</em> < .001)."</p>
+                </div>
+            </main>
+            <!-- Glossary Sidebar -->
+            <aside id="glossary-sidebar" class="w-full lg:col-span-1 lg:sticky top-8 self-start">
+                <div class="p-6 rounded-lg shadow-md" style="background-color: var(--card-bg);">
+                    <h2 class="text-2xl font-bold border-b-2 pb-2 mb-4">Glossary</h2>
+                    <div id="glossary-content" class="space-y-4 text-sm max-h-[80vh] overflow-y-auto pr-2">
+                        <!-- Glossary content will be loaded from assets/glossary.html -->
+                    </div>
+                </div>
+            </aside>
+        </div>
     </div>
+    <!-- Popup container for glossary terms -->
+    <div id="glossary-popup"></div>
+    <!-- Load glossary functionality from external file -->
+    <script src="../assets/glossary-popup.js"></script>
     <script>
     function switchContent(evt, contentId, contentClass = 'section-content', buttonClass = 'nav-button') {
         const contentPanels = document.getElementsByClassName(contentClass);
