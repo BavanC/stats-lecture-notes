@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>In-Depth Guide: Categorical Data & Chi-Square</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- MathJax Configuration -->
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']]
+        }
+      };
+    </script>
+    <!-- MathJax for LaTeX rendering -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <!-- Chart.js for graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        :root {
+            /* Theme: "Amber Night" from lecture-moderation.html */
+            --bg-color: #18181b;           /* zinc-900 */
+            --text-color: #d4d4d8;         /* zinc-300 */
+            --card-bg: #27272a;           /* zinc-800 */
+            --header-text: #fafafa;         /* zinc-50 */
+            --subtle-text: #a1a1aa;         /* zinc-400 */
+            --border-color: #3f3f46;         /* zinc-700 */
+            --active-tab-border: #facc15; /* amber-400 */
+            --info-box-bg: #451a03;         /* amber-950 */
+            --info-box-border: #f59e0b;   /* amber-500 */
+            --info-box-text: #fef3c7;         /* amber-100 */
+            --table-bg: #3f3f46;           /* zinc-700 */
+            --chart-bg: #18181b;           /* zinc-900 */
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+        h1, h2, h3, h4 {
+            font-weight: 700;
+            color: var(--header-text);
+        }
+        h2 {
+            border-bottom: 2px solid var(--active-tab-border);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .content-wrapper {
+            background-color: var(--card-bg);
+        }
+        .info-box {
+            background-color: var(--info-box-bg);
+            border: 1px solid var(--info-box-border);
+            color: var(--info-box-text);
+        }
+        .data-table-wrapper {
+            background-color: var(--table-bg);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+        }
+        .data-table-wrapper table thead {
+            background-color: #52525b; /* zinc-600 */
+        }
+        .chart-wrapper {
+            background-color: var(--chart-bg);
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            border-radius: 0.5rem;
+        }
+        /* Clickable box styling */
+        details > summary {
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--header-text);
+            background-color: var(--border-color);
+            padding: 0.75rem 1rem;
+            border-radius: 0.375rem;
+            transition: background-color 0.2s;
+            list-style: none; /* Hide default arrow */
+            position: relative;
+        }
+        details > summary::-webkit-details-marker {
+            display: none; /* Hide default arrow for Safari */
+        }
+        details > summary::before {
+            content: '►'; /* Collapsed state icon */
+            position: absolute;
+            right: 1rem;
+            transform: rotate(0deg);
+            transition: transform 0.2s;
+        }
+        details[open] > summary::before {
+            transform: rotate(90deg); /* Expanded state icon */
+        }
+        details > summary:hover {
+            background-color: #52525b;
+        }
+        details > div {
+            padding: 1rem;
+            margin-top: 0.5rem;
+            border-left: 3px solid var(--active-tab-border);
+            background-color: #18181b;
+        }
+    </style>
+</head>
+<body class="transition-colors duration-300">
+
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-8 relative">
+            <h1 class="text-4xl md:text-5xl font-bold">Lecture Guide: Categorical Data & Chi-Square</h1>
+            <p class="text-xl mt-2 text-gray-400">Analyzing Frequencies and Associations</p>
+        </header>
+
+        <div class="content-wrapper w-full p-6 md:p-8 rounded-lg shadow-2xl">
+            
+            <!-- Section 1: Types of Data -->
+            <section id="data-types" class="mb-12">
+                <h2 class="text-2xl md:text-3xl">Understanding Data Types</h2>
+                <p class="mb-4">Before we can choose the right statistical test, we must understand the type of data we're working with. The Chi-Square test is specifically designed for categorical data.</p>
+                <div class="grid md:grid-cols-3 gap-6 mt-6">
+                    <div class="p-4 rounded-lg bg-zinc-900 border border-zinc-700">
+                        <h4 class="font-bold text-lg text-amber-400">Nominal Data</h4>
+                        <p class="mt-2">Categorical data where the order of categories is arbitrary. The categories have no intrinsic ranking.</p>
+                        <p class="mt-3 text-sm text-zinc-400"><strong>Example:</strong> Gender (Male, Female), Eye Color (Blue, Brown, Green), Newspaper choice.</p>
+                    </div>
+                    <div class="p-4 rounded-lg bg-zinc-900 border border-zinc-700">
+                        <h4 class="font-bold text-lg text-amber-400">Ordinal Data</h4>
+                        <p class="mt-2">Categorical data where there is a logical or natural ordering to the categories, but the differences between them are not necessarily equal.</p>
+                        <p class="mt-3 text-sm text-zinc-400"><strong>Example:</strong> Degree classification (First, 2i, 2ii, Third), Likert scale ratings (Agree, Neutral, Disagree).</p>
+                    </div>
+                    <div class="p-4 rounded-lg bg-zinc-900 border border-zinc-700">
+                        <h4 class="font-bold text-lg text-amber-400">Interval/Ratio Data</h4>
+                        <p class="mt-2">Continuous data where differences between values are equal and meaningful. Ratio data has a true, meaningful zero.</p>
+                        <p class="mt-3 text-sm text-zinc-400"><strong>Example:</strong> Temperature (Interval), Height, Weight, Reaction Time (Ratio). These are NOT used for Chi-Square.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 2: Chi-Square Goodness of Fit -->
+            <section id="goodness-of-fit" class="mb-12">
+                <h2 class="text-2xl md:text-3xl">Chi-Square Goodness of Fit Test</h2>
+                <p class="mb-4">This test is used when you have a single categorical variable and you want to see if the observed frequencies in each category differ from what you would expect by chance (or based on a pre-existing theory).</p>
+                <div class="p-4 rounded-lg info-box">
+                    <p class="text-lg"><strong>Core Question:</strong> Do the observed frequencies of a single variable fit a particular expected distribution?</p>
+                </div>
+                
+                <h3 class="text-xl font-semibold mt-8 mb-4">Example: Newspaper Readership</h3>
+                <p class="mb-4">150 students were asked which newspaper they read. 54 said none, leaving 96 students distributed across four newspapers. We want to know if the choice of newspaper is equally distributed or if certain papers are preferred.</p>
+
+                <div class="my-6 chart-wrapper">
+                    <h4 class="text-left text-lg font-semibold mb-2">Frequency of Newspaper Readership</h4>
+                    <canvas id="newspaperChart"></canvas>
+                </div>
+
+                <h3 class="text-xl font-semibold mt-8 mb-4">Calculating the Chi-Square Statistic</h3>
+                <p class="mb-2">The test works by comparing the <strong>Observed (O)</strong> frequencies (what we actually found) with the <strong>Expected (E)</strong> frequencies (what we'd expect if there were no preference). If all four newspapers were equally popular, we would expect each to be chosen by 96 / 4 = 24 students.</p>
+                <p class="mb-4">The formula for Chi-Square ($\chi^2$) is:</p>
+                <p class="text-center text-2xl font-mono my-4 p-3 bg-zinc-900 rounded-lg">$$ \chi^2 = \sum \frac{(O - E)^2}{E} $$</p>
+
+                <div class="space-y-4">
+                    <details open>
+                        <summary>Calculation Table</summary>
+                        <div>
+                            <div class="data-table-wrapper">
+                                <table class="w-full text-sm text-left text-center">
+                                    <thead class="text-xs"><tr><th class="px-4 py-2 text-left">Newspaper</th><th class="px-4 py-2">Observed (O)</th><th class="px-4 py-2">Expected (E)</th><th class="px-4 py-2">(O - E)</th><th class="px-4 py-2">(O - E)²</th><th class="px-4 py-2">(O - E)² / E</th></tr></thead>
+                                    <tbody>
+                                     <tr class="border-t border-gray-700"><td class="px-4 py-2 text-left">Metro</td><td>39</td><td>24</td><td>15</td><td>225</td><td>9.4</td></tr>
+                                     <tr class="border-t border-gray-700"><td class="px-4 py-2 text-left">Daily Mail</td><td>25</td><td>24</td><td>1</td><td>1</td><td>0.0</td></tr>
+                                     <tr class="border-t border-gray-700"><td class="px-4 py-2 text-left">The River</td><td>21</td><td>24</td><td>-3</td><td>9</td><td>0.4</td></tr>
+                                     <tr class="border-t border-gray-700"><td class="px-4 py-2 text-left">The Guardian</td><td>11</td><td>24</td><td>-13</td><td>169</td><td>7.0</td></tr>
+                                     <tr class="border-t-2 border-amber-400 font-bold"><td class="px-4 py-2 text-left">Total (Σ)</td><td>96</td><td>96</td><td></td><td></td><td>$\chi^2$ = 16.8</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p class="mt-4">Our calculated $\chi^2$ value is 16.8. The degrees of freedom (df) for this test is (Number of categories - 1), so df = 4 - 1 = 3. Looking this up in a Chi-Square distribution table, a value of 16.8 with 3 df is significant at p < .001. This means the observed preferences are significantly different from what we'd expect by chance.</p>
+                        </div>
+                    </details>
+                </div>
+            </section>
+            
+            <!-- Section 3: Test of Association -->
+            <section id="test-of-association" class="mb-12">
+                <h2 class="text-2xl md:text-3xl">Chi-Square Test of Association</h2>
+                <p class="mb-4">This is the other common use for Chi-Square. It determines whether there is a statistically significant association between two categorical variables.</p>
+                 <div class="p-4 rounded-lg info-box">
+                    <p class="text-lg"><strong>Core Question:</strong> Are two categorical variables independent of each other, or is there a relationship between them?</p>
+                </div>
+
+                <h3 class="text-xl font-semibold mt-8 mb-4">Example: Gender and Degree Classification</h3>
+                <p class="mb-4">We want to know if there is an association between a student's gender and their final degree classification. Our two variables are Gender (Male, Female) and Degree Class (First, 2i, 2ii, Third).</p>
+
+                <div class="my-6 chart-wrapper">
+                    <h4 class="text-left text-lg font-semibold mb-2">Frequency of Degree Class by Gender</h4>
+                    <canvas id="degreeChart"></canvas>
+                </div>
+
+                <h3 class="text-xl font-semibold mt-8 mb-4">Calculating Expected Frequencies</h3>
+                <p class="mb-4">For the test of association, the expected frequency for each cell is calculated based on the row and column totals, assuming no relationship exists between the variables. The formula is:</p>
+                <p class="text-center text-2xl font-mono my-4 p-3 bg-zinc-900 rounded-lg">$$ E = \frac{\text{Row Total} \times \text{Column Total}}{\text{Grand Total}} $$</p>
+
+                <div class="space-y-4">
+                    <details>
+                        <summary>Observed vs. Expected Frequencies</summary>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="data-table-wrapper">
+                                <h4 class="font-bold mb-2">Observed Frequencies (O)</h4>
+                                <table class="w-full text-sm text-center">
+                                    <thead><tr><th></th><th>First</th><th>2i</th><th>2ii</th><th>Third</th><th class="font-bold">Total</th></tr></thead>
+                                    <tbody>
+                                        <tr class="border-t border-gray-700"><td class="font-bold text-left">Female</td><td>21</td><td>62</td><td>39</td><td>4</td><td class="font-bold">126</td></tr>
+                                        <tr class="border-t border-gray-700"><td class="font-bold text-left">Male</td><td>3</td><td>17</td><td>29</td><td>17</td><td class="font-bold">66</td></tr>
+                                        <tr class="border-t-2 border-amber-400 font-bold"><td class="text-left">Total</td><td>24</td><td>79</td><td>68</td><td>21</td><td class="font-bold">192</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="data-table-wrapper">
+                                <h4 class="font-bold mb-2">Expected Frequencies (E)</h4>
+                                <table class="w-full text-sm text-center">
+                                     <thead><tr><th></th><th>First</th><th>2i</th><th>2ii</th><th>Third</th><th class="font-bold">Total</th></tr></thead>
+                                    <tbody>
+                                        <tr class="border-t border-gray-700"><td class="font-bold text-left">Female</td><td>15.8</td><td>51.8</td><td>44.6</td><td>13.8</td><td class="font-bold">126</td></tr>
+                                        <tr class="border-t border-gray-700"><td class="font-bold text-left">Male</td><td>8.3</td><td>27.2</td><td>23.4</td><td>7.2</td><td class="font-bold">66</td></tr>
+                                        <tr class="border-t-2 border-amber-400 font-bold"><td class="text-left">Total</td><td>24</td><td>79</td><td>68</td><td>21</td><td class="font-bold">192</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                         <p class="mt-4">Using the same $\chi^2 = \sum \frac{(O - E)^2}{E}$ formula across all 8 cells, we get a final $\chi^2$ value of <strong>33.1</strong>. The degrees of freedom are (rows - 1) * (columns - 1) = (2-1)*(4-1) = 3. A $\chi^2$ of 33.1 with 3 df is highly significant (p < .001), indicating a significant association between gender and degree class.</p>
+                    </details>
+                </div>
+            </section>
+
+            <!-- Section 4: Effect Size and Assumptions -->
+            <section id="effect-size-assumptions">
+                <h2 class="text-2xl md:text-3xl">Effect Size & Assumptions</h2>
+                <p class="mb-4">A significant Chi-Square test tells us an association exists, but not how strong it is. For that, we need an effect size measure.</p>
+                
+                <h3 class="text-xl font-semibold mt-8 mb-4">Effect Size: Cramer's V</h3>
+                <p class="mb-2">For contingency tables larger than 2x2, Cramer's V is a common effect size. It ranges from 0 (no association) to 1 (perfect association).</p>
+                <p class="mb-4">The formula is: $$ \text{Cramer's V} = \sqrt{\frac{\chi^2}{n \times \text{min}(r-1, c-1)}} $$</p>
+                <p>For our gender and degree example: $$ V = \sqrt{\frac{33.137}{192 \times (2-1)}} = \sqrt{0.173} \approx 0.415 $$</p>
+                <p class="mt-2">A Cramer's V of 0.415 suggests a moderately strong association.</p>
+
+                <h3 class="text-xl font-semibold mt-8 mb-4">Assumptions of the Chi-Square Test</h3>
+                <div class="space-y-4">
+                    <details>
+                        <summary>1. Independence of Observations</summary>
+                        <div>
+                            <p>Each participant or observation must contribute to one and only one cell in the table. You cannot have the same person counted in multiple categories.</p>
+                        </div>
+                    </details>
+                    <details>
+                        <summary>2. Expected Cell Frequencies</summary>
+                        <div>
+                            <p>The test can be inaccurate if the expected frequencies are too small. The general rule of thumb is that no more than 20% of the cells should have an expected frequency of less than 5.</p>
+                            <p class="mt-2"><strong>Solution:</strong> If this assumption is violated, you may need to combine adjacent categories to increase the expected frequencies. For example, you could combine '2ii' and 'Third' into a single '2ii or lower' category.</p>
+                        </div>
+                    </details>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <script>
+        // --- Chart Rendering Functions ---
+        
+        // Renders the horizontal bar chart for newspaper readership
+        function renderNewspaperChart() {
+            const ctx = document.getElementById('newspaperChart');
+            if (!ctx) return;
+            if (Chart.getChart(ctx)) Chart.getChart(ctx).destroy();
+            
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['The Guardian', 'The River', 'Daily Mail', 'Metro'],
+                    datasets: [{
+                        label: 'Number of Students',
+                        data: [11, 21, 25, 39],
+                        backgroundColor: '#facc15', // Amber
+                        borderColor: '#fde047',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    indexAxis: 'y', // This makes the bar chart horizontal
+                    responsive: true,
+                    plugins: { 
+                        legend: { display: false },
+                        title: { display: false }
+                    },
+                    scales: {
+                        x: { 
+                            beginAtZero: true, 
+                            title: { display: true, text: 'Frequency of Students', color: '#fafafa' }, 
+                            ticks: { color: '#fafafa' }, 
+                            grid: { color: 'rgba(255, 255, 255, 0.25)' } 
+                        },
+                        y: { 
+                            ticks: { color: '#fafafa' }, 
+                            grid: { display: false } 
+                        }
+                    }
+                }
+            });
+        }
+
+        // Renders the grouped bar chart for degree classification by gender
+        function renderDegreeChart() {
+            const ctx = document.getElementById('degreeChart');
+            if (!ctx) return;
+            if (Chart.getChart(ctx)) Chart.getChart(ctx).destroy();
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['First', '2i', '2ii', 'Third'],
+                    datasets: [
+                        {
+                            label: 'Female',
+                            data: [21, 62, 39, 4],
+                            backgroundColor: '#facc15', // Amber
+                            borderColor: '#fde047',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Male',
+                            data: [3, 17, 29, 17],
+                            backgroundColor: '#38bdf8', // Light Blue
+                            borderColor: '#7dd3fc',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { 
+                        legend: { position: 'top', labels: { color: '#fafafa' } },
+                        title: { display: false }
+                    },
+                    scales: {
+                        y: { 
+                            beginAtZero: true, 
+                            title: { display: true, text: 'Frequency', color: '#fafafa' }, 
+                            ticks: { color: '#fafafa' }, 
+                            grid: { color: 'rgba(255, 255, 255, 0.25)' } 
+                        },
+                        x: { 
+                            title: { display: true, text: 'Degree Class', color: '#fafafa' }, 
+                            ticks: { color: '#fafafa' }, 
+                            grid: { display: false } 
+                        }
+                    }
+                }
+            });
+        }
+
+        // --- INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            renderNewspaperChart();
+            renderDegreeChart();
+        });
+    </script>
+
+</body>
+</html>
