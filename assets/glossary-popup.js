@@ -17,7 +17,10 @@ function initializeGlossary() {
 
     // Set initial state: closed if isGlossaryVisible is false
     if (!isGlossaryVisible) {
-        if (glossarySidebar) glossarySidebar.classList.remove('visible');
+        if (glossarySidebar) {
+            glossarySidebar.classList.remove('visible');
+            glossarySidebar.style.display = 'none';
+        }
         if (pageGrid) {
             pageGrid.classList.remove('lg:grid-cols-3');
             pageGrid.classList.add('lg:grid-cols-1');
@@ -46,6 +49,7 @@ function toggleGlossary() {
     isGlossaryVisible = !isGlossaryVisible;
 
     if (isGlossaryVisible) {
+        glossarySidebar.style.display = 'block';
         glossarySidebar.classList.add('visible');
         pageGrid.classList.remove('lg:grid-cols-1');
         pageGrid.classList.add('lg:grid-cols-3');
@@ -54,6 +58,7 @@ function toggleGlossary() {
         glossaryToggleButton.classList.add('bg-blue-700');
         glossaryToggleButton.classList.remove('bg-blue-600');
     } else {
+        glossarySidebar.style.display = 'none';
         glossarySidebar.classList.remove('visible');
         pageGrid.classList.remove('lg:grid-cols-3');
         pageGrid.classList.add('lg:grid-cols-1');
