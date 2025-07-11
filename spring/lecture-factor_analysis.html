@@ -127,6 +127,10 @@
 
     <button id="menu-btn" onclick="openMenu()" style="display:none" class="fixed top-4 left-4 z-50 bg-emerald-600 text-white px-4 py-2 rounded shadow hover:bg-emerald-700">☰ Menu</button>
     <div id="menu-container"></div>
+    <button id="btn-glossary-toggle" class="fixed top-4 right-4 z-50 bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 transition-colors duration-200 flex items-center gap-2">
+        <span class="glossary-icon">📚</span>
+        <span class="glossary-text">Glossary</span>
+    </button>
 
     <div class="container mx-auto p-4 md:p-8">
         <a href="../index.html" class="inline-block mb-4 px-4 py-2 bg-emerald-600 text-white font-semibold rounded hover:bg-emerald-700 transition">Home</a>
@@ -135,179 +139,188 @@
             <p class="text-xl mt-2 text-gray-400">Uncovering Latent Structures in Data</p>
         </header>
 
-        <div class="content-wrapper w-full p-6 md:p-8 rounded-lg shadow-2xl">
-            
-            <!-- Section 1: What is EFA? -->
-            <section id="what-is-efa" class="mb-12">
-                <h2 class="text-2xl md:text-3xl">What is Exploratory Factor Analysis?</h2>
-                <p class="mb-4">Often in the social sciences, we want to measure concepts that are not directly observable, such as intelligence, personality, or burnout. These are known as **latent variables**.</p>
-                <p class="mb-4">Exploratory Factor Analysis (EFA) is a statistical technique used to identify these underlying latent variables, or **factors**, from a set of observed, interrelated variables. It helps us understand the structure of our data by grouping variables that are highly correlated with each other.</p>
-                <div class="p-4 rounded-lg info-box">
-                    <p class="text-lg"><strong>The Goal of EFA:</strong> To achieve parsimony by reducing a large set of variables into a smaller, more manageable set of underlying factors, while explaining the maximum amount of common variance.</p>
-                </div>
-                <p class="mt-4">EFA has two main uses:</p>
-                 <ul class="list-disc list-inside pl-4 space-y-2 mt-2">
-                    <li>To understand the structure of a set of variables (e.g., are there distinct types of burnout?).</li>
-                    <li>To construct and validate questionnaires designed to measure a specific latent variable.</li>
-                </ul>
-            </section>
+        <div id="page-grid" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <main id="main-content" class="w-full lg:col-span-2 p-6 md:p-8 rounded-lg shadow-2xl">
+                <!-- Section 1: What is EFA? -->
+                <section id="what-is-efa" class="mb-12">
+                    <h2 class="text-2xl md:text-3xl">What is Exploratory Factor Analysis?</h2>
+                    <p class="mb-4">Often in the social sciences, we want to measure concepts that are not directly observable, such as intelligence, personality, or burnout. These are known as **latent variables**.</p>
+                    <p class="mb-4">Exploratory Factor Analysis (EFA) is a statistical technique used to identify these underlying latent variables, or **factors**, from a set of observed, interrelated variables. It helps us understand the structure of our data by grouping variables that are highly correlated with each other.</p>
+                    <div class="p-4 rounded-lg info-box">
+                        <p class="text-lg"><strong>The Goal of EFA:</strong> To achieve parsimony by reducing a large set of variables into a smaller, more manageable set of underlying factors, while explaining the maximum amount of common variance.</p>
+                    </div>
+                    <p class="mt-4">EFA has two main uses:</p>
+                     <ul class="list-disc list-inside pl-4 space-y-2 mt-2">
+                        <li>To understand the structure of a set of variables (e.g., are there distinct types of burnout?).</li>
+                        <li>To construct and validate questionnaires designed to measure a specific latent variable.</li>
+                    </ul>
+                </section>
 
-            <!-- Section 2: Core Concepts -->
-            <section id="core-concepts" class="mb-12">
-                <h2 class="text-2xl md:text-3xl">Core Concepts in EFA</h2>
-                <p class="mb-4">EFA is built on a few fundamental ideas about how variables relate to each other and to the underlying factors.</p>
+                <!-- Section 2: Core Concepts -->
+                <section id="core-concepts" class="mb-12">
+                    <h2 class="text-2xl md:text-3xl">Core Concepts in EFA</h2>
+                    <p class="mb-4">EFA is built on a few fundamental ideas about how variables relate to each other and to the underlying factors.</p>
 
-                <h3 class="text-xl font-semibold mt-8 mb-4">Correlation Matrix</h3>
-                <p>The starting point for any EFA is the correlation matrix of all the variables (e.g., questionnaire items) you've included. The analysis looks for clusters of variables that are highly correlated with each other, as these clusters suggest they might be measuring the same underlying factor.</p>
+                    <h3 class="text-xl font-semibold mt-8 mb-4">Correlation Matrix</h3>
+                    <p>The starting point for any EFA is the correlation matrix of all the variables (e.g., questionnaire items) you've included. The analysis looks for clusters of variables that are highly correlated with each other, as these clusters suggest they might be measuring the same underlying factor.</p>
 
-                <h3 class="text-xl font-semibold mt-8 mb-4">Factors and Factor Loadings</h3>
-                <p>A **factor** is a latent variable that influences several of the observed variables. A **factor loading** is the correlation between an observed variable (an item) and an underlying factor. It tells us how strongly that item "loads onto" or represents the factor.</p>
-                <p class="mt-2">We can visualize this relationship on a plot, where each axis represents a factor. Ideally, each variable should load strongly on one factor (have a high coordinate on one axis) and weakly on others (have a low coordinate on other axes).</p>
+                    <h3 class="text-xl font-semibold mt-8 mb-4">Factors and Factor Loadings</h3>
+                    <p>A **factor** is a latent variable that influences several of the observed variables. A **factor loading** is the correlation between an observed variable (an item) and an underlying factor. It tells us how strongly that item "loads onto" or represents the factor.</p>
+                    <p class="mt-2">We can visualize this relationship on a plot, where each axis represents a factor. Ideally, each variable should load strongly on one factor (have a high coordinate on one axis) and weakly on others (have a low coordinate on other axes).</p>
 
-                <div class="my-6 chart-wrapper">
-                    <h4 class="text-left text-lg font-semibold mb-2">Factor Loading Plot Example</h4>
-                    <canvas id="factorLoadingChart"></canvas>
-                </div>
-                <p>In this plot, we can see two distinct clusters of variables, suggesting a two-factor structure. The variables "Social Skills", "Interest", and "Talk 1" load highly on Factor 1, while "Selfish", "Liar", and "Talk 2" load highly on Factor 2.</p>
-            </section>
+                    <div class="my-6 chart-wrapper">
+                        <h4 class="text-left text-lg font-semibold mb-2">Factor Loading Plot Example</h4>
+                        <canvas id="factorLoadingChart"></canvas>
+                    </div>
+                    <p>In this plot, we can see two distinct clusters of variables, suggesting a two-factor structure. The variables "Social Skills", "Interest", and "Talk 1" load highly on Factor 1, while "Selfish", "Liar", and "Talk 2" load highly on Factor 2.</p>
+                </section>
 
-            <!-- Section 3: The EFA Process & Example -->
-            <section id="example" class="mb-12">
-                <h2 class="text-2xl md:text-3xl">The EFA Process: An Example</h2>
-                <p class="mb-4">Let's walk through an EFA on a newly developed questionnaire designed to measure teachers' beliefs about learning. The questionnaire has 15 items, and 600 participants provided responses on a 5-point scale.</p>
+                <!-- Section 3: The EFA Process & Example -->
+                <section id="example" class="mb-12">
+                    <h2 class="text-2xl md:text-3xl">The EFA Process: An Example</h2>
+                    <p class="mb-4">Let's walk through an EFA on a newly developed questionnaire designed to measure teachers' beliefs about learning. The questionnaire has 15 items, and 600 participants provided responses on a 5-point scale.</p>
 
-                <h3 class="text-xl font-semibold mt-8 mb-4">Step 1: Assumption Checks</h3>
-                <p class="mb-4">Before running the analysis, we must check if the data is suitable for factor analysis.</p>
-                <div class="space-y-4">
-                    <details>
-                        <summary>JASP Output: Assumption Checks</summary>
-                        <div>
-                            <div class="data-table-wrapper">
-                                <table class="w-full text-sm text-left">
-                                    <thead class="text-xs"><tr><th class="px-4 py-2">Test</th><th class="px-4 py-2">Value</th><th class="px-4 py-2">Interpretation</th></tr></thead>
-                                    <tbody>
-                                     <tr class="border-t border-gray-700"><td class="px-4 py-2 font-bold">Kaiser-Meyer-Olkin (KMO) Test</td><td class="px-4 py-2">0.869</td><td class="px-4 py-2">This measures sampling adequacy. A value of .87 is excellent (well above the >.7 recommended). You need a large sample size (e.g., >100 participants).</td></tr>
-                                     <tr class="border-t border-gray-700"><td class="px-4 py-2 font-bold">Bartlett's Test of Sphericity</td><td class="px-4 py-2">χ²(105) = 2983.77, p < .001</td><td class="px-4 py-2">This tests if the correlation matrix is an identity matrix (i.e., no correlations). A significant result is good; it means there are sufficient correlations to proceed.</td></tr>
-                                    </tbody>
-                                </table>
+                    <h3 class="text-xl font-semibold mt-8 mb-4">Step 1: Assumption Checks</h3>
+                    <p class="mb-4">Before running the analysis, we must check if the data is suitable for factor analysis.</p>
+                    <div class="space-y-4">
+                        <details>
+                            <summary>JASP Output: Assumption Checks</summary>
+                            <div>
+                                <div class="data-table-wrapper">
+                                    <table class="w-full text-sm text-left">
+                                        <thead class="text-xs"><tr><th class="px-4 py-2">Test</th><th class="px-4 py-2">Value</th><th class="px-4 py-2">Interpretation</th></tr></thead>
+                                        <tbody>
+                                         <tr class="border-t border-gray-700"><td class="px-4 py-2 font-bold">Kaiser-Meyer-Olkin (KMO) Test</td><td class="px-4 py-2">0.869</td><td class="px-4 py-2">This measures sampling adequacy. A value of .87 is excellent (well above the >.7 recommended). You need a large sample size (e.g., >100 participants).</td></tr>
+                                         <tr class="border-t border-gray-700"><td class="px-4 py-2 font-bold">Bartlett's Test of Sphericity</td><td class="px-4 py-2">χ²(105) = 2983.77, p < .001</td><td class="px-4 py-2">This tests if the correlation matrix is an identity matrix (i.e., no correlations). A significant result is good; it means there are sufficient correlations to proceed.</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
-                    </details>
-                </div>
-                
-                <h3 class="text-xl font-semibold mt-8 mb-4">Step 2: Factor Extraction and Rotation</h3>
-                <p class="mb-4">Next, we decide how many factors to keep. This is a crucial step involving a trade-off between parsimony (fewer factors) and completeness (explaining more variance).</p>
-                
-                <div class="p-4 rounded-lg info-box my-6">
-                    <h4 class="font-bold text-lg mb-2">The Art of the Trade-Off</h4>
-                    <p>When performing an EFA, you want to minimize the number of factors you keep, so that you can explain as much of the data as possible using as few factors as possible. Since EFA is exploratory, the researcher must use discretion in deciding how many factors are important enough to retain.</p>
-                </div>
+                        </details>
+                    </div>
+                    
+                    <h3 class="text-xl font-semibold mt-8 mb-4">Step 2: Factor Extraction and Rotation</h3>
+                    <p class="mb-4">Next, we decide how many factors to keep. This is a crucial step involving a trade-off between parsimony (fewer factors) and completeness (explaining more variance).</p>
+                    
+                    <div class="p-4 rounded-lg info-box my-6">
+                        <h4 class="font-bold text-lg mb-2">The Art of the Trade-Off</h4>
+                        <p>When performing an EFA, you want to minimize the number of factors you keep, so that you can explain as much of the data as possible using as few factors as possible. Since EFA is exploratory, the researcher must use discretion in deciding how many factors are important enough to retain.</p>
+                    </div>
 
-                <div class="grid md:grid-cols-2 gap-6 items-start">
-                    <div>
-                        <h4 class="text-lg font-semibold mb-2">How Many Factors to Keep?</h4>
-                        <p>Each potential factor has an **eigenvalue**, which indicates how much variance it explains. A common but outdated method was to keep all factors with an eigenvalue > 1 (the "Kaiser criterion"). A much better method, used by default in JASP, is **Parallel Analysis**. It compares your data's eigenvalues to those from random data and retains only the factors that explain more variance than would be expected by chance.</p>
-                        
-                        <h4 class="text-lg font-semibold mt-6 mb-2">Rotation</h4>
-                        <p>After extraction, we "rotate" the factors to make the structure clearer. Rotation maximizes high loadings and minimizes low loadings, making interpretation easier without changing the underlying solution.</p>
-                        <ul class="list-disc list-inside pl-4 mt-2 text-sm">
-                            <li><strong>Orthogonal (e.g., Varimax):</strong> Assumes factors are uncorrelated. This is rarely true in the social sciences.</li>
-                            <li><strong>Oblique (e.g., Oblimin, Promax):</strong> Allows factors to be correlated. This is usually a more realistic and recommended approach.</li>
+                    <div class="grid md:grid-cols-2 gap-6 items-start">
+                        <div>
+                            <h4 class="text-lg font-semibold mb-2">How Many Factors to Keep?</h4>
+                            <p>Each potential factor has an **eigenvalue**, which indicates how much variance it explains. A common but outdated method was to keep all factors with an eigenvalue > 1 (the "Kaiser criterion"). A much better method, used by default in JASP, is **Parallel Analysis**. It compares your data's eigenvalues to those from random data and retains only the factors that explain more variance than would be expected by chance.</p>
+                            
+                            <h4 class="text-lg font-semibold mt-6 mb-2">Rotation</h4>
+                            <p>After extraction, we "rotate" the factors to make the structure clearer. Rotation maximizes high loadings and minimizes low loadings, making interpretation easier without changing the underlying solution.</p>
+                            <ul class="list-disc list-inside pl-4 mt-2 text-sm">
+                                <li><strong>Orthogonal (e.g., Varimax):</strong> Assumes factors are uncorrelated. This is rarely true in the social sciences.</li>
+                                <li><strong>Oblique (e.g., Oblimin, Promax):</strong> Allows factors to be correlated. This is usually a more realistic and recommended approach.</li>
+                            </ul>
+                        </div>
+                        <div class="chart-wrapper">
+                            <img src="https://i.imgur.com/gY5Q2h6.png" alt="Diagram showing orthogonal vs oblique rotation" class="rounded-md">
+                            <p class="text-xs text-center mt-2">Orthogonal rotation keeps factors at 90 degrees (independent), while oblique rotation allows them to correlate, often providing a better fit to the data clusters.</p>
+                        </div>
+                    </div>
+
+
+                    <h3 class="text-xl font-semibold mt-8 mb-4">Step 3: Interpreting the Factor Loadings</h3>
+                    <p class="mb-4">The factor loading table is the main result. The goal is to find a **simple structure**.</p>
+                    <div class="p-4 rounded-lg bg-zinc-900 border border-zinc-700">
+                        <h4 class="font-bold text-lg text-amber-400">Aiming for Simple Structure</h4>
+                        <ul class="list-disc list-inside pl-4 space-y-2 mt-2">
+                            <li>Each item should load strongly on **only one** factor. A common cutoff for a meaningful loading is > 0.4.</li>
+                            <li>An item that loads strongly on multiple factors (a "cross-loading" or "double loading") is ambiguous and should probably be removed.</li>
+                            <li>An item that does not load strongly on any factor is not contributing to the measurement of the latent variables and should be removed.</li>
+                            <li>Items with high **Uniqueness** (the proportion of an item's variance not explained by the factors) are not well-represented by the factor solution and may also be removed.</li>
                         </ul>
                     </div>
-                    <div class="chart-wrapper">
-                        <img src="https://i.imgur.com/gY5Q2h6.png" alt="Diagram showing orthogonal vs oblique rotation" class="rounded-md">
-                        <p class="text-xs text-center mt-2">Orthogonal rotation keeps factors at 90 degrees (independent), while oblique rotation allows them to correlate, often providing a better fit to the data clusters.</p>
-                    </div>
-                </div>
 
-
-                <h3 class="text-xl font-semibold mt-8 mb-4">Step 3: Interpreting the Factor Loadings</h3>
-                <p class="mb-4">The factor loading table is the main result. The goal is to find a **simple structure**.</p>
-                <div class="p-4 rounded-lg bg-zinc-900 border border-zinc-700">
-                    <h4 class="font-bold text-lg text-amber-400">Aiming for Simple Structure</h4>
-                    <ul class="list-disc list-inside pl-4 space-y-2 mt-2">
-                        <li>Each item should load strongly on **only one** factor. A common cutoff for a meaningful loading is > 0.4.</li>
-                        <li>An item that loads strongly on multiple factors (a "cross-loading" or "double loading") is ambiguous and should probably be removed.</li>
-                        <li>An item that does not load strongly on any factor is not contributing to the measurement of the latent variables and should be removed.</li>
-                        <li>Items with high **Uniqueness** (the proportion of an item's variance not explained by the factors) are not well-represented by the factor solution and may also be removed.</li>
-                    </ul>
-                </div>
-
-                 <div class="space-y-4 mt-6">
-                    <details open>
-                        <summary>JASP Output: Factor Loadings (Four-Factor Solution)</summary>
-                        <div>
-                            <div class="data-table-wrapper">
-                                <table class="w-full text-sm text-center">
-                                    <thead class="text-xs"><tr><th class="px-4 py-2 text-left">Item</th><th class="px-4 py-2">Factor 1</th><th class="px-4 py-2">Factor 2</th><th class="px-4 py-2">Factor 3</th><th class="px-4 py-2">Factor 4</th><th class="px-4 py-2">Uniqueness</th></tr></thead>
-                                    <tbody>
-                                        <tr class="border-t border-gray-700"><td class="text-left px-2 py-1">Q1</td><td class="factor-loading-positive">0.467</td><td></td><td></td><td></td><td>0.505</td></tr>
-                                        <tr class="border-t border-gray-700"><td class="text-left px-2 py-1">Q2</td><td></td><td></td><td></td><td></td><td>0.631</td></tr>
-                                        <tr class="border-t border-gray-700"><td class="text-left px-2 py-1">Q3</td><td class="factor-loading-positive">0.712</td><td></td><td></td><td></td><td>0.511</td></tr>
-                                        <tr class="border-t border-gray-700"><td class="text-left px-2 py-1">Q4</td><td class="factor-loading-positive">0.681</td><td></td><td></td><td></td><td>0.432</td></tr>
-                                        <tr class="border-t border-gray-700"><td class="text-left px-2 py-1">Q5</td><td></td><td class="factor-loading-positive">0.863</td><td></td><td></td><td>0.329</td></tr>
-                                        <tr class="border-t border-gray-700"><td class="text-left px-2 py-1">Q6</td><td></td><td></td><td></td><td class="factor-loading-positive">0.573</td><td>0.656</td></tr>
-                                        <tr class="border-t border-gray-700"><td class="text-left px-2 py-1">Q7</td><td></td><td class="factor-loading-positive">0.781</td><td></td><td></td><td>0.302</td></tr>
-                                        <tr class="border-t border-gray-700"><td class="text-left px-2 py-1">Q8</td><td></td><td></td><td></td><td class="factor-loading-positive">0.427</td><td>0.773</td></tr>
-                                        <tr class="border-t border-gray-700"><td class="text-left px-2 py-1">Q9</td><td class="factor-loading-positive">0.570</td><td></td><td></td><td></td><td>0.507</td></tr>
-                                        <tr class="border-t border-gray-700"><td class="text-left px-2 py-1">Q10</td><td></td><td class="factor-loading-positive">0.667</td><td></td><td></td><td>0.443</td></tr>
-                                        <tr class="border-t border-gray-700"><td class="text-left px-2 py-1">Q11</td><td class="factor-loading-positive">0.757</td><td></td><td></td><td></td><td>0.395</td></tr>
-                                        <tr class="border-t border-gray-700"><td class="text-left px-2 py-1">Q12</td><td></td><td></td><td class="factor-loading-positive">0.638</td><td></td><td>0.564</td></tr>
-                                        <tr class="border-t border-gray-700"><td class="text-left px-2 py-1">Q13</td><td></td><td></td><td class="factor-loading-positive">0.616</td><td></td><td>0.399</td></tr>
-                                        <tr class="border-t border-gray-700"><td class="text-left px-2 py-1">Q14</td><td></td><td></td><td></td><td class="factor-loading-positive">0.564</td><td>0.628</td></tr>
-                                        <tr class="border-t border-gray-700"><td class="text-left px-2 py-1">Q15</td><td></td><td></td><td></td><td></td><td>0.905</td></tr>
-                                    </tbody>
-                                </table>
-                                <p class="text-xs mt-2">Note: Loadings below 0.4 are hidden for clarity.</p>
+                     <div class="space-y-4 mt-6">
+                        <details open>
+                            <summary>JASP Output: Factor Loadings (Four-Factor Solution)</summary>
+                            <div>
+                                <div class="data-table-wrapper">
+                                    <table class="w-full text-sm text-center">
+                                        <thead class="text-xs"><tr><th class="px-4 py-2 text-left">Item</th><th class="px-4 py-2">Factor 1</th><th class="px-4 py-2">Factor 2</th><th class="px-4 py-2">Factor 3</th><th class="px-4 py-2">Factor 4</th><th class="px-4 py-2">Uniqueness</th></tr></thead>
+                                        <tbody>
+                                            <tr class="border-t border-gray-700"><td class="text-left px-2 py-1">Q1</td><td class="factor-loading-positive">0.467</td><td></td><td></td><td></td><td>0.505</td></tr>
+                                            <tr class="border-t border-gray-700"><td class="text-left px-2 py-1">Q2</td><td></td><td></td><td></td><td></td><td>0.631</td></tr>
+                                            <tr class="border-t border-gray-700"><td class="text-left px-2 py-1">Q3</td><td class="factor-loading-positive">0.712</td><td></td><td></td><td></td><td>0.511</td></tr>
+                                            <tr class="border-t border-gray-700"><td class="text-left px-2 py-1">Q4</td><td class="factor-loading-positive">0.681</td><td></td><td></td><td></td><td>0.432</td></tr>
+                                            <tr class="border-t border-gray-700"><td class="text-left px-2 py-1">Q5</td><td></td><td class="factor-loading-positive">0.863</td><td></td><td></td><td>0.329</td></tr>
+                                            <tr class="border-t border-gray-700"><td class="text-left px-2 py-1">Q6</td><td></td><td></td><td></td><td class="factor-loading-positive">0.573</td><td>0.656</td></tr>
+                                            <tr class="border-t border-gray-700"><td class="text-left px-2 py-1">Q7</td><td></td><td class="factor-loading-positive">0.781</td><td></td><td></td><td>0.302</td></tr>
+                                            <tr class="border-t border-gray-700"><td class="text-left px-2 py-1">Q8</td><td></td><td></td><td></td><td class="factor-loading-positive">0.427</td><td>0.773</td></tr>
+                                            <tr class="border-t border-gray-700"><td class="text-left px-2 py-1">Q9</td><td class="factor-loading-positive">0.570</td><td></td><td></td><td></td><td>0.507</td></tr>
+                                            <tr class="border-t border-gray-700"><td class="text-left px-2 py-1">Q10</td><td></td><td class="factor-loading-positive">0.667</td><td></td><td></td><td>0.443</td></tr>
+                                            <tr class="border-t border-gray-700"><td class="text-left px-2 py-1">Q11</td><td class="factor-loading-positive">0.757</td><td></td><td></td><td></td><td>0.395</td></tr>
+                                            <tr class="border-t border-gray-700"><td class="text-left px-2 py-1">Q12</td><td></td><td></td><td class="factor-loading-positive">0.638</td><td></td><td>0.564</td></tr>
+                                            <tr class="border-t border-gray-700"><td class="text-left px-2 py-1">Q13</td><td></td><td></td><td class="factor-loading-positive">0.616</td><td></td><td>0.399</td></tr>
+                                            <tr class="border-t border-gray-700"><td class="text-left px-2 py-1">Q14</td><td></td><td></td><td></td><td class="factor-loading-positive">0.564</td><td>0.628</td></tr>
+                                            <tr class="border-t border-gray-700"><td class="text-left px-2 py-1">Q15</td><td></td><td></td><td></td><td></td><td>0.905</td></tr>
+                                        </tbody>
+                                    </table>
+                                    <p class="text-xs mt-2">Note: Loadings below 0.4 are hidden for clarity.</p>
+                                </div>
                             </div>
+                        </details>
+                    </div>
+                    <p class="mt-4">The analysis suggests a four-factor solution. Notice that items Q2 and Q15 do not load strongly on any factor, and Q15 has very high uniqueness (0.905), meaning 90.5% of its variance is not shared with the other items. These items are poor and should likely be removed.</p>
+
+                    <h3 class="text-xl font-semibold mt-8 mb-4">Step 4: Assessing Model Fit & Labeling the Factors</h3>
+                    <p class="mb-4">Finally, we check the overall model fit and then interpret and label our factors.</p>
+                    <div class="grid md:grid-cols-2 gap-6 items-start">
+                        <div>
+                             <h4 class="text-lg font-semibold mb-2">Model Fit</h4>
+                             <p>We can use fit indices to assess how well our factor model represents the data. The **Root Mean Square Error of Approximation (RMSEA)** is a common index. Values below .08 or .05 indicate a good fit.</p>
+                             <h4 class="text-lg font-semibold mt-6 mb-2">Reliability Analysis</h4>
+                             <p>After identifying the factors, a crucial next step (not shown in the EFA output) is to conduct a **reliability analysis** (e.g., using Cronbach's Alpha) for the items within each factor to ensure they form a consistent and reliable scale.</p>
                         </div>
-                    </details>
-                </div>
-                <p class="mt-4">The analysis suggests a four-factor solution. Notice that items Q2 and Q15 do not load strongly on any factor, and Q15 has very high uniqueness (0.905), meaning 90.5% of its variance is not shared with the other items. These items are poor and should likely be removed.</p>
-
-                <h3 class="text-xl font-semibold mt-8 mb-4">Step 4: Assessing Model Fit & Labeling the Factors</h3>
-                <p class="mb-4">Finally, we check the overall model fit and then interpret and label our factors.</p>
-                <div class="grid md:grid-cols-2 gap-6 items-start">
-                    <div>
-                         <h4 class="text-lg font-semibold mb-2">Model Fit</h4>
-                         <p>We can use fit indices to assess how well our factor model represents the data. The **Root Mean Square Error of Approximation (RMSEA)** is a common index. Values below .08 or .05 indicate a good fit.</p>
-                         <h4 class="text-lg font-semibold mt-6 mb-2">Reliability Analysis</h4>
-                         <p>After identifying the factors, a crucial next step (not shown in the EFA output) is to conduct a **reliability analysis** (e.g., using Cronbach's Alpha) for the items within each factor to ensure they form a consistent and reliable scale.</p>
+                        <div class="data-table-wrapper">
+                            <h4 class="font-bold mb-2">Four-Factor Solution with Labels</h4>
+                            <table class="w-full text-sm text-left">
+                                <thead class="text-xs"><tr>
+                                    <th class="px-2 py-2">Factor 1: Social Learning</th>
+                                    <th class="px-2 py-2">Factor 2: Inclusivity</th>
+                                    <th class="px-2 py-2">Factor 3: Self-Directed Learning</th>
+                                    <th class="px-2 py-2">Factor 4: Clarity</th>
+                                </tr></thead>
+                                <tbody>
+                                    <tr class="border-t border-gray-700 align-top">
+                                        <td class="px-2 py-1">Q1, Q3, Q4, Q9, Q11</td>
+                                        <td class="px-2 py-1">Q5, Q7, Q10</td>
+                                        <td class="px-2 py-1">Q12, Q13</td>
+                                        <td class="px-2 py-1">Q6, Q8, Q14</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                    <div class="data-table-wrapper">
-                        <h4 class="font-bold mb-2">Four-Factor Solution with Labels</h4>
-                        <table class="w-full text-sm text-left">
-                            <thead class="text-xs"><tr>
-                                <th class="px-2 py-2">Factor 1: Social Learning</th>
-                                <th class="px-2 py-2">Factor 2: Inclusivity</th>
-                                <th class="px-2 py-2">Factor 3: Self-Directed Learning</th>
-                                <th class="px-2 py-2">Factor 4: Clarity</th>
-                            </tr></thead>
-                            <tbody>
-                                <tr class="border-t border-gray-700 align-top">
-                                    <td class="px-2 py-1">Q1, Q3, Q4, Q9, Q11</td>
-                                    <td class="px-2 py-1">Q5, Q7, Q10</td>
-                                    <td class="px-2 py-1">Q12, Q13</td>
-                                    <td class="px-2 py-1">Q6, Q8, Q14</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                </section>
+
+                <!-- Section 5: Write-up -->
+                <section id="write-up">
+                    <h2 class="text-2xl md:text-3xl">Writing Up the Results</h2>
+                    <p class="mb-4">A good EFA write-up clearly states the methods used and the results, including assumption checks, the number of factors found, the variance explained, and the interpretation of the factors.</p>
+                    <div class="p-4 rounded-lg bg-zinc-900 border border-zinc-700">
+                        <h4 class="font-bold text-lg text-amber-400">Example Write-Up</h4>
+                        <p class="mt-3">An exploratory factor analysis was conducted on a survey composed of 15 questions relating to teaching style and epistemological beliefs using an oblique rotation (oblimin). The Kaiser-Meyer-Olkin measure of sampling adequacy was .87, above the commonly recommended value of .6, and Bartlett's test of sphericity was significant ($\chi^2(105) = 2983.77, p < .001$). A parallel analysis suggested a four-factor solution that explained 47% of the variance in the data. Items were retained using a .40 loading criterion. Each retained item loaded on only one factor; the model offered an adequate fit as indicated by the RMSEA at .056. The factor loadings are presented in Table 1. Factor 1 was labelled 'Social Learning' because of the high loadings by items such as "children learn best through collaborative activities" and "helping children to talk to one another in class productively is a good way of teaching". This first factor explained 17.2% of the variance after rotation.</p>
+                    </div>
+                </section>
+            </main>
+            <aside id="glossary-sidebar" class="w-full lg:col-span-1 lg:sticky top-8 self-start">
+                <div class="p-6 rounded-lg shadow-md" style="background-color: var(--card-bg);">
+                    <h2 class="text-2xl font-bold border-b-2 pb-2 mb-4">Glossary</h2>
+                    <div id="glossary-content" class="space-y-4 text-sm max-h-[80vh] overflow-y-auto pr-2">
+                        <!-- Glossary content will be loaded from assets/glossary.html -->
                     </div>
                 </div>
-            </section>
-
-            <!-- Section 5: Write-up -->
-            <section id="write-up">
-                <h2 class="text-2xl md:text-3xl">Writing Up the Results</h2>
-                <p class="mb-4">A good EFA write-up clearly states the methods used and the results, including assumption checks, the number of factors found, the variance explained, and the interpretation of the factors.</p>
-                <div class="p-4 rounded-lg bg-zinc-900 border border-zinc-700">
-                    <h4 class="font-bold text-lg text-amber-400">Example Write-Up</h4>
-                    <p class="mt-3">An exploratory factor analysis was conducted on a survey composed of 15 questions relating to teaching style and epistemological beliefs using an oblique rotation (oblimin). The Kaiser-Meyer-Olkin measure of sampling adequacy was .87, above the commonly recommended value of .6, and Bartlett's test of sphericity was significant ($\chi^2(105) = 2983.77, p < .001$). A parallel analysis suggested a four-factor solution that explained 47% of the variance in the data. Items were retained using a .40 loading criterion. Each retained item loaded on only one factor; the model offered an adequate fit as indicated by the RMSEA at .056. The factor loadings are presented in Table 1. Factor 1 was labelled 'Social Learning' because of the high loadings by items such as "children learn best through collaborative activities" and "helping children to talk to one another in class productively is a good way of teaching". This first factor explained 17.2% of the variance after rotation.</p>
-                </div>
-            </section>
-
+            </aside>
         </div>
+    <div id="glossary-popup"></div>
     </div>
 
     <script>
@@ -428,6 +441,6 @@ fetch('../assets/shared-menu.html')
     };
   });
 </script>
-
+    <script src="../assets/glossary-popup.js"></script>
 </body>
 </html>
