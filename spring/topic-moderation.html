@@ -49,9 +49,7 @@
             color: var(--header-text);
         }
         h2 {
-            border-bottom: 2px solid var(--active-tab-border);
-            padding-bottom: 0.5rem;
-            margin-bottom: 1rem;
+            /* border-bottom, padding-bottom, and margin-bottom now handled by Tailwind classes on <h2> */
         }
         .content-wrapper {
             background-color: var(--card-bg);
@@ -269,7 +267,7 @@
     <div id="menu-backdrop" class="hidden fixed inset-0 z-40 bg-black bg-opacity-50"></div>
     <div id="site-menu" class="fixed top-0 left-0 w-64 h-full bg-zinc-900 text-white transform -translate-x-full transition-transform duration-300 z-50">
         <div class="p-6">
-            <h2 class="text-2xl font-bold mb-4">Lecture Guide</h2>
+            <h2 class="text-2xl font-bold mb-4">Topic Guide</h2>
             <ul>
                 <li><a href="../index.html" class="hover:text-emerald-400">Home</a></li>
                 <li><a href="lecture-regression.html" class="hover:text-emerald-400">Regression</a></li>
@@ -287,7 +285,7 @@
 
     <div class="container mx-auto p-4 md:p-8">
         <header class="text-center mb-8 relative">
-            <h1 class="text-4xl md:text-5xl font-bold">Lecture Guide: Moderation</h1>
+            <h1 class="text-4xl md:text-5xl font-bold">Topic Guide: Moderation</h1>
             <p class="text-xl mt-2 text-gray-400">Understanding When and How Relationships Change</p>
         </header>
 
@@ -296,7 +294,7 @@
             
             <!-- Section 1: Defining Moderation -->
             <section id="definition" class="mb-12">
-                <h2 class="text-2xl md:text-3xl">What is Moderation?</h2>
+                <h2 class="text-2xl md:text-3xl font-bold border-b-2 pb-2 mb-4">What is Moderation?</h2>
                 <p class="mb-4">In regression, we often want to know more than just whether one variable predicts another. We want to know <em>under what conditions</em> that prediction holds true. This is where moderation comes in.</p>
                 <div class="p-4 rounded-lg info-box">
                     <p class="text-lg">A <strong>moderator</strong> is a variable that changes the strength or direction of the relationship between a predictor (IV) and an outcome (DV).</p>
@@ -306,7 +304,7 @@
 
             <!-- Section 2: First Example -->
             <section id="example1" class="mb-12">
-                <h2 class="text-2xl md:text-3xl">Example 1: Experience as a Moderator of Memory</h2>
+                <h2 class="text-2xl md:text-3xl font-bold border-b-2 pb-2 mb-4">Example 1: Experience as a Moderator of Memory</h2>
                 <p class="mb-4">This classic example explores whether expertise (years of experience) moderates the effect of list structure on memory recall. Researchers compared expert taxi drivers and novices on their ability to recall a configured route versus a random list of streets.</p>
                 
                 <h3 class="text-xl font-semibold mt-8 mb-4">Visualizing the Interaction</h3>
@@ -383,7 +381,7 @@
             
             <!-- Section 3: Second Example -->
             <section id="example2">
-                <h2 class="text-2xl md:text-3xl">Example 2: Interactivity as a Moderator of Anxiety's Effect</h2>
+                <h2 class="text-2xl md:text-3xl font-bold border-b-2 pb-2 mb-4">Example 2: Interactivity as a Moderator of Anxiety's Effect</h2>
                 <p class="mb-4">This example explores if the level of interactivity in a task moderates the relationship between Maths Anxiety and calculation errors. The "Impact of Suppression" is the DV, representing the performance cost of a secondary task.</p>
                 
                 <h3 class="text-xl font-semibold mt-8 mb-4">Visualizing the Moderation</h3>

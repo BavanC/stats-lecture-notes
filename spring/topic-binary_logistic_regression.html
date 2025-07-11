@@ -49,9 +49,7 @@
             color: var(--header-text);
         }
         h2 {
-            border-bottom: 2px solid var(--active-tab-border);
-            padding-bottom: 0.5rem;
-            margin-bottom: 1rem;
+            /* border-bottom, padding-bottom, and margin-bottom now handled by Tailwind classes on <h2> */
         }
         .content-wrapper {
             background-color: var(--card-bg);
@@ -123,7 +121,7 @@
 
     <div class="container mx-auto p-4 md:p-8">
         <header class="text-center mb-8 relative">
-            <h1 class="text-4xl md:text-5xl font-bold">Lecture Guide: Binary Logistic Regression</h1>
+            <h1 class="text-4xl md:text-5xl font-bold">Topic Guide: Binary Logistic Regression</h1>
             <p class="text-xl mt-2 text-gray-400">Predicting Dichotomous Outcomes</p>
         </header>
 
@@ -131,7 +129,7 @@
             <main id="main-content" class="w-full lg:col-span-2 p-6 md:p-8 rounded-lg shadow-2xl">
                 <!-- Section 1: Binary Outcomes and Odds -->
                 <section id="odds" class="mb-12">
-                    <h2 class="text-2xl md:text-3xl">From Probability to Odds</h2>
+                    <h2 class="text-2xl md:text-3xl font-bold border-b-2 pb-2 mb-4">From Probability to Odds</h2>
                     <p class="mb-4">Logistic regression is all about predicting binary (dichotomous) outcomes. Instead of predicting a continuous value like in linear regression, we predict the probability of an event happening. This probability is then often expressed in terms of **odds**.</p>
                     <div class="p-4 rounded-lg info-box">
                         <p class="text-lg">The <strong>odds</strong> of an event is the probability of it occurring (p) divided by the probability of it not occurring (1-p).</p>
@@ -146,7 +144,7 @@
 
                 <!-- Section 2: Why Logistic Regression? -->
                 <section id="why-logistic" class="mb-12">
-                    <h2 class="text-2xl md:text-3xl">The Limits of Linear Regression</h2>
+                    <h2 class="text-2xl md:text-3xl font-bold border-b-2 pb-2 mb-4">The Limits of Linear Regression</h2>
                     <p class="mb-4">Linear regression is unsuitable for binary outcomes. A straight line doesn't make sense when the outcome can only be one of two values (e.g., 0 or 1). It can predict values below 0 or above 1, which is impossible for probabilities.</p>
                     <p>Logistic regression solves this by using a non-linear S-shaped (sigmoid) curve that is constrained between 0 and 1, making it perfect for modeling probabilities.</p>
                     <div class="grid md:grid-cols-2 gap-6 my-6">
@@ -167,7 +165,7 @@
 
                 <!-- Section 3: Example -->
                 <section id="example" class="mb-12">
-                    <h2 class="text-2xl md:text-3xl">Example: Predicting Exam Success</h2>
+                    <h2 class="text-2xl md:text-3xl font-bold border-b-2 pb-2 mb-4">Example: Predicting Exam Success</h2>
                     <p class="mb-4">We want to predict whether a student will pass or fail a stats exam (a binary outcome: Pass=1, Fail=0). We have three continuous predictor variables:</p>
                      <ul class="list-disc list-inside pl-4 space-y-2 mt-2">
                         <li>Fear of Stats</li>
@@ -217,7 +215,7 @@
 
                 <!-- Section 4: Model Accuracy -->
                 <section id="accuracy" class="mb-12">
-                    <h2 class="text-2xl md:text-3xl">Assessing Model Accuracy</h2>
+                    <h2 class="text-2xl md:text-3xl font-bold border-b-2 pb-2 mb-4">Assessing Model Accuracy</h2>
                     <p class="mb-4">A significant model is good, but we also need to know how accurately it classifies individual cases. We use a confusion matrix and associated metrics for this.</p>
                     <div class="grid md:grid-cols-2 gap-6 mt-6">
                         <div class="data-table-wrapper">
@@ -254,7 +252,7 @@
 
                 <!-- Section 5: Write-up -->
                 <section id="write-up">
-                    <h2 class="text-2xl md:text-3xl">Writing Up the Results</h2>
+                    <h2 class="text-2xl md:text-3xl font-bold border-b-2 pb-2 mb-4">Writing Up the Results</h2>
                     <p class="mb-4">A complete write-up should include the model fit, the significant predictors with their odds ratios, and the classification accuracy.</p>
                     <div class="p-4 rounded-lg bg-zinc-900 border border-zinc-700">
                         <h4 class="font-bold text-lg text-amber-400">Example Write-Up</h4>

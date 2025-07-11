@@ -49,9 +49,7 @@
             color: var(--header-text);
         }
         h2 {
-            border-bottom: 2px solid var(--active-tab-border);
-            padding-bottom: 0.5rem;
-            margin-bottom: 1rem;
+            /* border-bottom, padding-bottom, and margin-bottom now handled by Tailwind classes on <h2> */
         }
         .content-wrapper {
             background-color: var(--card-bg);
@@ -123,7 +121,7 @@
 
     <div class="container mx-auto p-4 md:p-8">
         <header class="text-center mb-8 relative">
-            <h1 class="text-4xl md:text-5xl font-bold">Lecture Guide: Categorical Data & Chi-Square</h1>
+            <h1 class="text-4xl md:text-5xl font-bold">Topic Guide: Categorical Data</h1>
             <p class="text-xl mt-2 text-gray-400">Analyzing Frequencies and Associations</p>
         </header>
 
@@ -132,7 +130,7 @@
                 
                 <!-- Section 1: Types of Data -->
                 <section id="data-types" class="mb-12">
-                    <h2 class="text-2xl md:text-3xl">Understanding Data Types</h2>
+                    <h2 class="text-2xl md:text-3xl font-bold border-b-2 pb-2 mb-4">Understanding Data Types</h2>
                     <p class="mb-4">Before we can choose the right statistical test, we must understand the type of data we're working with. The Chi-Square test is specifically designed for categorical data.</p>
                     <div class="grid md:grid-cols-3 gap-6 mt-6">
                         <div class="p-4 rounded-lg bg-zinc-900 border border-zinc-700">
@@ -155,7 +153,7 @@
 
                 <!-- Section 2: Chi-Square Goodness of Fit -->
                 <section id="goodness-of-fit" class="mb-12">
-                    <h2 class="text-2xl md:text-3xl">Chi-Square Goodness of Fit Test</h2>
+                    <h2 class="text-2xl md:text-3xl font-bold border-b-2 pb-2 mb-4">Chi-Square Goodness of Fit Test</h2>
                     <p class="mb-4">This test is used when you have a single categorical variable and you want to see if the observed frequencies in each category differ from what you would expect by chance (or based on a pre-existing theory).</p>
                     <div class="p-4 rounded-lg info-box">
                         <p class="text-lg"><strong>Core Question:</strong> Do the observed frequencies of a single variable fit a particular expected distribution?</p>
@@ -198,7 +196,7 @@
                 
                 <!-- Section 3: Test of Association -->
                 <section id="test-of-association" class="mb-12">
-                    <h2 class="text-2xl md:text-3xl">Chi-Square Test of Association</h2>
+                    <h2 class="text-2xl md:text-3xl font-bold border-b-2 pb-2 mb-4">Chi-Square Test of Association</h2>
                     <p class="mb-4">This is the other common use for Chi-Square. It determines whether there is a statistically significant association between two categorical variables.</p>
                      <div class="p-4 rounded-lg info-box">
                         <p class="text-lg"><strong>Core Question:</strong> Are two categorical variables independent of each other, or is there a relationship between them?</p>
@@ -250,7 +248,7 @@
 
                 <!-- Section 4: Effect Size and Assumptions -->
                 <section id="effect-size-assumptions">
-                    <h2 class="text-2xl md:text-3xl">Effect Size & Assumptions</h2>
+                    <h2 class="text-2xl md:text-3xl font-bold border-b-2 pb-2 mb-4">Effect Size & Assumptions</h2>
                     <p class="mb-4">A significant Chi-Square test tells us an association exists, but not how strong it is. For that, we need an effect size measure.</p>
                     
                     <h3 class="text-xl font-semibold mt-8 mb-4">Effect Size: Cramer's V</h3>
