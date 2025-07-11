@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>In-Depth Guide: Survival Analysis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- MathJax Configuration -->
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']]
+        }
+      };
+    </script>
+    <!-- MathJax for LaTeX rendering -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <!-- Chart.js for graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        :root {
+            /* Theme: "Amber Night" from lecture-moderation.html */
+            --bg-color: #18181b;           /* zinc-900 */
+            --text-color: #d4d4d8;         /* zinc-300 */
+            --card-bg: #27272a;           /* zinc-800 */
+            --header-text: #fafafa;         /* zinc-50 */
+            --subtle-text: #a1a1aa;         /* zinc-400 */
+            --border-color: #3f3f46;         /* zinc-700 */
+            --active-tab-border: #facc15; /* amber-400 */
+            --info-box-bg: #451a03;         /* amber-950 */
+            --info-box-border: #f59e0b;   /* amber-500 */
+            --info-box-text: #fef3c7;         /* amber-100 */
+            --table-bg: #3f3f46;           /* zinc-700 */
+            --chart-bg: #18181b;           /* zinc-900 */
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+        h1, h2, h3, h4 {
+            font-weight: 700;
+            color: var(--header-text);
+        }
+        h2 {
+            border-bottom: 2px solid var(--active-tab-border);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .content-wrapper {
+            background-color: var(--card-bg);
+        }
+        .info-box {
+            background-color: var(--info-box-bg);
+            border: 1px solid var(--info-box-border);
+            color: var(--info-box-text);
+        }
+        .data-table-wrapper {
+            background-color: var(--table-bg);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+        }
+        .data-table-wrapper table thead {
+            background-color: #52525b; /* zinc-600 */
+        }
+        .chart-wrapper {
+            background-color: var(--chart-bg);
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            border-radius: 0.5rem;
+        }
+        /* Clickable box styling */
+        details > summary {
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--header-text);
+            background-color: var(--border-color);
+            padding: 0.75rem 1rem;
+            border-radius: 0.375rem;
+            transition: background-color 0.2s;
+            list-style: none; /* Hide default arrow */
+            position: relative;
+        }
+        details > summary::-webkit-details-marker {
+            display: none; /* Hide default arrow for Safari */
+        }
+        details > summary::before {
+            content: '►'; /* Collapsed state icon */
+            position: absolute;
+            right: 1rem;
+            transform: rotate(0deg);
+            transition: transform 0.2s;
+        }
+        details[open] > summary::before {
+            transform: rotate(90deg); /* Expanded state icon */
+        }
+        details > summary:hover {
+            background-color: #52525b;
+        }
+        details > div {
+            padding: 1rem;
+            margin-top: 0.5rem;
+            border-left: 3px solid var(--active-tab-border);
+            background-color: #18181b;
+        }
+    </style>
+</head>
+<body class="transition-colors duration-300">
+
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-8 relative">
+            <h1 class="text-4xl md:text-5xl font-bold">Lecture Guide: Survival Analysis</h1>
+            <p class="text-xl mt-2 text-gray-400">Modeling Time-to-Event Data</p>
+        </header>
+
+        <div class="content-wrapper w-full p-6 md:p-8 rounded-lg shadow-2xl">
+            
+            <!-- Section 1: What is Survival Analysis? -->
+            <section id="definition" class="mb-12">
+                <h2 class="text-2xl md:text-3xl">What is Survival Analysis?</h2>
+                <p class="mb-4">Survival analysis is a set of statistical methods for analyzing longitudinal data on the occurrence of events. While the name comes from studies on literal survival (i.e., time until death), the "event" can be any binary outcome.</p>
+                <div class="p-4 rounded-lg info-box">
+                    <p class="text-lg"><strong>The Goal:</strong> To estimate the time it takes for an event of interest to occur. This is often visualized with a survival curve.</p>
+                </div>
+                <p class="mt-4">Examples of events include:</p>
+                <ul class="list-disc list-inside pl-4 space-y-2 mt-2">
+                    <li>Death or recovery from an illness</li>
+                    <li>Injury or onset of a disease</li>
+                    <li>Relapse of a condition</li>
+                    <li>Failure to maintain abstinence (as in our example)</li>
+                </ul>
+            </section>
+
+            <!-- Section 2: Why Use Survival Analysis? -->
+            <section id="why-use-it" class="mb-12">
+                <h2 class="text-2xl md:text-3xl">Why Not Use Simpler Tests?</h2>
+                <p class="mb-4">You might wonder why we can't just use more common tests to analyze time-to-event data. Survival analysis has two key advantages that make it uniquely suited for this task.</p>
+                <div class="grid md:grid-cols-2 gap-6 mt-6">
+                    <div class="p-4 rounded-lg bg-zinc-900 border border-zinc-700">
+                        <h4 class="font-bold text-lg text-amber-400">Problem with t-tests / regression:</h4>
+                        <p class="mt-2">Comparing the mean time-to-event between groups ignores a crucial piece of information: <strong>censoring</strong>.</p>
+                    </div>
+                    <div class="p-4 rounded-lg bg-zinc-900 border border-zinc-700">
+                        <h4 class="font-bold text-lg text-amber-400">Problem with logistic regression:</h4>
+                        <p class="mt-2">Comparing the proportion of events between groups (e.g., using odds ratios) ignores the dimension of <strong>time</strong>.</p>
+                    </div>
+                </div>
+                <h3 class="text-xl font-semibold mt-8 mb-4">The Importance of Censoring</h3>
+                <p>In many studies, we don't observe the event for all participants. This is called censoring. A participant is "censored" if:</p>
+                 <ul class="list-disc list-inside pl-4 space-y-2 mt-2">
+                    <li>They are lost to follow-up or drop out of the study.</li>
+                    <li>The study ends before they experience the event.</li>
+                </ul>
+                <p class="mt-2">Censored data is not missing data. We know the participant survived up to a certain point. Survival analysis correctly incorporates this information, whereas other tests would have to discard these participants or treat them incorrectly.</p>
+            </section>
+
+            <!-- Section 3: The "Dry January" Example -->
+            <section id="dry-january-example" class="mb-12">
+                <h2 class="text-2xl md:text-3xl">Example: The "Dry January" Study</h2>
+                <p class="mb-4">An intervention tests whether a daily text message helps people maintain abstinence from alcohol for the month of January. There are two groups of 16 participants: an intervention group (daily SMS) and a control group (no SMS). The event of interest is "non-abstinence" (i.e., having a drink).</p>
+                <p class="mb-4">The key question is not just *how many* people failed, but whether the text messages helped people stay abstinent for a *greater number of days*.</p>
+                
+                <h3 class="text-xl font-semibold mt-8 mb-4">Visualizing the Data: Kaplan-Meier Survival Curves</h3>
+                <p class="mb-4">The best way to visualize survival data is with a Kaplan-Meier curve. This plot shows the probability of "surviving" (in this case, remaining abstinent) over time. Each drop in the line represents one or more participants experiencing the event.</p>
+
+                <div class="my-6 chart-wrapper">
+                    <h4 class="text-left text-lg font-semibold mb-2">Kaplan-Meier Survival Curves for Abstinence</h4>
+                    <canvas id="survivalCurveChart"></canvas>
+                </div>
+                <p>The plot shows that the control group's survival probability drops much more quickly than the text message group's, suggesting the intervention was effective.</p>
+
+                <h3 class="text-xl font-semibold mt-8 mb-4">The Log-Rank Test</h3>
+                <p class="mb-4">To formally test if the difference between the two survival curves is statistically significant, we use the <strong>Log-Rank Test</strong>. It's a non-parametric test that compares the survival distributions of two or more groups.</p>
+
+                <div class="space-y-4">
+                    <details>
+                        <summary>JASP Output: Kaplan-Meier Summary</summary>
+                        <div>
+                            <div class="data-table-wrapper">
+                                <table class="w-full text-sm text-left">
+                                    <thead class="text-xs"><tr><th class="px-4 py-2">Group</th><th class="px-4 py-2">N</th><th class="px-4 py-2">Events</th><th class="px-4 py-2">Censored</th><th class="px-4 py-2">Median Survival (Days)</th><th class="px-4 py-2">95% CI Lower</th><th class="px-4 py-2">95% CI Upper</th></tr></thead>
+                                    <tbody>
+                                     <tr class="border-t border-gray-700"><td class="px-4 py-2">Control</td><td>16</td><td>15</td><td>1 (6.25%)</td><td>7.000</td><td>3.000</td><td>18.000</td></tr>
+                                     <tr class="border-t border-gray-700"><td class="px-4 py-2">Text Message</td><td>16</td><td>13</td><td>3 (18.75%)</td><td>17.000</td><td>15.000</td><td>-</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p class="mt-4">This table shows the key descriptive statistics. "Events" are failures (non-abstinence). "Censored" are those who remained abstinent for all 31 days. The <strong>Median Survival</strong> is the time at which 50% of the group is expected to have failed. It was only 7 days for the control group, but 17 days for the text message group.</p>
+                        </div>
+                    </details>
+                     <details>
+                        <summary>JASP Output: Log-Rank Test</summary>
+                        <div>
+                            <div class="data-table-wrapper">
+                                <table class="w-full text-sm text-left">
+                                    <thead class="text-xs"><tr><th class="px-4 py-2">Test</th><th class="px-4 py-2">Chi-Square</th><th class="px-4 py-2">df</th><th class="px-4 py-2">p</th></tr></thead>
+                                    <tbody>
+                                     <tr class="border-t border-gray-700"><td class="px-4 py-2">Log-rank (Mantel-Haenszel)</td><td>7.642</td><td>1</td><td>0.006</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </details>
+                </div>
+            </section>
+
+            <!-- Section 4: Write-up -->
+            <section id="write-up">
+                <h2 class="text-2xl md:text-3xl">Writing Up the Results</h2>
+                <p class="mb-4">A good write-up for a survival analysis should include the descriptive statistics (like median survival) and the results of the inferential test (the log-rank test).</p>
+                <div class="p-4 rounded-lg bg-zinc-900 border border-zinc-700">
+                    <h4 class="font-bold text-lg text-amber-400">Example Write-Up</h4>
+                    <p class="mt-3">The median abstinence days for the text message group was 17 days, while the median abstinence days for the control group was 7. Cumulative non-abstinence curves were generated for both groups (see Figure 1). The cumulative curves indicated that the text message group had a higher probability of abstinence compared to the control group over the month of January. A log-rank test was conducted to compare the cumulative non-abstinence distributions of the two groups. The test was significant, $\chi^2(1) = 7.642, p = .006$, indicating a statistically significant difference in abstinence in the two groups.</p>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <script>
+        // --- Chart Rendering Functions ---
+        
+        function renderSurvivalCurveChart() {
+            const ctx = document.getElementById('survivalCurveChart');
+            if (!ctx) return;
+            if (Chart.getChart(ctx)) Chart.getChart(ctx).destroy();
+            
+            // Data points extracted from the JASP plot on page 26 of the PDF
+            const controlData = [
+                {x: 0, y: 1.0}, {x: 1, y: 1.0}, {x: 1, y: 0.94}, {x: 3, y: 0.94}, {x: 3, y: 0.75}, 
+                {x: 6, y: 0.75}, {x: 6, y: 0.56}, {x: 7, y: 0.56}, {x: 7, y: 0.47}, {x: 8, y: 0.47}, 
+                {x: 8, y: 0.31}, {x: 11, y: 0.31}, {x: 11, y: 0.25}, {x: 18, y: 0.25}, {x: 18, y: 0.125},
+                {x: 31, y: 0.125}
+            ];
+
+            const textMessageData = [
+                {x: 0, y: 1.0}, {x: 6, y: 1.0}, {x: 6, y: 0.94}, {x: 11, y: 0.94}, {x: 11, y: 0.88},
+                {x: 15, y: 0.88}, {x: 15, y: 0.62}, {x: 16, y: 0.62}, {x: 16, y: 0.56}, {x: 17, y: 0.56},
+                {x: 17, y: 0.49}, {x: 21, y: 0.49}, {x: 21, y: 0.42}, {x: 22, y: 0.42}, {x: 22, y: 0.35},
+                {x: 24, y: 0.35}, {x: 24, y: 0.26}, {x: 31, y: 0.26}
+            ];
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    datasets: [
+                        {
+                            label: 'Control',
+                            data: controlData,
+                            borderColor: '#38bdf8', // Light Blue
+                            backgroundColor: 'rgba(56, 189, 248, 0.2)',
+                            stepped: 'after',
+                            borderWidth: 2.5
+                        },
+                        {
+                            label: 'Text Message',
+                            data: textMessageData,
+                            borderColor: '#facc15', // Amber
+                            backgroundColor: 'rgba(250, 204, 21, 0.2)',
+                            stepped: 'after',
+                            borderWidth: 2.5
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { 
+                        legend: { position: 'top', labels: { color: '#fafafa' } },
+                        title: { display: false }
+                    },
+                    scales: {
+                        y: { 
+                            beginAtZero: true,
+                            max: 1.0,
+                            title: { display: true, text: 'Survival Probability (Abstinence)', color: '#fafafa' }, 
+                            ticks: { color: '#fafafa' }, 
+                            grid: { color: 'rgba(255, 255, 255, 0.25)' } 
+                        },
+                        x: { 
+                            type: 'linear',
+                            position: 'bottom',
+                            title: { display: true, text: 'Time (Days)', color: '#fafafa' }, 
+                            ticks: { color: '#fafafa' }, 
+                            grid: { color: 'rgba(255, 255, 255, 0.25)' } 
+                        }
+                    }
+                }
+            });
+        }
+
+        // --- INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            renderSurvivalCurveChart();
+        });
+    </script>
+
+</body>
+</html>
