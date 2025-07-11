@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Core Statistical Topics Introduction</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- MathJax Configuration -->
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']]
+        }
+      };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        :root {
+            --bg-color: #111827;
+            --text-color: #d1d5db;
+            --card-bg: #1f2937;
+            --header-text: #f9fafb;
+            --subtle-text: #9ca3af;
+            --border-color: #374151;
+            --tab-hover-bg: #4b5563;
+            --active-tab-border: #60a5fa;
+            --active-tab-text: #eff6ff;
+            --glossary-term-color: #60a5fa;
+            --glossary-term-hover: #93c5fd;
+            --info-box-bg: #1e3a8a;
+            --info-box-border: #2563eb;
+            --info-box-text: #dbeafe;
+            --table-bg: #2d3748;
+            --chart-bg: #374151;
+            --application-bg: #064e3b;
+            --application-border: #10b981;
+            --application-text: #a7f3d0;
+            --flowchart-bg: #2d3748; /* Added for flowchart background */
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+        h1, h2, h3, h4 {
+            font-weight: 700;
+        }
+        header h1 { color: var(--header-text); }
+        header p { color: var(--subtle-text); }
+        main {
+            background-color: var(--card-bg);
+        }
+        .nav-button {
+            padding: 0.75rem 1.5rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .nav-button.active {
+            background-color: var(--active-tab-border);
+            color: var(--bg-color);
+        }
+        .nav-button:not(.active):hover {
+            background-color: var(--tab-hover-bg);
+        }
+        .section-content {
+            display: none;
+        }
+        .sub-tab-nav { border-color: var(--border-color); }
+        .sub-tab-button {
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        .sub-tab-button.active {
+            border-bottom-color: var(--active-tab-border);
+            color: var(--active-tab-text);
+        }
+        .sub-tab-button:not(.active):hover {
+            background-color: var(--tab-hover-bg);
+        }
+        .sub-tab-content {
+            display: none;
+        }
+        .sub-tab-content > h2 {
+            border-color: var(--active-tab-border);
+        }
+        .info-box {
+            background-color: var(--info-box-bg);
+            border: 1px solid var(--info-box-border);
+            color: var(--info-box-text);
+        }
+        .application-corner {
+            background-color: var(--application-bg);
+            border: 1px solid var(--application-border);
+            color: var(--application-text);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-top: 1.5rem;
+        }
+        .application-corner h4 {
+            color: #d1fae5;
+            font-size: 1.125rem;
+            border-bottom: 1px solid var(--application-border);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .glossary-term {
+            color: var(--glossary-term-color);
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: underline;
+            text-decoration-style: dotted;
+        }
+        .glossary-term:hover {
+            color: var(--glossary-term-hover);
+        }
+        
+        /* Table Styling */
+        .data-table-wrapper {
+            background-color: var(--table-bg);
+            padding: 1rem;
+            border-radius: 0.5rem;
+        }
+        .data-table-wrapper h4 {
+            font-weight: 600;
+            font-size: 1.125rem; /* text-lg */
+            margin-bottom: 0.5rem;
+            color: var(--header-text);
+        }
+        .data-table-wrapper table thead {
+            background-color: #4a5568; /* gray-600 */
+        }
+        .data-table-wrapper table tfoot {
+             background-color: #1a202c; /* gray-900 */
+        }
+        .table-summary-col {
+            background-color: #1a202c; /* gray-900 */
+        }
+
+        /* Chart Styling */
+        .chart-wrapper {
+            background-color: var(--chart-bg);
+            padding: 1rem;
+            border-radius: 0.5rem;
+        }
+        .chart-wrapper > h4 { /* Title for the entire wrapper */
+            font-weight: 600;
+            font-size: 1.125rem; /* text-lg */
+            margin-bottom: 0.5rem;
+            color: var(--header-text);
+        }
+
+        /* Flowchart styling */
+        .flowchart {
+            background-color: var(--flowchart-bg);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            border: 1px solid var(--border-color);
+        }
+        .flowchart ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .flowchart li {
+            background-color: var(--card-bg);
+            padding: 1rem;
+            border-radius: 0.375rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--active-tab-border);
+        }
+        .flowchart .flowchart-question {
+            font-weight: 600;
+            color: var(--header-text);
+        }
+        .flowchart .flowchart-answer {
+            padding-left: 2rem;
+            margin-top: 0.75rem;
+            position: relative;
+        }
+        .flowchart .flowchart-answer::before {
+            content: '↳';
+            position: absolute;
+            left: 0.5rem;
+            top: 0;
+            color: var(--active-tab-border);
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+        .flowchart .flowchart-result {
+            background-color: var(--application-bg);
+            color: var(--application-text);
+            border-left-color: var(--application-border);
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body class="transition-colors duration-300">
+    <button id="menu-btn" onclick="openMenu()" style="display:none" class="fixed top-4 left-4 z-50 bg-emerald-600 text-white px-4 py-2 rounded shadow hover:bg-emerald-700">☰ Menu</button>
+    <div id="menu-container"></div>
+    
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-8 relative">
+            <h1 class="text-4xl md:text-5xl font-bold">Core Statistical Tests in Psychology</h1>
+            <p class="text-xl mt-2">A Practical Guide to Understanding and Reporting Key Analyses</p>
+        </header>
+        <main class="w-full p-6 md:p-8 rounded-lg shadow-md">
+            <nav aria-label="Main Content Sections" class="mb-8">
+                <ul role="tablist" class="flex flex-wrap gap-4 justify-center">
+                    <li role="presentation"><button role="tab" id="btn-foundations" aria-controls="foundations" class="nav-button active" onclick="switchContent(event, 'foundations', 'section-content', 'nav-button')">Foundations</button></li>
+                    <li role="presentation"><button role="tab" id="btn-sd-variance" aria-controls="sd-variance" class="nav-button" onclick="switchContent(event, 'sd-variance', 'section-content', 'nav-button')">Variance & SD</button></li>
+                    <li role="presentation"><button role="tab" id="btn-t-tests" aria-controls="t-tests" class="nav-button" onclick="switchContent(event, 't-tests', 'section-content', 'nav-button')">t-Tests</button></li>
+                    <li role="presentation"><button role="tab" id="btn-effect-size" aria-controls="effect-size" class="nav-button" onclick="switchContent(event, 'effect-size', 'section-content', 'nav-button')">Effect Size</button></li>
+                </ul>
+            </nav>
+            <div id="foundations" role="tabpanel" aria-labelledby="btn-foundations" class="section-content" style="display: block;">
+                <h2 class="text-2xl md:text-3xl font-bold border-b-2 pb-2 mb-4">The Foundations of Testing</h2>
+                <h3 class="text-xl font-semibold mt-6 mb-2">What is '<span class="glossary-term" data-term-id="statistical-significance">Statistical Significance</span>'?</h3>
+                <p class="mb-4">At its heart, statistics is about one thing: figuring out if an effect we see in our data is a <strong>real effect</strong> or if it could have just happened by <strong>random chance</strong>.</p>
+                <div class="space-y-2 p-4 rounded-lg info-box">
+                    <p><strong>The <span class="glossary-term" data-term-id="p-value">P-Value</span>:</strong> The probability of getting your results purely by chance.</p>
+                    <p><strong>The Rule (The 'Line in the Sand'):</strong> In psychology, we generally agree that if the probability of getting a result by chance is less than 5%, we call it "statistically significant." This is why we're always looking for $p < .05$.</p>
+                </div>
+                <h3 class="text-xl font-semibold mt-6 mb-2">The Core Logic: Hypothesis Testing & The Risks of Being Wrong</h3>
+                 <p class="mb-4">Every statistical test is a "courtroom" drama where we put the "no effect" idea on trial.</p>
+                <ul class="list-disc list-inside space-y-2 pl-4">
+                    <li><strong><span class="glossary-term" data-term-id="null-hypothesis">Null Hypothesis ($H_0$)</span>:</strong> The "skeptic's view." It assumes there is <strong>no effect</strong>.</li>
+                    <li><strong><span class="glossary-term" data-term-id="alternative-hypothesis">Alternative Hypothesis ($H_1$)</span>:</strong> Your research hypothesis. It states that there <strong>is an effect</strong>.</li>
+                    <li><strong>The Goal:</strong> We use the p-value to decide if we have enough evidence to reject the null hypothesis.</li>
+                </ul>
+                <p class="mt-4">But what if we make the wrong decision? There are two ways we can be wrong:</p>
+                 <ul class="list-disc list-inside space-y-2 pl-4 mt-2">
+                    <li><strong><span class="glossary-term" data-term-id="type-i-error">Type I Error ($\alpha$)</span>: A "False Positive".</strong> This is when we reject the null hypothesis when it was actually true.</li>
+                    <li><strong><span class="glossary-term" data-term-id="type-ii-error">Type II Error ($\beta$)</span>: A "Miss".</strong> This is when we fail to reject the null hypothesis when it was actually false.</li>
+                </ul>
+                <h3 class="text-xl font-semibold mt-8 mb-2">Standardization & Z-Scores: The Great Equalizer</h3>
+                <p class="mb-4">Often in psychology, we want to compare things that are measured on completely different scales (like exam scores out of 50 vs. anxiety ratings out of 10). A Z-score solves this problem by converting any raw score into a universal unit: the number of <span class="glossary-term" data-term-id="standard-deviation">standard deviations</span> it is from its own mean.</p>
+                <p class="text-center text-xl font-mono my-2 p-2 bg-gray-900 rounded-lg">$$Z = \frac{\text{Your Score} - \text{Mean of Scores}}{\text{Standard Deviation of Scores}}$$</p>
+                <p class="mb-4">A positive Z-score means your score was above the mean, a negative Z-score means it was below, and a Z-score of 0 means it was exactly average.</p>
+                <div class="data-table-wrapper">
+                    <h4>Worked Example: Who Did Better?</h4>
+                    <p class="mb-2">Amy and Ben are in different classes.</p>
+                     <ul class="list-disc list-inside space-y-2 my-4">
+                        <li>Amy scored <strong>80</strong> on her test. Her class average (mean) was <strong>70</strong>, and the standard deviation (SD) was <strong>10</strong>.</li>
+                        <li>Ben scored <strong>85</strong> on his test. His class average (mean) was <strong>82</strong>, and the standard deviation (SD) was <strong>3</strong>.</li>
+                    </ul>
+                    <p><strong>Amy's Z-Score:</strong> (80 - 70) / 10 = +1.0 (Amy was exactly 1 standard deviation above her class average).</p>
+                    <p><strong>Ben's Z-Score:</strong> (85 - 82) / 3 = +1.0 (Ben was also exactly 1 standard deviation above his class average).</p>
+                    <p class="mt-4 font-semibold"><strong>Conclusion:</strong> Even though their raw scores were different, they performed equally well relative to their respective classmates. Standardization allows for a fair comparison.</p>
+                </div>
+                <div class="application-corner">
+                    <h4>Application Corner: The Secret to Correlation</h4>
+                    <p>How can you correlate two things measured on different scales, like height (in cm) and weight (in kg)? The answer is Z-scores!</p>
+                    <p class="mt-2">Before correlating, the analysis engine first converts <strong>all</strong> height scores into Z-scores and <strong>all</strong> weight scores into Z-scores. Now both variables are on the same standardized scale. The correlation is then calculated based on these Z-scores.</p>
+                </div>
+            </div>
+            <div id="sd-variance" role="tabpanel" aria-labelledby="btn-sd-variance" class="section-content">
+                <h2 class="text-2xl md:text-3xl font-bold border-b-2 pb-2 mb-4">Understanding Spread: <span class="glossary-term" data-term-id="variance">Variance</span> and <span class="glossary-term" data-term-id="standard-deviation">Standard Deviation</span></h2>
+                <p class="mb-4">While the <span class="glossary-term" data-term-id="mean">mean</span> tells us the central point of our data, the <strong>variance</strong> and <strong>standard deviation</strong> tell us how spread out the scores are around that mean. They are crucial for understanding the 'Noise' part of our statistical tests.</p>
+                <h3 class="text-xl font-semibold mt-6 mb-2">Variance</h3>
+                <p class="mb-2">Variance is the average of the squared differences from the mean. It gives us a measure of how much the data varies.</p>
+                <p class="mb-4">We square the differences for a simple reason: to stop positive and negative differences from cancelling each other out. The formula is:</p>
+                <p class="text-center text-xl font-mono my-2 p-2 bg-gray-900 rounded-lg">$$s^2 = \frac{\sum(x_i - \bar{x})^2}{N-1}$$</p>
+                <h3 class="text-xl font-semibold mt-6 mb-2">Standard Deviation (SD)</h3>
+                <p class="mb-2">The standard deviation is simply the square root of the variance. This is incredibly useful because it returns the measure of spread to the original units of our data, making it much easier to interpret.</p>
+                <p class="mb-4">If the mean exam score is 65 and the SD is 5, it gives us a much clearer idea of the score distribution than knowing the variance is 25.</p>
+                <p class="text-center text-xl font-mono my-2 p-2 bg-gray-900 rounded-lg">$$s = \sqrt{\frac{\sum(x_i - \bar{x})^2}{N-1}}$$</p>
+                <details class="p-4 mt-6 rounded-lg bg-gray-800">
+                    <summary>Mathematical Notation Cheat Sheet</summary>
+                    <div class="space-y-3">
+                        <h4 class="font-semibold">Breaking Down the Formulas</h4>
+                        <p>The formulas for variance and standard deviation can look intimidating, but each symbol has a straightforward meaning:</p>
+                        <ul class="list-disc list-inside pl-4 space-y-2">
+                            <li><strong>$s^2$</strong>: This is the symbol for <strong>sample variance</strong>. The 's' stands for sample, and the '2' indicates that the value is squared.</li>
+                            <li><strong>$s$</strong>: This is the symbol for <strong>sample standard deviation</strong>. It's just the square root of the variance.</li>
+                            <li><strong>$\sum$</strong> (Sigma): This is the summation symbol. It's a mathematical instruction that simply means "add everything up".</li>
+                            <li><strong>$x_i$</strong>: This represents each <strong>individual score</strong> in your dataset.</li>
+                            <li><strong>$\bar{x}$</strong> (x-bar): This is the symbol for the <strong>mean</strong> (or average) of all the scores in your sample.</li>
+                            <li><strong>$N$</strong>: This represents the <strong>total number of scores</strong> in your sample.</li>
+                        </ul>
+                        <p class="mt-4">So, the expression <strong>$\sum(x_i - \bar{x})^2$</strong> is just a set of instructions: "For each individual score, subtract the mean, square the result, and then add all of those squared results together."</p>
+                    </div>
+                </details>
+            </div>
+            <div id="t-tests" role="tabpanel" aria-labelledby="btn-t-tests" class="section-content">
+                <h2 class="text-2xl md:text-3xl font-bold border-b-2 pb-2 mb-4">The <span class="glossary-term" data-term-id="t-test">t-Test</span></h2>
+                <p class="mb-4">Use a t-test when your research question is about the <strong>difference in mean scores</strong> between <strong>exactly two</strong> groups.</p>
+                <h3 class="text-xl font-semibold mt-6 mb-2">The Core Logic: Signal vs. Noise</h3>
+                <p class="mb-4">Think of a t-test as a simple fraction:</p>
+                <div class="text-center my-4 p-4 bg-gray-800 rounded-lg">
+                    <p class="text-2xl font-mono">$$t = \frac{\text{Difference between group means (Signal)}}{\text{Variability within the groups (Noise)}}$$</p>
+                </div>
+                <h3 class="text-xl font-semibold mt-6 mb-2">What are <span class="glossary-term" data-term-id="degrees-of-freedom">Degrees of Freedom</span> (df)?</h3>
+                <p class="mb-4">Degrees of freedom is a tricky concept, but you can think of it as a measure of how much trustworthy information your data provides. It's closely related to your sample size. The more degrees of freedom you have, the more confident you can be that your sample is representative of the whole population. For different tests, the df is calculated slightly differently, but your stats software will always give you the correct value to report.</p>
+                <h3 class="text-xl font-semibold mt-6 mb-2">Choosing the Right t-Test</h3>
+                <p class="mb-4">The key is your experimental design. Ask yourself this one question: <strong>"How many scores did each participant provide for this comparison?"</strong></p>
+                <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="p-4 rounded-lg bg-gray-800 flex flex-col">
+                        <h4 class="font-semibold text-lg mb-2"><span class="glossary-term" data-term-id="paired-samples-t-test">Paired-Samples t-Test</span></h4>
+                        <p class="mb-3">Use this if each participant provided <strong>two scores</strong> (one for each condition).</p>
+                        <ul class="list-disc list-inside pl-2 space-y-2 text-sm flex-grow">
+                            <li><strong>AKA:</strong> Dependent t-Test, <span class="glossary-term" data-term-id="within-subjects">Within-Subjects</span> t-Test.</li>
+                            <li><strong>Example (Before & After):</strong> Testing the same people's stress levels before and after a meditation app.</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 rounded-lg bg-gray-800 flex flex-col">
+                        <h4 class="font-semibold text-lg mb-2"><span class="glossary-term" data-term-id="independent-samples-t-test">Independent-Samples t-Test</span></h4>
+                        <p class="mb-3">Use this if each participant provided only <strong>one score</strong>.</p>
+                         <ul class="list-disc list-inside pl-2 space-y-2 text-sm flex-grow">
+                            <li><strong>AKA:</strong> <span class="glossary-term" data-term-id="between-subjects">Between-Subjects</span> t-Test.</li>
+                            <li><strong>Example (Treatment vs. Control):</strong> One group gets a new drug, a separate group gets a placebo. You compare the outcomes.</li>
+                        </ul>
+                    </div>
+                </div>
+                <h3 class="text-xl font-semibold mt-8 mb-2">How to Report a t-Test</h3>
+                <p>The format is: <em>t</em>(df) = t-value, <em>p</em> = p-value.</p>
+                <div class="p-4 mt-2 rounded-lg bg-gray-800">
+                    <p class="font-semibold">Example Write-Up:</p>
+                    <p class="mt-2">"A paired-samples t-test showed a significant difference between the 'before' scores (M = 13.4, SD = 3.7) and the 'after' scores (M = 11.5, SD = 2.9), <em>t</em>(19) = 3.472, <em>p</em> = .003."</p>
+                </div>
+            </div>
+            <div id="effect-size" role="tabpanel" aria-labelledby="btn-effect-size" class="section-content">
+                <h2 class="text-2xl md:text-3xl font-bold border-b-2 pb-2 mb-4">Beyond Significance: <span class="glossary-term" data-term-id="effect-size-glossary">Effect Size</span></h2>
+                <h3 class="text-xl font-semibold mt-6 mb-2">Why P-Values Aren't Enough</h3>
+                <p class="mb-4">Getting a "significant" <span class="glossary-term" data-term-id="p-value">p-value</span> (<em>p</em> < .05) is exciting. It tells us that our result is probably not due to random chance. But it doesn't tell us the whole story. A p-value can be significant even for a tiny, unimportant effect if you have a very large sample size.</p>
+                <p>This is where effect size comes in. It answers a more practical question.</p>
+                <div class="space-y-2 p-4 rounded-lg info-box">
+                    <p><strong>The P-Value asks:</strong> "Is there a real effect?"</p>
+                    <p><strong>Effect Size asks:</strong> "Okay, but how BIG is the effect?"</p>
+                </div>
+                <h3 class="text-xl font-semibold mt-6 mb-2">What is Effect Size?</h3>
+                <p class="mb-2">Simply put, the effect size tells you <strong>how much of an impact your <span class="glossary-term" data-term-id="iv">independent variable</span> had on your <span class="glossary-term" data-term-id="dv">dependent variable</span>.</strong> It's a measure of the magnitude, or strength, of a phenomenon.</p>
+                <p class="mb-4">One of the most common effect sizes for comparing two means (like in a <span class="glossary-term" data-term-id="t-test">t-test</span>) is <strong>Cohen's d</strong>. It measures the difference between two means in <span class="glossary-term" data-term-id="standard-deviation">standard deviation</span> units. This is useful because it gives us a "standardized" value that we can compare across different studies, even if they used different scales of measurement.</p>
+                <h3 class="text-xl font-semibold mt-6 mb-2">Interpreting Effect Size: Cohen's d</h3>
+                <p class="mb-2">So you have a Cohen's <em>d</em> value from your JASP output. What does it mean? Jacob Cohen provided some handy rules of thumb that are widely used in psychology:</p>
+                <div class="p-4 mt-2 rounded-lg bg-gray-800">
+                     <ul class="list-disc list-inside space-y-2 pl-4">
+                        <li><strong><em>d</em> &approx; 0.2</strong> is considered a <strong>'small'</strong> effect.</li>
+                        <li><strong><em>d</em> &approx; 0.5</strong> is considered a <strong>'medium'</strong> effect.</li>
+                        <li><strong><em>d</em> &approx; 0.8</strong> is considered a <strong>'large'</strong> effect.</li>
+                    </ul>
+                </div>
+                <details class="p-4 mt-6 rounded-lg bg-gray-800">
+                    <summary>Visualizing Effect Size: The Overlap</summary>
+                    <div>
+                        <p>A great way to understand effect size is to think about how much the scores of your two groups overlap.</p>
+                         <ul class="list-disc list-inside space-y-2 pl-4 mt-3">
+                            <li>A <strong>small effect size (d=0.2)</strong> means the two groups are very similar and their distributions overlap a lot. It's hard to tell them apart just by looking at a random score.</li>
+                            <li>A <strong>medium effect size (d=0.5)</strong> means there is a noticeable difference, and the overlap is smaller. You can start to see a clear separation.</li>
+                            <li>A <strong>large effect size (d=0.8)</strong> means there's a big difference between the two groups. Their distributions overlap very little, and the separation is obvious.</li>
+                        </ul>
+                        <p class="mt-4">Knowing the effect size gives you a much better picture of the real-world importance of your finding than a p-value alone.</p>
+                    </div>
+                </details>
+                <h3 class="text-xl font-semibold mt-8 mb-2">How to Report Effect Size</h3>
+                <p>When you report your t-test results, you should always include the effect size. It gives your reader a complete picture.</p>
+                <div class="p-4 mt-2 rounded-lg bg-gray-800">
+                    <p class="font-semibold">Example Write-Up:</p>
+                    <p class="mt-2">"A paired-samples t-test revealed that the difference was not significant, <em>t</em>(7) = -1.984, <em>p</em> = .088. However, the effect size was medium-to-large, <em>d</em> = -0.70, suggesting a potentially meaningful difference that may have been missed due to a small sample size."</p>
+                </div>
+                
+                <h3 class="text-xl font-semibold mt-8 mb-2">Which Test Should I Use? A Flowchart</h3>
+                <p class="mb-4">Use these tools when you're stuck. They're designed to quickly point you in the right direction.</p>
+                <div class="flowchart">
+                    <ul>
+                        <li>
+                            <span class="flowchart-question">What is my main research question?</span>
+                            <ul>
+                                <li class="flowchart-answer">
+                                    <span class="flowchart-question">Am I looking for a <strong>relationship</strong> or <strong>association</strong> between continuous variables?</span>
+                                    <ul>
+                                        <li class="flowchart-answer flowchart-result">Use <span class="glossary-term" data-term-id="correlation-glossary">Correlation</span> or <span class="glossary-term" data-term-id="regression">Regression</span>.</li>
+                                    </ul>
+                                </li>
+                                <li class="flowchart-answer">
+                                    <span class="flowchart-question">Am I looking for a <strong>difference</strong> in average scores between groups?</span>
+                                    <ul>
+                                        <li class="flowchart-answer">
+                                            <span class="flowchart-question">How many groups (or levels of my IV) am I comparing?</span>
+                                            <ul>
+                                                <li class="flowchart-answer">
+                                                    <span class="flowchart-question">Exactly TWO groups.</span>
+                                                    <ul>
+                                                         <li class="flowchart-answer flowchart-result">Use a <span class="glossary-term" data-term-id="t-test">t-Test</span>.</li>
+                                                    </ul>
+                                                </li>
+                                                <li class="flowchart-answer">
+                                                    <span class="flowchart-question">THREE or MORE groups.</span>
+                                                     <ul>
+                                                         <li class="flowchart-answer flowchart-result">Use an <span class="glossary-term" data-term-id="anova-glossary">ANOVA</span>.</li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                
+                <h3 class="text-xl font-semibold mt-8 mb-2">Interpreting Assumption Checks Cheat Sheet</h3>
+                <p class="mb-4">Your software will test key assumptions for you. Here's how to read the results.</p>
+                 <div class="data-table-wrapper">
+                    <table class="w-full text-left">
+                        <thead class="text-base">
+                            <tr>
+                                <th class="p-3">Test Name</th>
+                                <th class="p-3">What it's for</th>
+                                <th class="p-3">The Simple Rule</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-t border-gray-600">
+                                <td class="p-3 font-semibold"><span class="glossary-term" data-term-id="levenes-test">Levene's Test</span></td>
+                                <td class="p-3">Testing <span class="glossary-term" data-term-id="homogeneity-of-variance">Homogeneity of Variance</span> (for Independent ANOVAs)</td>
+                                <td class="p-3">If p-value is <strong>> .05</strong>, the assumption is met. It's good to go! <br>If p-value is <strong>&lt; .05</strong>, the assumption is violated. Use the "Welch's F" result.</td>
+                            </tr>
+                            <tr class="border-t border-gray-600">
+                                <td class="p-3 font-semibold"><span class="glossary-term" data-term-id="mauchlys-test">Mauchly's Test</span></td>
+                                <td class="p-3">Testing <span class="glossary-term" data-term-id="sphericity">Sphericity</span> (for Repeated-Measures ANOVAs with 3+ levels)</td>
+                                <td class="p-3">If p-value is <strong>> .05</strong>, the assumption is met. Use the "Sphericity Assumed" results.<br>If p-value is <strong>&lt; .05</strong>, the assumption is violated. Use the "<span class="glossary-term" data-term-id="greenhouse-geisser">Greenhouse-Geisser</span>" correction results. JASP provides these automatically.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+    function switchContent(evt, contentId, contentClass = 'section-content', buttonClass = 'nav-button') {
+        const contentPanels = document.getElementsByClassName(contentClass);
+        for (let panel of contentPanels) {
+            panel.style.display = "none";
+        }
+        const tabButtons = document.getElementsByClassName(buttonClass);
+        for (let button of tabButtons) {
+            button.classList.remove("active");
+        }
+        const targetPanel = document.getElementById(contentId);
+        if (targetPanel) {
+            targetPanel.style.display = "block";
+            evt.currentTarget.classList.add("active");
+        }
+    }
+    </script>
+
+    <script>
+    function openMenu() {
+      document.getElementById('site-menu').style.transform = 'translateX(0)';
+      document.getElementById('menu-backdrop').classList.remove('hidden');
+    }
+    function closeMenu() {
+      document.getElementById('site-menu').style.transform = 'translateX(-100%)';
+      document.getElementById('menu-backdrop').classList.add('hidden');
+    }
+    fetch('../assets/shared-menu.html')
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('menu-container').innerHTML = html;
+        document.getElementById('menu-btn').style.display = '';
+        window.openMenu = function() {
+          document.getElementById('site-menu').style.transform = 'translateX(0)';
+          document.getElementById('menu-backdrop').classList.remove('hidden');
+        };
+        window.closeMenu = function() {
+          document.getElementById('site-menu').style.transform = 'translateX(-100%)';
+          document.getElementById('menu-backdrop').classList.add('hidden');
+        };
+      });
+    </script>
+</body>
+</html>
