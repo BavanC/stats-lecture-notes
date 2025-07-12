@@ -1,0 +1,936 @@
+{
+  "title": "One-Way Independent ANOVA Calculation Questions",
+  "description": "A set of 50 multiple-choice questions focused on calculating missing values in One-Way Independent ANOVA tables",
+  "questions": [
+    {
+      "id": 1,
+      "section": "Calculation Questions",
+      "question": "What is the missing F-ratio in Table 1?",
+      "options": [
+        "0.09",
+        "10.85",
+        "21.70",
+        "5.43"
+      ],
+      "correctAnswer": "B",
+      "explanation": "F = MS_between / MS_within = 162.75 / 15.00 = 10.85",
+      "jaspTable": {
+        "title": "Table 1 - ANOVA - performance_score",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"],
+        "rows": [
+          ["group", "325.50", "2", "162.75", "?"],
+          ["Residuals", "855.00", "57", "15.00", ""]
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "section": "Calculation Questions",
+      "question": "What is the missing Mean Square Between in Table 2?",
+      "options": [
+        "120.00",
+        "246.90",
+        "329.20",
+        "987.60"
+      ],
+      "correctAnswer": "C",
+      "explanation": "MS_between = SS_between / df_between = 987.60 / 3 = 329.20",
+      "jaspTable": {
+        "title": "Table 2 - ANOVA - reaction_time",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"],
+        "rows": [
+          ["condition", "987.60", "3", "?", "8.23"],
+          ["Residuals", "5760.00", "48", "120.00", ""]
+        ]
+      }
+    },
+    {
+      "id": 3,
+      "section": "Calculation Questions",
+      "question": "What is the missing Sum of Squares Within (Residuals) in Table 3?",
+      "options": [
+        "12.14",
+        "595.00",
+        "340.00",
+        "425.50"
+      ],
+      "correctAnswer": "B",
+      "explanation": "SS_within = df_within × MS_within = 85 × 7.00 = 595.00",
+      "jaspTable": {
+        "title": "Table 3 - ANOVA - memory_recall",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"],
+        "rows": [
+          ["strategy", "150.40", "4", "37.60", "5.37"],
+          ["Residuals", "?", "85", "7.00", ""]
+        ]
+      }
+    },
+    {
+      "id": 4,
+      "section": "Calculation Questions",
+      "question": "What is the missing Sum of Squares Between in Table 4?",
+      "options": [
+        "42.15",
+        "168.60",
+        "12.50",
+        "712.50"
+      ],
+      "correctAnswer": "B",
+      "explanation": "SS_between = df_between × MS_between = 2 × 84.30 = 168.60",
+      "jaspTable": {
+        "title": "Table 4 - ANOVA - error_count",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"],
+        "rows": [
+          ["intervention", "?", "2", "84.30", "6.74"],
+          ["Residuals", "712.50", "57", "12.50", ""]
+        ]
+      }
+    },
+    {
+      "id": 5,
+      "section": "Calculation Questions",
+      "question": "What are the missing degrees of freedom Within (Residuals) in Table 5?",
+      "options": [
+        "12",
+        "56",
+        "37",
+        "59"
+      ],
+      "correctAnswer": "B",
+      "explanation": "df_within = SS_within / MS_within = 672.00 / 12.00 = 56",
+      "jaspTable": {
+        "title": "Table 5 - ANOVA - growth_rate",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"],
+        "rows": [
+          ["nutrient", "450.75", "3", "150.25", "12.52"],
+          ["Residuals", "672.00", "?", "12.00", ""]
+        ]
+      }
+    },
+    {
+      "id": 6,
+      "section": "Calculation Questions",
+      "question": "What are the missing degrees of freedom Between in Table 6?",
+      "options": [
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "correctAnswer": "B",
+      "explanation": "df_between = SS_between / MS_between = 210.60 / 70.20 = 3",
+      "jaspTable": {
+        "title": "Table 6 - ANOVA - satisfaction_level",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"],
+        "rows": [
+          ["program", "210.60", "?", "70.20", "7.80"],
+          ["Residuals", "513.00", "57", "9.00", ""]
+        ]
+      }
+    },
+    {
+      "id": 7,
+      "section": "Calculation Questions",
+      "question": "What is the missing Mean Square Within (Residuals) in Table 7?",
+      "options": [
+        "55.20",
+        "2.76",
+        "20.00",
+        "57.00"
+      ],
+      "correctAnswer": "C",
+      "explanation": "MS_within = SS_within / df_within = 1140.00 / 57 = 20.00",
+      "jaspTable": {
+        "title": "Table 7 - ANOVA - anxiety_score",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"],
+        "rows": [
+          ["therapy_type", "110.40", "2", "55.20", "2.76"],
+          ["Residuals", "1140.00", "57", "?", ""]
+        ]
+      }
+    },
+    {
+      "id": 8,
+      "section": "Calculation Questions",
+      "question": "Using Table 1, what is the Total Sum of Squares (SS_total)?",
+      "options": [
+        "529.50",
+        "1180.50",
+        "692.25",
+        "1017.75"
+      ],
+      "correctAnswer": "B",
+      "explanation": "SS_total = SS_between + SS_within = 325.50 + 855.00 = 1180.50",
+      "jaspTable": {
+        "title": "Table 1 - ANOVA - performance_score",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"],
+        "rows": [
+          ["group", "325.50", "2", "162.75", "10.85"],
+          ["Residuals", "855.00", "57", "15.00", ""]
+        ]
+      }
+    },
+    {
+      "id": 9,
+      "section": "Calculation Questions",
+      "question": "Using Table 2, how many total participants were in the study?",
+      "options": [
+        "48",
+        "51",
+        "52",
+        "55"
+      ],
+      "correctAnswer": "C",
+      "explanation": "df_total = df_between + df_within = 3 + 48 = 51. N = df_total + 1 = 52",
+      "jaspTable": {
+        "title": "Table 2 - ANOVA - reaction_time",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"],
+        "rows": [
+          ["condition", "987.60", "3", "329.20", "8.23"],
+          ["Residuals", "5760.00", "48", "120.00", ""]
+        ]
+      }
+    },
+    {
+      "id": 10,
+      "section": "Calculation Questions",
+      "question": "Using Table 3, what is the Total Sum of Squares (SS_total)?",
+      "options": [
+        "745.40",
+        "602.00",
+        "89.00",
+        "595.00"
+      ],
+      "correctAnswer": "A",
+      "explanation": "SS_total = SS_between + SS_within = 150.40 + 595.00 = 745.40",
+      "jaspTable": {
+        "title": "Table 3 - ANOVA - memory_recall",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"],
+        "rows": [
+          ["strategy", "150.40", "4", "37.60", "5.37"],
+          ["Residuals", "595.00", "85", "7.00", ""]
+        ]
+      }
+    },
+    {
+      "id": 11,
+      "section": "Calculation Questions",
+      "question": "Using Table 4, what is the F-ratio?",
+      "options": [
+        "1.49",
+        "13.49",
+        "6.74",
+        "0.15"
+      ],
+      "correctAnswer": "C",
+      "explanation": "The F-ratio is given in the table as 6.74",
+      "jaspTable": {
+        "title": "Table 4 - ANOVA - error_count",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"],
+        "rows": [
+          ["intervention", "168.60", "2", "84.30", "6.74"],
+          ["Residuals", "712.50", "57", "12.50", ""]
+        ]
+      }
+    },
+    {
+      "id": 12,
+      "section": "Calculation Questions",
+      "question": "Using Table 5, what is the total number of participants (N)?",
+      "options": [
+        "56",
+        "59",
+        "60",
+        "63"
+      ],
+      "correctAnswer": "C",
+      "explanation": "df_between = 3, df_within = 56. df_total = 59. N = 60",
+      "jaspTable": {
+        "title": "Table 5 - ANOVA - growth_rate",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"],
+        "rows": [
+          ["nutrient", "450.75", "3", "150.25", "12.52"],
+          ["Residuals", "672.00", "56", "12.00", ""]
+        ]
+      }
+    },
+    {
+      "id": 13,
+      "section": "Calculation Questions",
+      "question": "Using Table 6, how many groups were compared?",
+      "options": [
+        "2",
+        "3",
+        "4",
+        "58"
+      ],
+      "correctAnswer": "C",
+      "explanation": "df_between = 3. Number of groups = df_between + 1 = 4",
+      "jaspTable": {
+        "title": "Table 6 - ANOVA - satisfaction_level",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"],
+        "rows": [
+          ["program", "210.60", "3", "70.20", "7.80"],
+          ["Residuals", "513.00", "57", "9.00", ""]
+        ]
+      }
+    },
+    {
+      "id": 14,
+      "section": "Calculation Questions",
+      "question": "Using Table 7, what is the F-ratio?",
+      "options": [
+        "2.76",
+        "0.36",
+        "1.84",
+        "20.00"
+      ],
+      "correctAnswer": "A",
+      "explanation": "The F-ratio is given in the table as 2.76",
+      "jaspTable": {
+        "title": "Table 7 - ANOVA - anxiety_score",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"],
+        "rows": [
+          ["therapy_type", "110.40", "2", "55.20", "2.76"],
+          ["Residuals", "1140.00", "57", "20.00", ""]
+        ]
+      }
+    },
+    {
+      "id": 15,
+      "section": "Calculation Questions",
+      "question": "A study has SS_between = 210.5 and SS_within = 590.3. What is the effect size, partial eta-squared (η²p)?",
+      "options": [
+        "0.356",
+        "0.263",
+        "0.737",
+        "2.80"
+      ],
+      "correctAnswer": "B",
+      "explanation": "η²p = SS_between / (SS_between + SS_within) = 210.5 / (210.5 + 590.3) = 210.5 / 800.8 = 0.263"
+    },
+    {
+      "id": 16,
+      "section": "Calculation Questions",
+      "question": "A study has MS_between = 125.5 and MS_within = 25.1. What is the F-ratio?",
+      "options": [
+        "0.20",
+        "5.00",
+        "100.40",
+        "150.60"
+      ],
+      "correctAnswer": "B",
+      "explanation": "F = MS_between / MS_within = 125.5 / 25.1 = 5.00"
+    },
+    {
+      "id": 17,
+      "section": "Calculation Questions",
+      "question": "If SS_between = 345.6 and df_between = 3, what is MS_between?",
+      "options": [
+        "3.00",
+        "115.20",
+        "345.60",
+        "1036.80"
+      ],
+      "correctAnswer": "B",
+      "explanation": "MS_between = SS_between / df_between = 345.6 / 3 = 115.20"
+    },
+    {
+      "id": 18,
+      "section": "Calculation Questions",
+      "question": "If SS_within = 987.6 and df_within = 41, what is MS_within?",
+      "options": [
+        "41.00",
+        "24.09",
+        "987.60",
+        "0.04"
+      ],
+      "correctAnswer": "B",
+      "explanation": "MS_within = SS_within / df_within = 987.6 / 41 = 24.09"
+    },
+    {
+      "id": 19,
+      "section": "Calculation Questions",
+      "question": "A one-way ANOVA with 5 groups has a total of 75 participants. What are the degrees of freedom for the F-test?",
+      "options": [
+        "df = (4, 70)",
+        "df = (5, 70)",
+        "df = (4, 74)",
+        "df = (5, 75)"
+      ],
+      "correctAnswer": "A",
+      "explanation": "df_between = 5-1=4; df_within = 75-5=70"
+    },
+    {
+      "id": 20,
+      "section": "Calculation Questions",
+      "question": "Given SS_total = 2500.8 and SS_within = 1850.2, what is SS_between?",
+      "options": [
+        "0.74",
+        "650.6",
+        "4351.0",
+        "7.40"
+      ],
+      "correctAnswer": "B",
+      "explanation": "SS_between = SS_total - SS_within = 2500.8 - 1850.2 = 650.6"
+    },
+    {
+      "id": 21,
+      "section": "Calculation Questions",
+      "question": "What is the missing F-ratio in Table H?",
+      "options": [
+        "0.16",
+        "3.98",
+        "6.39",
+        "19.16"
+      ],
+      "correctAnswer": "C",
+      "explanation": "F = MS_between / MS_within = 180.8 / 28.3 = 6.39",
+      "jaspTable": {
+        "title": "Table H - ANOVA - comprehension_score",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"],
+        "rows": [
+          ["method", "542.4", "3", "180.8", "?"],
+          ["Residuals", "2150.4", "76", "28.3", ""]
+        ]
+      }
+    },
+    {
+      "id": 22,
+      "section": "Calculation Questions",
+      "question": "What is the missing Mean Square Between in Table I?",
+      "options": [
+        "18.0",
+        "37.95",
+        "75.9",
+        "151.8"
+      ],
+      "correctAnswer": "B",
+      "explanation": "MS_between = SS_between / df_between = 75.9 / 2 = 37.95",
+      "jaspTable": {
+        "title": "Table I - ANOVA - confidence_rating",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"],
+        "rows": [
+          ["feedback_type", "75.9", "2", "?", "4.22"],
+          ["Residuals", "989.1", "55", "18.0", ""]
+        ]
+      }
+    },
+    {
+      "id": 23,
+      "section": "Calculation Questions",
+      "question": "What is the missing Sum of Squares Within (Residuals) in Table J?",
+      "options": [
+        "1800.0",
+        "8.00",
+        "377.6",
+        "566.4"
+      ],
+      "correctAnswer": "A",
+      "explanation": "SS_within = df_within × MS_within = 120 × 15.0 = 1800.0",
+      "jaspTable": {
+        "title": "Table J - ANOVA - task_errors",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"],
+        "rows": [
+          ["distraction_level", "188.8", "4", "47.2", "3.15"],
+          ["Residuals", "?", "120", "15.0", ""]
+        ]
+      }
+    },
+    {
+      "id": 24,
+      "section": "Calculation Questions",
+      "question": "What is the missing Sum of Squares Between in Table K?",
+      "options": [
+        "13.0",
+        "56.3",
+        "225.2",
+        "1105.0"
+      ],
+      "correctAnswer": "C",
+      "explanation": "SS_between = df_between × MS_between = 2 × 112.6 = 225.2",
+      "jaspTable": {
+        "title": "Table K - ANOVA - motivation_score",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"],
+        "rows": [
+          ["reward_type", "?", "2", "112.6", "8.66"],
+          ["Residuals", "1105.0", "85", "13.0", ""]
+        ]
+      }
+    },
+    {
+      "id": 25,
+      "section": "Calculation Questions",
+      "question": "What are the missing degrees of freedom Within (Residuals) in Table L?",
+      "options": [
+        "11",
+        "96",
+        "33",
+        "60"
+      ],
+      "correctAnswer": "B",
+      "explanation": "df_within = SS_within / MS_within = 1832.0 / 19.08 = 96",
+      "jaspTable": {
+        "title": "Table L - ANOVA - symptom_reduction",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"],
+        "rows": [
+          ["dosage", "644.0", "3", "214.67", "11.24"],
+          ["Residuals", "1832.0", "?", "19.08", ""]
+        ]
+      }
+    },
+    {
+      "id": 26,
+      "section": "Calculation Questions",
+      "question": "What are the missing degrees of freedom Between in Table M?",
+      "options": [
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "correctAnswer": "A",
+      "explanation": "df_between = SS_between / MS_between = 345.6 / 172.8 = 2",
+      "jaspTable": {
+        "title": "Table M - ANOVA - productivity_index",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"],
+        "rows": [
+          ["environment", "345.6", "?", "172.8", "9.60"],
+          ["Residuals", "1530.0", "85", "18.0", ""]
+        ]
+      }
+    },
+    {
+      "id": 27,
+      "section": "Calculation Questions",
+      "question": "What is the missing Mean Square Within (Residuals) in Table N?",
+      "options": [
+        "4.18",
+        "30.0",
+        "125.4",
+        "85.0"
+      ],
+      "correctAnswer": "B",
+      "explanation": "MS_within = SS_within / df_within = 2550.0 / 85 = 30.0",
+      "jaspTable": {
+        "title": "Table N - ANOVA - stress_level",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"],
+        "rows": [
+          ["coping_style", "250.8", "2", "125.4", "4.18"],
+          ["Residuals", "2550.0", "85", "?", ""]
+        ]
+      }
+    },
+    {
+      "id": 28,
+      "section": "Calculation Questions",
+      "question": "Using Table H, what is the Total Sum of Squares (SS_total)?",
+      "options": [
+        "2692.8",
+        "1608.0",
+        "79.0",
+        "2178.7"
+      ],
+      "correctAnswer": "A",
+      "explanation": "SS_total = SS_between + SS_within = 542.4 + 2150.4 = 2692.8",
+      "jaspTable": {
+        "title": "Table H - ANOVA - comprehension_score",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"],
+        "rows": [
+          ["method", "542.4", "3", "180.8", "6.39"],
+          ["Residuals", "2150.4", "76", "28.3", ""]
+        ]
+      }
+    },
+    {
+      "id": 29,
+      "section": "Calculation Questions",
+      "question": "Using Table I, how many total participants were in the study?",
+      "options": [
+        "55",
+        "57",
+        "58",
+        "60"
+      ],
+      "correctAnswer": "C",
+      "explanation": "df_total = df_between + df_within = 2 + 55 = 57. N = 57 + 1 = 58",
+      "jaspTable": {
+        "title": "Table I - ANOVA - confidence_rating",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"],
+        "rows": [
+          ["feedback_type", "75.9", "2", "37.95", "4.22"],
+          ["Residuals", "989.1", "55", "18.0", ""]
+        ]
+      }
+    },
+    {
+      "id": 30,
+      "section": "Calculation Questions",
+      "question": "Using Table J, what is the Total Sum of Squares (SS_total)?",
+      "options": [
+        "1988.8",
+        "1611.2",
+        "124.0",
+        "1800.0"
+      ],
+      "correctAnswer": "A",
+      "explanation": "SS_total = SS_between + SS_within = 188.8 + 1800.0 = 1988.8",
+      "jaspTable": {
+        "title": "Table J - ANOVA - task_errors",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"],
+        "rows": [
+          ["distraction_level", "188.8", "4", "47.2", "3.15"],
+          ["Residuals", "1800.0", "120", "15.0", ""]
+        ]
+      }
+    },
+    {
+      "id": 31,
+      "section": "Calculation Questions",
+      "question": "Using Table K, what is the F-ratio?",
+      "options": [
+        "0.12",
+        "8.66",
+        "13.0",
+        "112.6"
+      ],
+      "correctAnswer": "B",
+      "explanation": "The F-ratio is given in the table as 8.66",
+      "jaspTable": {
+        "title": "Table K - ANOVA - motivation_score",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"],
+        "rows": [
+          ["reward_type", "225.2", "2", "112.6", "8.66"],
+          ["Residuals", "1105.0", "85", "13.0", ""]
+        ]
+      }
+    },
+    {
+      "id": 32,
+      "section": "Calculation Questions",
+      "question": "Using Table L, what is the total number of participants (N)?",
+      "options": [
+        "96",
+        "99",
+        "100",
+        "103"
+      ],
+      "correctAnswer": "C",
+      "explanation": "df_between = 3, df_within = 96. df_total = 99. N = 100",
+      "jaspTable": {
+        "title": "Table L - ANOVA - symptom_reduction",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"],
+        "rows": [
+          ["dosage", "644.0", "3", "214.67", "11.24"],
+          ["Residuals", "1832.0", "96", "19.08", ""]
+        ]
+      }
+    },
+    {
+      "id": 33,
+      "section": "Calculation Questions",
+      "question": "Using Table M, how many groups were compared?",
+      "options": [
+        "2",
+        "3",
+        "4",
+        "85"
+      ],
+      "correctAnswer": "B",
+      "explanation": "df_between = 2. Number of groups = df_between + 1 = 3",
+      "jaspTable": {
+        "title": "Table M - ANOVA - productivity_index",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"],
+        "rows": [
+          ["environment", "345.6", "2", "172.8", "9.60"],
+          ["Residuals", "1530.0", "85", "18.0", ""]
+        ]
+      }
+    },
+    {
+      "id": 34,
+      "section": "Calculation Questions",
+      "question": "Using Table N, what is the F-ratio?",
+      "options": [
+        "4.18",
+        "0.24",
+        "30.0",
+        "125.4"
+      ],
+      "correctAnswer": "A",
+      "explanation": "The F-ratio is given in the table as 4.18",
+      "jaspTable": {
+        "title": "Table N - ANOVA - stress_level",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"],
+        "rows": [
+          ["coping_style", "250.8", "2", "125.4", "4.18"],
+          ["Residuals", "2550.0", "85", "30.0", ""]
+        ]
+      }
+    },
+    {
+      "id": 35,
+      "section": "Calculation Questions",
+      "question": "A study has SS_between = 350.2 and SS_within = 850.6. What is the effect size, partial eta-squared (η²p)?",
+      "options": [
+        "0.41",
+        "2.43",
+        "0.29",
+        "0.71"
+      ],
+      "correctAnswer": "C",
+      "explanation": "η²p = SS_between / (SS_between + SS_within) = 350.2 / (350.2 + 850.6) = 350.2 / 1200.8 = 0.29"
+    },
+    {
+      "id": 36,
+      "section": "Calculation Questions",
+      "question": "A study has MS_between = 240.8 and MS_within = 30.1. What is the F-ratio?",
+      "options": [
+        "0.125",
+        "8.00",
+        "210.7",
+        "270.9"
+      ],
+      "correctAnswer": "B",
+      "explanation": "F = MS_between / MS_within = 240.8 / 30.1 = 8.00"
+    },
+    {
+      "id": 37,
+      "section": "Calculation Questions",
+      "question": "If SS_between = 555.5 and df_between = 4, what is MS_between?",
+      "options": [
+        "4.0",
+        "138.88",
+        "555.5",
+        "2222.0"
+      ],
+      "correctAnswer": "B",
+      "explanation": "MS_between = SS_between / df_between = 555.5 / 4 = 138.88"
+    },
+    {
+      "id": 38,
+      "section": "Calculation Questions",
+      "question": "If SS_within = 1234.5 and df_within = 50, what is MS_within?",
+      "options": [
+        "0.04",
+        "24.69",
+        "50.0",
+        "1234.5"
+      ],
+      "correctAnswer": "B",
+      "explanation": "MS_within = SS_within / df_within = 1234.5 / 50 = 24.69"
+    },
+    {
+      "id": 39,
+      "section": "Calculation Questions",
+      "question": "A one-way ANOVA with 6 groups has a total of 90 participants. What are the degrees of freedom for the F-test?",
+      "options": [
+        "df = (5, 84)",
+        "df = (6, 84)",
+        "df = (5, 89)",
+        "df = (6, 90)"
+      ],
+      "correctAnswer": "A",
+      "explanation": "df_between = 6-1=5; df_within = 90-6=84"
+    },
+    {
+      "id": 40,
+      "section": "Calculation Questions",
+      "question": "Given SS_total = 3210.9 and SS_between = 876.5, what is SS_within?",
+      "options": [
+        "3.66",
+        "876.5",
+        "2334.4",
+        "4087.4"
+      ],
+      "correctAnswer": "C",
+      "explanation": "SS_within = SS_total - SS_between = 3210.9 - 876.5 = 2334.4"
+    },
+    {
+      "id": 41,
+      "section": "Calculation Questions",
+      "question": "What is the missing F-ratio in Table O?",
+      "options": [
+        "0.10",
+        "10.50",
+        "20.57",
+        "216.05"
+      ],
+      "correctAnswer": "B",
+      "explanation": "F = MS_between / MS_within = 216.05 / 20.57 = 10.50",
+      "jaspTable": {
+        "title": "Table O - ANOVA - learning_outcome",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"],
+        "rows": [
+          ["teaching_style", "432.1", "2", "216.05", "?"],
+          ["Residuals", "1789.2", "87", "20.57", ""]
+        ]
+      }
+    },
+    {
+      "id": 42,
+      "section": "Calculation Questions",
+      "question": "What is the missing Mean Square Between in Table P?",
+      "options": [
+        "66.53",
+        "218.10",
+        "654.30",
+        "1962.90"
+      ],
+      "correctAnswer": "B",
+      "explanation": "MS_between = SS_between / df_between = 654.3 / 3 = 218.10",
+      "jaspTable": {
+        "title": "Table P - ANOVA - engagement_level",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"],
+        "rows": [
+          ["activity_type", "654.3", "3", "?", "9.87"],
+          ["Residuals", "5721.6", "86", "66.53", ""]
+        ]
+      }
+    },
+    {
+      "id": 43,
+      "section": "Calculation Questions",
+      "question": "What is the missing Sum of Squares Within (Residuals) in Table Q?",
+      "options": [
+        "14.38",
+        "920.0",
+        "460.0",
+        "353.6"
+      ],
+      "correctAnswer": "B",
+      "explanation": "SS_within = df_within × MS_within = 115 × 8.0 = 920.0",
+      "jaspTable": {
+        "title": "Table Q - ANOVA - purchase_intent",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"],
+        "rows": [
+          ["ad_version", "88.4", "4", "22.1", "2.76"],
+          ["Residuals", "?", "115", "8.0", ""]
+        ]
+      }
+    },
+    {
+      "id": 44,
+      "section": "Calculation Questions",
+      "question": "What is the missing Sum of Squares Between in Table R?",
+      "options": [
+        "13.0",
+        "47.63",
+        "190.5",
+        "1495.0"
+      ],
+      "correctAnswer": "C",
+      "explanation": "SS_between = df_between × MS_between = 2 × 95.25 = 190.5",
+      "jaspTable": {
+        "title": "Table R - ANOVA - recall_accuracy",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"],
+        "rows": [
+          ["encoding_condition", "?", "2", "95.25", "7.33"],
+          ["Residuals", "1495.0", "115", "13.0", ""]
+        ]
+      }
+    },
+    {
+      "id": 45,
+      "section": "Calculation Questions",
+      "question": "What are the missing degrees of freedom Within (Residuals) in Table S?",
+      "options": [
+        "17",
+        "46",
+        "96",
+        "100"
+      ],
+      "correctAnswer": "C",
+      "explanation": "df_within = SS_within / MS_within = 1632.0 / 17.0 = 96",
+      "jaspTable": {
+        "title": "Table S - ANOVA - pain_rating",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"],
+        "rows": [
+          ["treatment_group", "789.0", "3", "263.0", "15.47"],
+          ["Residuals", "1632.0", "?", "17.0", ""]
+        ]
+      }
+    },
+    {
+      "id": 46,
+      "section": "Calculation Questions",
+      "question": "What are the missing degrees of freedom Between in Table T?",
+      "options": [
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "correctAnswer": "B",
+      "explanation": "df_between = SS_between / MS_between = 456.7 / 152.23 ≈ 3",
+      "jaspTable": {
+        "title": "Table T - ANOVA - compliance_rate",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"],
+        "rows": [
+          ["reminder_type", "456.7", "?", "152.23", "6.34"],
+          ["Residuals", "2280.0", "95", "24.0", ""]
+        ]
+      }
+    },
+    {
+      "id": 47,
+      "section": "Calculation Questions",
+      "question": "What is the missing Mean Square Within (Residuals) in Table U?",
+      "options": [
+        "3.87",
+        "16.0",
+        "61.95",
+        "84.0"
+      ],
+      "correctAnswer": "B",
+      "explanation": "MS_within = SS_within / df_within = 1344.0 / 84 = 16.0",
+      "jaspTable": {
+        "title": "Table U - ANOVA - mood_improvement",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"],
+        "rows": [
+          ["music_genre", "123.9", "2", "61.95", "3.87"],
+          ["Residuals", "1344.0", "84", "?", ""]
+        ]
+      }
+    },
+    {
+      "id": 48,
+      "section": "Calculation Questions",
+      "question": "A researcher has MS_between = 140.4 and an F-ratio of 8.26. What is the MS_within?",
+      "options": [
+        "0.06",
+        "17.0",
+        "132.14",
+        "1159.7"
+      ],
+      "correctAnswer": "B",
+      "explanation": "MS_within = MS_between / F = 140.4 / 8.26 = 17.0"
+    },
+    {
+      "id": 49,
+      "section": "Calculation Questions",
+      "question": "An ANOVA table shows SS_total = 1500 and η²p = 0.40. What is the SS_between?",
+      "options": [
+        "400",
+        "600",
+        "900",
+        "3750"
+      ],
+      "correctAnswer": "B",
+      "explanation": "SS_between = SS_total × η²p = 1500 × 0.40 = 600"
+    },
+    {
+      "id": 50,
+      "section": "Calculation Questions",
+      "question": "An ANOVA has df_between = 3 and df_within = 96. How many total participants (N) were in the study?",
+      "options": [
+        "99",
+        "100",
+        "103",
+        "104"
+      ],
+      "correctAnswer": "B",
+      "explanation": "df_total = df_between + df_within = 3 + 96 = 99. N = 99 + 1 = 100"
+    }
+  ]
+} 

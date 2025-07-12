@@ -1,0 +1,608 @@
+Here is a set of 50 multiple-choice questions focused on calculating missing values in One-Way Independent ANOVA tables.
+
+Instructions: For each question, calculate the missing value (?) based on the information provided in the table.
+
+Table 1
+ANOVA - performance_score
+| Cases | Sum of Squares | df | Mean Square | F |
+|---|---|---|---|---|
+| group | 325.50 | 2 | 162.75 | ? |
+| Residuals | 855.00 | 57 | 15.00 | |
+
+1. What is the missing F-ratio in Table 1?
+A) 0.09
+B) 10.85
+C) 21.70
+D) 5.43
+Answer: B (Calculation: 162.75 / 15.00)
+
+Table 2
+ANOVA - reaction_time
+| Cases | Sum of Squares | df | Mean Square | F |
+|---|---|---|---|---|
+| condition | 987.60 | 3 | ? | 8.23 |
+| Residuals | 5760.00 | 48 | 120.00 | |
+
+2. What is the missing Mean Square Between in Table 2?
+A) 120.00
+B) 246.90
+C) 329.20
+D) 987.60
+Answer: C (Calculation: 987.60 / 3)
+
+Table 3
+ANOVA - memory_recall
+| Cases | Sum of Squares | df | Mean Square | F |
+|---|---|---|---|---|
+| strategy | 150.40 | 4 | 37.60 | 5.37 |
+| Residuals | ? | 85 | 7.00 | |
+
+3. What is the missing Sum of Squares Within (Residuals) in Table 3?
+A) 12.14
+B) 595.00
+C) 340.00
+D) 425.50
+Answer: B (Calculation: 85 * 7.00)
+
+Table 4
+ANOVA - error_count
+| Cases | Sum of Squares | df | Mean Square | F |
+|---|---|---|---|---|
+| intervention | ? | 2 | 84.30 | 6.74 |
+| Residuals | 712.50 | 57 | 12.50 | |
+
+4. What is the missing Sum of Squares Between in Table 4?
+A) 42.15
+B) 168.60
+C) 12.50
+D) 712.50
+Answer: B (Calculation: 84.30 * 2)
+
+Table 5
+ANOVA - growth_rate
+| Cases | Sum of Squares | df | Mean Square | F |
+|---|---|---|---|---|
+| nutrient | 450.75 | 3 | 150.25 | 12.52 |
+| Residuals | 672.00 | ? | 12.00 | |
+
+5. What are the missing degrees of freedom Within (Residuals) in Table 5?
+A) 12
+B) 56
+C) 37
+D) 59
+Answer: B (Calculation: 672.00 / 12.00)
+
+Table 6
+ANOVA - satisfaction_level
+| Cases | Sum of Squares | df | Mean Square | F |
+|---|---|---|---|---|
+| program | 210.60 | ? | 70.20 | 7.80 |
+| Residuals | 513.00 | 57 | 9.00 | |
+
+6. What are the missing degrees of freedom Between in Table 6?
+A) 2
+B) 3
+C) 4
+D) 5
+Answer: B (Calculation: 210.60 / 70.20)
+
+Table 7
+ANOVA - anxiety_score
+| Cases | Sum of Squares | df | Mean Square | F |
+|---|---|---|---|---|
+| therapy_type | 110.40 | 2 | 55.20 | 2.76 |
+| Residuals | 1140.00 | 57 | ? | |
+
+7. What is the missing Mean Square Within (Residuals) in Table 7?
+A) 55.20
+B) 2.76
+C) 20.00
+D) 57.00
+Answer: C (Calculation: 1140.00 / 57)
+
+8. Using Table 1, what is the Total Sum of Squares (SS 
+total
+​
+ )?
+A) 529.50
+B) 1180.50
+C) 692.25
+D) 1017.75
+Answer: B (Calculation: 325.50 + 855.00)
+
+9. Using Table 2, how many total participants were in the study?
+A) 48
+B) 51
+C) 52
+D) 55
+Answer: C (Calculation: df_total = 3 + 48 = 51. N = 51 + 1)
+
+10. Using Table 3, what is the Total Sum of Squares (SS 
+total
+​
+ )?
+A) 745.40
+B) 602.00
+C) 89.00
+D) 595.00
+Answer: A (Calculation: 150.40 + 595.00)
+
+11. Using Table 4, what is the F-ratio?
+A) 1.49
+B) 13.49
+C) 6.74
+D) 0.15
+Answer: C (It is given in the table)
+
+12. Using Table 5, what is the total number of participants (N)?
+A) 56
+B) 59
+C) 60
+D) 63
+Answer: C (Calculation: df_between = 3, df_within = 56. df_total = 59. N = 60)
+
+13. Using Table 6, how many groups were compared?
+A) 2
+B) 3
+C) 4
+D) 58
+Answer: C (Calculation: df_between = 3. Number of groups = 3 + 1)
+
+14. Using Table 7, what is the F-ratio?
+A) 2.76
+B) 0.36
+C) 1.84
+D) 20.00
+Answer: A (It is given in the table)
+
+15. A study has SS 
+between
+​
+  = 210.5 and SS 
+within
+​
+  = 590.3. What is the effect size, partial eta-squared (η²p)?
+A) 0.356
+B) 0.263
+C) 0.737
+D) 2.80
+Answer: B (Calculation: 210.5 / (210.5 + 590.3) = 210.5 / 800.8)
+
+16. A study has MS 
+between
+​
+  = 125.5 and MS 
+within
+​
+  = 25.1. What is the F-ratio?
+A) 0.20
+B) 5.00
+C) 100.40
+D) 150.60
+Answer: B (Calculation: 125.5 / 25.1)
+
+17. If SS 
+between
+​
+  = 345.6 and df 
+between
+​
+  = 3, what is MS 
+between
+​
+ ?
+A) 3.00
+B) 115.20
+C) 345.60
+D) 1036.80
+Answer: B (Calculation: 345.6 / 3)
+
+18. If SS 
+within
+​
+  = 987.6 and df 
+within
+​
+  = 41, what is MS 
+within
+​
+ ?
+A) 41.00
+B) 24.09
+C) 987.60
+D) 0.04
+Answer: B (Calculation: 987.6 / 41)
+
+19. A one-way ANOVA with 5 groups has a total of 75 participants. What are the degrees of freedom for the F-test?
+A) df = (4, 70)
+B) df = (5, 70)
+C) df = (4, 74)
+D) df = (5, 75)
+Answer: A (Calculation: df_between = 5-1=4; df_within = 75-5=70)
+
+20. Given SS 
+total
+​
+  = 2500.8 and SS 
+within
+​
+  = 1850.2, what is SS 
+between
+​
+ ?
+A) 0.74
+B) 650.6
+C) 4351.0
+D) 7.40
+Answer: B (Calculation: 2500.8 - 1850.2)
+
+Table H
+ANOVA - comprehension_score
+| Cases | Sum of Squares | df | Mean Square | F |
+|---|---|---|---|---|
+| method | 542.4 | 3 | 180.8 | ? |
+| Residuals | 2150.4 | 76 | 28.3 | |
+
+21. What is the missing F-ratio in Table H?
+A) 0.16
+B) 3.98
+C) 6.39
+D) 19.16
+Answer: C (Calculation: 180.8 / 28.3)
+
+Table I
+ANOVA - confidence_rating
+| Cases | Sum of Squares | df | Mean Square | F |
+|---|---|---|---|---|
+| feedback_type | 75.9 | 2 | ? | 4.22 |
+| Residuals | 989.1 | 55 | 18.0 | |
+
+22. What is the missing Mean Square Between in Table I?
+A) 18.0
+B) 37.95
+C) 75.9
+D) 151.8
+Answer: B (Calculation: 75.9 / 2)
+
+Table J
+ANOVA - task_errors
+| Cases | Sum of Squares | df | Mean Square | F |
+|---|---|---|---|---|
+| distraction_level | 188.8 | 4 | 47.2 | 3.15 |
+| Residuals | ? | 120 | 15.0 | |
+
+23. What is the missing Sum of Squares Within (Residuals) in Table J?
+A) 1800.0
+B) 8.00
+C) 377.6
+D) 566.4
+Answer: A (Calculation: 120 * 15.0)
+
+Table K
+ANOVA - motivation_score
+| Cases | Sum of Squares | df | Mean Square | F |
+|---|---|---|---|---|
+| reward_type | ? | 2 | 112.6 | 8.66 |
+| Residuals | 1105.0 | 85 | 13.0 | |
+
+24. What is the missing Sum of Squares Between in Table K?
+A) 13.0
+B) 56.3
+C) 225.2
+D) 1105.0
+Answer: C (Calculation: 112.6 * 2)
+
+Table L
+ANOVA - symptom_reduction
+| Cases | Sum of Squares | df | Mean Square | F |
+|---|---|---|---|---|
+| dosage | 644.0 | 3 | 214.67 | 11.24 |
+| Residuals | 1832.0 | ? | 19.08 | |
+
+25. What are the missing degrees of freedom Within (Residuals) in Table L?
+A) 11
+B) 96
+C) 33
+D) 60
+Answer: B (Calculation: 1832.0 / 19.08)
+
+Table M
+ANOVA - productivity_index
+| Cases | Sum of Squares | df | Mean Square | F |
+|---|---|---|---|---|
+| environment | 345.6 | ? | 172.8 | 9.60 |
+| Residuals | 1530.0 | 85 | 18.0 | |
+
+26. What are the missing degrees of freedom Between in Table M?
+A) 2
+B) 3
+C) 4
+D) 5
+Answer: A (Calculation: 345.6 / 172.8)
+
+Table N
+ANOVA - stress_level
+| Cases | Sum of Squares | df | Mean Square | F |
+|---|---|---|---|---|
+| coping_style | 250.8 | 2 | 125.4 | 4.18 |
+| Residuals | 2550.0 | 85 | ? | |
+
+27. What is the missing Mean Square Within (Residuals) in Table N?
+A) 4.18
+B) 30.0
+C) 125.4
+D) 85.0
+Answer: B (Calculation: 2550.0 / 85)
+
+28. Using Table H, what is the Total Sum of Squares (SS 
+total
+​
+ )?
+A) 2692.8
+B) 1608.0
+C) 79.0
+D) 2178.7
+Answer: A (Calculation: 542.4 + 2150.4)
+
+29. Using Table I, how many total participants were in the study?
+A) 55
+B) 57
+C) 58
+D) 60
+Answer: C (Calculation: df_total = 2 + 55 = 57. N = 57 + 1)
+
+30. Using Table J, what is the Total Sum of Squares (SS 
+total
+​
+ )?
+A) 1988.8
+B) 1611.2
+C) 124.0
+D) 1800.0
+Answer: A (Calculation: 188.8 + 1800.0)
+
+31. Using Table K, what is the F-ratio?
+A) 0.12
+B) 8.66
+C) 13.0
+D) 112.6
+Answer: B (It is given in the table)
+
+32. Using Table L, what is the total number of participants (N)?
+A) 96
+B) 99
+C) 100
+D) 103
+Answer: C (Calculation: df_between = 3, df_within = 96. df_total = 99. N = 100)
+
+33. Using Table M, how many groups were compared?
+A) 2
+B) 3
+C) 4
+D) 85
+Answer: B (Calculation: df_between = 2. Number of groups = 2 + 1)
+
+34. Using Table N, what is the F-ratio?
+A) 4.18
+B) 0.24
+C) 30.0
+D) 125.4
+Answer: A (It is given in the table)
+
+35. A study has SS 
+between
+​
+  = 350.2 and SS 
+within
+​
+  = 850.6. What is the effect size, partial eta-squared (η²p)?
+A) 0.41
+B) 2.43
+C) 0.29
+D) 0.71
+Answer: C (Calculation: 350.2 / (350.2 + 850.6) = 350.2 / 1200.8)
+
+36. A study has MS 
+between
+​
+  = 240.8 and MS 
+within
+​
+  = 30.1. What is the F-ratio?
+A) 0.125
+B) 8.00
+C) 210.7
+D) 270.9
+Answer: B (Calculation: 240.8 / 30.1)
+
+37. If SS 
+between
+​
+  = 555.5 and df 
+between
+​
+  = 4, what is MS 
+between
+​
+ ?
+A) 4.0
+B) 138.88
+C) 555.5
+D) 2222.0
+Answer: B (Calculation: 555.5 / 4)
+
+38. If SS 
+within
+​
+  = 1234.5 and df 
+within
+​
+  = 50, what is MS 
+within
+​
+ ?
+A) 0.04
+B) 24.69
+C) 50.0
+D) 1234.5
+Answer: B (Calculation: 1234.5 / 50)
+
+39. A one-way ANOVA with 6 groups has a total of 90 participants. What are the degrees of freedom for the F-test?
+A) df = (5, 84)
+B) df = (6, 84)
+C) df = (5, 89)
+D) df = (6, 90)
+Answer: A (Calculation: df_between = 6-1=5; df_within = 90-6=84)
+
+40. Given SS 
+total
+​
+  = 3210.9 and SS 
+between
+​
+  = 876.5, what is SS 
+within
+​
+ ?
+A) 3.66
+B) 876.5
+C) 2334.4
+D) 4087.4
+Answer: C (Calculation: 3210.9 - 876.5)
+
+Table O
+ANOVA - learning_outcome
+| Cases | Sum of Squares | df | Mean Square | F |
+|---|---|---|---|---|
+| teaching_style | 432.1 | 2 | 216.05 | ? |
+| Residuals | 1789.2 | 87 | 20.57 | |
+
+41. What is the missing F-ratio in Table O?
+A) 0.10
+B) 10.50
+C) 20.57
+D) 216.05
+Answer: B (Calculation: 216.05 / 20.57)
+
+Table P
+ANOVA - engagement_level
+| Cases | Sum of Squares | df | Mean Square | F |
+|---|---|---|---|---|
+| activity_type | 654.3 | 3 | ? | 9.87 |
+| Residuals | 5721.6 | 86 | 66.53 | |
+
+42. What is the missing Mean Square Between in Table P?
+A) 66.53
+B) 218.10
+C) 654.30
+D) 1962.90
+Answer: B (Calculation: 654.3 / 3)
+
+Table Q
+ANOVA - purchase_intent
+| Cases | Sum of Squares | df | Mean Square | F |
+|---|---|---|---|---|
+| ad_version | 88.4 | 4 | 22.1 | 2.76 |
+| Residuals | ? | 115 | 8.0 | |
+
+43. What is the missing Sum of Squares Within (Residuals) in Table Q?
+A) 14.38
+B) 920.0
+C) 460.0
+D) 353.6
+Answer: B (Calculation: 115 * 8.0)
+
+Table R
+ANOVA - recall_accuracy
+| Cases | Sum of Squares | df | Mean Square | F |
+|---|---|---|---|---|
+| encoding_condition | ? | 2 | 95.25 | 7.33 |
+| Residuals | 1495.0 | 115 | 13.0 | |
+
+44. What is the missing Sum of Squares Between in Table R?
+A) 13.0
+B) 47.63
+C) 190.5
+D) 1495.0
+Answer: C (Calculation: 95.25 * 2)
+
+Table S
+ANOVA - pain_rating
+| Cases | Sum of Squares | df | Mean Square | F |
+|---|---|---|---|---|
+| treatment_group | 789.0 | 3 | 263.0 | 15.47 |
+| Residuals | 1632.0 | ? | 17.0 | |
+
+45. What are the missing degrees of freedom Within (Residuals) in Table S?
+A) 17
+B) 46
+C) 96
+D) 100
+Answer: C (Calculation: 1632.0 / 17.0)
+
+Table T
+ANOVA - compliance_rate
+| Cases | Sum of Squares | df | Mean Square | F |
+|---|---|---|---|---|
+| reminder_type | 456.7 | ? | 152.23 | 6.34 |
+| Residuals | 2280.0 | 95 | 24.0 | |
+
+46. What are the missing degrees of freedom Between in Table T?
+A) 2
+B) 3
+C) 4
+D) 5
+Answer: B (Calculation: 456.7 / 152.23 is approx 3)
+
+Table U
+ANOVA - mood_improvement
+| Cases | Sum of Squares | df | Mean Square | F |
+|---|---|---|---|---|
+| music_genre | 123.9 | 2 | 61.95 | 3.87 |
+| Residuals | 1344.0 | 84 | ? | |
+
+47. What is the missing Mean Square Within (Residuals) in Table U?
+A) 3.87
+B) 16.0
+C) 61.95
+D) 84.0
+Answer: B (Calculation: 1344.0 / 84)
+
+48. A researcher has MS 
+between
+​
+  = 140.4 and an F-ratio of 8.26. What is the MS 
+within
+​
+ ?
+A) 0.06
+B) 17.0
+C) 132.14
+D) 1159.7
+Answer: B (Calculation: 140.4 / 8.26)
+
+49. An ANOVA table shows SS 
+total
+​
+  = 1500 and η²p = 0.40. What is the SS 
+between
+​
+ ?
+A) 400
+B) 600
+C) 900
+D) 3750
+Answer: B (Calculation: 1500 * 0.40)
+
+50. An ANOVA has df 
+between
+​
+  = 3 and df 
+within
+​
+  = 96. How many total participants (N) were in the study?
+A) 99
+B) 100
+C) 103
+D) 104
+Answer: B (Calculation: df_total = 3 + 96 = 99. N = 99 + 1)

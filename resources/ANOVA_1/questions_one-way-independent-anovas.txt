@@ -1,0 +1,521 @@
+Here is a set of 50 multiple-choice questions covering One-Way Independent ANOVA.
+
+Section 1: Conceptual Understanding
+1. When is it most appropriate to use a One-Way Independent ANOVA?
+A) To compare the means of two independent groups on a single dependent variable.
+B) To compare the means of the same group at three or more different time points.
+C) To compare the means of three or more independent groups on a single dependent variable.
+D) To assess the strength and direction of the relationship between two continuous variables.
+Answer: C
+
+2. What is the primary statistical problem with conducting multiple t-tests instead of an ANOVA when comparing three or more groups?
+A) It decreases the statistical power of the study.
+B) It increases the familywise error rate (the probability of making at least one Type I error).
+C) It is more difficult to calculate than a single ANOVA.
+D) It can only be used if the group sizes are equal.
+Answer: B
+
+3. In ANOVA, the term "systematic variance" refers to the variation in scores that is due to:
+A) Random chance and measurement error.
+B) The manipulation of the independent variable.
+C) Individual differences between participants within a group.
+D) The total number of participants in the study.
+Answer: B
+
+4. The term "unsystematic variance" in ANOVA represents:
+A) The effect of the independent variable.
+B) The differences between the group means.
+C) The "noise" in the data, caused by random factors and individual differences.
+D) The overall significance of the model.
+Answer: C
+
+5. The F-ratio is a ratio of:
+A) Mean Square Within / Mean Square Between
+B) Mean Square Between / Mean Square Within
+C) Sum of Squares Between / Sum of Squares Within
+D) Degrees of Freedom Between / Degrees of Freedom Within
+Answer: B
+
+6. Which of the following scenarios would produce the largest F-ratio?
+A) Systematic variance is much smaller than unsystematic variance.
+B) Systematic variance is approximately equal to unsystematic variance.
+C) Systematic variance is much larger than unsystematic variance.
+D) The p-value is greater than .05.
+Answer: C
+
+7. If you calculate an F-ratio and find that it is less than 1.0, what can you conclude?
+A) The result is definitely statistically significant.
+B) The unsystematic variance (error) is greater than the systematic variance (effect).
+C) A calculation error must have occurred.
+D) The effect size will be large.
+Answer: B
+
+8. What is the correct null hypothesis (H 
+0
+​
+ ) for a study comparing four different therapy groups (G1, G2, G3, G4)?
+A) μ1 > μ2 > μ3 > μ4
+B) At least one group mean is different from the others.
+C) μ1 ≠ μ2 ≠ μ3 ≠ μ4
+D) μ1 = μ2 = μ3 = μ4
+Answer: D
+
+9. An ANOVA is often called an "omnibus test" because:
+A) It is a very old and respected statistical procedure.
+B) It tells you if there is an overall difference somewhere among the groups, but not which specific groups differ.
+C) It can be used with any type of data, regardless of the level of measurement.
+D) It is robust to violations of its assumptions.
+Answer: B
+
+10. After finding a significant F-ratio in an ANOVA, what is the appropriate next step to identify specific group differences?
+A) Report the effect size.
+B) Conduct post-hoc tests.
+C) Check the assumption of normality.
+D) Re-run the analysis with more participants.
+Answer: B
+
+11. The assumption of "homogeneity of variance" states that:
+A) The group means should be approximately equal.
+B) The spread of scores within each group should be approximately equal.
+C) The sample sizes for each group must be identical.
+D) The data for the dependent variable must be categorical.
+Answer: B
+
+12. Which test is commonly used to check the assumption of homogeneity of variance?
+A) The F-test
+B) Tukey's HSD test
+C) Levene's Test
+D) The t-test
+Answer: C
+
+13. A researcher conducts a Levene's test and obtains a p-value of .241. What is the correct interpretation?
+A) The assumption of homogeneity of variance has been violated.
+B) The assumption of homogeneity of variance has been met.
+C) The main ANOVA result is statistically significant.
+D) The main ANOVA result is not statistically significant.
+Answer: B
+
+14. A researcher conducts a Levene's test and obtains a p-value of .019. What is the correct course of action?
+A) Proceed with the standard ANOVA as the assumption is met.
+B) Conclude that there are no differences between the groups.
+C) Report the results of a more robust test, such as Welch's F-test, because the assumption has been violated.
+D) Remove outliers from the dataset and re-run the Levene's test.
+Answer: C
+
+15. In a one-way ANOVA with 3 groups and a total of 60 participants, what are the degrees of freedom between (df 
+between
+​
+ )?
+A) 2
+B) 3
+C) 57
+D) 59
+Answer: A
+
+16. In a one-way ANOVA with 3 groups and a total of 60 participants, what are the degrees of freedom within (df 
+within
+​
+ )?
+A) 2
+B) 3
+C) 57
+D) 59
+Answer: C
+
+17. The Sum of Squares Total (SS 
+total
+​
+ ) represents:
+A) The sum of squared differences between each group mean and the grand mean.
+B) The sum of squared differences between each individual score and its own group mean.
+C) The sum of squared differences between each individual score and the grand mean.
+D) The sum of the group means.
+Answer: C
+
+18. The Mean Square Between (MS 
+between
+​
+ ) is calculated by:
+A) SS 
+between
+​
+  / df 
+between
+​
+ 
+B) SS 
+between
+​
+  / df 
+within
+​
+ 
+C) SS 
+total
+​
+  / df 
+total
+​
+ 
+D) SS 
+within
+​
+  / df 
+within
+​
+ 
+Answer: A
+
+19. What does partial eta-squared (η²p) measure in the context of ANOVA?
+A) The probability of a Type I error.
+B) The number of groups being compared.
+C) The proportion of variance in the dependent variable that is attributable to the independent variable.
+D) The average difference between the group means.
+Answer: C
+
+20. Planned comparisons are different from post-hoc tests because:
+A) They are less powerful.
+B) They are conducted before the experiment to test specific, theory-driven hypotheses.
+C) They can only be used when there are two groups.
+D) They do not require a significant overall F-test.
+Answer: B
+
+Section 2: JASP Output Interpretation
+(Use the following JASP output for questions 21-24)
+
+ANOVA - task_completion_time
+| Cases | Sum of Squares | df | Mean Square | F | p | η²p |
+|---|---|---|---|---|---|---|
+| treatment | 450.000 | 2 | 225.000 | 9.000 | .001 | 0.400 |
+| Residuals | 675.000 | 27 | 25.000 | | | |
+
+21. What is the F-ratio for the effect of 'treatment'?
+A) 225.000
+B) 25.000
+C) 9.000
+D) 0.400
+Answer: C
+
+22. Based on the table, is the effect of 'treatment' on task completion time statistically significant at an alpha level of .05?
+A) Yes, because p = .001
+B) No, because the effect size is only 0.400
+C) Yes, because the Mean Square for treatment is large.
+D) Cannot be determined without the group means.
+Answer: A
+
+23. How many groups were compared in this study?
+A) 2
+B) 3
+C) 27
+D) 30
+Answer: B (Hint: df_between = k-1, so 2 = k-1, k=3)
+
+24. How many total participants were in this study?
+A) 27
+B) 28
+C) 29
+D) 30
+Answer: D (Hint: df_total = N-1; df_total = df_between + df_within = 2 + 27 = 29. So, N = 30)
+
+(Use the following JASP output for questions 25-26)
+
+Descriptives - score_on_test
+| group | N | Mean | Std. Deviation |
+|---|---|---|---|
+| Control | 30 | 55.40 | 8.10 |
+| Low Dose | 30 | 65.20 | 7.50 |
+| High Dose | 30 | 64.80 | 8.50 |
+
+25. Which group had the lowest average score on the test?
+A) Control
+B) Low Dose
+C) High Dose
+D) All groups had the same average score.
+Answer: A
+
+26. Which group had the most variability in their scores?
+A) Control
+B) Low Dose
+C) High Dose
+D) The variability was equal across all groups.
+Answer: C (Hint: Look at the largest Std. Deviation)
+
+(Use the following JASP output for questions 27-28)
+
+Post Hoc Comparisons - group (Tukey correction)
+| | | Mean Difference | SE | t | p_tukey |
+|---|---|---|---|---|---|
+| Group A | Group B | -10.50 | 2.50 | -4.20 | .002 |
+| | Group C | -12.00 | 2.50 | -4.80 | <.001 |
+| Group B | Group C | -1.50 | 2.50 | -0.60 | .850 |
+
+27. Which of the following group comparisons is statistically significant?
+A) Group B vs. Group C
+B) Group A vs. Group C
+C) All comparisons are significant.
+D) No comparisons are significant.
+Answer: B
+
+28. What can be concluded from the comparison between Group B and Group C?
+A) Group C performed significantly better than Group B.
+B) There is no statistically significant difference between the means of Group B and Group C.
+C) Group B performed significantly better than Group C.
+D) The sample size for Group B was larger than for Group C.
+Answer: B
+
+29. How should the result from the ANOVA table below be reported in APA format?
+ANOVA - recall_score
+| Cases | Sum of Squares | df | Mean Square | F | p | η²p |
+|---|---|---|---|---|---|---|
+| condition | 180.45 | 3 | 60.15 | 5.88 | .002 | 0.21 |
+| Residuals | 654.30 | 64 | 10.22 | | | |
+
+A) F(3, 64) = 5.88, p = .002, η²p = .21
+B) F(64, 3) = 5.88, p = .002, η²p = .21
+C) F(3, 67) = 5.88, p = .002, η²p = .21
+D) t(64) = 5.88, p = .002
+Answer: A
+
+30. A researcher wants to compare the effectiveness of four different teaching methods. After running a one-way ANOVA, they get a significant result (p < .05). To find out which specific methods differ, they run post-hoc tests and get the following p-values: Method 1 vs 2 (p=.03), Method 1 vs 3 (p=.01), Method 1 vs 4 (p=.67), Method 2 vs 3 (p=.91), Method 2 vs 4 (p=.04), Method 3 vs 4 (p=.02). Which conclusion is NOT supported by these results?
+A) Method 1 is significantly different from Method 2 and Method 3.
+B) Method 4 is significantly different from Method 2 and Method 3.
+C) There is no significant difference between Method 2 and Method 3.
+D) Method 1 is significantly different from Method 4.
+Answer: D
+
+Section 3: Calculation Questions
+(Use the following incomplete JASP tables for questions 31-50)
+
+Table A
+ANOVA - response_time
+| Cases | Sum of Squares | df | Mean Square | F | p |
+|---|---|---|---|---|---|
+| group | 200.0 | 2 | 100.0 | ? | .001 |
+| Residuals | 540.0 | 27 | 20.0 | | |
+
+31. What is the missing F-ratio in Table A?
+A) 0.20
+B) 2.70
+C) 5.00
+D) 10.00
+Answer: C (Calculation: 100.0 / 20.0)
+
+Table B
+ANOVA - accuracy
+| Cases | Sum of Squares | df | Mean Square | F | p |
+|---|---|---|---|---|---|
+| condition | 1200.0 | 3 | ? | 12.00 | <.001 |
+| Residuals | 3600.0 | 36 | 100.0 | | |
+
+32. What is the missing Mean Square Between in Table B?
+A) 100.0
+B) 300.0
+C) 400.0
+D) 1200.0
+Answer: C (Calculation: 1200.0 / 3)
+
+Table C
+ANOVA - satisfaction_rating
+| Cases | Sum of Squares | df | Mean Square | F | p |
+|---|---|---|---|---|---|
+| location | 90.0 | 4 | 22.5 | 4.50 | .003 |
+| Residuals | ? | 95 | 5.0 | | |
+
+33. What is the missing Sum of Squares Within (Residuals) in Table C?
+A) 21.1
+B) 19.0
+C) 475.0
+D) 427.5
+Answer: C (Calculation: 95 * 5.0)
+
+Table D
+ANOVA - error_rate
+| Cases | Sum of Squares | df | Mean Square | F | p |
+|---|---|---|---|---|---|
+| strategy | ? | 2 | 60.0 | 3.00 | .050 |
+| Residuals | 940.0 | 47 | 20.0 | | |
+
+34. What is the missing Sum of Squares Between in Table D?
+A) 30.0
+B) 60.0
+C) 120.0
+D) 940.0
+Answer: C (Calculation: 60.0 * 2)
+
+Table E
+ANOVA - weight_loss
+| Cases | Sum of Squares | df | Mean Square | F | p |
+|---|---|---|---|---|---|
+| diet_plan | 300.0 | 3 | 100.0 | 10.00 | <.001 |
+| Residuals | 560.0 | ? | 10.0 | | |
+
+35. What are the missing degrees of freedom Within (Residuals) in Table E?
+A) 3
+B) 10
+C) 56
+D) 59
+Answer: C (Calculation: 560.0 / 10.0)
+
+Table F
+ANOVA - engagement_score
+| Cases | Sum of Squares | df | Mean Square | F | p |
+|---|---|---|---|---|---|
+| classroom | 80.0 | ? | 40.0 | 4.00 | .025 |
+| Residuals | 450.0 | 45 | 10.0 | | |
+
+36. What are the missing degrees of freedom Between in Table F?
+A) 2
+B) 4
+C) 8
+D) 40
+Answer: A (Calculation: 80.0 / 40.0)
+
+Table G
+ANOVA - anxiety_level
+| Cases | Sum of Squares | df | Mean Square | F | p |
+|---|---|---|---|---|---|
+| therapy | 60.0 | 2 | 30.0 | 1.50 | .235 |
+| Residuals | 840.0 | 42 | ? | | |
+
+37. What is the missing Mean Square Within (Residuals) in Table G?
+A) 1.50
+B) 20.0
+C) 30.0
+D) 42.0
+Answer: B (Calculation: 840.0 / 42)
+
+38. Using Table A, what is the Total Sum of Squares (SS 
+total
+​
+ )?
+A) 340.0
+B) 540.0
+C) 740.0
+D) 29.0
+Answer: C (Calculation: 200.0 + 540.0)
+
+39. Using Table B, how many participants were in the study in total?
+A) 36
+B) 39
+C) 40
+D) 43
+Answer: C (Calculation: df_total = df_between + df_within = 3 + 36 = 39. N = df_total + 1 = 40)
+
+40. Using Table C, what is the Total Sum of Squares (SS 
+total
+​
+ )?
+A) 99.0
+B) 565.0
+C) 100.0
+D) 95.0
+Answer: B (Calculation: SS_within = 95 * 5.0 = 475. SS_total = 90.0 + 475.0 = 565.0)
+
+41. Using Table D, what is the F-ratio?
+A) 0.33
+B) 3.00
+C) 15.67
+D) 20.00
+Answer: B (It is given in the table)
+
+42. Using Table E, what is the total number of participants (N)?
+A) 56
+B) 59
+C) 60
+D) 63
+Answer: C (Calculation: df_within = 56, df_between = 3. df_total = 59. N = 60)
+
+43. Using Table F, how many groups were compared?
+A) 2
+B) 3
+C) 4
+D) 45
+Answer: B (Calculation: df_between = 80/40 = 2. Number of groups = df_between + 1 = 3)
+
+44. Using Table G, what is the F-ratio?
+A) 0.50
+B) 1.50
+C) 20.00
+D) 30.00
+Answer: B (It is given in the table)
+
+45. A study has SS 
+between
+​
+  = 150 and SS 
+within
+​
+  = 450. What is the effect size, partial eta-squared (η²p)?
+A) 0.25
+B) 0.33
+C) 0.50
+D) 0.75
+Answer: A (Calculation: 150 / (150 + 450) = 150 / 600 = 0.25)
+
+46. A study has MS 
+between
+​
+  = 90 and MS 
+within
+​
+  = 15. What is the F-ratio?
+A) 0.16
+B) 6.00
+C) 75.00
+D) 105.00
+Answer: B (Calculation: 90 / 15)
+
+47. If SS 
+between
+​
+  = 240 and df 
+between
+​
+  = 3, what is MS 
+between
+​
+ ?
+A) 3
+B) 80
+C) 240
+D) 720
+Answer: B (Calculation: 240 / 3)
+
+48. If SS 
+within
+​
+  = 800 and df 
+within
+​
+  = 40, what is MS 
+within
+​
+ ?
+A) 0.05
+B) 20
+C) 40
+D) 800
+Answer: B (Calculation: 800 / 40)
+
+49. A one-way ANOVA with 4 groups has a total of 44 participants. What are the degrees of freedom for the F-test?
+A) df = (3, 40)
+B) df = (4, 40)
+C) df = (3, 43)
+D) df = (4, 44)
+Answer: A (Calculation: df_between = 4-1=3; df_within = 44-4=40)
+
+50. Given SS 
+total
+​
+  = 1000 and SS 
+between
+​
+  = 400, what is SS 
+within
+​
+ ?
+A) 2.5
+B) 400
+C) 600
+D) 1400
+Answer: C (Calculation: 1000 - 400)

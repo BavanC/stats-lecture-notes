@@ -1,0 +1,844 @@
+{
+  "title": "One-Way Independent ANOVA Questions",
+  "description": "A set of 50 multiple-choice questions covering One-Way Independent ANOVA",
+  "questions": [
+    {
+      "id": 1,
+      "section": "Conceptual Understanding",
+      "question": "When is it most appropriate to use a One-Way Independent ANOVA?",
+      "options": [
+        "To compare the means of two independent groups on a single dependent variable.",
+        "To compare the means of the same group at three or more different time points.",
+        "To compare the means of three or more independent groups on a single dependent variable.",
+        "To assess the strength and direction of the relationship between two continuous variables."
+      ],
+      "correctAnswer": "C",
+      "explanation": "One-Way Independent ANOVA is specifically designed to compare means across three or more independent groups on a single dependent variable."
+    },
+    {
+      "id": 2,
+      "section": "Conceptual Understanding",
+      "question": "What is the primary statistical problem with conducting multiple t-tests instead of an ANOVA when comparing three or more groups?",
+      "options": [
+        "It decreases the statistical power of the study.",
+        "It increases the familywise error rate (the probability of making at least one Type I error).",
+        "It is more difficult to calculate than a single ANOVA.",
+        "It can only be used if the group sizes are equal."
+      ],
+      "correctAnswer": "B",
+      "explanation": "Multiple t-tests inflate the familywise error rate due to multiple comparisons, which is why ANOVA is preferred."
+    },
+    {
+      "id": 3,
+      "section": "Conceptual Understanding",
+      "question": "In ANOVA, the term \"systematic variance\" refers to the variation in scores that is due to:",
+      "options": [
+        "Random chance and measurement error.",
+        "The manipulation of the independent variable.",
+        "Individual differences between participants within a group.",
+        "The total number of participants in the study."
+      ],
+      "correctAnswer": "B",
+      "explanation": "Systematic variance is the variation due to the experimental manipulation or treatment effect."
+    },
+    {
+      "id": 4,
+      "section": "Conceptual Understanding",
+      "question": "The term \"unsystematic variance\" in ANOVA represents:",
+      "options": [
+        "The effect of the independent variable.",
+        "The differences between the group means.",
+        "The \"noise\" in the data, caused by random factors and individual differences.",
+        "The overall significance of the model."
+      ],
+      "correctAnswer": "C",
+      "explanation": "Unsystematic variance represents error variance or noise in the data."
+    },
+    {
+      "id": 5,
+      "section": "Conceptual Understanding",
+      "question": "The F-ratio is a ratio of:",
+      "options": [
+        "Mean Square Within / Mean Square Between",
+        "Mean Square Between / Mean Square Within",
+        "Sum of Squares Between / Sum of Squares Within",
+        "Degrees of Freedom Between / Degrees of Freedom Within"
+      ],
+      "correctAnswer": "B",
+      "explanation": "F-ratio = MS_between / MS_within, comparing systematic to unsystematic variance."
+    },
+    {
+      "id": 6,
+      "section": "Conceptual Understanding",
+      "question": "Which of the following scenarios would produce the largest F-ratio?",
+      "options": [
+        "Systematic variance is much smaller than unsystematic variance.",
+        "Systematic variance is approximately equal to unsystematic variance.",
+        "Systematic variance is much larger than unsystematic variance.",
+        "The p-value is greater than .05."
+      ],
+      "correctAnswer": "C",
+      "explanation": "A large F-ratio occurs when systematic variance (treatment effect) is much larger than unsystematic variance (error)."
+    },
+    {
+      "id": 7,
+      "section": "Conceptual Understanding",
+      "question": "If you calculate an F-ratio and find that it is less than 1.0, what can you conclude?",
+      "options": [
+        "The result is definitely statistically significant.",
+        "The unsystematic variance (error) is greater than the systematic variance (effect).",
+        "A calculation error must have occurred.",
+        "The effect size will be large."
+      ],
+      "correctAnswer": "B",
+      "explanation": "F < 1 indicates that error variance exceeds treatment variance, suggesting no significant treatment effect."
+    },
+    {
+      "id": 8,
+      "section": "Conceptual Understanding",
+      "question": "What is the correct null hypothesis (H₀) for a study comparing four different therapy groups (G1, G2, G3, G4)?",
+      "options": [
+        "μ1 > μ2 > μ3 > μ4",
+        "At least one group mean is different from the others.",
+        "μ1 ≠ μ2 ≠ μ3 ≠ μ4",
+        "μ1 = μ2 = μ3 = μ4"
+      ],
+      "correctAnswer": "D",
+      "explanation": "The null hypothesis states that all group means are equal."
+    },
+    {
+      "id": 9,
+      "section": "Conceptual Understanding",
+      "question": "An ANOVA is often called an \"omnibus test\" because:",
+      "options": [
+        "It is a very old and respected statistical procedure.",
+        "It tells you if there is an overall difference somewhere among the groups, but not which specific groups differ.",
+        "It can be used with any type of data, regardless of the level of measurement.",
+        "It is robust to violations of its assumptions."
+      ],
+      "correctAnswer": "B",
+      "explanation": "Omnibus means it tests for any difference among groups but doesn't specify which groups differ."
+    },
+    {
+      "id": 10,
+      "section": "Conceptual Understanding",
+      "question": "After finding a significant F-ratio in an ANOVA, what is the appropriate next step to identify specific group differences?",
+      "options": [
+        "Report the effect size.",
+        "Conduct post-hoc tests.",
+        "Check the assumption of normality.",
+        "Re-run the analysis with more participants."
+      ],
+      "correctAnswer": "B",
+      "explanation": "Post-hoc tests are needed to determine which specific groups differ from each other."
+    },
+    {
+      "id": 11,
+      "section": "Conceptual Understanding",
+      "question": "The assumption of \"homogeneity of variance\" states that:",
+      "options": [
+        "The group means should be approximately equal.",
+        "The spread of scores within each group should be approximately equal.",
+        "The sample sizes for each group must be identical.",
+        "The data for the dependent variable must be categorical."
+      ],
+      "correctAnswer": "B",
+      "explanation": "Homogeneity of variance means equal variances across groups."
+    },
+    {
+      "id": 12,
+      "section": "Conceptual Understanding",
+      "question": "Which test is commonly used to check the assumption of homogeneity of variance?",
+      "options": [
+        "The F-test",
+        "Tukey's HSD test",
+        "Levene's Test",
+        "The t-test"
+      ],
+      "correctAnswer": "C",
+      "explanation": "Levene's test is specifically designed to test for homogeneity of variance."
+    },
+    {
+      "id": 13,
+      "section": "Conceptual Understanding",
+      "question": "A researcher conducts a Levene's test and obtains a p-value of .241. What is the correct interpretation?",
+      "options": [
+        "The assumption of homogeneity of variance has been violated.",
+        "The assumption of homogeneity of variance has been met.",
+        "The main ANOVA result is statistically significant.",
+        "The main ANOVA result is not statistically significant."
+      ],
+      "correctAnswer": "B",
+      "explanation": "p > .05 indicates that the assumption of homogeneity of variance is met."
+    },
+    {
+      "id": 14,
+      "section": "Conceptual Understanding",
+      "question": "A researcher conducts a Levene's test and obtains a p-value of .019. What is the correct course of action?",
+      "options": [
+        "Proceed with the standard ANOVA as the assumption is met.",
+        "Conclude that there are no differences between the groups.",
+        "Report the results of a more robust test, such as Welch's F-test, because the assumption has been violated.",
+        "Remove outliers from the dataset and re-run the Levene's test."
+      ],
+      "correctAnswer": "C",
+      "explanation": "p < .05 indicates violation of homogeneity of variance, requiring a more robust test."
+    },
+    {
+      "id": 15,
+      "section": "Conceptual Understanding",
+      "question": "In a one-way ANOVA with 3 groups and a total of 60 participants, what are the degrees of freedom between (df_between)?",
+      "options": [
+        "2",
+        "3",
+        "57",
+        "59"
+      ],
+      "correctAnswer": "A",
+      "explanation": "df_between = k - 1 = 3 - 1 = 2"
+    },
+    {
+      "id": 16,
+      "section": "Conceptual Understanding",
+      "question": "In a one-way ANOVA with 3 groups and a total of 60 participants, what are the degrees of freedom within (df_within)?",
+      "options": [
+        "2",
+        "3",
+        "57",
+        "59"
+      ],
+      "correctAnswer": "C",
+      "explanation": "df_within = N - k = 60 - 3 = 57"
+    },
+    {
+      "id": 17,
+      "section": "Conceptual Understanding",
+      "question": "The Sum of Squares Total (SS_total) represents:",
+      "options": [
+        "The sum of squared differences between each group mean and the grand mean.",
+        "The sum of squared differences between each individual score and its own group mean.",
+        "The sum of squared differences between each individual score and the grand mean.",
+        "The sum of the group means."
+      ],
+      "correctAnswer": "C",
+      "explanation": "SS_total represents total variability around the grand mean."
+    },
+    {
+      "id": 18,
+      "section": "Conceptual Understanding",
+      "question": "The Mean Square Between (MS_between) is calculated by:",
+      "options": [
+        "SS_between / df_between",
+        "SS_between / df_within",
+        "SS_total / df_total",
+        "SS_within / df_within"
+      ],
+      "correctAnswer": "A",
+      "explanation": "MS_between = SS_between / df_between"
+    },
+    {
+      "id": 19,
+      "section": "Conceptual Understanding",
+      "question": "What does partial eta-squared (η²p) measure in the context of ANOVA?",
+      "options": [
+        "The probability of a Type I error.",
+        "The number of groups being compared.",
+        "The proportion of variance in the dependent variable that is attributable to the independent variable.",
+        "The average difference between the group means."
+      ],
+      "correctAnswer": "C",
+      "explanation": "Partial eta-squared measures the proportion of variance explained by the independent variable."
+    },
+    {
+      "id": 20,
+      "section": "Conceptual Understanding",
+      "question": "Planned comparisons are different from post-hoc tests because:",
+      "options": [
+        "They are less powerful.",
+        "They are conducted before the experiment to test specific, theory-driven hypotheses.",
+        "They can only be used when there are two groups.",
+        "They do not require a significant overall F-test."
+      ],
+      "correctAnswer": "B",
+      "explanation": "Planned comparisons are theory-driven and specified before data collection."
+    },
+    {
+      "id": 21,
+      "section": "JASP Output Interpretation",
+      "question": "What is the F-ratio for the effect of 'treatment'?",
+      "options": [
+        "225.000",
+        "25.000",
+        "9.000",
+        "0.400"
+      ],
+      "correctAnswer": "C",
+      "explanation": "The F-ratio is directly given in the table as 9.000.",
+      "jaspTable": {
+        "title": "ANOVA - task_completion_time",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F", "p", "η²p"],
+        "rows": [
+          ["treatment", "450.000", "2", "225.000", "9.000", ".001", "0.400"],
+          ["Residuals", "675.000", "27", "25.000", "", "", ""]
+        ]
+      }
+    },
+    {
+      "id": 22,
+      "section": "JASP Output Interpretation",
+      "question": "Based on the table, is the effect of 'treatment' on task completion time statistically significant at an alpha level of .05?",
+      "options": [
+        "Yes, because p = .001",
+        "No, because the effect size is only 0.400",
+        "Yes, because the Mean Square for treatment is large.",
+        "Cannot be determined without the group means."
+      ],
+      "correctAnswer": "A",
+      "explanation": "p = .001 < .05, so the result is statistically significant.",
+      "jaspTable": {
+        "title": "ANOVA - task_completion_time",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F", "p", "η²p"],
+        "rows": [
+          ["treatment", "450.000", "2", "225.000", "9.000", ".001", "0.400"],
+          ["Residuals", "675.000", "27", "25.000", "", "", ""]
+        ]
+      }
+    },
+    {
+      "id": 23,
+      "section": "JASP Output Interpretation",
+      "question": "How many groups were compared in this study?",
+      "options": [
+        "2",
+        "3",
+        "27",
+        "30"
+      ],
+      "correctAnswer": "B",
+      "explanation": "df_between = k-1, so 2 = k-1, therefore k=3 groups.",
+      "jaspTable": {
+        "title": "ANOVA - task_completion_time",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F", "p", "η²p"],
+        "rows": [
+          ["treatment", "450.000", "2", "225.000", "9.000", ".001", "0.400"],
+          ["Residuals", "675.000", "27", "25.000", "", "", ""]
+        ]
+      }
+    },
+    {
+      "id": 24,
+      "section": "JASP Output Interpretation",
+      "question": "How many total participants were in this study?",
+      "options": [
+        "27",
+        "28",
+        "29",
+        "30"
+      ],
+      "correctAnswer": "D",
+      "explanation": "df_total = N-1; df_total = df_between + df_within = 2 + 27 = 29. So, N = 30.",
+      "jaspTable": {
+        "title": "ANOVA - task_completion_time",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F", "p", "η²p"],
+        "rows": [
+          ["treatment", "450.000", "2", "225.000", "9.000", ".001", "0.400"],
+          ["Residuals", "675.000", "27", "25.000", "", "", ""]
+        ]
+      }
+    },
+    {
+      "id": 25,
+      "section": "JASP Output Interpretation",
+      "question": "Which group had the lowest average score on the test?",
+      "options": [
+        "Control",
+        "Low Dose",
+        "High Dose",
+        "All groups had the same average score."
+      ],
+      "correctAnswer": "A",
+      "explanation": "Control group has the lowest mean (55.40).",
+      "jaspTable": {
+        "title": "Descriptives - score_on_test",
+        "headers": ["group", "N", "Mean", "Std. Deviation"],
+        "rows": [
+          ["Control", "30", "55.40", "8.10"],
+          ["Low Dose", "30", "65.20", "7.50"],
+          ["High Dose", "30", "64.80", "8.50"]
+        ]
+      }
+    },
+    {
+      "id": 26,
+      "section": "JASP Output Interpretation",
+      "question": "Which group had the most variability in their scores?",
+      "options": [
+        "Control",
+        "Low Dose",
+        "High Dose",
+        "The variability was equal across all groups."
+      ],
+      "correctAnswer": "C",
+      "explanation": "High Dose group has the largest standard deviation (8.50).",
+      "jaspTable": {
+        "title": "Descriptives - score_on_test",
+        "headers": ["group", "N", "Mean", "Std. Deviation"],
+        "rows": [
+          ["Control", "30", "55.40", "8.10"],
+          ["Low Dose", "30", "65.20", "7.50"],
+          ["High Dose", "30", "64.80", "8.50"]
+        ]
+      }
+    },
+    {
+      "id": 27,
+      "section": "JASP Output Interpretation",
+      "question": "Which of the following group comparisons is statistically significant?",
+      "options": [
+        "Group B vs. Group C",
+        "Group A vs. Group C",
+        "All comparisons are significant.",
+        "No comparisons are significant."
+      ],
+      "correctAnswer": "B",
+      "explanation": "Group A vs. Group C has p < .001, which is significant.",
+      "jaspTable": {
+        "title": "Post Hoc Comparisons - group (Tukey correction)",
+        "headers": ["", "", "Mean Difference", "SE", "t", "p_tukey"],
+        "rows": [
+          ["Group A", "Group B", "-10.50", "2.50", "-4.20", ".002"],
+          ["", "Group C", "-12.00", "2.50", "-4.80", "<.001"],
+          ["Group B", "Group C", "-1.50", "2.50", "-0.60", ".850"]
+        ]
+      }
+    },
+    {
+      "id": 28,
+      "section": "JASP Output Interpretation",
+      "question": "What can be concluded from the comparison between Group B and Group C?",
+      "options": [
+        "Group C performed significantly better than Group B.",
+        "There is no statistically significant difference between the means of Group B and Group C.",
+        "Group B performed significantly better than Group C.",
+        "The sample size for Group B was larger than for Group C."
+      ],
+      "correctAnswer": "B",
+      "explanation": "p = .850 > .05, so there is no significant difference between Group B and Group C.",
+      "jaspTable": {
+        "title": "Post Hoc Comparisons - group (Tukey correction)",
+        "headers": ["", "", "Mean Difference", "SE", "t", "p_tukey"],
+        "rows": [
+          ["Group A", "Group B", "-10.50", "2.50", "-4.20", ".002"],
+          ["", "Group C", "-12.00", "2.50", "-4.80", "<.001"],
+          ["Group B", "Group C", "-1.50", "2.50", "-0.60", ".850"]
+        ]
+      }
+    },
+    {
+      "id": 29,
+      "section": "JASP Output Interpretation",
+      "question": "How should the result from the ANOVA table below be reported in APA format?",
+      "options": [
+        "F(3, 64) = 5.88, p = .002, η²p = .21",
+        "F(64, 3) = 5.88, p = .002, η²p = .21",
+        "F(3, 67) = 5.88, p = .002, η²p = .21",
+        "t(64) = 5.88, p = .002"
+      ],
+      "correctAnswer": "A",
+      "explanation": "APA format: F(df_between, df_within) = F-value, p = p-value, η²p = effect size.",
+      "jaspTable": {
+        "title": "ANOVA - recall_score",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F", "p", "η²p"],
+        "rows": [
+          ["condition", "180.45", "3", "60.15", "5.88", ".002", "0.21"],
+          ["Residuals", "654.30", "64", "10.22", "", "", ""]
+        ]
+      }
+    },
+    {
+      "id": 30,
+      "section": "JASP Output Interpretation",
+      "question": "A researcher wants to compare the effectiveness of four different teaching methods. After running a one-way ANOVA, they get a significant result (p < .05). To find out which specific methods differ, they run post-hoc tests and get the following p-values: Method 1 vs 2 (p=.03), Method 1 vs 3 (p=.01), Method 1 vs 4 (p=.67), Method 2 vs 3 (p=.91), Method 2 vs 4 (p=.04), Method 3 vs 4 (p=.02). Which conclusion is NOT supported by these results?",
+      "options": [
+        "Method 1 is significantly different from Method 2 and Method 3.",
+        "Method 4 is significantly different from Method 2 and Method 3.",
+        "There is no significant difference between Method 2 and Method 3.",
+        "Method 1 is significantly different from Method 4."
+      ],
+      "correctAnswer": "D",
+      "explanation": "Method 1 vs 4 has p=.67 > .05, so they are NOT significantly different."
+    },
+    {
+      "id": 31,
+      "section": "Calculation Questions",
+      "question": "What is the missing F-ratio in Table A?",
+      "options": [
+        "0.20",
+        "2.70",
+        "5.00",
+        "10.00"
+      ],
+      "correctAnswer": "C",
+      "explanation": "F = MS_between / MS_within = 100.0 / 20.0 = 5.00",
+      "jaspTable": {
+        "title": "Table A - ANOVA - response_time",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F", "p"],
+        "rows": [
+          ["group", "200.0", "2", "100.0", "?", ".001"],
+          ["Residuals", "540.0", "27", "20.0", "", ""]
+        ]
+      }
+    },
+    {
+      "id": 32,
+      "section": "Calculation Questions",
+      "question": "What is the missing Mean Square Between in Table B?",
+      "options": [
+        "100.0",
+        "300.0",
+        "400.0",
+        "1200.0"
+      ],
+      "correctAnswer": "C",
+      "explanation": "MS_between = SS_between / df_between = 1200.0 / 3 = 400.0",
+      "jaspTable": {
+        "title": "Table B - ANOVA - accuracy",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F", "p"],
+        "rows": [
+          ["condition", "1200.0", "3", "?", "12.00", "<.001"],
+          ["Residuals", "3600.0", "36", "100.0", "", ""]
+        ]
+      }
+    },
+    {
+      "id": 33,
+      "section": "Calculation Questions",
+      "question": "What is the missing Sum of Squares Within (Residuals) in Table C?",
+      "options": [
+        "21.1",
+        "19.0",
+        "475.0",
+        "427.5"
+      ],
+      "correctAnswer": "C",
+      "explanation": "SS_within = df_within × MS_within = 95 × 5.0 = 475.0",
+      "jaspTable": {
+        "title": "Table C - ANOVA - satisfaction_rating",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F", "p"],
+        "rows": [
+          ["location", "90.0", "4", "22.5", "4.50", ".003"],
+          ["Residuals", "?", "95", "5.0", "", ""]
+        ]
+      }
+    },
+    {
+      "id": 34,
+      "section": "Calculation Questions",
+      "question": "What is the missing Sum of Squares Between in Table D?",
+      "options": [
+        "30.0",
+        "60.0",
+        "120.0",
+        "940.0"
+      ],
+      "correctAnswer": "C",
+      "explanation": "SS_between = df_between × MS_between = 2 × 60.0 = 120.0",
+      "jaspTable": {
+        "title": "Table D - ANOVA - error_rate",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F", "p"],
+        "rows": [
+          ["strategy", "?", "2", "60.0", "3.00", ".050"],
+          ["Residuals", "940.0", "47", "20.0", "", ""]
+        ]
+      }
+    },
+    {
+      "id": 35,
+      "section": "Calculation Questions",
+      "question": "What are the missing degrees of freedom Within (Residuals) in Table E?",
+      "options": [
+        "3",
+        "10",
+        "56",
+        "59"
+      ],
+      "correctAnswer": "C",
+      "explanation": "df_within = SS_within / MS_within = 560.0 / 10.0 = 56",
+      "jaspTable": {
+        "title": "Table E - ANOVA - weight_loss",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F", "p"],
+        "rows": [
+          ["diet_plan", "300.0", "3", "100.0", "10.00", "<.001"],
+          ["Residuals", "560.0", "?", "10.0", "", ""]
+        ]
+      }
+    },
+    {
+      "id": 36,
+      "section": "Calculation Questions",
+      "question": "What are the missing degrees of freedom Between in Table F?",
+      "options": [
+        "2",
+        "4",
+        "8",
+        "40"
+      ],
+      "correctAnswer": "A",
+      "explanation": "df_between = SS_between / MS_between = 80.0 / 40.0 = 2",
+      "jaspTable": {
+        "title": "Table F - ANOVA - engagement_score",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F", "p"],
+        "rows": [
+          ["classroom", "80.0", "?", "40.0", "4.00", ".025"],
+          ["Residuals", "450.0", "45", "10.0", "", ""]
+        ]
+      }
+    },
+    {
+      "id": 37,
+      "section": "Calculation Questions",
+      "question": "What is the missing Mean Square Within (Residuals) in Table G?",
+      "options": [
+        "1.50",
+        "20.0",
+        "30.0",
+        "42.0"
+      ],
+      "correctAnswer": "B",
+      "explanation": "MS_within = SS_within / df_within = 840.0 / 42 = 20.0",
+      "jaspTable": {
+        "title": "Table G - ANOVA - anxiety_level",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F", "p"],
+        "rows": [
+          ["therapy", "60.0", "2", "30.0", "1.50", ".235"],
+          ["Residuals", "840.0", "42", "?", "", ""]
+        ]
+      }
+    },
+    {
+      "id": 38,
+      "section": "Calculation Questions",
+      "question": "Using Table A, what is the Total Sum of Squares (SS_total)?",
+      "options": [
+        "340.0",
+        "540.0",
+        "740.0",
+        "29.0"
+      ],
+      "correctAnswer": "C",
+      "explanation": "SS_total = SS_between + SS_within = 200.0 + 540.0 = 740.0",
+      "jaspTable": {
+        "title": "Table A - ANOVA - response_time",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F", "p"],
+        "rows": [
+          ["group", "200.0", "2", "100.0", "5.00", ".001"],
+          ["Residuals", "540.0", "27", "20.0", "", ""]
+        ]
+      }
+    },
+    {
+      "id": 39,
+      "section": "Calculation Questions",
+      "question": "Using Table B, how many participants were in the study in total?",
+      "options": [
+        "36",
+        "39",
+        "40",
+        "43"
+      ],
+      "correctAnswer": "C",
+      "explanation": "df_total = df_between + df_within = 3 + 36 = 39. N = df_total + 1 = 40",
+      "jaspTable": {
+        "title": "Table B - ANOVA - accuracy",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F", "p"],
+        "rows": [
+          ["condition", "1200.0", "3", "400.0", "12.00", "<.001"],
+          ["Residuals", "3600.0", "36", "100.0", "", ""]
+        ]
+      }
+    },
+    {
+      "id": 40,
+      "section": "Calculation Questions",
+      "question": "Using Table C, what is the Total Sum of Squares (SS_total)?",
+      "options": [
+        "99.0",
+        "565.0",
+        "100.0",
+        "95.0"
+      ],
+      "correctAnswer": "B",
+      "explanation": "SS_within = 95 × 5.0 = 475. SS_total = 90.0 + 475.0 = 565.0",
+      "jaspTable": {
+        "title": "Table C - ANOVA - satisfaction_rating",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F", "p"],
+        "rows": [
+          ["location", "90.0", "4", "22.5", "4.50", ".003"],
+          ["Residuals", "475.0", "95", "5.0", "", ""]
+        ]
+      }
+    },
+    {
+      "id": 41,
+      "section": "Calculation Questions",
+      "question": "Using Table D, what is the F-ratio?",
+      "options": [
+        "0.33",
+        "3.00",
+        "15.67",
+        "20.00"
+      ],
+      "correctAnswer": "B",
+      "explanation": "The F-ratio is given in the table as 3.00.",
+      "jaspTable": {
+        "title": "Table D - ANOVA - error_rate",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F", "p"],
+        "rows": [
+          ["strategy", "120.0", "2", "60.0", "3.00", ".050"],
+          ["Residuals", "940.0", "47", "20.0", "", ""]
+        ]
+      }
+    },
+    {
+      "id": 42,
+      "section": "Calculation Questions",
+      "question": "Using Table E, what is the total number of participants (N)?",
+      "options": [
+        "56",
+        "59",
+        "60",
+        "63"
+      ],
+      "correctAnswer": "C",
+      "explanation": "df_within = 56, df_between = 3. df_total = 59. N = 60",
+      "jaspTable": {
+        "title": "Table E - ANOVA - weight_loss",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F", "p"],
+        "rows": [
+          ["diet_plan", "300.0", "3", "100.0", "10.00", "<.001"],
+          ["Residuals", "560.0", "56", "10.0", "", ""]
+        ]
+      }
+    },
+    {
+      "id": 43,
+      "section": "Calculation Questions",
+      "question": "Using Table F, how many groups were compared?",
+      "options": [
+        "2",
+        "3",
+        "4",
+        "45"
+      ],
+      "correctAnswer": "B",
+      "explanation": "df_between = 80/40 = 2. Number of groups = df_between + 1 = 3",
+      "jaspTable": {
+        "title": "Table F - ANOVA - engagement_score",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F", "p"],
+        "rows": [
+          ["classroom", "80.0", "2", "40.0", "4.00", ".025"],
+          ["Residuals", "450.0", "45", "10.0", "", ""]
+        ]
+      }
+    },
+    {
+      "id": 44,
+      "section": "Calculation Questions",
+      "question": "Using Table G, what is the F-ratio?",
+      "options": [
+        "0.50",
+        "1.50",
+        "20.00",
+        "30.00"
+      ],
+      "correctAnswer": "B",
+      "explanation": "The F-ratio is given in the table as 1.50.",
+      "jaspTable": {
+        "title": "Table G - ANOVA - anxiety_level",
+        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F", "p"],
+        "rows": [
+          ["therapy", "60.0", "2", "30.0", "1.50", ".235"],
+          ["Residuals", "840.0", "42", "20.0", "", ""]
+        ]
+      }
+    },
+    {
+      "id": 45,
+      "section": "Calculation Questions",
+      "question": "A study has SS_between = 150 and SS_within = 450. What is the effect size, partial eta-squared (η²p)?",
+      "options": [
+        "0.25",
+        "0.33",
+        "0.50",
+        "0.75"
+      ],
+      "correctAnswer": "A",
+      "explanation": "η²p = SS_between / (SS_between + SS_within) = 150 / (150 + 450) = 150 / 600 = 0.25"
+    },
+    {
+      "id": 46,
+      "section": "Calculation Questions",
+      "question": "A study has MS_between = 90 and MS_within = 15. What is the F-ratio?",
+      "options": [
+        "0.16",
+        "6.00",
+        "75.00",
+        "105.00"
+      ],
+      "correctAnswer": "B",
+      "explanation": "F = MS_between / MS_within = 90 / 15 = 6.00"
+    },
+    {
+      "id": 47,
+      "section": "Calculation Questions",
+      "question": "If SS_between = 240 and df_between = 3, what is MS_between?",
+      "options": [
+        "3",
+        "80",
+        "240",
+        "720"
+      ],
+      "correctAnswer": "B",
+      "explanation": "MS_between = SS_between / df_between = 240 / 3 = 80"
+    },
+    {
+      "id": 48,
+      "section": "Calculation Questions",
+      "question": "If SS_within = 800 and df_within = 40, what is MS_within?",
+      "options": [
+        "0.05",
+        "20",
+        "40",
+        "800"
+      ],
+      "correctAnswer": "B",
+      "explanation": "MS_within = SS_within / df_within = 800 / 40 = 20"
+    },
+    {
+      "id": 49,
+      "section": "Calculation Questions",
+      "question": "A one-way ANOVA with 4 groups has a total of 44 participants. What are the degrees of freedom for the F-test?",
+      "options": [
+        "df = (3, 40)",
+        "df = (4, 40)",
+        "df = (3, 43)",
+        "df = (4, 44)"
+      ],
+      "correctAnswer": "A",
+      "explanation": "df_between = 4-1=3; df_within = 44-4=40"
+    },
+    {
+      "id": 50,
+      "section": "Calculation Questions",
+      "question": "Given SS_total = 1000 and SS_between = 400, what is SS_within?",
+      "options": [
+        "2.5",
+        "400",
+        "600",
+        "1400"
+      ],
+      "correctAnswer": "C",
+      "explanation": "SS_within = SS_total - SS_between = 1000 - 400 = 600"
+    }
+  ]
+} 
