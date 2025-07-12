@@ -302,19 +302,6 @@
       "explanation": "SS_within-conditions is the sum of squared differences between each score and its own condition's mean. It's an intermediate step that contains both SS_residual and SS_subjects."
     },
     {
-      "id": 24,
-      "section": "Conceptual Understanding",
-      "question": "If the Greenhouse-Geisser epsilon (ε) is 1.000, what does this imply?",
-      "options": [
-        "Sphericity has been severely violated.",
-        "The data perfectly meets the assumption of sphericity.",
-        "The F-test will not be significant.",
-        "The sample size was too small."
-      ],
-      "correctAnswer": "B",
-      "explanation": "Epsilon ranges from 1/(k-1) to 1.0. A value of 1.0 indicates that the assumption of sphericity has been perfectly met, and no correction to the degrees of freedom is needed."
-    },
-    {
       "id": 25,
       "section": "Conceptual Understanding",
       "question": "If a researcher reports F(2, 22) = 5.89, p = .009 for a repeated-measures ANOVA, how many participants were in the study?",
@@ -352,19 +339,6 @@
       ],
       "correctAnswer": "B",
       "explanation": "MS_residual is the average unexplained variance (noise). A smaller value means less noise, which increases the likelihood of detecting a true experimental effect (a larger F-ratio)."
-    },
-    {
-      "id": 28,
-      "section": "Conceptual Understanding",
-      "question": "The Bonferroni correction is often used for post-hoc tests because it:",
-      "options": [
-        "Increases statistical power.",
-        "Controls the familywise error rate by making the criterion for significance more strict for each comparison.",
-        "Is the only post-hoc test available for repeated-measures data.",
-        "Can only be used if sphericity is assumed."
-      ],
-      "correctAnswer": "B",
-      "explanation": "When conducting multiple comparisons, the chance of a Type I error increases. Bonferroni correction adjusts the p-value threshold (e.g., divides alpha by the number of tests) to keep the overall risk of a false positive at the desired level (e.g., .05)."
     },
     {
       "id": 29,
@@ -436,7 +410,7 @@
     {
       "id": 33,
       "section": "JASP Output Interpretation",
-      "question": "Is the main effect of 'Pain Relief Drug' statistically significant at an alpha level of .05?",
+      "question": "Is the main effect of 'Pain Relief Drug' statistically significant at a significance level of .05?",
       "options": [
         "No, because p > .05",
         "Yes, because p < .05",
@@ -444,7 +418,7 @@
         "Yes, because the F-ratio is greater than 1."
       ],
       "correctAnswer": "B",
-      "explanation": "The p-value for the effect is 0.037, which is less than the standard alpha level of 0.05. Therefore, the result is statistically significant.",
+      "explanation": "The p-value for the effect is 0.037, which is less than the standard significance level of 0.05. Therefore, the result is statistically significant.",
       "jaspTable": {
         "title": "Within Subjects Effects",
         "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F", "p", "η²p"],
@@ -493,48 +467,6 @@
         "rows": [
           ["Pain Relief Drug", "40.000", "2", "20.000", "5.106", "0.037", "0.561"],
           ["Residuals", "31.333", "8", "3.917", "", "", ""]
-        ]
-      }
-    },
-    {
-      "id": 36,
-      "section": "JASP Output Interpretation",
-      "question": "Given the results of Mauchly's test below, what is the appropriate F-statistic to report?",
-      "options": [
-        "The F-statistic from the 'Sphericity Assumed' row.",
-        "The F-statistic from the 'Greenhouse-Geisser' corrected row.",
-        "Either the Greenhouse-Geisser or Huynh-Feldt corrected F-statistic.",
-        "The analysis is invalid and cannot be reported."
-      ],
-      "correctAnswer": "B",
-      "explanation": "Mauchly's test is significant (p = .014), meaning sphericity is violated. Therefore, a corrected result must be reported, such as the Greenhouse-Geisser.",
-      "jaspTable": {
-        "title": "Assumption Checks & Within Subjects Effects",
-        "headers": ["", "Mauchly's W", "Approx. X²", "df", "p-value", "Greenhouse-Geisser ε"],
-        "rows": [
-          ["Task", "0.451", "8.523", "2", "0.014", "0.645"]
-        ]
-      }
-    },
-    {
-      "id": 37,
-      "section": "JASP Output Interpretation",
-      "question": "How would the result for the effect of 'Task' be correctly reported in APA format, assuming a Greenhouse-Geisser correction is needed?",
-      "options": [
-        "F(2, 28) = 8.91, p = .001, η²p = .389",
-        "F(1.29, 18.06) = 8.91, p = .006, η²p = .389",
-        "F(2, 28) = 8.91, p = .006, η²p = .389",
-        "t(28) = 8.91, p = .001"
-      ],
-      "correctAnswer": "B",
-      "explanation": "With a Greenhouse-Geisser correction, the degrees of freedom are adjusted (df_conditions * ε, df_residual * ε). The p-value from the corrected row is used. So, F(1.29, 18.06) = 8.91, p = .006, η²p = .389.",
-      "jaspTable": {
-        "title": "Within Subjects Effects (with corrections)",
-        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F", "p", "η²p", "Greenhouse-Geisser ε"],
-        "rows": [
-          ["Sphericity Assumed", "124.50", "2", "62.25", "8.91", ".001", ".389", "0.645"],
-          ["Greenhouse-Geisser", "124.50", "1.29", "96.51", "8.91", ".006", ".389", ""],
-          ["Residuals", "195.60", "28", "6.98", "", "", "", ""]
         ]
       }
     },
