@@ -86,7 +86,7 @@
       "question": "A researcher obtains a p-value of .021 from Mauchly's Test. What is the correct interpretation and action?",
       "options": [
         "Sphericity is assumed (p > .05), and the standard ANOVA results can be reported.",
-        "Sphericity is violated (p < .05), and a correction like Greenhouse-Geisser should be reported.",
+        "Sphericity is violated (p < .05), and a correction should be reported.",
         "The main ANOVA effect is significant, and post-hoc tests are needed.",
         "The main ANOVA effect is not significant."
       ],
@@ -209,19 +209,6 @@
       ],
       "correctAnswer": "C",
       "explanation": "A significant ANOVA is an omnibus test; it indicates a difference exists *somewhere* among the conditions. Post-hoc tests are required to perform pairwise comparisons and identify the specific differences."
-    },
-    {
-      "id": 17,
-      "section": "Conceptual Understanding",
-      "question": "The Greenhouse-Geisser correction adjusts the ANOVA result by:",
-      "options": [
-        "Increasing the F-ratio.",
-        "Removing outliers from the data.",
-        "Lowering the degrees of freedom for the F-test, making the test more conservative.",
-        "Increasing the Sum of Squares Residual."
-      ],
-      "correctAnswer": "C",
-      "explanation": "When sphericity is violated, corrections like Greenhouse-Geisser multiply the degrees of freedom by an estimate of sphericity (epsilon), which is less than 1. This reduces the df and makes it harder to achieve a significant p-value, thus controlling the Type I error rate."
     },
     {
       "id": 18,
@@ -380,9 +367,23 @@
       "explanation": "The p-value for Mauchly's test is 0.801, which is greater than the alpha level of .05. This means we fail to reject the null hypothesis and can assume sphericity is met.",
       "jaspTable": {
         "title": "Assumption Checks - Test of Sphericity",
-        "headers": ["", "Mauchly's W", "Approx. X²", "df", "p-value", "Greenhouse-Geisser ε"],
+        "headers": [
+          "",
+          "Mauchly's W",
+          "Approx. X²",
+          "df",
+          "p-value",
+          "Greenhouse-Geisser ε"
+        ],
         "rows": [
-          ["Pain Relief Drug", "0.862", "0.444", "2", "0.801", "0.879"]
+          [
+            "Pain Relief Drug",
+            "0.862",
+            "0.444",
+            "2",
+            "0.801",
+            "0.879"
+          ]
         ]
       }
     },
@@ -400,10 +401,34 @@
       "explanation": "The F-ratio is found in the 'F' column of the Within Subjects Effects table, corresponding to the 'Pain Relief Drug' row. F = 5.106.",
       "jaspTable": {
         "title": "Within Subjects Effects",
-        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F", "p", "η²p"],
+        "headers": [
+          "Cases",
+          "Sum of Squares",
+          "df",
+          "Mean Square",
+          "F",
+          "p",
+          "η²p"
+        ],
         "rows": [
-          ["Pain Relief Drug", "40.000", "2", "20.000", "5.106", "0.037", "0.561"],
-          ["Residuals", "31.333", "8", "3.917", "", "", ""]
+          [
+            "Pain Relief Drug",
+            "40.000",
+            "2",
+            "20.000",
+            "5.106",
+            "0.037",
+            "0.561"
+          ],
+          [
+            "Residuals",
+            "31.333",
+            "8",
+            "3.917",
+            "",
+            "",
+            ""
+          ]
         ]
       }
     },
@@ -421,10 +446,34 @@
       "explanation": "The p-value for the effect is 0.037, which is less than the standard significance level of 0.05. Therefore, the result is statistically significant.",
       "jaspTable": {
         "title": "Within Subjects Effects",
-        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F", "p", "η²p"],
+        "headers": [
+          "Cases",
+          "Sum of Squares",
+          "df",
+          "Mean Square",
+          "F",
+          "p",
+          "η²p"
+        ],
         "rows": [
-          ["Pain Relief Drug", "40.000", "2", "20.000", "5.106", "0.037", "0.561"],
-          ["Residuals", "31.333", "8", "3.917", "", "", ""]
+          [
+            "Pain Relief Drug",
+            "40.000",
+            "2",
+            "20.000",
+            "5.106",
+            "0.037",
+            "0.561"
+          ],
+          [
+            "Residuals",
+            "31.333",
+            "8",
+            "3.917",
+            "",
+            "",
+            ""
+          ]
         ]
       }
     },
@@ -442,10 +491,34 @@
       "explanation": "From the 'Residuals' row, df_residual = 8. The number of conditions (k) is df_conditions + 1 = 2 + 1 = 3. Using the formula df_residual = (n-1)(k-1), we get 8 = (n-1)(3-1), so 8 = (n-1)*2, which means n-1 = 4, and therefore n = 5 participants.",
       "jaspTable": {
         "title": "Within Subjects Effects",
-        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F", "p", "η²p"],
+        "headers": [
+          "Cases",
+          "Sum of Squares",
+          "df",
+          "Mean Square",
+          "F",
+          "p",
+          "η²p"
+        ],
         "rows": [
-          ["Pain Relief Drug", "40.000", "2", "20.000", "5.106", "0.037", "0.561"],
-          ["Residuals", "31.333", "8", "3.917", "", "", ""]
+          [
+            "Pain Relief Drug",
+            "40.000",
+            "2",
+            "20.000",
+            "5.106",
+            "0.037",
+            "0.561"
+          ],
+          [
+            "Residuals",
+            "31.333",
+            "8",
+            "3.917",
+            "",
+            "",
+            ""
+          ]
         ]
       }
     },
@@ -463,10 +536,34 @@
       "explanation": "The proportion of variance explained is given by the partial eta-squared (η²p) value, which is 0.561, or 56.1%.",
       "jaspTable": {
         "title": "Within Subjects Effects",
-        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F", "p", "η²p"],
+        "headers": [
+          "Cases",
+          "Sum of Squares",
+          "df",
+          "Mean Square",
+          "F",
+          "p",
+          "η²p"
+        ],
         "rows": [
-          ["Pain Relief Drug", "40.000", "2", "20.000", "5.106", "0.037", "0.561"],
-          ["Residuals", "31.333", "8", "3.917", "", "", ""]
+          [
+            "Pain Relief Drug",
+            "40.000",
+            "2",
+            "20.000",
+            "5.106",
+            "0.037",
+            "0.561"
+          ],
+          [
+            "Residuals",
+            "31.333",
+            "8",
+            "3.917",
+            "",
+            "",
+            ""
+          ]
         ]
       }
     },
@@ -484,11 +581,39 @@
       "explanation": "The Bonferroni-corrected p-value (p_bonf) for Morning vs. Evening is .011, which is less than .05. The other comparisons have p-values greater than .05.",
       "jaspTable": {
         "title": "Post Hoc Comparisons - Time of Day (Bonferroni correction)",
-        "headers": ["", "", "Mean Difference", "SE", "t", "p_bonf"],
+        "headers": [
+          "",
+          "",
+          "Mean Difference",
+          "SE",
+          "t",
+          "p_bonf"
+        ],
         "rows": [
-          ["Morning", "Afternoon", "-2.45", "1.12", "-2.18", ".155"],
-          ["", "Evening", "-4.80", "1.35", "-3.55", ".011"],
-          ["Afternoon", "Evening", "-2.35", "1.05", "-2.24", ".121"]
+          [
+            "Morning",
+            "Afternoon",
+            "-2.45",
+            "1.12",
+            "-2.18",
+            ".155"
+          ],
+          [
+            "",
+            "Evening",
+            "-4.80",
+            "1.35",
+            "-3.55",
+            ".011"
+          ],
+          [
+            "Afternoon",
+            "Evening",
+            "-2.35",
+            "1.05",
+            "-2.24",
+            ".121"
+          ]
         ]
       }
     },
@@ -506,11 +631,39 @@
       "explanation": "The Bonferroni-corrected p-value for the Afternoon vs. Evening comparison is .121, which is greater than .05. Thus, the difference is not statistically significant.",
       "jaspTable": {
         "title": "Post Hoc Comparisons - Time of Day (Bonferroni correction)",
-        "headers": ["", "", "Mean Difference", "SE", "t", "p_bonf"],
+        "headers": [
+          "",
+          "",
+          "Mean Difference",
+          "SE",
+          "t",
+          "p_bonf"
+        ],
         "rows": [
-          ["Morning", "Afternoon", "-2.45", "1.12", "-2.18", ".155"],
-          ["", "Evening", "-4.80", "1.35", "-3.55", ".011"],
-          ["Afternoon", "Evening", "-2.35", "1.05", "-2.24", ".121"]
+          [
+            "Morning",
+            "Afternoon",
+            "-2.45",
+            "1.12",
+            "-2.18",
+            ".155"
+          ],
+          [
+            "",
+            "Evening",
+            "-4.80",
+            "1.35",
+            "-3.55",
+            ".011"
+          ],
+          [
+            "Afternoon",
+            "Evening",
+            "-2.35",
+            "1.05",
+            "-2.24",
+            ".121"
+          ]
         ]
       }
     },
@@ -528,11 +681,35 @@
       "explanation": "The Speech task has the highest mean difficulty rating of 7.167.",
       "jaspTable": {
         "title": "Descriptives",
-        "headers": ["Task", "N", "Mean", "SD", "SE"],
+        "headers": [
+          "Task",
+          "N",
+          "Mean",
+          "SD",
+          "SE"
+        ],
         "rows": [
-          ["Speech", "6", "7.167", "1.472", "0.601"],
-          ["Conceptual", "6", "6.167", "1.472", "0.601"],
-          ["Syntax", "6", "4.333", "1.633", "0.667"]
+          [
+            "Speech",
+            "6",
+            "7.167",
+            "1.472",
+            "0.601"
+          ],
+          [
+            "Conceptual",
+            "6",
+            "6.167",
+            "1.472",
+            "0.601"
+          ],
+          [
+            "Syntax",
+            "6",
+            "4.333",
+            "1.633",
+            "0.667"
+          ]
         ]
       }
     },
@@ -550,10 +727,34 @@
       "explanation": "The degrees of freedom for the 'Condition' effect is 2. The number of conditions (k) is df_conditions + 1, so k = 2 + 1 = 3.",
       "jaspTable": {
         "title": "Within Subjects Effects",
-        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F", "p", "η²p"],
+        "headers": [
+          "Cases",
+          "Sum of Squares",
+          "df",
+          "Mean Square",
+          "F",
+          "p",
+          "η²p"
+        ],
         "rows": [
-          ["Condition", "288.45", "2", "144.23", "9.85", ".001", "0.450"],
-          ["Residuals", "351.30", "24", "14.64", "", "", ""]
+          [
+            "Condition",
+            "288.45",
+            "2",
+            "144.23",
+            "9.85",
+            ".001",
+            "0.450"
+          ],
+          [
+            "Residuals",
+            "351.30",
+            "24",
+            "14.64",
+            "",
+            "",
+            ""
+          ]
         ]
       }
     },
@@ -571,10 +772,34 @@
       "explanation": "df_residual = (n-1)(k-1). From the table, df_residual = 24 and df_conditions = 2 (so k=3). Therefore, 24 = (n-1)(3-1) -> 24 = (n-1)*2 -> 12 = n-1 -> n = 13.",
       "jaspTable": {
         "title": "Within Subjects Effects",
-        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F", "p", "η²p"],
+        "headers": [
+          "Cases",
+          "Sum of Squares",
+          "df",
+          "Mean Square",
+          "F",
+          "p",
+          "η²p"
+        ],
         "rows": [
-          ["Condition", "288.45", "2", "144.23", "9.85", ".001", "0.450"],
-          ["Residuals", "351.30", "24", "14.64", "", "", ""]
+          [
+            "Condition",
+            "288.45",
+            "2",
+            "144.23",
+            "9.85",
+            ".001",
+            "0.450"
+          ],
+          [
+            "Residuals",
+            "351.30",
+            "24",
+            "14.64",
+            "",
+            "",
+            ""
+          ]
         ]
       }
     },
@@ -592,10 +817,34 @@
       "explanation": "APA format for ANOVA is F(df_conditions, df_residual) = F-value, p = p-value, η²p = effect size. So, F(2, 24) = 9.85, p = .001, η²p = .450.",
       "jaspTable": {
         "title": "Within Subjects Effects",
-        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F", "p", "η²p"],
+        "headers": [
+          "Cases",
+          "Sum of Squares",
+          "df",
+          "Mean Square",
+          "F",
+          "p",
+          "η²p"
+        ],
         "rows": [
-          ["Condition", "288.45", "2", "144.23", "9.85", ".001", "0.450"],
-          ["Residuals", "351.30", "24", "14.64", "", "", ""]
+          [
+            "Condition",
+            "288.45",
+            "2",
+            "144.23",
+            "9.85",
+            ".001",
+            "0.450"
+          ],
+          [
+            "Residuals",
+            "351.30",
+            "24",
+            "14.64",
+            "",
+            "",
+            ""
+          ]
         ]
       }
     },
@@ -616,17 +865,42 @@
         "tables": [
           {
             "name": "Within Subjects Effects",
-            "headers": ["Cases", "Sum of Squares", "df", "Mean Square"],
+            "headers": [
+              "Cases",
+              "Sum of Squares",
+              "df",
+              "Mean Square"
+            ],
             "rows": [
-              ["Condition", "150.0", "2", "75.0"],
-              ["Residuals", "200.0", "18", "11.11"]
+              [
+                "Condition",
+                "150.0",
+                "2",
+                "75.0"
+              ],
+              [
+                "Residuals",
+                "200.0",
+                "18",
+                "11.11"
+              ]
             ]
           },
           {
             "name": "Between Subjects Effects",
-            "headers": ["Cases", "Sum of Squares", "df", "Mean Square"],
+            "headers": [
+              "Cases",
+              "Sum of Squares",
+              "df",
+              "Mean Square"
+            ],
             "rows": [
-              ["Residuals", "350.0", "9", "38.89"]
+              [
+                "Residuals",
+                "350.0",
+                "9",
+                "38.89"
+              ]
             ]
           }
         ]
@@ -646,9 +920,19 @@
       "explanation": "The degrees of freedom for the 'Residuals' in the Between Subjects table is equal to n-1. Here, df = 9, so n = 9 + 1 = 10 participants.",
       "jaspTable": {
         "title": "Between Subjects Effects",
-        "headers": ["Cases", "Sum of Squares", "df", "Mean Square"],
+        "headers": [
+          "Cases",
+          "Sum of Squares",
+          "df",
+          "Mean Square"
+        ],
         "rows": [
-          ["Residuals", "350.0", "9", "38.89"]
+          [
+            "Residuals",
+            "350.0",
+            "9",
+            "38.89"
+          ]
         ]
       }
     },
@@ -666,10 +950,28 @@
       "explanation": "MS_residual = SS_residual / df_residual = 108.75 / 8 = 13.59",
       "jaspTable": {
         "title": "Table 1 - Within Subjects Effects",
-        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"],
+        "headers": [
+          "Cases",
+          "Sum of Squares",
+          "df",
+          "Mean Square",
+          "F"
+        ],
         "rows": [
-          ["Time", "65.33", "2", "32.67", "2.40"],
-          ["Residuals", "108.75", "8", "?", ""]
+          [
+            "Time",
+            "65.33",
+            "2",
+            "32.67",
+            "2.40"
+          ],
+          [
+            "Residuals",
+            "108.75",
+            "8",
+            "?",
+            ""
+          ]
         ]
       }
     },
@@ -687,10 +989,28 @@
       "explanation": "F = MS_conditions / MS_residual = 85.62 / 12.33 = 6.94",
       "jaspTable": {
         "title": "Table 2 - Within Subjects Effects",
-        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"],
+        "headers": [
+          "Cases",
+          "Sum of Squares",
+          "df",
+          "Mean Square",
+          "F"
+        ],
         "rows": [
-          ["Drug_Dose", "256.86", "3", "85.62", "?"],
-          ["Residuals", "332.91", "27", "12.33", ""]
+          [
+            "Drug_Dose",
+            "256.86",
+            "3",
+            "85.62",
+            "?"
+          ],
+          [
+            "Residuals",
+            "332.91",
+            "27",
+            "12.33",
+            ""
+          ]
         ]
       }
     },
@@ -708,10 +1028,28 @@
       "explanation": "SS_residual = df_residual * MS_residual = 12 * 28.82 = 345.84",
       "jaspTable": {
         "title": "Table 3 - Within Subjects Effects",
-        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"],
+        "headers": [
+          "Cases",
+          "Sum of Squares",
+          "df",
+          "Mean Square",
+          "F"
+        ],
         "rows": [
-          ["Intervention", "215.5", "2", "107.75", "3.74"],
-          ["Residuals", "?", "12", "28.82", ""]
+          [
+            "Intervention",
+            "215.5",
+            "2",
+            "107.75",
+            "3.74"
+          ],
+          [
+            "Residuals",
+            "?",
+            "12",
+            "28.82",
+            ""
+          ]
         ]
       }
     },
@@ -729,10 +1067,28 @@
       "explanation": "SS_condition = df_condition * MS_condition = 4 * 19.23 = 76.92",
       "jaspTable": {
         "title": "Table 4 - Within Subjects Effects",
-        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"],
+        "headers": [
+          "Cases",
+          "Sum of Squares",
+          "df",
+          "Mean Square",
+          "F"
+        ],
         "rows": [
-          ["Condition", "?", "4", "19.23", "2.75"],
-          ["Residuals", "279.52", "40", "6.99", ""]
+          [
+            "Condition",
+            "?",
+            "4",
+            "19.23",
+            "2.75"
+          ],
+          [
+            "Residuals",
+            "279.52",
+            "40",
+            "6.99",
+            ""
+          ]
         ]
       }
     },
@@ -750,10 +1106,28 @@
       "explanation": "df_residual = SS_residual / MS_residual = 250.40 / 15.65 = 16",
       "jaspTable": {
         "title": "Table 5 - Within Subjects Effects",
-        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"],
+        "headers": [
+          "Cases",
+          "Sum of Squares",
+          "df",
+          "Mean Square",
+          "F"
+        ],
         "rows": [
-          ["Strategy", "188.10", "4", "47.03", "3.01"],
-          ["Residuals", "250.40", "?", "15.65", ""]
+          [
+            "Strategy",
+            "188.10",
+            "4",
+            "47.03",
+            "3.01"
+          ],
+          [
+            "Residuals",
+            "250.40",
+            "?",
+            "15.65",
+            ""
+          ]
         ]
       }
     },
@@ -771,10 +1145,28 @@
       "explanation": "df_session = SS_session / MS_session = 98.50 / 49.25 = 2",
       "jaspTable": {
         "title": "Table 6 - Within Subjects Effects",
-        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"],
+        "headers": [
+          "Cases",
+          "Sum of Squares",
+          "df",
+          "Mean Square",
+          "F"
+        ],
         "rows": [
-          ["Session", "98.50", "?", "49.25", "4.55"],
-          ["Residuals", "324.50", "30", "10.82", ""]
+          [
+            "Session",
+            "98.50",
+            "?",
+            "49.25",
+            "4.55"
+          ],
+          [
+            "Residuals",
+            "324.50",
+            "30",
+            "10.82",
+            ""
+          ]
         ]
       }
     },
@@ -792,10 +1184,28 @@
       "explanation": "MS_task = SS_task / df_task = 351.28 / 4 = 87.82",
       "jaspTable": {
         "title": "Table 7 - Within Subjects Effects",
-        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"],
+        "headers": [
+          "Cases",
+          "Sum of Squares",
+          "df",
+          "Mean Square",
+          "F"
+        ],
         "rows": [
-          ["Task", "351.28", "4", "?", "12.76"],
-          ["Residuals", "192.56", "28", "6.88", ""]
+          [
+            "Task",
+            "351.28",
+            "4",
+            "?",
+            "12.76"
+          ],
+          [
+            "Residuals",
+            "192.56",
+            "28",
+            "6.88",
+            ""
+          ]
         ]
       }
     },
@@ -829,15 +1239,6 @@
       "id": 55,
       "section": "Calculation Questions",
       "question": "An analysis yields df_conditions = 3 and df_residual = 44. How many participants were in the study?",
-      "options": [
-        "12",
-        "11",
-        "45",
-        "15"
-      ],
-      "correctAnswer": "A",
-      "explanation": "k = df_conditions + 1 = 3 + 1 = 4. df_residual = (n-1)(k-1) -> 44 = (n-1)(4-1) -> 44 = (n-1)*3 -> n-1 = 14.67 (Rounding suggests an error in question premise, but if forced, closest is not the way. Let's re-engineer. Let n=12. k=4. df_res = (11)(3)=33. Let n=15, k=4, df_res = 14*3=42. Let's assume k=5, df_cond=4. df_res = (n-1)(4). No. Let's re-engineer for a clean number. Let n=12, k=5. df_cond=4. df_res = 11*4=44. So k=5. Participants = 12.",
-      "explanation": "Number of conditions (k) = df_conditions + 1 = 3 + 1 = 4. The formula is df_residual = (n-1)(k-1). So, 44 = (n-1)(4-1), which means 44 = (n-1) * 3. This gives n-1 = 14.67, which is not possible. Let's re-examine the df. If we assume df_conditions=4, then k=5. Then 44 = (n-1)(5-1) -> 44 = (n-1)*4 -> n-1=11 -> n=12. We assume df_conditions was meant to be 4.",
       "options": [
         "12",
         "15",
@@ -913,10 +1314,28 @@
       "explanation": "η²p = SS_Condition / (SS_Condition + SS_Residuals) = 45.8 / (45.8 + 191.2) = 45.8 / 237 = 0.193",
       "jaspTable": {
         "title": "Table 8 - Within Subjects Effects",
-        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"],
+        "headers": [
+          "Cases",
+          "Sum of Squares",
+          "df",
+          "Mean Square",
+          "F"
+        ],
         "rows": [
-          ["Condition", "45.8", "2", "22.9", "4.08"],
-          ["Residuals", "191.2", "34", "5.62", ""]
+          [
+            "Condition",
+            "45.8",
+            "2",
+            "22.9",
+            "4.08"
+          ],
+          [
+            "Residuals",
+            "191.2",
+            "34",
+            "5.62",
+            ""
+          ]
         ]
       }
     },
@@ -934,33 +1353,34 @@
       "explanation": "k = df_cond + 1 = 2+1=3. df_res = (n-1)(k-1) -> 34 = (n-1)(2) -> 17=n-1 -> n=18.",
       "jaspTable": {
         "title": "Table 8 - Within Subjects Effects",
-        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"],
+        "headers": [
+          "Cases",
+          "Sum of Squares",
+          "df",
+          "Mean Square",
+          "F"
+        ],
         "rows": [
-          ["Condition", "45.8", "2", "22.9", "4.08"],
-          ["Residuals", "191.2", "34", "5.62", ""]
+          [
+            "Condition",
+            "45.8",
+            "2",
+            "22.9",
+            "4.08"
+          ],
+          [
+            "Residuals",
+            "191.2",
+            "34",
+            "5.62",
+            ""
+          ]
         ]
       }
     },
     {
       "id": 62,
       "section": "Calculation Questions",
-      "question": "What is the missing SS_Residuals in Table 9?",
-      "options": [
-        "180.6",
-        "90.3",
-        "28.5",
-        "85.5"
-      ],
-      "correctAnswer": "A",
-      "explanation": "First find MS_res = MS_cond / F = 90.3 / 3.17 = 28.5. Then SS_res = MS_res * df_res = 28.5 * 6.34 (This implies correction). Let's assume no correction. A different way: let's assume the F is correct. MS_res = 90.3/3.17 = 28.48. Then SS_res = 28.48 * df_res. We don't have df_res. Something is missing. Let's assume we must calculate df_res. We have 10 participants and 4 conditions. df_cond=3. df_res = (10-1)(4-1) = 9*3 = 27.  Now SS_res = MS_res * 27 = 28.48 * 27 = 769. So the table must be self-contained. Let's try to work backwards. If SS_Res = 180.6, then MS_Res = 180.6 / df_res. F = 90.3 / (180.6/df_res) = (90.3 * df_res)/180.6 = 0.5 * df_res. So F = 0.5 * df_res. If F=3.17, df_res = 6.34. This is a corrected df. Let's assume a simpler path.  Maybe F is missing and we need to calculate it. Let's recalculate the problem to be solvable.  Let's have df_res be calculable. 10 P's, 4 conditions. df_cond=3, df_res=27. Let SS_cond = 270.9. MS_cond = 90.3. Let SS_res = 769.5. MS_res=28.5. F = 90.3/28.5 = 3.17. So we need to find SS_res given df_res and MS_res. Let's provide those. Let's change the question.  Okay, let's keep the table as is and assume there is a way. F = MS_c / MS_r. MS_r = MS_c / F = 90.3 / 3.17 = 28.48. If SS_Res is 180.6, then df_res = SS_res / MS_res = 180.6 / 28.48 = 6.34. This must be a corrected df. There is no other way. So we have to trust the F and MS_cond. MS_res = 28.48. Now, which SS_res gives us that? We need df_res. Let's re-read the provided material. The user said calculations don't need to be clean. This looks like a corrected DF. The only way to find SS_res is if we have MS_res and df_res. Let's assume the df_res is missing and needs to be calculated from n and k. Let's say n=10 and k=4. df_res = 27. Then MS_res = MS_cond / F = 90.3 / 3.17 = 28.5. Then SS_res = 28.5 * 27 = 769.5. Okay, I'll re-write this question to be solvable. Let's provide df_res.",
-      "jaspTable": {
-        "title": "Table 9 - Within Subjects Effects",
-        "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"],
-        "rows": [
-          ["Treatment", "270.9", "3", "90.3", "3.17"],
-          ["Residuals", "?", "27", "28.5", ""]
-        ]
-      },
       "question": "What is the missing Sum of Squares for the Residuals in Table 9, assuming MS_Residual is 28.5?",
       "options": [
         "769.5",
@@ -969,7 +1389,33 @@
         "257.4"
       ],
       "correctAnswer": "A",
-      "explanation": "SS_Residuals = MS_Residuals * df_Residuals = 28.5 * 27 = 769.5."
+      "explanation": "SS_Residuals = MS_Residuals * df_Residuals = 28.5 * 27 = 769.5.",
+      "jaspTable": {
+        "title": "Table 9 - Within Subjects Effects",
+        "headers": [
+          "Cases",
+          "Sum of Squares",
+          "df",
+          "Mean Square",
+          "F"
+        ],
+        "rows": [
+          [
+            "Treatment",
+            "270.9",
+            "3",
+            "90.3",
+            "3.17"
+          ],
+          [
+            "Residuals",
+            "?",
+            "27",
+            "28.5",
+            ""
+          ]
+        ]
+      }
     },
     {
       "id": 63,
@@ -982,21 +1428,7 @@
         "Cannot be determined."
       ],
       "correctAnswer": "A",
-      "explanation": "First, find SS_within-conditions = SS_total - SS_conditions = 1200 - 300 = 900.  This is wrong. The formula is NOT SS_total = SS_cond + SS_subj + SS_res. The formula is SS_total = SS_cond + SS_within, and SS_within = SS_subj + SS_res. This is also not quite right. Let's check the source material. Ah, the partitioning is Total = Between-Subjects (not condition) + Within-Subjects. And Within-Subjects is partitioned into Condition + Residual. No, that's not right either. Let's look at the slides. Slide 8: `SSerror = SSw - SSsubjects`. Slide 10: `SSwithin-conditions`. Slide 12: `SSresiduals = SSwithin-conditions - SSbetween-subjects`. Slide 13: `SSbetween-conditions`.  Okay, the terms are being used interchangeably. Let's stick to the clearest formulation: The total variance *within subjects* (SS_within_total) is partitioned into the effect (SS_conditions) and the error (SS_residual). The variability *between subjects* (SS_subjects) is separate. The total variance (SS_Total) = SS_conditions + SS_residual + SS_subjects. So, SS_residual = SS_Total - SS_conditions - SS_subjects = 1200 - 300 - 400 = 500.",
       "explanation": "The total sum of squares can be partitioned into three components: the effect of the condition, the effect of the subjects, and the residual error. SS_Total = SS_conditions + SS_subjects + SS_residual. Therefore, SS_residual = 1200 - 300 - 400 = 500."
-    },
-    {
-      "id": 64,
-      "section": "Calculation Questions",
-      "question": "An ANOVA yields η²p = 0.45 and SS_residual = 110. What is SS_conditions?",
-      "options": [
-        "90",
-        "49.5",
-        "244.4",
-        "60.5"
-      ],
-      "correctAnswer": "A",
-      "explanation": "η²p = SS_cond / (SS_cond + SS_res) -> 0.45 = x / (x + 110) -> 0.45(x + 110) = x -> 0.45x + 49.5 = x -> 49.5 = 0.55x -> x = 49.5 / 0.55 = 90."
     },
     {
       "id": 65,
@@ -1011,60 +1443,681 @@
       "correctAnswer": "B",
       "explanation": "df_residual = df_conditions * df_subjects = 2 * 9 = 18. This is also (k-1)(n-1) where k=3 and n=10."
     },
-    { "id": 66, "section": "Calculation Questions", "question": "What is the missing F-ratio in Table 10?", "options": ["4.33", "0.23", "9.78", "7.52"], "correctAnswer": "C", "explanation": "F = MS_Condition / MS_Residuals = 55.48 / 5.67 = 9.78", "jaspTable": {"title": "Table 10", "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"], "rows": [["Condition", "166.44", "3", "55.48", "?"], ["Residuals", "249.48", "44", "5.67", ""]]} },
-    { "id": 67, "section": "Calculation Questions", "question": "What is the missing MS for Condition in Table 11?", "options": ["34.55", "11.52", "69.10", "138.20"], "correctAnswer": "B", "explanation": "MS_Condition = SS_Condition / df_Condition = 34.55 / 3 = 11.52", "jaspTable": {"title": "Table 11", "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"], "rows": [["Condition", "34.55", "3", "?", "1.89"], ["Residuals", "317.94", "52", "6.11", ""]]} },
-    { "id": 68, "section": "Calculation Questions", "question": "What is the missing SS for Residuals in Table 12?", "options": ["222.11", "12.34", "6.55", "444.22"], "correctAnswer": "D", "explanation": "SS_Residuals = MS_Residuals * df_Residuals = 12.34 * 36 = 444.24", "jaspTable": {"title": "Table 12", "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"], "rows": [["Condition", "81.45", "2", "40.73", "3.30"], ["Residuals", "?", "36", "12.34", ""]]} },
-    { "id": 69, "section": "Calculation Questions", "question": "What is the missing SS for Condition in Table 13?", "options": ["120.9", "60.45", "40.30", "28.7"], "correctAnswer": "A", "explanation": "MS_Condition = F * MS_Residuals = 4.21 * 14.36 = 60.45. SS_Condition = MS_Condition * df_Condition = 60.45 * 2 = 120.9", "jaspTable": {"title": "Table 13", "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"], "rows": [["Condition", "?", "2", "60.45", "4.21"], ["Residuals", "401.99", "28", "14.36", ""]]} },
-    { "id": 70, "section": "Calculation Questions", "question": "What is the missing df for Residuals in Table 14?", "options": ["40", "42", "21", "2"], "correctAnswer": "A", "explanation": "df_Residuals = SS_Residuals / MS_Residuals = 502.4 / 12.56 = 40", "jaspTable": {"title": "Table 14", "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"], "rows": [["Condition", "100.8", "2", "50.4", "4.01"], ["Residuals", "502.4", "?", "12.56", ""]]} },
-    { "id": 71, "section": "Calculation Questions", "question": "What is the missing df for Condition in Table 15?", "options": ["2", "3", "4", "5"], "correctAnswer": "B", "explanation": "df_Condition = SS_Condition / MS_Condition = 221.7 / 73.9 = 3", "jaspTable": {"title": "Table 15", "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"], "rows": [["Condition", "221.7", "?", "73.9", "8.22"], ["Residuals", "431.5", "48", "8.99", ""]]} },
-    { "id": 72, "section": "Calculation Questions", "question": "What is the missing MS for Residuals in Table 16?", "options": ["11.19", "40", "279.75", "25.0"], "correctAnswer": "A", "explanation": "MS_Residuals = SS_Residuals / df_Residuals = 447.6 / 40 = 11.19", "jaspTable": {"title": "Table 16", "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"], "rows": [["Condition", "165.2", "4", "41.3", "3.69"], ["Residuals", "447.6", "40", "?", ""]]} },
-    { "id": 73, "section": "Calculation Questions", "question": "What is the missing F-ratio in Table 17?", "options": ["1.88", "0.53", "14.71", "7.82"], "correctAnswer": "A", "explanation": "F = MS_Condition / MS_Residuals = 14.71 / 7.82 = 1.88", "jaspTable": {"title": "Table 17", "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"], "rows": [["Condition", "29.42", "2", "14.71", "?"], ["Residuals", "297.16", "38", "7.82", ""]]} },
-    { "id": 74, "section": "Calculation Questions", "question": "Calculate the partial eta-squared (η²p) from Table 10.", "options": ["0.40", "0.23", "0.67", "0.19"], "correctAnswer": "D", "explanation": "η²p = SS_Condition / (SS_Condition + SS_Residuals) = 55.48 / (55.48 + 249.48) is wrong.  η²p = SS_Condition / (SS_Condition + SS_Residuals) = 166.44 / (166.44 + 249.48) = 166.44 / 415.92 = 0.400",
-      "options": ["0.40", "0.23", "0.67", "0.19"],
+    {
+      "id": 66,
+      "section": "Calculation Questions",
+      "question": "What is the missing F-ratio in Table 10?",
+      "options": [
+        "4.33",
+        "0.23",
+        "9.78",
+        "7.52"
+      ],
+      "correctAnswer": "C",
+      "explanation": "F = MS_Condition / MS_Residuals = 55.48 / 5.67 = 9.78",
+      "jaspTable": {
+        "title": "Table 10",
+        "headers": [
+          "Cases",
+          "Sum of Squares",
+          "df",
+          "Mean Square",
+          "F"
+        ],
+        "rows": [
+          [
+            "Condition",
+            "166.44",
+            "3",
+            "55.48",
+            "?"
+          ],
+          [
+            "Residuals",
+            "249.48",
+            "44",
+            "5.67",
+            ""
+          ]
+        ]
+      }
+    },
+    {
+      "id": 67,
+      "section": "Calculation Questions",
+      "question": "What is the missing MS for Condition in Table 11?",
+      "options": [
+        "34.55",
+        "11.52",
+        "69.10",
+        "138.20"
+      ],
+      "correctAnswer": "B",
+      "explanation": "MS_Condition = SS_Condition / df_Condition = 34.55 / 3 = 11.52",
+      "jaspTable": {
+        "title": "Table 11",
+        "headers": [
+          "Cases",
+          "Sum of Squares",
+          "df",
+          "Mean Square",
+          "F"
+        ],
+        "rows": [
+          [
+            "Condition",
+            "34.55",
+            "3",
+            "?",
+            "1.89"
+          ],
+          [
+            "Residuals",
+            "317.94",
+            "52",
+            "6.11",
+            ""
+          ]
+        ]
+      }
+    },
+    {
+      "id": 68,
+      "section": "Calculation Questions",
+      "question": "What is the missing SS for Residuals in Table 12?",
+      "options": [
+        "222.11",
+        "12.34",
+        "6.55",
+        "444.22"
+      ],
+      "correctAnswer": "D",
+      "explanation": "SS_Residuals = MS_Residuals * df_Residuals = 12.34 * 36 = 444.24",
+      "jaspTable": {
+        "title": "Table 12",
+        "headers": [
+          "Cases",
+          "Sum of Squares",
+          "df",
+          "Mean Square",
+          "F"
+        ],
+        "rows": [
+          [
+            "Condition",
+            "81.45",
+            "2",
+            "40.73",
+            "3.30"
+          ],
+          [
+            "Residuals",
+            "?",
+            "36",
+            "12.34",
+            ""
+          ]
+        ]
+      }
+    },
+    {
+      "id": 69,
+      "section": "Calculation Questions",
+      "question": "What is the missing SS for Condition in Table 13?",
+      "options": [
+        "120.9",
+        "60.45",
+        "40.30",
+        "28.7"
+      ],
+      "correctAnswer": "A",
+      "explanation": "MS_Condition = F * MS_Residuals = 4.21 * 14.36 = 60.45. SS_Condition = MS_Condition * df_Condition = 60.45 * 2 = 120.9",
+      "jaspTable": {
+        "title": "Table 13",
+        "headers": [
+          "Cases",
+          "Sum of Squares",
+          "df",
+          "Mean Square",
+          "F"
+        ],
+        "rows": [
+          [
+            "Condition",
+            "?",
+            "2",
+            "60.45",
+            "4.21"
+          ],
+          [
+            "Residuals",
+            "401.99",
+            "28",
+            "14.36",
+            ""
+          ]
+        ]
+      }
+    },
+    {
+      "id": 70,
+      "section": "Calculation Questions",
+      "question": "What is the missing df for Residuals in Table 14?",
+      "options": [
+        "40",
+        "42",
+        "21",
+        "2"
+      ],
+      "correctAnswer": "A",
+      "explanation": "df_Residuals = SS_Residuals / MS_Residuals = 502.4 / 12.56 = 40",
+      "jaspTable": {
+        "title": "Table 14",
+        "headers": [
+          "Cases",
+          "Sum of Squares",
+          "df",
+          "Mean Square",
+          "F"
+        ],
+        "rows": [
+          [
+            "Condition",
+            "100.8",
+            "2",
+            "50.4",
+            "4.01"
+          ],
+          [
+            "Residuals",
+            "502.4",
+            "?",
+            "12.56",
+            ""
+          ]
+        ]
+      }
+    },
+    {
+      "id": 71,
+      "section": "Calculation Questions",
+      "question": "What is the missing df for Condition in Table 15?",
+      "options": [
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "correctAnswer": "B",
+      "explanation": "df_Condition = SS_Condition / MS_Condition = 221.7 / 73.9 = 3",
+      "jaspTable": {
+        "title": "Table 15",
+        "headers": [
+          "Cases",
+          "Sum of Squares",
+          "df",
+          "Mean Square",
+          "F"
+        ],
+        "rows": [
+          [
+            "Condition",
+            "221.7",
+            "?",
+            "73.9",
+            "8.22"
+          ],
+          [
+            "Residuals",
+            "431.5",
+            "48",
+            "8.99",
+            ""
+          ]
+        ]
+      }
+    },
+    {
+      "id": 72,
+      "section": "Calculation Questions",
+      "question": "What is the missing MS for Residuals in Table 16?",
+      "options": [
+        "11.19",
+        "40",
+        "279.75",
+        "25.0"
+      ],
+      "correctAnswer": "A",
+      "explanation": "MS_Residuals = SS_Residuals / df_Residuals = 447.6 / 40 = 11.19",
+      "jaspTable": {
+        "title": "Table 16",
+        "headers": [
+          "Cases",
+          "Sum of Squares",
+          "df",
+          "Mean Square",
+          "F"
+        ],
+        "rows": [
+          [
+            "Condition",
+            "165.2",
+            "4",
+            "41.3",
+            "3.69"
+          ],
+          [
+            "Residuals",
+            "447.6",
+            "40",
+            "?",
+            ""
+          ]
+        ]
+      }
+    },
+    {
+      "id": 73,
+      "section": "Calculation Questions",
+      "question": "What is the missing F-ratio in Table 17?",
+      "options": [
+        "1.88",
+        "0.53",
+        "14.71",
+        "7.82"
+      ],
+      "correctAnswer": "A",
+      "explanation": "F = MS_Condition / MS_Residuals = 14.71 / 7.82 = 1.88",
+      "jaspTable": {
+        "title": "Table 17",
+        "headers": [
+          "Cases",
+          "Sum of Squares",
+          "df",
+          "Mean Square",
+          "F"
+        ],
+        "rows": [
+          [
+            "Condition",
+            "29.42",
+            "2",
+            "14.71",
+            "?"
+          ],
+          [
+            "Residuals",
+            "297.16",
+            "38",
+            "7.82",
+            ""
+          ]
+        ]
+      }
+    },
+    {
+      "id": 74,
+      "section": "Calculation Questions",
+      "question": "Calculate the partial eta-squared (η²p) from Table 10.",
+      "options": [
+        "0.40",
+        "0.23",
+        "0.67",
+        "0.19"
+      ],
       "correctAnswer": "A",
       "explanation": "η²p = SS_Condition / (SS_Condition + SS_Residuals) = 166.44 / (166.44 + 249.48) = 166.44 / 415.92 = 0.400.",
-      "jaspTable": {"title": "Table 10", "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"], "rows": [["Condition", "166.44", "3", "55.48", "9.78"], ["Residuals", "249.48", "44", "5.67", ""]]}
+      "jaspTable": {
+        "title": "Table 10",
+        "headers": [
+          "Cases",
+          "Sum of Squares",
+          "df",
+          "Mean Square",
+          "F"
+        ],
+        "rows": [
+          [
+            "Condition",
+            "166.44",
+            "3",
+            "55.48",
+            "9.78"
+          ],
+          [
+            "Residuals",
+            "249.48",
+            "44",
+            "5.67",
+            ""
+          ]
+        ]
+      }
     },
-    { "id": 75, "section": "Calculation Questions", "question": "In Table 11, how many participants were in the study?", "options": ["13", "14", "18", "19"], "correctAnswer": "D", "explanation": "k=df_cond+1=4. df_res=(n-1)(k-1) -> 52=(n-1)(3) -> n-1=17.33. Error. Re-engineer. Let k=5, df=4. 52=(n-1)(4) -> n-1=13 -> n=14. Let k=3, df=2. 52=(n-1)(2) -> n-1=26 -> n=27. Let's assume df_condition is 3. Then k=4. df_res=(n-1)(k-1) -> 52=(n-1)(3) -> n-1=17.33. Let's assume the df_res is wrong and should be 51. Then 51=(n-1)(3) -> n-1=17 -> n=18.",
-      "question": "In Table 11, if there were 4 conditions, how many participants were there?",
-      "options": ["18", "19", "27", "17"],
-      "correctAnswer": "B",
-      "explanation": "k = 4. df_conditions = 3. df_residual = (n-1)(k-1) -> 52 = (n-1)(3) -> n-1 = 17.33, which is impossible. Let's assume there are 18 participants. df_res = (17)(3) = 51. Let's assume 19 participants. df_res = (18)(3)=54. Let's assume df_res is 54. Then MS_res=317.94/54=5.88.  The numbers in the table must be taken as given, even if they lead to non-integer participants. But that's a bad question. I will fix the table. Let df_res = 51, n=18. MS_res=317.94/51=6.23. F=11.52/6.23=1.85. Ok, I'll generate a solvable table.",
-       "jaspTable": {"title": "Table 11 Fixed", "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"], "rows": [["Condition", "34.56", "3", "11.52", "1.85"], ["Residuals", "317.82", "51", "6.23", ""]]},
+    {
+      "id": 75,
+      "section": "Calculation Questions",
       "question": "Using the fixed Table 11, how many participants were there?",
-      "options": ["17", "18", "51", "52"],
+      "options": [
+        "17",
+        "18",
+        "51",
+        "52"
+      ],
       "correctAnswer": "B",
-      "explanation": "k=df_cond+1=4. df_res=(n-1)(k-1) -> 51=(n-1)(3) -> n-1=17 -> n=18."
+      "explanation": "k=df_cond+1=4. df_res=(n-1)(k-1) -> 51=(n-1)(3) -> n-1=17 -> n=18.",
+      "jaspTable": {
+        "title": "Table 11 Fixed",
+        "headers": [
+          "Cases",
+          "Sum of Squares",
+          "df",
+          "Mean Square",
+          "F"
+        ],
+        "rows": [
+          [
+            "Condition",
+            "34.56",
+            "3",
+            "11.52",
+            "1.85"
+          ],
+          [
+            "Residuals",
+            "317.82",
+            "51",
+            "6.23",
+            ""
+          ]
+        ]
+      }
     },
-    { "id": 76, "section": "Calculation Questions", "question": "In Table 12, how many conditions were there?", "options": ["2", "3", "36", "19"], "correctAnswer": "B", "explanation": "k = df_Condition + 1 = 2 + 1 = 3.", "jaspTable": {"title": "Table 12", "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F"], "rows": [["Condition", "81.45", "2", "40.73", "3.30"], ["Residuals", "444.24", "36", "12.34", ""]]} },
-    { "id": 77, "section": "Calculation Questions", "question": "A repeated-measures ANOVA has SS_conditions = 210 and η²p = 0.35. What is SS_residual?", "options": ["390", "113", "600", "73.5"], "correctAnswer": "A", "explanation": "0.35 = 210 / (210 + x) -> 0.35(210 + x) = 210 -> 73.5 + 0.35x = 210 -> 0.35x = 136.5 -> x = 390." },
-    { "id": 78, "section": "Calculation Questions", "question": "If SS_within-conditions = 1500 and SS_residual = 900, what is SS_subjects?", "options": ["2400", "1.67", "600", "Cannot be determined."], "correctAnswer": "C", "explanation": "SS_subjects = SS_within-conditions - SS_residual = 1500 - 900 = 600." },
-    { "id": 79, "section": "Calculation Questions", "question": "A study with 25 participants tests them across 3 conditions. What are the total within-subject degrees of freedom (df_within_total)?", "options": ["24", "48", "72", "74"], "correctAnswer": "D", "explanation": "This is a tricky one. The df for SS_within_total = n*k - 1 = (25*3)-1=74. No, that's df_total.  The df for SS_within-conditions is n(k-1) = 25(2) = 50. Let's use that. The term is ambiguous. Let's ask for df_total = n*k -1 = 75-1=74. OR, more simply, let's stick to the main components. df_cond=2, df_subj=24, df_res=2*24=48.",
-      "question": "A study with 25 participants tests them across 3 conditions. What are the df for conditions, subjects, and residual?",
-      "options": ["df=(2, 24, 48)", "df=(3, 25, 50)", "df=(2, 25, 48)", "df=(3, 24, 72)"],
+    {
+      "id": 76,
+      "section": "Calculation Questions",
+      "question": "In Table 12, how many conditions were there?",
+      "options": [
+        "2",
+        "3",
+        "36",
+        "19"
+      ],
+      "correctAnswer": "B",
+      "explanation": "k = df_Condition + 1 = 2 + 1 = 3.",
+      "jaspTable": {
+        "title": "Table 12",
+        "headers": [
+          "Cases",
+          "Sum of Squares",
+          "df",
+          "Mean Square",
+          "F"
+        ],
+        "rows": [
+          [
+            "Condition",
+            "81.45",
+            "2",
+            "40.73",
+            "3.30"
+          ],
+          [
+            "Residuals",
+            "444.24",
+            "36",
+            "12.34",
+            ""
+          ]
+        ]
+      }
+    },
+    {
+      "id": 78,
+      "section": "Calculation Questions",
+      "question": "If SS_within-conditions = 1500 and SS_residual = 900, what is SS_subjects?",
+      "options": [
+        "2400",
+        "1.67",
+        "600",
+        "Cannot be determined."
+      ],
+      "correctAnswer": "C",
+      "explanation": "SS_subjects = SS_within-conditions - SS_residual = 1500 - 900 = 600."
+    },
+    {
+      "id": 80,
+      "section": "Calculation Questions",
+      "question": "If MS_conditions = 75.5 and df_conditions = 3, what is SS_conditions?",
+      "options": [
+        "226.5",
+        "25.17",
+        "72.5",
+        "78.5"
+      ],
       "correctAnswer": "A",
-      "explanation": "df_conditions = k-1 = 2. df_subjects = n-1 = 24. df_residual = (k-1)(n-1) = 2*24=48."
+      "explanation": "SS_conditions = MS_conditions * df_conditions = 75.5 * 3 = 226.5."
     },
-    { "id": 80, "section": "Calculation Questions", "question": "If MS_conditions = 75.5 and df_conditions = 3, what is SS_conditions?", "options": ["226.5", "25.17", "72.5", "78.5"], "correctAnswer": "A", "explanation": "SS_conditions = MS_conditions * df_conditions = 75.5 * 3 = 226.5." },
-    { "id": 81, "section": "Calculation Questions", "question": "If SS_residual = 950.8 and df_residual = 46, what is MS_residual?", "options": ["20.67", "46", "904.8", "0.05"], "correctAnswer": "A", "explanation": "MS_residual = SS_residual / df_residual = 950.8 / 46 = 20.67." },
-    { "id": 82, "section": "Calculation Questions", "question": "An F-test is reported as F(3, 63) = 5.11. How many conditions were there?", "options": ["3", "4", "63", "22"], "correctAnswer": "B", "explanation": "Number of conditions k = df_conditions + 1 = 3 + 1 = 4." },
-    { "id": 83, "section": "Calculation Questions", "question": "An F-test is reported as F(3, 63) = 5.11. How many participants were there?", "options": ["21", "22", "64", "66"], "correctAnswer": "B", "explanation": "k=4. df_res = (n-1)(k-1) -> 63 = (n-1)(3) -> n-1 = 21 -> n = 22." },
-    { "id": 84, "section": "Calculation Questions", "question": "If MS_residual is 10.5 and SS_residual is 420, what is df_residual?", "options": ["40", "4410", "0.025", "39.5"], "correctAnswer": "A", "explanation": "df_residual = SS_residual / MS_residual = 420 / 10.5 = 40." },
-    { "id": 85, "section": "Calculation Questions", "question": "A study has SS_conditions=120, SS_subjects=300, SS_residual=420. What is η²p?", "options": ["0.222", "0.136", "0.400", "0.286"], "correctAnswer": "A", "explanation": "η²p = SS_conditions / (SS_conditions + SS_residual) = 120 / (120 + 420) = 120 / 540 = 0.222." },
-    { "id": 86, "section": "Calculation Questions", "question": "If SS_subjects = 450.5 and df_subjects = 15, what is MS_subjects?", "options": ["30.03", "15", "435.5", "6757.5"], "correctAnswer": "A", "explanation": "MS_subjects = SS_subjects / df_subjects = 450.5 / 15 = 30.03. Note: MS_subjects is not used in the F-ratio calculation but is a component of understanding the variance partitioning." },
-    { "id": 87, "section": "Calculation Questions", "question": "A study has 12 participants and 6 conditions. df_residual is:", "options": ["66", "11", "5", "55"], "correctAnswer": "D", "explanation": "df_residual = (n-1)(k-1) = (12-1)(6-1) = 11 * 5 = 55." },
-    { "id": 88, "section": "Calculation Questions", "question": "MS_conditions = 45.1, MS_residual = 12.8. F=?", "options": ["0.28", "3.52", "32.3", "57.9"], "correctAnswer": "B", "explanation": "F = MS_conditions / MS_residual = 45.1 / 12.8 = 3.52." },
-    { "id": 89, "section": "Calculation Questions", "question": "SS_conditions = 95.4, df_conditions = 2. MS_conditions = ?", "options": ["47.7", "190.8", "93.4", "97.4"], "correctAnswer": "A", "explanation": "MS_conditions = SS_conditions / df_conditions = 95.4 / 2 = 47.7." },
-    { "id": 90, "section": "Calculation Questions", "question": "SS_residual = 455.1, df_residual = 35. MS_residual = ?", "options": ["13.00", "15928.5", "0.08", "35"], "correctAnswer": "A", "explanation": "MS_residual = SS_residual / df_residual = 455.1 / 35 = 13.00." },
-    { "id": 91, "section": "Calculation Questions", "question": "An F-test is reported as F(5, 75) = 2.50. How many participants were there?", "options": ["15", "16", "76", "81"], "correctAnswer": "B", "explanation": "k=6. df_res = (n-1)(k-1) -> 75 = (n-1)(5) -> n-1 = 15 -> n=16." },
-    { "id": 92, "section": "Calculation Questions", "question": "SS_conditions = 180, SS_residual = 540. What is η²p?", "options": ["0.333", "0.250", "0.500", "3.00"], "correctAnswer": "B", "explanation": "η²p = SS_conditions / (SS_conditions + SS_residual) = 180 / (180 + 540) = 180 / 720 = 0.250." },
-    { "id": 93, "section": "Calculation Questions", "question": "df_conditions = 3, df_residual = 99. The study had 4 conditions. How many participants?", "options": ["33", "34", "100", "103"], "correctAnswer": "B", "explanation": "k=4. df_res = (n-1)(k-1) -> 99 = (n-1)(3) -> n-1 = 33 -> n=34." },
-    { "id": 94, "section": "Calculation Questions", "question": "df_subjects = 20, df_conditions = 4. What is df_residual?", "options": ["24", "16", "80", "100"], "correctAnswer": "C", "explanation": "df_residual = df_subjects * df_conditions = 20 * 4 = 80." },
-    { "id": 95, "section": "Calculation Questions", "question": "MS_conditions=121.2, F=11.1. MS_residual=?", "options": ["10.92", "1345.32", "110.1", "0.09"], "correctAnswer": "A", "explanation": "MS_residual = MS_conditions / F = 121.2 / 11.1 = 10.92." },
-    { "id": 96, "section": "Calculation Questions", "question": "SS_conditions=50, η²p=0.20. What is SS_residual?", "options": ["250", "10", "200", "40"], "correctAnswer": "C", "explanation": "0.20 = 50 / (50 + x) -> 10 + 0.2x = 50 -> 0.2x = 40 -> x=200." },
-    { "id": 97, "section": "Calculation Questions", "question": "A study with 50 participants has df_residual=196. How many conditions were there?", "options": ["4", "5", "6", "7"], "correctAnswer": "B", "explanation": "n=50. df_res = (n-1)(k-1) -> 196 = (49)(k-1) -> k-1 = 4 -> k=5." },
-    { "id": 98, "section": "Calculation Questions", "question": "SS_total=2000, SS_subjects=800, SS_residual=700. What is SS_conditions?", "options": ["500", "100", "1500", "2100"], "correctAnswer": "A", "explanation": "SS_conditions = SS_total - SS_subjects - SS_residual = 2000 - 800 - 700 = 500." },
-    { "id": 99, "section": "Calculation Questions", "question": "A Greenhouse-Geisser corrected result is F(1.5, 25.5) = 4.8. The original uncorrected degrees of freedom were (3, 51). What was the epsilon (ε) value?", "options": ["0.50", "2.00", "0.75", "0.65"], "correctAnswer": "A", "explanation": "Epsilon is the multiplier for the df. corrected_df = original_df * ε. So, 1.5 = 3 * ε -> ε = 0.5. Checking the other df: 25.5 = 51 * ε -> ε = 0.5. The value is 0.50." },
-    { "id": 100, "section": "Calculation Questions", "question": "If SS_within-conditions = 980 and SS_subjects = 430, what is SS_residual?", "options": ["1410", "550", "2.28", "Cannot be determined."], "correctAnswer": "B", "explanation": "SS_residual = SS_within-conditions - SS_subjects = 980 - 430 = 550." }
+    {
+      "id": 81,
+      "section": "Calculation Questions",
+      "question": "If SS_residual = 950.8 and df_residual = 46, what is MS_residual?",
+      "options": [
+        "20.67",
+        "46",
+        "904.8",
+        "0.05"
+      ],
+      "correctAnswer": "A",
+      "explanation": "MS_residual = SS_residual / df_residual = 950.8 / 46 = 20.67."
+    },
+    {
+      "id": 82,
+      "section": "Calculation Questions",
+      "question": "An F-test is reported as F(3, 63) = 5.11. How many conditions were there?",
+      "options": [
+        "3",
+        "4",
+        "63",
+        "22"
+      ],
+      "correctAnswer": "B",
+      "explanation": "Number of conditions k = df_conditions + 1 = 3 + 1 = 4."
+    },
+    {
+      "id": 83,
+      "section": "Calculation Questions",
+      "question": "An F-test is reported as F(3, 63) = 5.11. How many participants were there?",
+      "options": [
+        "21",
+        "22",
+        "64",
+        "66"
+      ],
+      "correctAnswer": "B",
+      "explanation": "k=4. df_res = (n-1)(k-1) -> 63 = (n-1)(3) -> n-1 = 21 -> n = 22."
+    },
+    {
+      "id": 84,
+      "section": "Calculation Questions",
+      "question": "If MS_residual is 10.5 and SS_residual is 420, what is df_residual?",
+      "options": [
+        "40",
+        "4410",
+        "0.025",
+        "39.5"
+      ],
+      "correctAnswer": "A",
+      "explanation": "df_residual = SS_residual / MS_residual = 420 / 10.5 = 40."
+    },
+    {
+      "id": 86,
+      "section": "Calculation Questions",
+      "question": "If SS_subjects = 450.5 and df_subjects = 15, what is MS_subjects?",
+      "options": [
+        "30.03",
+        "15",
+        "435.5",
+        "6757.5"
+      ],
+      "correctAnswer": "A",
+      "explanation": "MS_subjects = SS_subjects / df_subjects = 450.5 / 15 = 30.03. Note: MS_subjects is not used in the F-ratio calculation but is a component of understanding the variance partitioning."
+    },
+    {
+      "id": 87,
+      "section": "Calculation Questions",
+      "question": "A study has 12 participants and 6 conditions. df_residual is:",
+      "options": [
+        "66",
+        "11",
+        "5",
+        "55"
+      ],
+      "correctAnswer": "D",
+      "explanation": "df_residual = (n-1)(k-1) = (12-1)(6-1) = 11 * 5 = 55."
+    },
+    {
+      "id": 88,
+      "section": "Calculation Questions",
+      "question": "MS_conditions = 45.1, MS_residual = 12.8. F=?",
+      "options": [
+        "0.28",
+        "3.52",
+        "32.3",
+        "57.9"
+      ],
+      "correctAnswer": "B",
+      "explanation": "F = MS_conditions / MS_residual = 45.1 / 12.8 = 3.52."
+    },
+    {
+      "id": 89,
+      "section": "Calculation Questions",
+      "question": "SS_conditions = 95.4, df_conditions = 2. MS_conditions = ?",
+      "options": [
+        "47.7",
+        "190.8",
+        "93.4",
+        "97.4"
+      ],
+      "correctAnswer": "A",
+      "explanation": "MS_conditions = SS_conditions / df_conditions = 95.4 / 2 = 47.7."
+    },
+    {
+      "id": 90,
+      "section": "Calculation Questions",
+      "question": "SS_residual = 455.1, df_residual = 35. MS_residual = ?",
+      "options": [
+        "13.00",
+        "15928.5",
+        "0.08",
+        "35"
+      ],
+      "correctAnswer": "A",
+      "explanation": "MS_residual = SS_residual / df_residual = 455.1 / 35 = 13.00."
+    },
+    {
+      "id": 92,
+      "section": "Calculation Questions",
+      "question": "SS_conditions = 180, SS_residual = 540. What is η²p?",
+      "options": [
+        "0.333",
+        "0.250",
+        "0.500",
+        "3.00"
+      ],
+      "correctAnswer": "B",
+      "explanation": "η²p = SS_conditions / (SS_conditions + SS_residual) = 180 / (180 + 540) = 180 / 720 = 0.250."
+    },
+    {
+      "id": 93,
+      "section": "Calculation Questions",
+      "question": "df_conditions = 3, df_residual = 99. The study had 4 conditions. How many participants?",
+      "options": [
+        "33",
+        "34",
+        "100",
+        "103"
+      ],
+      "correctAnswer": "B",
+      "explanation": "k=4. df_res = (n-1)(k-1) -> 99 = (n-1)(3) -> n-1 = 33 -> n=34."
+    },
+    {
+      "id": 94,
+      "section": "Calculation Questions",
+      "question": "df_subjects = 20, df_conditions = 4. What is df_residual?",
+      "options": [
+        "24",
+        "16",
+        "80",
+        "100"
+      ],
+      "correctAnswer": "C",
+      "explanation": "df_residual = df_subjects * df_conditions = 20 * 4 = 80."
+    },
+    {
+      "id": 95,
+      "section": "Calculation Questions",
+      "question": "MS_conditions=121.2, F=11.1. MS_residual=?",
+      "options": [
+        "10.92",
+        "1345.32",
+        "110.1",
+        "0.09"
+      ],
+      "correctAnswer": "A",
+      "explanation": "MS_residual = MS_conditions / F = 121.2 / 11.1 = 10.92."
+    },
+    {
+      "id": 96,
+      "section": "Calculation Questions",
+      "question": "SS_conditions=50, η²p=0.20. What is SS_residual?",
+      "options": [
+        "250",
+        "10",
+        "200",
+        "40"
+      ],
+      "correctAnswer": "C",
+      "explanation": "0.20 = 50 / (50 + x) -> 10 + 0.2x = 50 -> 0.2x = 40 -> x=200."
+    },
+    {
+      "id": 97,
+      "section": "Calculation Questions",
+      "question": "A study with 50 participants has df_residual=196. How many conditions were there?",
+      "options": [
+        "4",
+        "5",
+        "6",
+        "7"
+      ],
+      "correctAnswer": "B",
+      "explanation": "n=50. df_res = (n-1)(k-1) -> 196 = (49)(k-1) -> k-1 = 4 -> k=5."
+    },
+    {
+      "id": 98,
+      "section": "Calculation Questions",
+      "question": "SS_total=2000, SS_subjects=800, SS_residual=700. What is SS_conditions?",
+      "options": [
+        "500",
+        "100",
+        "1500",
+        "2100"
+      ],
+      "correctAnswer": "A",
+      "explanation": "SS_conditions = SS_total - SS_subjects - SS_residual = 2000 - 800 - 700 = 500."
+    },
+    {
+      "id": 100,
+      "section": "Calculation Questions",
+      "question": "If SS_within-conditions = 980 and SS_subjects = 430, what is SS_residual?",
+      "options": [
+        "1410",
+        "550",
+        "2.28",
+        "Cannot be determined."
+      ],
+      "correctAnswer": "B",
+      "explanation": "SS_residual = SS_within-conditions - SS_subjects = 980 - 430 = 550."
+    }
   ]
 }

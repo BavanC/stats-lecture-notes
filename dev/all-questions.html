@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All ANOVA Questions Validation</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .correct-answer {
+            background-color: #d1fae5;
+            border: 2px solid #10b981;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen p-6">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl font-bold mb-6 text-center">All ANOVA Questions Validation</h1>
+        <div class="mb-4 flex justify-end">
+            <button id="downloadChangesBtn" class="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700">Download Changes</button>
+        </div>
+        <div class="flex flex-col md:flex-row gap-4 mb-8 justify-center">
+            <div>
+                <label for="anovaType" class="block text-sm font-medium text-gray-700 mb-1">ANOVA Type</label>
+                <select id="anovaType" class="p-2 border border-gray-300 rounded-md w-full">
+                    <option value="independent">Independent ANOVA</option>
+                    <option value="repeated">Repeated-Measures ANOVA</option>
+                    <option value="followup">Follow-Up Tests</option>
+                </select>
+            </div>
+            <div>
+                <label for="section" class="block text-sm font-medium text-gray-700 mb-1">Section</label>
+                <select id="section" class="p-2 border border-gray-300 rounded-md w-full">
+                    <option value="all">All Sections</option>
+                </select>
+            </div>
+        </div>
+        <div id="questionsContainer" class="space-y-8"></div>
+    </div>
+    <script>
+        // File paths
+        const files = {
+            independent: '../resources/ANOVA_1/independent-anova-questions.json',
+            repeated: '../resources/ANOVA_1/questions_one-way-repeated-anovas.json',
+            followup: '../resources/ANOVA_1/questions-follow_up_tests.json'
+        };
+        let allQuestions = { independent: [], repeated: [], followup: [] };
+        let sections = { independent: new Set(), repeated: new Set(), followup: new Set() };
+        let changes = [];
+        const fileMap = {
+            independent: 'resources/ANOVA_1/independent-anova-questions.json',
+            repeated: 'resources/ANOVA_1/questions_one-way-repeated-anovas.json',
+            followup: 'resources/ANOVA_1/questions-follow_up_tests.json'
+        };
+
+        async function loadQuestions() {
+            for (const type of ['independent', 'repeated', 'followup']) {
+                const res = await fetch(files[type]);
+                const data = await res.json();
+                allQuestions[type] = data.questions;
+                data.questions.forEach(q => sections[type].add(q.section));
+            }
+        }
+
+        function populateSections(type) {
+            const sectionSelect = document.getElementById('section');
+            sectionSelect.innerHTML = '<option value="all">All Sections</option>';
+            Array.from(sections[type]).forEach(section => {
+                const opt = document.createElement('option');
+                opt.value = section;
+                opt.textContent = section;
+                sectionSelect.appendChild(opt);
+            });
+        }
+
+        function renderQuestions(type, section) {
+            const container = document.getElementById('questionsContainer');
+            let questions = allQuestions[type];
+            if (section !== 'all') {
+                questions = questions.filter(q => q.section === section);
+            }
+            container.innerHTML = '';
+            if (questions.length === 0) {
+                container.innerHTML = '<div class="text-center text-gray-500">No questions found for this filter.</div>';
+                return;
+            }
+            function createJaspTable(tableData) {
+                if (!tableData) return '';
+                // Support both single and multiple tables (for some follow-up questions)
+                if (Array.isArray(tableData.tables)) {
+                    return tableData.tables.map(t => createJaspTable(t)).join('');
+                }
+                return `
+                    <div class="jasp-table my-4">
+                        <h5 class="font-sans font-bold text-lg mb-2 text-gray-700">${tableData.title || tableData.name || ''}</h5>
+                        <table class="w-full border-collapse">
+                            <thead>
+                                <tr>
+                                    ${(tableData.headers || []).map(header => `<th class="table-cell text-left">${header}</th>`).join('')}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${(tableData.rows || []).map(row => `
+                                    <tr>
+                                        ${row.map(cell => `<td class="table-cell text-left">${cell}</td>`).join('')}
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            }
+            questions.forEach((q, idx) => {
+                const qDiv = document.createElement('div');
+                qDiv.className = 'bg-white p-6 rounded-lg shadow';
+                qDiv.innerHTML = `
+                    <div class="mb-2 flex flex-wrap gap-2 items-center">
+                        <span class="inline-block bg-gray-100 text-gray-800 text-xs font-medium px-2 py-1 rounded">${q.section}</span>
+                        <span class="inline-block bg-blue-100 text-blue-800 text-xs font-medium px-2 py-1 rounded">${type === 'independent' ? 'Independent ANOVA' : type === 'repeated' ? 'Repeated-Measures ANOVA' : 'Follow-Up Tests'}</span>
+                        <span class="inline-block bg-gray-200 text-gray-700 text-xs font-mono px-2 py-1 rounded">ID: ${q.id}</span>
+                        <button class="edit-btn ml-2 bg-yellow-400 hover:bg-yellow-500 text-xs px-2 py-1 rounded" data-qid="${q.id}" data-type="${type}">Edit</button>
+                        <button class="delete-btn ml-2 bg-red-500 hover:bg-red-600 text-xs px-2 py-1 rounded text-white" data-qid="${q.id}" data-type="${type}">Delete</button>
+                    </div>
+                    <div class="mb-3">
+                        <span class="font-semibold">Q${idx + 1}:</span> ${q.question}
+                    </div>
+                    ${q.jaspTable ? createJaspTable(q.jaspTable) : ''}
+                    <div class="mb-3 space-y-1">
+                        ${q.options.map((opt, i) => {
+                            const letter = String.fromCharCode(65 + i);
+                            const isCorrect = letter === q.correctAnswer;
+                            return `<div class="p-2 rounded border ${isCorrect ? 'correct-answer' : 'border-gray-200'} flex items-center">
+                                <span class="font-bold mr-2">${letter})</span> <span>${opt}</span>
+                            </div>`;
+                        }).join('')}
+                    </div>
+                    <div class="bg-blue-50 p-3 rounded">
+                        <span class="text-sm text-blue-800"><strong>Explanation:</strong> ${q.explanation}</span>
+                    </div>
+                `;
+                container.appendChild(qDiv);
+            });
+
+            // Add edit/delete event listeners
+            container.querySelectorAll('.edit-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const qid = this.getAttribute('data-qid');
+                    const qtype = this.getAttribute('data-type');
+                    const question = allQuestions[qtype].find(qq => String(qq.id) === String(qid));
+                    showEditDialog(qtype, qid, question);
+                });
+            });
+            container.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const qid = this.getAttribute('data-qid');
+                    const qtype = this.getAttribute('data-type');
+                    if (confirm('Are you sure you want to DELETE this question (ID: ' + qid + ')? This will be saved as a change for later.')) {
+                        changes.push({
+                            file: fileMap[qtype],
+                            id: qid,
+                            action: 'delete'
+                        });
+                        // Remove from UI
+                        this.closest('.bg-white').remove();
+                    }
+                });
+            });
+        }
+
+        // Edit dialog logic
+        function showEditDialog(type, id, question) {
+            // Modal overlay
+            let modal = document.createElement('div');
+            modal.style.position = 'fixed';
+            modal.style.top = 0;
+            modal.style.left = 0;
+            modal.style.width = '100vw';
+            modal.style.height = '100vh';
+            modal.style.background = 'rgba(0,0,0,0.3)';
+            modal.style.zIndex = 1000;
+            modal.innerHTML = `
+                <div style="max-width:700px;margin:5vh auto;background:white;padding:2rem;border-radius:1rem;box-shadow:0 2px 16px #0002;">
+                    <h2 class="text-xl font-bold mb-2">Edit Question (ID: ${id})</h2>
+                    <textarea id="editJsonArea" style="width:100%;height:300px;font-family:monospace;font-size:1em;">${JSON.stringify(question, null, 2)}</textarea>
+                    <div class="mt-4 flex justify-end gap-2">
+                        <button id="cancelEditBtn" class="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400">Cancel</button>
+                        <button id="saveEditBtn" class="px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700">Save</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            document.getElementById('cancelEditBtn').onclick = () => modal.remove();
+            document.getElementById('saveEditBtn').onclick = () => {
+                if (!confirm('Are you sure you want to save this edit? This will be saved as a change for later.')) return;
+                let newData;
+                try {
+                    newData = JSON.parse(document.getElementById('editJsonArea').value);
+                } catch (e) {
+                    alert('Invalid JSON!');
+                    return;
+                }
+                changes.push({
+                    file: fileMap[type],
+                    id: id,
+                    action: 'edit',
+                    newData: newData
+                });
+                modal.remove();
+            };
+        }
+
+        // Download changes logic
+        document.getElementById('downloadChangesBtn').addEventListener('click', function() {
+            if (changes.length === 0) {
+                alert('No changes to download!');
+                return;
+            }
+            const blob = new Blob([JSON.stringify(changes, null, 2)], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'question_changes.json';
+            document.body.appendChild(a);
+            a.click();
+            setTimeout(() => {
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }, 100);
+        });
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            await loadQuestions();
+            populateSections('independent');
+            renderQuestions('independent', 'all');
+
+            document.getElementById('anovaType').addEventListener('change', e => {
+                const type = e.target.value;
+                populateSections(type);
+                renderQuestions(type, 'all');
+            });
+            document.getElementById('section').addEventListener('change', e => {
+                const type = document.getElementById('anovaType').value;
+                const section = e.target.value;
+                renderQuestions(type, section);
+            });
+        });
+    </script>
+</body>
+</html> 
