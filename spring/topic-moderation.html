@@ -210,14 +210,14 @@
         }
         /* Glossary Styles */
         .glossary-term {
-            color: #facc15; /* amber-400 */
+            border-bottom: 1px dotted #888;
+            text-decoration: none;
+            color: inherit;
+            cursor: help;
             font-weight: 600;
-            cursor: pointer;
-            text-decoration: underline;
-            text-decoration-style: dotted;
         }
         .glossary-term:hover {
-            color: #fef08a; /* amber-200 */
+            border-bottom: 1px solid #aaa;
         }
 
         /* Glossary Popup Styling */
@@ -295,7 +295,7 @@
             <!-- Section 1: Defining Moderation -->
             <section id="definition" class="mb-12">
                 <h2 class="text-2xl md:text-3xl font-bold border-b-2 pb-2 mb-4">What is Moderation?</h2>
-                <p class="mb-4">In regression, we often want to know more than just whether one variable predicts another. We want to know <em>under what conditions</em> that prediction holds true. This is where moderation comes in.</p>
+                <p class="mb-4">In <span class="glossary-term" data-term-id="regression">regression</span>, we often want to know more than just whether one variable predicts another. We want to know <em>under what conditions</em> that prediction holds true. This is where moderation comes in.</p>
                 <div class="p-4 rounded-lg info-box">
                     <p class="text-lg">A <strong>moderator</strong> is a variable that changes the strength or direction of the relationship between a predictor (IV) and an outcome (DV).</p>
                 </div>
@@ -410,7 +410,7 @@
                                     <thead class="text-xs"><tr><th class="px-4 py-2">Model</th><th class="px-4 py-2">R</th><th class="px-4 py-2">R²</th><th class="px-4 py-2">Adjusted R²</th><th class="px-4 py-2">RMSE</th></tr></thead>
                                     <tbody>
                                         <tr class="border-t border-gray-700"><td class="px-4 py-2">H₀</td><td class="px-4 py-2">0.000</td><td class="px-4 py-2">0.000</td><td class="px-4 py-2">0.000</td><td class="px-4 py-2">5.779</td></tr>
-                                        <tr class="border-t border-gray-700"><td class="px-4 py-2"><span class="interactive-cell" onclick="showExplanation(this, 'h1_line')">H₁</span></td><td class="px-4 py-2"><span class="interactive-cell" onclick="showExplanation(this, 'r_value')">0.405</span></td><td class="px-4 py-2"><span class="interactive-cell" onclick="showExplanation(this, 'r_squared')">0.164</span></td><td class="px-4 py-2">0.147</td><td class="px-4 py-2">5.336</td></tr>
+                                        <tr class="border-t border-gray-700"><td class="px-4 py-2"><span class="glossary-term" data-term-id="regression">H₁</span></td><td class="px-4 py-2"><span class="glossary-term" data-term-id="r_value">0.405</span></td><td class="px-4 py-2"><span class="glossary-term" data-term-id="r_squared">0.164</span></td><td class="px-4 py-2">0.147</td><td class="px-4 py-2">5.336</td></tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -439,7 +439,7 @@
                                     <thead class="text-xs"><tr><th class="px-4 py-2">Model</th><th class="px-4 py-2"></th><th class="px-4 py-2">Unstandardized</th><th class="px-4 py-2">Standard Error</th><th class="px-4 py-2">Standardized</th><th class="px-4 py-2">t</th><th class="px-4 py-2">p</th></tr></thead>
                                     <tbody>
                                         <tr class="border-t border-gray-700"><td class="px-4 py-2">H₁</td><td class="px-4 py-2">(Intercept)</td><td class="px-4 py-2">-4.956</td><td class="px-4 py-2">2.963</td><td class="px-4 py-2"></td><td class="px-4 py-2">-1.673</td><td class="px-4 py-2">0.101</td></tr>
-                                        <tr class="border-t border-gray-700"><td></td><td class="px-4 py-2">MAS</td><td class="px-4 py-2">0.158</td><td class="px-4 py-2">0.051</td><td class="px-4 py-2"><span class="interactive-cell" onclick="showExplanation(this, 'std_beta')">0.405</span></td><td class="px-4 py-2">3.129</td><td class="px-4 py-2">0.003</td></tr>
+                                        <tr class="border-t border-gray-700"><td></td><td class="px-4 py-2">MAS</td><td class="px-4 py-2">0.158</td><td class="px-4 py-2">0.051</td><td class="px-4 py-2"><span class="glossary-term" data-term-id="std_beta">0.405</span></td><td class="px-4 py-2">3.129</td><td class="px-4 py-2">0.003</td></tr>
                                     </tbody>
                                 </table>
                             </div>
