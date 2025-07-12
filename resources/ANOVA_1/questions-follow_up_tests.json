@@ -1,0 +1,803 @@
+{
+  "title": "Planned Comparisons and Post-Hoc Tests Questions",
+  "description": "A set of 40 multiple-choice questions covering the concepts, interpretation, and application of planned comparisons and post-hoc tests in ANOVA.",
+  "questions": [
+    {
+      "id": 1,
+      "section": "Conceptual Understanding",
+      "question": "Why are follow-up tests such as planned comparisons or post-hoc tests necessary after a significant one-way ANOVA?",
+      "options": [
+        "To check if the assumption of homogeneity of variance has been met.",
+        "To calculate the effect size (partial eta-squared) for the overall model.",
+        "Because the ANOVA is an omnibus test and does not specify which particular group means are different from each other.",
+        "They are only necessary if the ANOVA result is not significant, to see if any smaller differences exist."
+      ],
+      "correctAnswer": "C",
+      "explanation": "A significant ANOVA F-ratio is an 'omnibus' result, indicating that a difference exists somewhere among the groups, but it doesn't identify the specific pairs of groups that differ. Follow-up tests are required for this."
+    },
+    {
+      "id": 2,
+      "section": "Conceptual Understanding",
+      "question": "Under which circumstance should a researcher use planned comparisons instead of post-hoc tests?",
+      "options": [
+        "When the researcher has no specific hypotheses and wants to explore all possible group differences.",
+        "When the initial ANOVA F-test is not significant.",
+        "When the researcher has specific, theory-driven hypotheses about which groups should differ before the experiment is run.",
+        "When the data violates the assumption of normality."
+      ],
+      "correctAnswer": "C",
+      "explanation": "Planned comparisons (contrasts) are used to test a small number of specific hypotheses that were formulated *before* data collection, based on theory or prior research."
+    },
+    {
+      "id": 3,
+      "section": "Conceptual Understanding",
+      "question": "Which type of follow-up test is generally considered more statistically powerful?",
+      "options": [
+        "Post-hoc tests",
+        "Planned comparisons",
+        "Levene's test",
+        "They both have equal statistical power."
+      ],
+      "correctAnswer": "B",
+      "explanation": "Planned comparisons are more powerful because they focus the statistical test on a specific hypothesis, whereas post-hoc tests spread the statistical power across all possible comparisons, making them more conservative."
+    },
+    {
+      "id": 4,
+      "section": "Conceptual Understanding",
+      "question": "Post-hoc tests like the Bonferroni correction are designed to control for what specific problem?",
+      "options": [
+        "A decrease in statistical power.",
+        "The inflation of the familywise error rate (increased risk of a Type I error).",
+        "Violations of the assumption of sphericity.",
+        "Forgetting to counterbalance the experimental conditions."
+      ],
+      "correctAnswer": "B",
+      "explanation": "Conducting multiple comparisons increases the probability of making at least one Type I error (a false positive). Post-hoc corrections adjust the p-value for each comparison to keep the overall (familywise) error rate at a specified level (e.g., .05)."
+    },
+    {
+      "id": 5,
+      "section": "Conceptual Understanding",
+      "question": "What is the most important rule to follow before conducting any follow-up tests?",
+      "options": [
+        "The groups must have equal sample sizes.",
+        "The initial F-ratio from the omnibus ANOVA must be statistically significant.",
+        "The data must be perfectly normally distributed.",
+        "You must have at least five groups to compare."
+      ],
+      "correctAnswer": "B",
+      "explanation": "Follow-up tests are only justified if the overall ANOVA indicates that there is a significant difference to be found among the groups. If the F-ratio is not significant, any differences found in follow-up tests are likely due to chance."
+    },
+    {
+      "id": 6,
+      "section": "Conceptual Understanding",
+      "question": "When setting up weights for a planned contrast, which of the following rules must be followed?",
+      "options": [
+        "The sum of the weights must equal 1.",
+        "All weights must be positive.",
+        "The sum of the weights for a given contrast must equal 0.",
+        "Every group must be assigned a non-zero weight."
+      ],
+      "correctAnswer": "C",
+      "explanation": "A fundamental rule of contrasts is that the weights (coefficients) assigned to the groups for any single contrast must sum to zero. This ensures a meaningful comparison is being made."
+    },
+    {
+      "id": 7,
+      "section": "Conceptual Understanding",
+      "question": "In a planned contrast, if a group is assigned a weight of 0, what does this signify?",
+      "options": [
+        "This group is the primary group being tested.",
+        "This group's mean is expected to be zero.",
+        "A calculation error has been made.",
+        "This group is not included in this specific comparison."
+      ],
+      "correctAnswer": "D",
+      "explanation": "Assigning a weight of 0 effectively removes that group from the specific hypothesis being tested by that contrast. Groups with positive weights are compared against groups with negative weights."
+    },
+    {
+      "id": 8,
+      "section": "Conceptual Understanding",
+      "question": "Which type of follow-up test compares every possible pair of group means?",
+      "options": [
+        "Planned comparisons",
+        "Post-hoc tests",
+        "The omnibus F-test",
+        "Levene's test"
+      ],
+      "correctAnswer": "B",
+      "explanation": "Post-hoc tests are designed for exploratory analysis where the researcher wants to compare every group with every other group to discover where significant differences might exist."
+    },
+    {
+      "id": 9,
+      "section": "Conceptual Understanding",
+      "question": "A researcher compares a control group, a group receiving Therapy A, and a group receiving Therapy B. A contrast is set up with weights: Control = -2, Therapy A = +1, Therapy B = +1. What hypothesis is this contrast testing?",
+      "options": [
+        "Is Therapy A more effective than Therapy B?",
+        "Is the control group different from Therapy A?",
+        "Is there any difference between the three groups?",
+        "Are the two therapy groups, on average, different from the control group?"
+      ],
+      "correctAnswer": "D",
+      "explanation": "This contrast pools the two therapy groups (both have positive weights) and compares their combined mean against the control group (which has a negative weight)."
+    },
+    {
+      "id": 10,
+      "section": "Conceptual Understanding",
+      "question": "Why is it generally considered better practice to use planned comparisons over post-hoc tests if you have strong a priori hypotheses?",
+      "options": [
+        "Because planned comparisons are easier to calculate by hand.",
+        "Because they are more powerful and directly test your theory, which is a more rigorous scientific approach.",
+        "Because post-hoc tests can only be used with large sample sizes.",
+        "Because JASP and SPSS cannot perform post-hoc tests correctly."
+      ],
+      "correctAnswer": "B",
+      "explanation": "Using planned comparisons demonstrates that you had a clear theoretical reason for your experiment. They are also more statistically powerful, making it more likely you'll find a true effect if one exists."
+    },
+    {
+      "id": 11,
+      "section": "JASP Interpretation",
+      "question": "Based on the Post Hoc Comparisons table for the drug trial, what can be concluded about the effectiveness of Anxifree compared to the placebo?",
+      "options": [
+        "Anxifree was significantly more effective than the placebo.",
+        "There was no statistically significant difference between Anxifree and the placebo.",
+        "The placebo was significantly more effective than Anxifree.",
+        "The mean difference was exactly zero."
+      ],
+      "correctAnswer": "B",
+      "explanation": "The comparison between 'anxifree' and 'placebo' has a p-value (p_bonf) of .451. Since this is greater than the typical alpha level of .05, we conclude there is no statistically significant difference.",
+      "jaspTable": {
+        "title": "Post Hoc Comparisons - drug (Bonferroni Correction)",
+        "headers": ["", "", "Mean Difference", "SE", "t", "p_bonf"],
+        "rows": [
+          ["anxifree", "joyzepam", "-0.767", "0.176", "-4.360", ".002"],
+          ["", "placebo", "0.267", "0.176", "1.516", ".451"],
+          ["joyzepam", "placebo", "1.033", "0.176", "5.876", "<.001"]
+        ]
+      }
+    },
+    {
+      "id": 12,
+      "section": "JASP Interpretation",
+      "question": "In the drug trial Post Hoc table, which comparison showed the largest significant difference in mood gain?",
+      "options": [
+        "Anxifree vs. Joyzepam",
+        "Anxifree vs. Placebo",
+        "Joyzepam vs. Placebo",
+        "All comparisons were equally significant."
+      ],
+      "correctAnswer": "C",
+      "explanation": "The 'joyzepam' vs. 'placebo' comparison has the largest Mean Difference (1.033), the largest t-statistic (5.876), and the smallest p-value (<.001), indicating the most robust difference.",
+      "jaspTable": {
+        "title": "Post Hoc Comparisons - drug (Bonferroni Correction)",
+        "headers": ["", "", "Mean Difference", "SE", "t", "p_bonf"],
+        "rows": [
+          ["anxifree", "joyzepam", "-0.767", "0.176", "-4.360", ".002"],
+          ["", "placebo", "0.267", "0.176", "1.516", ".451"],
+          ["joyzepam", "placebo", "1.033", "0.176", "5.876", "<.001"]
+        ]
+      }
+    },
+    {
+      "id": 13,
+      "section": "JASP Interpretation",
+      "question": "Looking at the Planned Comparisons table for the drug trial, what was the t-statistic for the comparison between Joyzepam and Anxifree?",
+      "options": [
+        "0.767",
+        "0.176",
+        "15",
+        "4.360"
+      ],
+      "correctAnswer": "D",
+      "explanation": "The table shows two comparisons. Comparison 2 compares Joyzepam vs. Anxifree, and the t-statistic in that row is 4.360.",
+      "jaspTable": {
+        "title": "Contrast Tables - Drug Trial",
+        "headers": ["Comparison", "Estimate", "SE", "df", "t", "p"],
+        "rows": [
+          ["1 (Drug vs Placebo)", "1.300", "0.305", "15", "4.268", "<.001"],
+          ["2 (Joyzepam vs Anxifree)", "0.767", "0.176", "15", "4.360", "<.001"]
+        ]
+      }
+    },
+    {
+      "id": 14,
+      "section": "JASP Interpretation",
+      "question": "Which of the following is the correct APA-style report for Contrast 2 (Joyzepam vs. Anxifree) from the drug trial's Planned Comparisons?",
+      "options": [
+        "A planned contrast revealed a significant difference, t(15) = 4.360, p < .001.",
+        "A planned contrast revealed a significant difference, F(1, 15) = 4.360, p < .001.",
+        "A planned contrast revealed no significant difference, t(15) = 0.767, p < .001.",
+        "A planned contrast revealed a significant difference, t(2) = 4.360, p < .001."
+      ],
+      "correctAnswer": "A",
+      "explanation": "The correct format is statistic(df) = value, p = value. The table provides t, df=15, t-value=4.360, and p < .001. Option A correctly assembles these components.",
+      "jaspTable": {
+        "title": "Contrast Tables - Drug Trial",
+        "headers": ["Comparison", "Estimate", "SE", "df", "t", "p"],
+        "rows": [
+          ["1 (Drug vs Placebo)", "1.300", "0.305", "15", "4.268", "<.001"],
+          ["2 (Joyzepam vs Anxifree)", "0.767", "0.176", "15", "4.360", "<.001"]
+        ]
+      }
+    },
+    {
+      "id": 15,
+      "section": "JASP Interpretation",
+      "question": "What is the main conclusion from the Planned Comparisons conducted on the caffeine study data?",
+      "options": [
+        "Adding caffeine had no effect, and the level of caffeine did not matter.",
+        "Adding caffeine significantly improved liking ratings, but a high dose was not significantly better than a low dose.",
+        "A high dose of caffeine was significantly better than a low dose, but adding caffeine in general had no effect.",
+        "Both contrasts were non-significant, so no conclusions can be drawn."
+      ],
+      "correctAnswer": "B",
+      "explanation": "Contrast 1 (Any caffeine vs. No caffeine) is significant (p = .029). Contrast 2 (High vs. Low dose) is not significant (p = .065). This supports the conclusion in option B.",
+      "jaspTable": {
+        "title": "Contrast Tables - Caffeine Study",
+        "headers": ["Comparison", "Estimate", "SE", "df", "t", "p"],
+        "rows": [
+          ["1 (Any vs No Caffeine)", "-3.800", "1.536", "12", "-2.474", ".029"],
+          ["2 (Low vs High Caffeine)", "-1.800", "0.887", "12", "-2.029", ".065"]
+        ]
+      }
+    },
+    {
+      "id": 16,
+      "section": "JASP Interpretation",
+      "question": "In the caffeine study, if the researchers had used an alpha level of .10 instead of .05, how would the interpretation of Contrast 2 change?",
+      "options": [
+        "It would still be non-significant.",
+        "It would become statistically significant.",
+        "The t-value would increase.",
+        "The degrees of freedom would change."
+      ],
+      "correctAnswer": "B",
+      "explanation": "The p-value for Contrast 2 is .065. While this is not less than .05, it is less than .10. Therefore, changing the alpha level to .10 would make this result statistically significant.",
+      "jaspTable": {
+        "title": "Contrast Tables - Caffeine Study",
+        "headers": ["Comparison", "Estimate", "SE", "df", "t", "p"],
+        "rows": [
+          ["1 (Any vs No Caffeine)", "-3.800", "1.536", "12", "-2.474", ".029"],
+          ["2 (Low vs High Caffeine)", "-1.800", "0.887", "12", "-2.029", ".065"]
+        ]
+      }
+    },
+    {
+      "id": 17,
+      "section": "JASP Interpretation",
+      "question": "Based on the post-hoc tests for the caffeine study, which statement accurately summarizes the findings?",
+      "options": [
+        "All three groups were significantly different from each other.",
+        "No groups were significantly different from each other.",
+        "Drinks with high caffeine were rated significantly higher than no-caffeine drinks, but no other differences were found.",
+        "Drinks with low caffeine were rated significantly higher than no-caffeine drinks."
+      ],
+      "correctAnswer": "C",
+      "explanation": "Only the comparison between 'No' caffeine and 'High' caffeine has a p-value (p_bonf) less than .05 (p = .025). All other comparisons are non-significant.",
+      "jaspTable": {
+        "title": "Post Hoc Results (Bonferroni) - Caffeine Study",
+        "headers": ["", "", "Mean Difference", "SE", "t", "p_bonf"],
+        "rows": [
+          ["No", "Low", "-1.000", "0.887", "-1.127", ".845"],
+          ["", "High", "-2.800", "0.887", "-3.157", ".025"],
+          ["Low", "High", "-1.800", "0.887", "-2.029", ".196"]
+        ]
+      }
+    },
+    {
+      "id": 18,
+      "section": "JASP Interpretation",
+      "question": "Why are the p-values for the planned comparisons in the caffeine study generally lower than the p-values for the post-hoc tests (e.g., Low vs High is p=.065 in one and p=.196 in the other)?",
+      "options": [
+        "This is just a random coincidence.",
+        "The post-hoc tests use a Bonferroni correction for multiple comparisons, making them more conservative (harder to get a significant result).",
+        "The planned comparisons had a larger sample size.",
+        "The t-values were accidentally switched between the tables."
+      ],
+      "correctAnswer": "B",
+      "explanation": "This illustrates the power difference. Planned comparisons test a specific hypothesis without penalty. Post-hoc tests test all pairs and apply a correction (like Bonferroni), which adjusts the p-values upwards to control for Type I error, making the test more conservative.",
+      "jaspTable": {
+          "title": "Comparison of Caffeine Study Results",
+          "tables": [
+              { "name": "Planned Contrast (Low vs High)", "headers": ["Estimate", "t", "p"], "rows": [["-1.800", "-2.029", ".065"]] },
+              { "name": "Post Hoc (Low vs High)", "headers": ["Mean Diff", "t", "p_bonf"], "rows": [["-1.800", "-2.029", ".196"]] }
+          ]
+      }
+    },
+    {
+      "id": 19,
+      "section": "JASP Interpretation",
+      "question": "Which of the following is the most accurate write-up of the Post-Hoc tests for the drug trial?",
+      "options": [
+        "Post-hoc tests showed that all three drug groups were significantly different from each other.",
+        "Post-hoc tests (Bonferroni) showed Joyzepam was significantly better than Anxifree (p=.002) and the placebo (p<.001), but there was no difference between Anxifree and the placebo (p=.451).",
+        "Post-hoc tests showed that Anxifree was significantly better than the placebo (p=.451).",
+        "Post-hoc tests showed no significant differences between any of the groups."
+      ],
+      "correctAnswer": "B",
+      "explanation": "This statement accurately summarizes all three pairwise comparisons and their p-values from the Bonferroni-corrected post-hoc test table, correctly identifying which are significant and which are not.",
+      "jaspTable": {
+        "title": "Post Hoc Comparisons - drug (Bonferroni Correction)",
+        "headers": ["", "", "Mean Difference", "SE", "t", "p_bonf"],
+        "rows": [
+          ["anxifree", "joyzepam", "-0.767", "0.176", "-4.360", ".002"],
+          ["", "placebo", "0.267", "0.176", "1.516", ".451"],
+          ["joyzepam", "placebo", "1.033", "0.176", "5.876", "<.001"]
+        ]
+      }
+    },
+    {
+      "id": 20,
+      "section": "JASP Interpretation",
+      "question": "A researcher is interested in whether 'Cognitive Behavioral Therapy' (CBT) is more effective than both 'Humanistic Therapy' and a 'Waitlist' control. They run an ANOVA which is significant, F(2, 42) = 6.81, p = .003. They run the planned contrast below. What can they conclude?",
+      "options": [
+        "CBT is not significantly more effective than the other two conditions combined.",
+        "CBT is significantly more effective than the other two conditions combined.",
+        "The comparison between Humanistic and Waitlist was significant.",
+        "The t-statistic for the contrast is 2.500."
+      ],
+      "correctAnswer": "B",
+      "explanation": "The contrast compares CBT (weight +2) against the other two groups (weights -1 each). The p-value for this contrast is .002, which is less than .05. Therefore, the conclusion is that CBT is significantly more effective.",
+      "jaspTable": {
+          "title": "Planned Contrast - Therapy Effectiveness",
+          "tables": [
+              {
+                "name": "Custom Contrast Coefficients", "headers": ["Group", "Contrast 1"],
+                "rows": [["CBT", "2"], ["Humanistic", "-1"], ["Waitlist", "-1"]]
+              },
+              {
+                "name": "Contrast Test Results", "headers": ["Comparison", "Estimate", "SE", "df", "t", "p"],
+                "rows": [["1", "2.500", "0.812", "42", "3.079", ".002"]]
+              }
+          ]
+      }
+    },
+    {
+      "id": 21,
+      "section": "JASP Interpretation",
+      "question": "Based on the therapy effectiveness contrast, how should the result be reported in APA style?",
+      "options": [
+        "F(1, 42) = 3.079, p = .002",
+        "t(42) = 2.500, p = .002",
+        "t(42) = 3.079, p = .002",
+        "t(2) = 3.079, p = .002"
+      ],
+      "correctAnswer": "C",
+      "explanation": "The correct format is statistic(df) = value, p = value. The table provides t, df=42, t-value=3.079, and p = .002. Option C correctly combines these values.",
+      "jaspTable": {
+          "title": "Planned Contrast - Therapy Effectiveness",
+          "tables": [
+              {
+                "name": "Custom Contrast Coefficients", "headers": ["Group", "Contrast 1"],
+                "rows": [["CBT", "2"], ["Humanistic", "-1"], ["Waitlist", "-1"]]
+              },
+              {
+                "name": "Contrast Test Results", "headers": ["Comparison", "Estimate", "SE", "df", "t", "p"],
+                "rows": [["1", "2.500", "0.812", "42", "3.079", ".002"]]
+              }
+          ]
+      }
+    },
+    {
+      "id": 22,
+      "section": "JASP Interpretation",
+      "question": "A study compared test scores for students using one of three study methods: 'Cramming', 'Spaced Practice', and 'Self-Testing'. A significant ANOVA was followed by the post-hoc tests below. Which statement is FALSE?",
+      "options": [
+        "Self-Testing led to significantly higher scores than Cramming.",
+        "Spaced Practice led to significantly higher scores than Cramming.",
+        "There was no significant difference between Spaced Practice and Self-Testing.",
+        "Cramming was significantly more effective than Self-Testing."
+      ],
+      "correctAnswer": "D",
+      "explanation": "The comparison between 'cramming' and 'self-testing' shows a mean difference of -12.500 and a p-value of .001. This means Self-Testing was significantly better than Cramming, making statement D false.",
+      "jaspTable": {
+        "title": "Post Hoc Comparisons - study_method (Bonferroni Correction)",
+        "headers": ["", "", "Mean Difference", "SE", "t", "p_bonf"],
+        "rows": [
+          ["cramming", "spaced_practice", "-8.250", "2.115", "-3.801", ".004"],
+          ["", "self_testing", "-12.500", "2.115", "-5.909", ".001"],
+          ["spaced_practice", "self_testing", "-4.250", "2.115", "-2.009", ".165"]
+        ]
+      }
+    },
+    {
+      "id": 23,
+      "section": "JASP Interpretation",
+      "question": "In the study method post-hoc tests, what does the 'Mean Difference' of -8.250 for the 'cramming' vs 'spaced_practice' comparison represent?",
+      "options": [
+        "The p-value for the comparison.",
+        "The score for the 'cramming' group minus the score for the 'spaced_practice' group.",
+        "The t-statistic for the comparison.",
+        "The standard error of the difference."
+      ],
+      "correctAnswer": "B",
+      "explanation": "The Mean Difference is calculated as the mean of the first group listed (cramming) minus the mean of the second group (spaced_practice). The negative value indicates the second group had a higher mean.",
+      "jaspTable": {
+        "title": "Post Hoc Comparisons - study_method (Bonferroni Correction)",
+        "headers": ["", "", "Mean Difference", "SE", "t", "p_bonf"],
+        "rows": [
+          ["cramming", "spaced_practice", "-8.250", "2.115", "-3.801", ".004"],
+          ["", "self_testing", "-12.500", "2.115", "-5.909", ".001"],
+          ["spaced_practice", "self_testing", "-4.250", "2.115", "-2.009", ".165"]
+        ]
+      }
+    },
+    {
+      "id": 24,
+      "section": "JASP Interpretation",
+      "question": "Based on the drug trial's initial ANOVA, what are the degrees of freedom for the F-statistic?",
+      "options": [
+        "df = (2, 15)",
+        "df = (2, 17)",
+        "df = (15, 2)",
+        "df = (3, 18)"
+      ],
+      "correctAnswer": "A",
+      "explanation": "The degrees of freedom for an F-test are reported as (df_between, df_within). The table shows df for 'between groups' is 2 and df for 'within groups' is 15. Therefore, the correct format is df = (2, 15).",
+      "jaspTable": {
+        "title": "ANOVA Table - Drug Trial",
+        "headers": ["", "sum of squares", "df", "mean squares", "F-statistic", "p-value"],
+        "rows": [
+          ["between groups", "3.48", "2", "1.74", "19.3", "0.000071"],
+          ["within groups", "1.39", "15", "0.09", "", ""]
+        ]
+      }
+    },
+     {
+      "id": 25,
+      "section": "JASP Interpretation",
+      "question": "What does the p-value of <.001 for the overall ANOVA in the drug trial signify?",
+      "options": [
+        "All three groups are significantly different from each other.",
+        "The null hypothesis (that all group means are equal) is very likely to be true.",
+        "There is a statistically significant difference between at least two of the group means.",
+        "The effect size is small."
+      ],
+      "correctAnswer": "C",
+      "explanation": "A significant p-value in an omnibus ANOVA indicates that we can reject the null hypothesis. It tells us that there is a difference somewhere among the groups, which justifies conducting follow-up tests to find where that difference lies.",
+       "jaspTable": {
+        "title": "ANOVA Table - Drug Trial",
+        "headers": ["", "sum of squares", "df", "mean squares", "F-statistic", "p-value"],
+        "rows": [
+          ["between groups", "3.48", "2", "1.74", "19.3", "<.001"],
+          ["within groups", "1.39", "15", "0.09", "", ""]
+        ]
+      }
+    },
+    {
+      "id": 26,
+      "section": "Contrast Weights",
+      "question": "A study compares three groups: 'Control', 'Drug A', and 'Drug B'. To test the hypothesis that 'Drug A' is different from 'Drug B', while ignoring the 'Control' group, what weight should be assigned to 'Drug B'?",
+      "options": [
+        "1",
+        "-1",
+        "0",
+        "2"
+      ],
+      "correctAnswer": "B",
+      "explanation": "To compare Drug A with Drug B, they need opposite non-zero weights (e.g., +1 and -1). To ignore the Control group, it is assigned a weight of 0. So, Drug B's weight should be -1.",
+      "jaspTable": {
+        "title": "Contrast Coefficients",
+        "headers": ["Group", "Comparison"],
+        "rows": [
+          ["Control", "0"],
+          ["Drug A", "1"],
+          ["Drug B", "?"]
+        ]
+      }
+    },
+    {
+      "id": 27,
+      "section": "Contrast Weights",
+      "question": "A study compares four teaching methods: 'Lecture', 'Seminar', 'Online', and 'Blended'. To test if 'Lecture' differs from the average of the other three methods, what weight should be assigned to 'Lecture'?",
+      "options": [
+        "-1",
+        "0",
+        "3",
+        "-3"
+      ],
+      "correctAnswer": "C",
+      "explanation": "To compare 'Lecture' against the other three, its weight must balance the sum of the others. If Seminar, Online, and Blended are each -1 (sum=-3), Lecture must be +3 to make the total sum 0.",
+      "jaspTable": {
+        "title": "Contrast Coefficients",
+        "headers": ["Group", "Comparison"],
+        "rows": [
+          ["Lecture", "?"],
+          ["Seminar", "-1"],
+          ["Online", "-1"],
+          ["Blended", "-1"]
+        ]
+      }
+    },
+    {
+      "id": 28,
+      "section": "Contrast Weights",
+      "question": "To compare the two 'in-person' teaching methods ('Lecture', 'Seminar') with the two 'remote' methods ('Online', 'Blended'), what weight should be assigned to 'Seminar'?",
+      "options": [
+        "-1",
+        "0",
+        "1",
+        "2"
+      ],
+      "correctAnswer": "C",
+      "explanation": "The 'in-person' methods (Lecture, Seminar) form one chunk, and 'remote' methods (Online, Blended) form the other. If Lecture is +1, Seminar must also be +1. The remote methods would be -1 each. The sum is (+1 +1 -1 -1) = 0.",
+      "jaspTable": {
+        "title": "Contrast Coefficients",
+        "headers": ["Group", "Comparison"],
+        "rows": [
+          ["Lecture", "1"],
+          ["Seminar", "?"],
+          ["Online", "-1"],
+          ["Blended", "-1"]
+        ]
+      }
+    },
+    {
+      "id": 29,
+      "section": "Contrast Weights",
+      "question": "In the caffeine study, the first contrast compared having any caffeine to having no caffeine. What weight should be assigned to the 'No Caffeine' group?",
+      "options": [
+        "1",
+        "-1",
+        "2",
+        "-2"
+      ],
+      "correctAnswer": "D",
+      "explanation": "This contrast compares the 'No Caffeine' group to the 'Low' and 'High' caffeine groups combined. If Low and High are each +1 (sum=+2), then 'No Caffeine' must be -2 to ensure the sum of all weights is 0.",
+      "jaspTable": {
+        "title": "Contrast Coefficients",
+        "headers": ["Group", "Comparison"],
+        "rows": [
+          ["No Caffeine", "?"],
+          ["Low Caffeine", "1"],
+          ["High Caffeine", "1"]
+        ]
+      }
+    },
+    {
+      "id": 30,
+      "section": "Contrast Weights",
+      "question": "In the caffeine study, the second contrast compared the low dose to the high dose, ignoring the no-caffeine group. What weight is missing for the 'High Caffeine' group?",
+      "options": [
+        "0",
+        "1",
+        "-1",
+        "2"
+      ],
+      "correctAnswer": "C",
+      "explanation": "To ignore 'No Caffeine', its weight is 0. To compare 'Low' and 'High', they must have opposite weights. If 'Low' is +1, 'High' must be -1. The sum (+1 -1 +0) is 0.",
+      "jaspTable": {
+        "title": "Contrast Coefficients",
+        "headers": ["Group", "Comparison"],
+        "rows": [
+          ["No Caffeine", "0"],
+          ["Low Caffeine", "1"],
+          ["High Caffeine", "?"]
+        ]
+      }
+    },
+    {
+      "id": 31,
+      "section": "Contrast Weights",
+      "question": "A researcher wants to compare a 'Placebo' group to a 'Low Dose' group, while ignoring a 'High Dose' group. What is the missing weight for the 'Placebo' group?",
+      "options": [
+        "1",
+        "0",
+        "-1",
+        "2"
+      ],
+      "correctAnswer": "A",
+      "explanation": "To ignore the 'High Dose' group, its weight is 0. To compare 'Placebo' and 'Low Dose', they need opposite weights. If 'Low Dose' is -1, 'Placebo' must be +1.",
+      "jaspTable": {
+        "title": "Contrast Coefficients",
+        "headers": ["Group", "Comparison"],
+        "rows": [
+          ["Placebo", "?"],
+          ["Low Dose", "-1"],
+          ["High Dose", "0"]
+        ]
+      }
+    },
+    {
+      "id": 32,
+      "section": "Contrast Weights",
+      "question": "Which hypothesis does the following set of contrast weights test?",
+      "options": [
+        "Group A vs. Group B",
+        "Group C vs. Group D",
+        "The average of A & D vs. the average of B & C",
+        "The average of A & B vs. the average of C & D"
+      ],
+      "correctAnswer": "D",
+      "explanation": "Groups with positive weights (A and B) are compared as a chunk against groups with negative weights (C and D).",
+      "jaspTable": {
+        "title": "Contrast Coefficients",
+        "headers": ["Group", "Comparison"],
+        "rows": [
+          ["Group A", "1"],
+          ["Group B", "1"],
+          ["Group C", "-1"],
+          ["Group D", "-1"]
+        ]
+      }
+    },
+    {
+      "id": 33,
+      "section": "Contrast Weights",
+      "question": "This contrast is invalid. Why?",
+      "options": [
+        "You cannot use a weight of 0.",
+        "The weights do not sum to 0.",
+        "You cannot compare one group against two others.",
+        "The weights must all be integers."
+      ],
+      "correctAnswer": "B",
+      "explanation": "The sum of the weights is 1 + 1 - 1 = 1. For a contrast to be valid, the sum of the weights must equal 0.",
+      "jaspTable": {
+        "title": "Contrast Coefficients",
+        "headers": ["Group", "Comparison"],
+        "rows": [
+          ["Group A", "1"],
+          ["Group B", "1"],
+          ["Group C", "-1"]
+        ]
+      }
+    },
+    {
+      "id": 34,
+      "section": "Contrast Weights",
+      "question": "A researcher wants to compare 'Diet A' with 'Diet C'. What is the missing weight for 'Diet B'?",
+      "options": [
+        "1",
+        "0",
+        "-1",
+        "0.5"
+      ],
+      "correctAnswer": "B",
+      "explanation": "The hypothesis only involves 'Diet A' and 'Diet C'. Therefore, 'Diet B' and 'Diet D' must be ignored by assigning them a weight of 0.",
+      "jaspTable": {
+        "title": "Contrast Coefficients",
+        "headers": ["Group", "Comparison"],
+        "rows": [
+          ["Diet A", "1"],
+          ["Diet B", "?"],
+          ["Diet C", "-1"],
+          ["Diet D", "0"]
+        ]
+      }
+    },
+    {
+      "id": 35,
+      "section": "Contrast Weights",
+      "question": "To test whether the average of 'Control' and 'Low Dose' is different from the average of 'Medium Dose' and 'High Dose', what weight should be assigned to 'High Dose'?",
+      "options": [
+        "1",
+        "0",
+        "-1",
+        "2"
+      ],
+      "correctAnswer": "C",
+      "explanation": "The first chunk is Control (+1) and Low Dose (+1). The second chunk is Medium Dose (-1) and High Dose. To balance the chunks and make the total sum 0, High Dose must also be -1.",
+      "jaspTable": {
+        "title": "Contrast Coefficients",
+        "headers": ["Group", "Comparison"],
+        "rows": [
+          ["Control", "1"],
+          ["Low Dose", "1"],
+          ["Medium Dose", "-1"],
+          ["High Dose", "?"]
+        ]
+      }
+    },
+    {
+      "id": 36,
+      "section": "Contrast Weights",
+      "question": "A researcher wants to compare Group 1 against Group 3. Which of these is a valid set of weights?",
+      "options": [
+        "1, 0, -1",
+        "1, 1, -1",
+        "1, -1, 0",
+        "1, 0, 1"
+      ],
+      "correctAnswer": "A",
+      "explanation": "To compare Group 1 (+1) and Group 3 (-1), Group 2 must be excluded (0). This set of weights (1, 0, -1) sums to 0 and correctly isolates the comparison of interest.",
+      "jaspTable": {
+        "title": "Contrast Coefficients",
+        "headers": ["Group", "Comparison"],
+        "rows": [
+          ["Group 1", "?"],
+          ["Group 2", "?"],
+          ["Group 3", "?"]
+        ]
+      }
+    },
+    {
+      "id": 37,
+      "section": "Contrast Weights",
+      "question": "To compare Group 'Apple' against the average of 'Banana' and 'Cherry', what is the missing weight for 'Apple'?",
+      "options": [
+        "1",
+        "-1",
+        "2",
+        "-2"
+      ],
+      "correctAnswer": "C",
+      "explanation": "The 'Banana' and 'Cherry' groups form a chunk, each with weight -1 (sum = -2). To compare 'Apple' against this chunk, its weight must be the opposite, which is +2. This ensures the total sum is 0.",
+       "jaspTable": {
+        "title": "Contrast Coefficients",
+        "headers": ["Group", "Comparison"],
+        "rows": [
+          ["Apple", "?"],
+          ["Banana", "-1"],
+          ["Cherry", "-1"]
+        ]
+      }
+    },
+    {
+      "id": 38,
+      "section": "Contrast Weights",
+      "question": "What hypothesis is being tested with these weights?",
+      "options": [
+        "Comparing the 'Standard' treatment to the 'New' treatment.",
+        "Comparing the 'Control' group to all other groups.",
+        "Comparing the 'Standard' treatment to the average of the 'Control' and 'New' treatments.",
+        "Comparing the 'Control' group to the 'Standard' treatment."
+      ],
+      "correctAnswer": "D",
+      "explanation": "The 'New' treatment is excluded with a weight of 0. The 'Control' group (+1) is being directly compared against the 'Standard' group (-1).",
+      "jaspTable": {
+        "title": "Contrast Coefficients",
+        "headers": ["Group", "Comparison"],
+        "rows": [
+          ["Control", "1"],
+          ["Standard", "-1"],
+          ["New", "0"]
+        ]
+      }
+    },
+    {
+      "id": 39,
+      "section": "Contrast Weights",
+      "question": "A study on exercise compares 'Running', 'Swimming', 'Cycling', and 'Yoga'. To test if 'Running' and 'Swimming' (Cardio) differ from 'Yoga', while ignoring 'Cycling', what weight should 'Yoga' have?",
+      "options": [
+        "1",
+        "-1",
+        "2",
+        "-2"
+      ],
+      "correctAnswer": "D",
+      "explanation": "To ignore 'Cycling', its weight is 0. 'Running' and 'Swimming' form a chunk, each with weight +1 (sum = +2). To compare this chunk to 'Yoga', Yoga's weight must be -2 to make the total sum 0.",
+       "jaspTable": {
+        "title": "Contrast Coefficients",
+        "headers": ["Group", "Comparison"],
+        "rows": [
+          ["Running", "1"],
+          ["Swimming", "1"],
+          ["Cycling", "0"],
+          ["Yoga", "?"]
+        ]
+      }
+    },
+    {
+      "id": 40,
+      "section": "Contrast Weights",
+      "question": "This contrast aims to compare 'Group B' to the average of 'Group A' and 'Group C'. What is wrong with the weights provided?",
+      "options": [
+        "The weights do not sum to zero.",
+        "The group being compared to the others should have the opposite sign.",
+        "A weight of -2 is not allowed.",
+        "Nothing is wrong, the weights are correct."
+      ],
+      "correctAnswer": "B",
+      "explanation": "Group B is the single group, so it should have the weight that balances the chunk (A and C). If A and C are +1, B should be -2. The current setup compares A and C (positive chunk) to B (negative chunk). The signs are just reversed from the question's phrasing, but the bigger issue is that to compare B to the *average* of A and C, B should be -2 and A and C should be +1 each. The current setup compares A vs B.",
+      "explanation": "To compare Group B against the average of A and C, the weights should be something like A=1, C=1, and B=-2. The current setup (A=1, B=-1, C=0) actually compares Group A to Group B, while ignoring Group C.",
+       "jaspTable": {
+        "title": "Contrast Coefficients",
+        "headers": ["Group", "Comparison"],
+        "rows": [
+          ["Group A", "1"],
+          ["Group B", "-1"],
+          ["Group C", "0"]
+        ]
+      }
+    }
+  ]
+}

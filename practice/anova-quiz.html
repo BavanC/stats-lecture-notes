@@ -75,11 +75,13 @@
                 <h3 class="text-lg font-semibold mb-4">Quiz Settings</h3>
                 <div class="space-y-4">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">ANOVA Type:</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Topic(s):</label>
                         <select id="anovaType" class="w-full p-2 border border-gray-300 rounded-md">
                             <option value="independent">Independent ANOVA Only</option>
                             <option value="repeated">Repeated-Measures ANOVA Only</option>
                             <option value="both">Both Types</option>
+                            <option value="followup">Follow-Up Tests</option>
+                            <option value="all">All Topics</option>
                         </select>
                     </div>
                     <div>
@@ -89,7 +91,7 @@
                             <option value="conceptual">15 Conceptual Questions</option>
                             <option value="jasp">15 JASP Output Questions</option>
                             <option value="calculation">15 Calculation Questions</option>
-                            <option value="mixed">Mixed Selection (5 each section)</option>
+                            <option value="mixed">Mixed Selection (evenly from each section)</option>
                         </select>
                     </div>
                     <button id="startQuizBtn" class="w-full bg-[#81b29a] text-white font-bold py-2 px-6 rounded-lg hover:bg-[#6a9a81] transition-colors">
@@ -152,6 +154,8 @@
 
         let independentCalculationData = [];
         let repeatedCalculationData = [];
+        let followUpQuestions = [];
+        let followUpSections = new Set();
 
         // Load questions from JSON files
         async function loadQuestions() {
@@ -177,6 +181,13 @@
                 // For repeated measures, calculation questions are included in the main file
                 repeatedCalculationData = repeatedQuizData.filter(q => q.section === 'Calculation Questions');
                 console.log('Loaded', repeatedCalculationData.length, 'repeated measures calculation questions');
+
+                // Load follow-up tests questions
+                const followUpResponse = await fetch('../resources/ANOVA_1/questions-follow_up_tests.json');
+                const followUpData = await followUpResponse.json();
+                followUpQuestions = followUpData.questions;
+                followUpQuestions.forEach(q => followUpSections.add(q.section));
+                console.log('Loaded', followUpQuestions.length, 'follow-up tests questions');
             } catch (error) {
                 console.error('Error loading questions:', error);
                 alert('Error loading questions. Please check the console for details.');
@@ -201,6 +212,16 @@
                     const repeatedWithSource = repeatedQuizData.map(q => ({...q, source: 'repeated'}));
                     availableQuestions = [...independentWithSource, ...repeatedWithSource];
                     break;
+                case 'followup':
+                    availableQuestions = followUpQuestions.map(q => ({...q, source: 'followup'}));
+                    break;
+                case 'all':
+                    // 3 follow-up, 6 independent, 6 repeated, randomly ordered
+                    let fu = followUpQuestions.map(q => ({...q, source: 'followup'})).sort(() => Math.random() - 0.5).slice(0, 3);
+                    let ind = independentQuizData.map(q => ({...q, source: 'independent'})).sort(() => Math.random() - 0.5).slice(0, 6);
+                    let rep = repeatedQuizData.map(q => ({...q, source: 'repeated'})).sort(() => Math.random() - 0.5).slice(0, 6);
+                    questions = [...fu, ...ind, ...rep].sort(() => Math.random() - 0.5);
+                    return questions;
             }
             
             switch(criteria) {
@@ -211,7 +232,7 @@
                     questions = availableQuestions.filter(q => q.section === 'Conceptual Understanding').slice(0, 15);
                     break;
                 case 'jasp':
-                    questions = availableQuestions.filter(q => q.section === 'JASP Output Interpretation').slice(0, 15);
+                    questions = availableQuestions.filter(q => q.section === 'JASP Output Interpretation' || q.section === 'JASP Interpretation').slice(0, 15);
                     break;
                 case 'calculation':
                     let calcQuestions = [];
@@ -223,34 +244,39 @@
                         const repeatedCalcWithSource = repeatedCalculationData.map(q => ({...q, source: 'repeated'}));
                         calcQuestions = [...calcQuestions, ...repeatedCalcWithSource];
                     }
+                    // No calculation for followup
                     questions = calcQuestions.sort(() => Math.random() - 0.5).slice(0, 15);
                     break;
                 case 'mixed':
                     let mixedQuestions = [];
-                    const questionsPerSection = 5;
-                    
-                    // Get conceptual questions
-                    const conceptual = availableQuestions.filter(q => q.section === 'Conceptual Understanding').slice(0, questionsPerSection);
-                    mixedQuestions = [...mixedQuestions, ...conceptual];
-                    
-                    // Get JASP questions
-                    const jasp = availableQuestions.filter(q => q.section === 'JASP Output Interpretation').slice(0, questionsPerSection);
-                    mixedQuestions = [...mixedQuestions, ...jasp];
-                    
-                    // Get calculation questions
-                    let calcForMixed = [];
-                    if (anovaType === 'independent' || anovaType === 'both') {
-                        const independentCalcWithSource = independentCalculationData.map(q => ({...q, source: 'independent'}));
-                        calcForMixed = [...calcForMixed, ...independentCalcWithSource];
+                    if (anovaType === 'followup') {
+                        // 7 understanding, 8 JASP
+                        const understanding = availableQuestions.filter(q => q.section === 'Conceptual Understanding').slice(0, 7);
+                        const jasp = availableQuestions.filter(q => q.section === 'JASP Interpretation').slice(0, 8);
+                        mixedQuestions = [...understanding, ...jasp];
+                        questions = mixedQuestions;
+                    } else {
+                        const questionsPerSection = 5;
+                        // Get conceptual questions
+                        const conceptual = availableQuestions.filter(q => q.section === 'Conceptual Understanding').slice(0, questionsPerSection);
+                        mixedQuestions = [...mixedQuestions, ...conceptual];
+                        // Get JASP questions
+                        const jasp = availableQuestions.filter(q => q.section === 'JASP Output Interpretation').slice(0, questionsPerSection);
+                        mixedQuestions = [...mixedQuestions, ...jasp];
+                        // Get calculation questions
+                        let calcForMixed = [];
+                        if (anovaType === 'independent' || anovaType === 'both') {
+                            const independentCalcWithSource = independentCalculationData.map(q => ({...q, source: 'independent'}));
+                            calcForMixed = [...calcForMixed, ...independentCalcWithSource];
+                        }
+                        if (anovaType === 'repeated' || anovaType === 'both') {
+                            const repeatedCalcWithSource = repeatedCalculationData.map(q => ({...q, source: 'repeated'}));
+                            calcForMixed = [...calcForMixed, ...repeatedCalcWithSource];
+                        }
+                        const calculation = calcForMixed.sort(() => Math.random() - 0.5).slice(0, questionsPerSection);
+                        mixedQuestions = [...mixedQuestions, ...calculation];
+                        questions = mixedQuestions;
                     }
-                    if (anovaType === 'repeated' || anovaType === 'both') {
-                        const repeatedCalcWithSource = repeatedCalculationData.map(q => ({...q, source: 'repeated'}));
-                        calcForMixed = [...calcForMixed, ...repeatedCalcWithSource];
-                    }
-                    const calculation = calcForMixed.sort(() => Math.random() - 0.5).slice(0, questionsPerSection);
-                    mixedQuestions = [...mixedQuestions, ...calculation];
-                    
-                    questions = mixedQuestions;
                     break;
             }
             
@@ -264,25 +290,32 @@
             const anovaTypeSelection = document.getElementById('anovaType').value;
             
             // Determine if this is an independent or repeated measures question
-            const anovaType = question.source === 'independent' ? 'Independent ANOVA' : 'Repeated-Measures ANOVA';
+            const anovaType = question.source === 'independent' ? 'Independent ANOVA' : question.source === 'followup' ? 'Follow-Up Tests' : 'Repeated-Measures ANOVA';
             
+            let badgeHTML = '';
+            if (anovaTypeSelection !== 'both' && anovaTypeSelection !== 'all') {
+                badgeHTML = `
+                    <span class="inline-block bg-gray-100 text-gray-800 text-sm font-medium px-3 py-1 rounded-full">
+                        ${question.section}
+                    </span>
+                    <span class="inline-block bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full">
+                        ${anovaType}
+                    </span>
+                `;
+            } else if (anovaTypeSelection === 'both') {
+                badgeHTML = `
+                    <span class="inline-block bg-gray-100 text-gray-800 text-sm font-medium px-3 py-1 rounded-full">
+                        ${question.section}
+                    </span>
+                `;
+            }
             container.innerHTML = `
                 <div class="bg-white p-6 rounded-lg shadow-md">
                     <div class="mb-4 flex gap-2">
-                        <span class="inline-block bg-gray-100 text-gray-800 text-sm font-medium px-3 py-1 rounded-full">
-                            ${question.section}
-                        </span>
-                        ${anovaTypeSelection !== 'both' ? `
-                            <span class="inline-block bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full">
-                                ${anovaType}
-                            </span>
-                        ` : ''}
+                        ${anovaTypeSelection === 'all' ? '' : badgeHTML}
                     </div>
-                    
                     <h4 class="text-xl font-semibold mb-4">${question.question}</h4>
-                    
                     ${question.jaspTable ? createJaspTable(question.jaspTable) : ''}
-                    
                     <div class="space-y-3 mt-6">
                         ${question.options.map((option, i) => `
                             <label class="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors">
@@ -435,8 +468,11 @@
 
         // Event listeners
         document.getElementById('startQuizBtn').addEventListener('click', () => {
-            const selection = document.getElementById('questionSelection').value;
             const anovaType = document.getElementById('anovaType').value;
+            let selection = 'random';
+            if (anovaType !== 'all') {
+                selection = document.getElementById('questionSelection').value;
+            }
             selectedQuestions = selectQuestions(selection, anovaType);
             
             if (selectedQuestions.length === 0) {
@@ -505,7 +541,32 @@
         });
 
         // Load questions when page loads
-        document.addEventListener('DOMContentLoaded', loadQuestions);
+        document.addEventListener('DOMContentLoaded', () => {
+            loadQuestions();
+            // Hide calculation option if follow-up is selected
+            document.getElementById('anovaType').addEventListener('change', function() {
+                const qSel = document.getElementById('questionSelection');
+                if (this.value === 'all') {
+                    qSel.style.display = 'none';
+                } else {
+                    qSel.style.display = '';
+                }
+                if (this.value === 'followup') {
+                    // Remove calculation option if present
+                    Array.from(qSel.options).forEach(opt => {
+                        if (opt.value === 'calculation') qSel.removeChild(opt);
+                    });
+                } else {
+                    // Ensure calculation option is present
+                    if (!Array.from(qSel.options).some(opt => opt.value === 'calculation')) {
+                        const calcOpt = document.createElement('option');
+                        calcOpt.value = 'calculation';
+                        calcOpt.textContent = '15 Calculation Questions';
+                        qSel.appendChild(calcOpt);
+                    }
+                }
+            });
+        });
     </script>
     
     <script>
