@@ -56,13 +56,10 @@
             <div class="flex items-center justify-between h-16">
                 <div class="flex items-center">
                     <a href="../index.html" class="mr-4 text-lg font-bold text-[#3d405b] hover:underline">Home</a>
-                    <h1 class="text-xl font-bold text-[#3d405b]">One-Way ANOVA Quiz</h1>
+                    <h1 class="text-xl font-bold text-[#3d405b]">ANOVA Quiz</h1>
                 </div>
                 <div class="hidden md:block">
-                    <div class="ml-10 flex items-baseline space-x-4">
-                        <a href="#quiz" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Quiz</a>
-                        <a href="#results" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Results</a>
-                    </div>
+                    <button id="resetQuizTopBtn" class="ml-10 bg-[#e07a5f] text-white px-4 py-2 rounded shadow hover:bg-[#d46a50] text-sm font-medium">Reset Quiz</button>
                 </div>
             </div>
         </nav>
@@ -71,12 +68,20 @@
     <main id="main-content" class="container mx-auto p-4 sm:p-6 lg:p-8 pt-20">
         
         <section id="welcome" class="text-center mb-16">
-            <h2 class="text-4xl font-bold text-[#3d405b] mb-4">One-Way Independent ANOVA Quiz</h2>
-            <p class="max-w-3xl mx-auto text-lg text-gray-700 mb-8">Test your knowledge of One-Way Independent ANOVA with this interactive quiz. Choose from conceptual questions, JASP output interpretation, or calculation problems (including both basic and advanced calculations).</p>
+            <h2 class="text-4xl font-bold text-[#3d405b] mb-4">ANOVA Quiz</h2>
+            <p class="max-w-3xl mx-auto text-lg text-gray-700 mb-8">Test your knowledge of One-Way ANOVA with this interactive quiz. Choose between Independent ANOVA, Repeated-Measures ANOVA, or both. Select from conceptual questions, JASP output interpretation, or calculation problems.</p>
             
             <div class="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
                 <h3 class="text-lg font-semibold mb-4">Quiz Settings</h3>
                 <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">ANOVA Type:</label>
+                        <select id="anovaType" class="w-full p-2 border border-gray-300 rounded-md">
+                            <option value="independent">Independent ANOVA Only</option>
+                            <option value="repeated">Repeated-Measures ANOVA Only</option>
+                            <option value="both">Both Types</option>
+                        </select>
+                    </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Question Selection:</label>
                         <select id="questionSelection" class="w-full p-2 border border-gray-300 rounded-md">
@@ -107,8 +112,12 @@
             </div>
             
             <div class="flex justify-between mt-8">
-                <button id="prevBtn" class="bg-gray-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-gray-600 transition-colors" style="display: none;">Previous</button>
-                <button id="nextBtn" class="bg-[#81b29a] text-white font-bold py-2 px-6 rounded-lg hover:bg-[#6a9a81] transition-colors">Next</button>
+                <div>
+                    <button id="prevBtn" class="bg-gray-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-gray-600 transition-colors" style="display: none;">Previous</button>
+                </div>
+                <div>
+                    <button id="nextBtn" class="bg-[#81b29a] text-white font-bold py-2 px-6 rounded-lg hover:bg-[#6a9a81] transition-colors">Next</button>
+                </div>
             </div>
         </section>
 
@@ -134,26 +143,40 @@
     </main>
 
     <script>
-        let quizData = [];
+        let independentQuizData = [];
+        let repeatedQuizData = [];
         let selectedQuestions = [];
         let currentQuestionIndex = 0;
         let userAnswers = [];
         let quizStarted = false;
 
-        let calculationQuizData = [];
+        let independentCalculationData = [];
+        let repeatedCalculationData = [];
 
         // Load questions from JSON files
         async function loadQuestions() {
             try {
-                const response = await fetch('../resources/ANOVA_1/independent-anova-questions.json');
-                const data = await response.json();
-                quizData = data.questions;
-                console.log('Loaded', quizData.length, 'questions');
+                // Load independent ANOVA questions
+                const independentResponse = await fetch('../resources/ANOVA_1/independent-anova-questions.json');
+                const independentData = await independentResponse.json();
+                independentQuizData = independentData.questions;
+                console.log('Loaded', independentQuizData.length, 'independent ANOVA questions');
                 
-                const calcResponse = await fetch('../resources/ANOVA_1/calculation-anova-questions.json');
-                const calcData = await calcResponse.json();
-                calculationQuizData = calcData.questions;
-                console.log('Loaded', calculationQuizData.length, 'calculation questions');
+                // Load repeated measures ANOVA questions
+                const repeatedResponse = await fetch('../resources/ANOVA_1/questions_one-way-repeated-anovas.json');
+                const repeatedData = await repeatedResponse.json();
+                repeatedQuizData = repeatedData.questions;
+                console.log('Loaded', repeatedQuizData.length, 'repeated measures ANOVA questions');
+                
+                // Load calculation questions for independent ANOVA
+                const independentCalcResponse = await fetch('../resources/ANOVA_1/calculation-anova-questions.json');
+                const independentCalcData = await independentCalcResponse.json();
+                independentCalculationData = independentCalcData.questions;
+                console.log('Loaded', independentCalculationData.length, 'independent calculation questions');
+                
+                // For repeated measures, calculation questions are included in the main file
+                repeatedCalculationData = repeatedQuizData.filter(q => q.section === 'Calculation Questions');
+                console.log('Loaded', repeatedCalculationData.length, 'repeated measures calculation questions');
             } catch (error) {
                 console.error('Error loading questions:', error);
                 alert('Error loading questions. Please check the console for details.');
@@ -161,31 +184,73 @@
         }
 
         // Select questions based on criteria
-        function selectQuestions(criteria) {
+        function selectQuestions(criteria, anovaType) {
             let questions = [];
+            let availableQuestions = [];
+            
+            // Determine which question sets to use based on ANOVA type
+            switch(anovaType) {
+                case 'independent':
+                    availableQuestions = independentQuizData.map(q => ({...q, source: 'independent'}));
+                    break;
+                case 'repeated':
+                    availableQuestions = repeatedQuizData.map(q => ({...q, source: 'repeated'}));
+                    break;
+                case 'both':
+                    const independentWithSource = independentQuizData.map(q => ({...q, source: 'independent'}));
+                    const repeatedWithSource = repeatedQuizData.map(q => ({...q, source: 'repeated'}));
+                    availableQuestions = [...independentWithSource, ...repeatedWithSource];
+                    break;
+            }
             
             switch(criteria) {
                 case 'random':
-                    questions = [...quizData].sort(() => Math.random() - 0.5).slice(0, 15);
+                    questions = [...availableQuestions].sort(() => Math.random() - 0.5).slice(0, 15);
                     break;
                 case 'conceptual':
-                    questions = quizData.filter(q => q.section === 'Conceptual Understanding').slice(0, 15);
+                    questions = availableQuestions.filter(q => q.section === 'Conceptual Understanding').slice(0, 15);
                     break;
                 case 'jasp':
-                    questions = quizData.filter(q => q.section === 'JASP Output Interpretation').slice(0, 15);
+                    questions = availableQuestions.filter(q => q.section === 'JASP Output Interpretation').slice(0, 15);
                     break;
                 case 'calculation':
-                    const calcOriginal = quizData.filter(q => q.section === 'Calculation Questions');
-                    const calcAll = [...calcOriginal, ...calculationQuizData];
-                    questions = calcAll.sort(() => Math.random() - 0.5).slice(0, 15);
+                    let calcQuestions = [];
+                    if (anovaType === 'independent' || anovaType === 'both') {
+                        const independentCalcWithSource = independentCalculationData.map(q => ({...q, source: 'independent'}));
+                        calcQuestions = [...calcQuestions, ...independentCalcWithSource];
+                    }
+                    if (anovaType === 'repeated' || anovaType === 'both') {
+                        const repeatedCalcWithSource = repeatedCalculationData.map(q => ({...q, source: 'repeated'}));
+                        calcQuestions = [...calcQuestions, ...repeatedCalcWithSource];
+                    }
+                    questions = calcQuestions.sort(() => Math.random() - 0.5).slice(0, 15);
                     break;
                 case 'mixed':
-                    const conceptual = quizData.filter(q => q.section === 'Conceptual Understanding').slice(0, 5);
-                    const jasp = quizData.filter(q => q.section === 'JASP Output Interpretation').slice(0, 5);
-                    const mixedCalcOriginal = quizData.filter(q => q.section === 'Calculation Questions');
-                    const mixedCalcAll = [...mixedCalcOriginal, ...calculationQuizData];
-                    const calculation = mixedCalcAll.sort(() => Math.random() - 0.5).slice(0, 5);
-                    questions = [...conceptual, ...jasp, ...calculation];
+                    let mixedQuestions = [];
+                    const questionsPerSection = 5;
+                    
+                    // Get conceptual questions
+                    const conceptual = availableQuestions.filter(q => q.section === 'Conceptual Understanding').slice(0, questionsPerSection);
+                    mixedQuestions = [...mixedQuestions, ...conceptual];
+                    
+                    // Get JASP questions
+                    const jasp = availableQuestions.filter(q => q.section === 'JASP Output Interpretation').slice(0, questionsPerSection);
+                    mixedQuestions = [...mixedQuestions, ...jasp];
+                    
+                    // Get calculation questions
+                    let calcForMixed = [];
+                    if (anovaType === 'independent' || anovaType === 'both') {
+                        const independentCalcWithSource = independentCalculationData.map(q => ({...q, source: 'independent'}));
+                        calcForMixed = [...calcForMixed, ...independentCalcWithSource];
+                    }
+                    if (anovaType === 'repeated' || anovaType === 'both') {
+                        const repeatedCalcWithSource = repeatedCalculationData.map(q => ({...q, source: 'repeated'}));
+                        calcForMixed = [...calcForMixed, ...repeatedCalcWithSource];
+                    }
+                    const calculation = calcForMixed.sort(() => Math.random() - 0.5).slice(0, questionsPerSection);
+                    mixedQuestions = [...mixedQuestions, ...calculation];
+                    
+                    questions = mixedQuestions;
                     break;
             }
             
@@ -196,13 +261,22 @@
         function displayQuestion(index) {
             const question = selectedQuestions[index];
             const container = document.getElementById('questionContainer');
+            const anovaTypeSelection = document.getElementById('anovaType').value;
+            
+            // Determine if this is an independent or repeated measures question
+            const anovaType = question.source === 'independent' ? 'Independent ANOVA' : 'Repeated-Measures ANOVA';
             
             container.innerHTML = `
                 <div class="bg-white p-6 rounded-lg shadow-md">
-                    <div class="mb-4">
+                    <div class="mb-4 flex gap-2">
                         <span class="inline-block bg-gray-100 text-gray-800 text-sm font-medium px-3 py-1 rounded-full">
                             ${question.section}
                         </span>
+                        ${anovaTypeSelection !== 'both' ? `
+                            <span class="inline-block bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full">
+                                ${anovaType}
+                            </span>
+                        ` : ''}
                     </div>
                     
                     <h4 class="text-xl font-semibold mb-4">${question.question}</h4>
@@ -294,12 +368,25 @@
                 
                 if (isCorrect) score++;
                 
+                // Determine if this is an independent or repeated measures question
+                const anovaType = question.source === 'independent' ? 'Independent ANOVA' : 'Repeated-Measures ANOVA';
+                
                 const resultDiv = document.createElement('div');
                 resultDiv.className = `bg-white p-6 rounded-lg shadow-md ${isCorrect ? 'border-l-4 border-green-500' : 'border-l-4 border-red-500'}`;
                 
                 resultDiv.innerHTML = `
                     <div class="flex justify-between items-start mb-4">
-                        <h4 class="text-lg font-semibold">Question ${index + 1}</h4>
+                        <div>
+                            <h4 class="text-lg font-semibold">Question ${index + 1}</h4>
+                            <div class="flex gap-2 mt-1">
+                                <span class="inline-block bg-gray-100 text-gray-800 text-sm font-medium px-2 py-1 rounded-full">
+                                    ${question.section}
+                                </span>
+                                <span class="inline-block bg-blue-100 text-blue-800 text-sm font-medium px-2 py-1 rounded-full">
+                                    ${anovaType}
+                                </span>
+                            </div>
+                        </div>
                         <span class="inline-block px-3 py-1 rounded-full text-sm font-medium ${isCorrect ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
                             ${isCorrect ? '✓ Correct' : '✗ Incorrect'}
                         </span>
@@ -349,7 +436,8 @@
         // Event listeners
         document.getElementById('startQuizBtn').addEventListener('click', () => {
             const selection = document.getElementById('questionSelection').value;
-            selectedQuestions = selectQuestions(selection);
+            const anovaType = document.getElementById('anovaType').value;
+            selectedQuestions = selectQuestions(selection, anovaType);
             
             if (selectedQuestions.length === 0) {
                 alert('No questions available for the selected criteria. Please try a different selection.');
@@ -388,6 +476,18 @@
 
         document.getElementById('restartBtn').addEventListener('click', () => {
             location.reload();
+        });
+
+        // Add event listener for top-right Reset Quiz button
+        document.getElementById('resetQuizTopBtn').addEventListener('click', () => {
+            // Reset quiz state and show welcome screen
+            document.getElementById('welcome').style.display = 'block';
+            document.getElementById('quiz').style.display = 'none';
+            document.getElementById('results').style.display = 'none';
+            quizStarted = false;
+            userAnswers = [];
+            selectedQuestions = [];
+            currentQuestionIndex = 0;
         });
 
         // Load questions when page loads
