@@ -480,6 +480,11 @@
 
         // Add event listener for top-right Reset Quiz button
         document.getElementById('resetQuizTopBtn').addEventListener('click', () => {
+            if (quizStarted && document.getElementById('quiz').style.display === 'block') {
+                if (!confirm('Are you sure you want to reset the quiz? Your progress will be lost.')) {
+                    return;
+                }
+            }
             // Reset quiz state and show welcome screen
             document.getElementById('welcome').style.display = 'block';
             document.getElementById('quiz').style.display = 'none';
@@ -488,6 +493,15 @@
             userAnswers = [];
             selectedQuestions = [];
             currentQuestionIndex = 0;
+        });
+
+        // Warn user before leaving or refreshing if quiz is in progress
+        window.addEventListener('beforeunload', function (e) {
+            if (quizStarted && document.getElementById('quiz').style.display === 'block') {
+                e.preventDefault();
+                e.returnValue = '';
+                return '';
+            }
         });
 
         // Load questions when page loads
