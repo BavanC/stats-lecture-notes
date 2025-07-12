@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stats Test Decision Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #111827;
+            --text-color: #d1d5db;
+            --card-bg: #1f2937;
+            --header-text: #f9fafb;
+            --subtle-text: #9ca3af;
+            --border-color: #374151;
+            --flowchart-bg: #2d3748;
+            --flowchart-node-bg: #1f2937;
+            --flowchart-node-border: #60a5fa;
+            --flowchart-result-bg: #047857;
+            --flowchart-result-border: #10b981;
+            --flowchart-result-text: #a7f3d0;
+            --table-header-bg: #4a5568;
+            --table-border-color: #374151;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+        h1, h2, h3 {
+            color: var(--header-text);
+            font-weight: 700;
+        }
+        .container {
+            max-width: 1400px;
+            margin: auto;
+        }
+        .flowchart-container {
+            background-color: var(--flowchart-bg);
+            padding: 2rem;
+            border-radius: 0.5rem;
+            border: 1px solid var(--border-color);
+            min-height: 600px;
+            position: relative;
+            overflow: auto;
+        }
+        .node {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .node:hover {
+            filter: brightness(1.2);
+        }
+        .node-rect {
+            filter: drop-shadow(0 2px 8px #0004);
+        }
+        .node.question text {
+            font-weight: 600;
+            font-size: 16px;
+        }
+        .node.result text {
+            font-weight: 700;
+            font-size: 16px;
+            fill: var(--flowchart-result-text);
+        }
+        .link {
+            fill: none;
+            stroke: var(--flowchart-node-border);
+            stroke-width: 2.5;
+            marker-end: url(#arrowhead);
+        }
+        .controls {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            z-index: 10;
+        }
+        .control-btn {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            margin-left: 0.5rem;
+            font-size: 16px;
+            transition: all 0.2s ease;
+        }
+        .control-btn:hover {
+            background-color: var(--flowchart-node-border);
+            color: var(--bg-color);
+        }
+        .tooltip {
+            position: absolute;
+            background: #1f2937;
+            border: 1px solid #374151;
+            border-radius: 8px;
+            padding: 14px 18px;
+            color: #d1d5db;
+            font-size: 16px;
+            max-width: 350px;
+            z-index: 1000;
+            pointer-events: none;
+            box-shadow: 0 4px 24px #0006;
+        }
+        .cheat-sheet-table {
+            background-color: var(--card-bg);
+            border-radius: 0.5rem;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+        .cheat-sheet-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .cheat-sheet-table th, .cheat-sheet-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--table-border-color);
+        }
+        .cheat-sheet-table th {
+            background-color: var(--table-header-bg);
+            color: var(--header-text);
+        }
+         .cheat-sheet-table td:first-child {
+            font-weight: 600;
+            color: #93c5fd; /* Light blue for test names */
+        }
+        @media (max-width: 900px) {
+            .container { max-width: 100vw; }
+            .flowchart-container { padding: 0.5rem; }
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <button id="menu-btn" onclick="openMenu()" style="display:none" class="fixed top-4 left-4 z-50 bg-emerald-600 text-white px-4 py-2 rounded shadow hover:bg-emerald-700">☰ Menu</button>
+    <div id="menu-container"></div>
+
+    <div class="container">
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl">Which Statistical Test Should I Use?</h1>
+            <p class="text-xl mt-2 text-slate-400">A Decision Guide and JASP Cheat Sheet</p>
+        </header>
+
+        <section id="flowchart-section" class="mb-12">
+            <h2 class="text-3xl mb-6">Step 1: The Decision Flowchart</h2>
+            <p class="mb-6 text-lg text-slate-300">Start at the top and answer the questions about your research. Follow the arrows to find the right test for your design.</p>
+            <div class="flowchart-container">
+                <div class="controls">
+                    <button class="control-btn" onclick="resetZoom()">Reset View</button>
+                    <button class="control-btn" onclick="toggleFullscreen()">Fullscreen</button>
+                </div>
+                <div id="flowchart"></div>
+            </div>
+        </section>
+
+        <section id="cheatsheet-section">
+            <h2 class="text-3xl mb-6">Step 2: The JASP Output Cheat Sheet</h2>
+            <p class="mb-6 text-lg text-slate-300">Once you've run your test, here's what to look for in the output tables. The goal is to find the key values you need to report.</p>
+            <div class="cheat-sheet-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Test Name</th>
+                            <th>What to Look For</th>
+                            <th>Assumption Check</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Independent t-Test</td>
+                            <td>In the 'Independent Samples T-Test' table, find the row for your test. Report the <strong>t</strong>, <strong>df</strong>, and <strong>p</strong> values. Also find <strong>Cohen's d</strong> for effect size.</td>
+                            <td><strong>Levene's Test:</strong> Checks if variances are equal. If p > .05, assumption is met. If p < .05, it's violated, but JASP automatically uses the corrected "Welch" test results, which you should report.</td>
+                        </tr>
+                        <tr>
+                            <td>Paired Samples t-Test</td>
+                            <td>In the 'Paired Samples T-Test' table, report the <strong>t</strong>, <strong>df</strong>, and <strong>p</strong> values. Find <strong>Cohen's d</strong> for effect size.</td>
+                            <td>(No common assumption check to worry about in the main output).</td>
+                        </tr>
+                        <tr>
+                            <td>One-Way Independent ANOVA</td>
+                            <td>In the 'ANOVA' table, find the row for your IV. Report the <strong>F</strong>, <strong>df</strong>, <strong>p</strong> value, and effect size (<strong>ηp²</strong>). If significant, look at the 'Post Hoc Tests' table to see which specific groups differ.</td>
+                            <td><strong>Levene's Test:</strong> Checks 'Homogeneity of Variances'. If p > .05, it's okay. If p < .05, report the "Welch's F" from the main ANOVA table instead.</td>
+                        </tr>
+                         <tr>
+                            <td>One-Way Repeated-Measures ANOVA</td>
+                            <td>In the 'Within-Subjects Effects' table, find the row for your IV. Report the <strong>F</strong>, <strong>df</strong>, <strong>p</strong> value, and effect size (<strong>ηp²</strong>). If significant, check 'Post Hoc Tests'.</td>
+                            <td><strong>Mauchly's Test of Sphericity:</strong> If p > .05, the assumption is met; report the 'Sphericity Assumed' F-test. If p < .05, it's violated; report the F-test with the 'Greenhouse-Geisser' correction.</td>
+                        </tr>
+                        <tr>
+                            <td>Factorial ANOVA (Independent, RM, Mixed)</td>
+                            <td><strong>1st:</strong> Check the <strong>Interaction Effect</strong> (e.g., 'IV1 * IV2'). Report its <strong>F</strong>, <strong>df</strong>, and <strong>p</strong> value. If significant, this is your main result! Describe the interaction using a plot or simple effects tests.<br><strong>2nd:</strong> If the interaction is *not* significant, then interpret the <strong>Main Effects</strong> for each IV just like a One-Way ANOVA.</td>
+                            <td>Follow the same rules as One-Way ANOVAs: <strong>Levene's Test</strong> for any between-subjects IVs, and <strong>Mauchly's Test</strong> for any within-subjects IVs with 3+ levels.</td>
+                        </tr>
+                         <tr>
+                            <td>Correlation</td>
+                            <td>In the 'Pearson's Correlations' table, find the intersection of your two variables. Report the <strong>r</strong> value (this is the correlation coefficient) and the <strong>p</strong> value. To get the 'df', calculate N-2 (where N is your number of participants).</td>
+                            <td>Visually inspect a scatterplot to check for a linear relationship.</td>
+                        </tr>
+                        <tr>
+                            <td>Regression</td>
+                            <td><strong>1st (Overall Model):</strong> Look at the 'Model Summary' table for <strong>R²</strong> (variance explained) and the 'ANOVA' table for the overall model's <strong>F</strong> and <strong>p</strong> value.<br><strong>2nd (Predictors):</strong> Look at the 'Coefficients' table. For each predictor, report the <strong>Unstandardized B</strong>, <strong>Standardized Beta (β)</strong>, and its individual <strong>p</strong> value.</td>
+                            <td>Check for multicollinearity (predictors shouldn't be too highly correlated). Look at VIF values in the 'Coefficients' table - values > 10 are a problem.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <!-- D3.js Library -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    
+    <script>
+        // Flowchart data structure
+        const flowchartData = {
+            id: "start",
+            text: "What is the main goal of your research?",
+            type: "question",
+            children: [
+                {
+                    id: "relationship",
+                    text: "Are you looking for a relationship or making a prediction between two or more continuous variables?",
+                    type: "question",
+                    children: [
+                        {
+                            id: "correlation_regression",
+                            text: "Use Correlation or Regression",
+                            type: "result"
+                        }
+                    ]
+                },
+                {
+                    id: "difference",
+                    text: "Are you looking for a difference in the average scores between groups or conditions?",
+                    type: "question",
+                    children: [
+                        {
+                            id: "iv_count",
+                            text: "How many Independent Variables (IVs) do you have?",
+                            type: "question",
+                            children: [
+                                {
+                                    id: "one_iv",
+                                    text: "One IV",
+                                    type: "question",
+                                    children: [
+                                        {
+                                            id: "levels",
+                                            text: "How many levels (groups/conditions) does this IV have?",
+                                            type: "question",
+                                            children: [
+                                                {
+                                                    id: "two_levels",
+                                                    text: "Exactly Two",
+                                                    type: "question",
+                                                    children: [
+                                                        {
+                                                            id: "same_participants",
+                                                            text: "Are the same participants in both conditions?",
+                                                            type: "question",
+                                                            children: [
+                                                                {
+                                                                    id: "paired_t",
+                                                                    text: "Paired-Samples t-Test",
+                                                                    type: "result"
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            id: "different_participants",
+                                                            text: "Are there different participants in each condition?",
+                                                            type: "question",
+                                                            children: [
+                                                                {
+                                                                    id: "independent_t",
+                                                                    text: "Independent-Samples t-Test",
+                                                                    type: "result"
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    id: "three_plus_levels",
+                                                    text: "Three or More",
+                                                    type: "question",
+                                                    children: [
+                                                        {
+                                                            id: "same_all_conditions",
+                                                            text: "Are the same participants in all conditions?",
+                                                            type: "question",
+                                                            children: [
+                                                                {
+                                                                    id: "repeated_anova",
+                                                                    text: "One-Way Repeated-Measures ANOVA",
+                                                                    type: "result"
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            id: "different_all_conditions",
+                                                            text: "Are there different participants in each condition?",
+                                                            type: "question",
+                                                            children: [
+                                                                {
+                                                                    id: "independent_anova",
+                                                                    text: "One-Way Independent ANOVA",
+                                                                    type: "result"
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    id: "multiple_ivs",
+                                    text: "Two or More IVs (e.g., a 2x2, 2x3 design)",
+                                    type: "question",
+                                    children: [
+                                        {
+                                            id: "iv_nature",
+                                            text: "What is the nature of your IVs?",
+                                            type: "question",
+                                            children: [
+                                                {
+                                                    id: "all_different",
+                                                    text: "All IVs have different participants in each condition",
+                                                    type: "question",
+                                                    children: [
+                                                        {
+                                                            id: "factorial_independent",
+                                                            text: "Factorial (e.g., Two-Way) Independent ANOVA",
+                                                            type: "result"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    id: "all_same",
+                                                    text: "All IVs have the same participants in all conditions",
+                                                    type: "question",
+                                                    children: [
+                                                        {
+                                                            id: "factorial_repeated",
+                                                            text: "Factorial (e.g., Two-Way) Repeated-Measures ANOVA",
+                                                            type: "result"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    id: "mixed",
+                                                    text: "There is a mix of IV types (some have same participants, some have different)",
+                                                    type: "question",
+                                                    children: [
+                                                        {
+                                                            id: "mixed_anova",
+                                                            text: "Mixed ANOVA",
+                                                            type: "result"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        };
+
+        // --- Helper: Measure text size for dynamic node sizing ---
+        function measureText(text, fontSize = 16, fontWeight = 600, maxWidth = 260) {
+            const temp = document.createElement('span');
+            temp.style.visibility = 'hidden';
+            temp.style.fontFamily = 'Inter, sans-serif';
+            temp.style.fontSize = fontSize + 'px';
+            temp.style.fontWeight = fontWeight;
+            temp.style.position = 'absolute';
+            temp.style.maxWidth = maxWidth + 'px';
+            temp.style.whiteSpace = 'pre-wrap';
+            temp.innerText = text;
+            document.body.appendChild(temp);
+            const rect = temp.getBoundingClientRect();
+            document.body.removeChild(temp);
+            return { width: Math.min(rect.width + 32, maxWidth), height: rect.height + 24 };
+        }
+
+        // --- Build tree layout with more spacing ---
+        const margin = { top: 60, right: 180, bottom: 60, left: 180 };
+        const width = Math.max(window.innerWidth * 0.95, 900) - margin.left - margin.right;
+        const height = Math.max(window.innerHeight * 0.8, 700) - margin.top - margin.bottom;
+
+        const svg = d3.select("#flowchart")
+            .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .attr("viewBox", `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
+            .attr("preserveAspectRatio", "xMidYMid meet")
+            .append("g")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
+
+        svg.append("defs").append("marker")
+            .attr("id", "arrowhead")
+            .attr("viewBox", "0 -5 10 10")
+            .attr("refX", 12)
+            .attr("refY", 0)
+            .attr("orient", "auto")
+            .attr("markerWidth", 8)
+            .attr("markerHeight", 8)
+            .append("path")
+            .attr("d", "M0,-5L10,0L0,5")
+            .attr("fill", "#60a5fa");
+
+        // --- D3 tree layout with more spacing ---
+        const tree = d3.tree().nodeSize([110, 320]);
+        const root = d3.hierarchy(flowchartData);
+        tree(root);
+
+        // --- Draw links ---
+        svg.selectAll(".link")
+            .data(root.links())
+            .enter().append("path")
+            .attr("class", "link")
+            .attr("d", d3.linkHorizontal()
+                .x(d => d.y)
+                .y(d => d.x));
+
+        // --- Draw nodes ---
+        const node = svg.selectAll(".node")
+            .data(root.descendants())
+            .enter().append("g")
+            .attr("class", d => `node ${d.data.type}`)
+            .attr("transform", d => `translate(${d.y},${d.x})`);
+
+        // --- Dynamic node sizing ---
+        node.each(function(d) {
+            const size = measureText(d.data.text, 16, d.data.type === 'result' ? 700 : 600, 260);
+            d.data._nodeWidth = size.width;
+            d.data._nodeHeight = size.height;
+        });
+
+        // --- Node rectangles ---
+        node.append("rect")
+            .attr("class", d => `node-rect ${d.data.type}`)
+            .attr("width", d => d.data._nodeWidth)
+            .attr("height", d => d.data._nodeHeight)
+            .attr("x", d => -d.data._nodeWidth / 2)
+            .attr("y", d => -d.data._nodeHeight / 2)
+            .attr("rx", 14)
+            .attr("ry", 14)
+            .style("fill", d => d.data.type === "result" ? "#047857" : "#1f2937")
+            .style("stroke", d => d.data.type === "result" ? "#10b981" : "#60a5fa")
+            .style("stroke-width", 3);
+
+        // --- Node text with robust wrapping ---
+        node.append("foreignObject")
+            .attr("x", d => -d.data._nodeWidth / 2 + 8)
+            .attr("y", d => -d.data._nodeHeight / 2 + 6)
+            .attr("width", d => d.data._nodeWidth - 16)
+            .attr("height", d => d.data._nodeHeight - 12)
+            .append("xhtml:div")
+            .style("width", d => (d.data._nodeWidth - 16) + "px")
+            .style("height", d => (d.data._nodeHeight - 12) + "px")
+            .style("display", "flex")
+            .style("align-items", "center")
+            .style("justify-content", "center")
+            .style("text-align", "center")
+            .style("font-family", "Inter, sans-serif")
+            .style("font-size", "16px")
+            .style("font-weight", d => d.data.type === "result" ? 700 : 600)
+            .style("color", d => d.data.type === "result" ? "#a7f3d0" : "#f9fafb")
+            .html(d => d.data.type === 'result' ? `<span style='display:inline-flex;align-items:center;gap:0.5em;'><svg width='18' height='18' viewBox='0 0 20 20' fill='#10b981' style='vertical-align:middle;'><circle cx='10' cy='10' r='10'/><path d='M6 10.5l3 3 5-6' stroke='#fff' stroke-width='2' fill='none' stroke-linecap='round'/></svg>${d.data.text}</span>` : d.data.text);
+
+        // --- Zoom and pan ---
+        const zoom = d3.zoom()
+            .scaleExtent([0.5, 2.5])
+            .on("zoom", (event) => {
+                svg.attr("transform", event.transform);
+            });
+        d3.select("#flowchart svg").call(zoom);
+
+        // --- Reset and fullscreen controls ---
+        function resetZoom() {
+            d3.select("#flowchart svg").transition().duration(750).call(
+                zoom.transform,
+                d3.zoomIdentity
+            );
+        }
+        function toggleFullscreen() {
+            const container = document.querySelector('.flowchart-container');
+            if (!document.fullscreenElement) {
+                container.requestFullscreen();
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        // --- Tooltips ---
+        node.on("mouseenter", function(event, d) {
+            d3.select(this).select("rect").style("stroke-width", 5);
+            showTooltip(event, d);
+        });
+        node.on("mouseleave", function(event, d) {
+            d3.select(this).select("rect").style("stroke-width", d => d.data.type === "result" ? 3 : 3);
+            d3.selectAll(".tooltip").remove();
+        });
+        node.on("click", function(event, d) {
+            showTooltip(event, d, true);
+        });
+        function showTooltip(event, d, sticky = false) {
+            d3.selectAll(".tooltip").remove();
+            const tooltip = d3.select("body").append("div")
+                .attr("class", "tooltip")
+                .style("left", (event.pageX + 18) + "px")
+                .style("top", (event.pageY - 10) + "px");
+            let content = `<strong>${d.data.text}</strong>`;
+            if (d.data.type === "result") {
+                content += `<br><br><span style='color:#10b981;font-weight:700;'>✓ This is your recommended statistical test!</span>`;
+            } else if (d.children) {
+                content += `<br><br>Choose one of the ${d.children.length} options below.`;
+            }
+            tooltip.html(content);
+            if (!sticky) {
+                setTimeout(() => tooltip.remove(), 3500);
+            }
+        }
+        // --- Responsive redraw on window resize ---
+        window.addEventListener('resize', () => {
+            location.reload();
+        });
+
+        // --- Menu functionality ---
+        fetch('../assets/shared-menu.html')
+            .then(res => res.text())
+            .then(html => {
+                document.getElementById('menu-container').innerHTML = html;
+                document.getElementById('menu-btn').style.display = '';
+                window.openMenu = function() {
+                    document.getElementById('site-menu').style.transform = 'translateX(0)';
+                    document.getElementById('menu-backdrop').classList.remove('hidden');
+                };
+                window.closeMenu = function() {
+                    document.getElementById('site-menu').style.transform = 'translateX(-100%)';
+                    document.getElementById('menu-backdrop').classList.add('hidden');
+                };
+            });
+    </script>
+
+</body>
+</html>
