@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PS7002 TB1: Winter Test Answers</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f7f4;
+            color: #3d405b;
+            padding-bottom: 80px;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        .answer-card {
+            transition: all 0.3s ease;
+        }
+        .answer-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .explanation {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .explanation.show {
+            max-height: 500px;
+            transition: max-height 0.5s ease-in;
+        }
+        
+        /* Mobile-specific adjustments */
+        @media (max-width: 768px) {
+            .answer-card {
+                margin: 0 -1rem;
+                border-radius: 0;
+                border-left: none;
+                border-right: none;
+            }
+            
+            .explanation.show {
+                max-height: 800px; /* Allow more space on mobile for longer explanations */
+            }
+            
+            /* Improve touch targets */
+            .explanation button {
+                min-height: 48px;
+                padding: 12px 16px;
+            }
+            
+            /* Better spacing for mobile */
+            .options-container {
+                gap: 8px;
+            }
+            
+            .options-container > div {
+                padding: 12px 16px;
+                font-size: 16px; /* Prevent zoom on iOS */
+            }
+            
+            /* Improve readability on small screens */
+            .question-text {
+                font-size: 16px;
+                line-height: 1.5;
+            }
+            
+            /* Better footer layout on mobile */
+            #action-footer .container {
+                flex-direction: column;
+                gap: 12px;
+            }
+            
+            #action-footer button {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+        
+        /* Tablet adjustments */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .answer-card {
+                padding: 1.5rem;
+            }
+            
+            .explanation.show {
+                max-height: 600px;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <button id="menu-btn" onclick="openMenu()" style="display:none" class="fixed top-4 left-4 z-50 bg-emerald-600 text-white px-4 py-2 rounded shadow hover:bg-emerald-700">☰ Menu</button>
+    <div id="menu-container"></div>
+
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="../index.html" class="mr-4 text-lg font-bold text-[#3d405b] hover:underline">Home</a>
+                    <h1 class="text-xl font-bold text-[#3d405b] hidden sm:block">PS7002 TB1 Winter Test Answers</h1>
+                    <h1 class="text-lg font-bold text-[#3d405b] sm:hidden">Winter Test Answers</h1>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#mcq-answers" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">MCQ Answers</a>
+                        <a href="#case-studies" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Case Studies</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main id="main-content" class="container mx-auto p-4 sm:p-6 lg:p-8 pt-20">
+        
+        <section id="welcome" class="text-center mb-16">
+            <h2 class="text-4xl font-bold text-[#3d405b] mb-4">Winter Test Answers & Explanations</h2>
+            <p class="max-w-3xl mx-auto text-lg text-gray-700">Complete answers and detailed explanations for the PS7002 TB1 Winter Test. Use this resource to review your understanding and learn from any mistakes.</p>
+        </section>
+
+        <section id="mcq-answers" class="mb-16">
+            <h3 class="text-3xl font-bold text-center mb-8 text-[#81b29a]">Multiple Choice Questions (1-25)</h3>
+            
+            <!-- Mobile quick navigation -->
+            <div class="md:hidden mb-6">
+                <div class="bg-white p-4 rounded-lg shadow-sm">
+                    <h4 class="font-semibold text-gray-700 mb-3">Quick Navigation</h4>
+                    <div class="grid grid-cols-5 gap-2">
+                        <!-- Question numbers will be added dynamically -->
+                    </div>
+                </div>
+            </div>
+            
+            <div id="mcq-container" class="space-y-6 max-w-4xl mx-auto">
+                <!-- MCQ answers will be loaded here -->
+            </div>
+        </section>
+
+        <section id="case-studies" class="mb-16">
+            <h3 class="text-3xl font-bold text-center mb-8 text-[#e07a5f]">Case Study Answers</h3>
+            <div class="text-center text-gray-600">
+                <p class="text-lg">Case study answers will be added here as they become available.</p>
+                <p class="mt-2">Check back for updates on Case Studies 26, 27, and 28.</p>
+            </div>
+        </section>
+    </main>
+    
+    <footer id="action-footer" class="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-sm border-t border-gray-200 p-4 shadow-lg-top z-50">
+        <div class="container mx-auto flex justify-center items-center space-x-4">
+            <button id="expand-all-btn" class="bg-[#81b29a] text-white font-bold py-2 px-6 rounded-lg hover:bg-[#6a9a81] transition-colors">Expand All Explanations</button>
+            <button id="collapse-all-btn" class="bg-gray-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-gray-700 transition-colors">Collapse All</button>
+            <button id="download-pdf-btn" class="bg-[#e07a5f] text-white font-bold py-2 px-6 rounded-lg hover:bg-[#d46a50] transition-colors">Download PDF</button>
+        </div>
+    </footer>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let quizData = [];
+        
+        // Load the MCQ data from the JSON file
+        fetch('../resources/winter-test-mcqs.json')
+            .then(response => response.json())
+            .then(data => {
+                quizData = data.questions;
+                displayMCQAnswers();
+            })
+            .catch(error => {
+                console.error('Error loading MCQ data:', error);
+                document.getElementById('mcq-container').innerHTML = '<p class="text-red-500 text-center">Error loading answers. Please check the file path.</p>';
+            });
+
+        function displayMCQAnswers() {
+            const container = document.getElementById('mcq-container');
+            
+            // Add mobile quick navigation
+            const mobileNav = document.querySelector('#mcq-answers .grid');
+            if (mobileNav) {
+                quizData.forEach((item, index) => {
+                    const navButton = document.createElement('button');
+                    navButton.className = 'bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2 px-1 rounded text-sm transition-colors';
+                    navButton.textContent = item.id;
+                    navButton.onclick = () => {
+                        const targetCard = document.querySelector(`[data-question-id="${item.id}"]`);
+                        if (targetCard) {
+                            targetCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    };
+                    mobileNav.appendChild(navButton);
+                });
+            }
+            
+            quizData.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = 'answer-card bg-white p-6 rounded-lg shadow-md';
+                card.setAttribute('data-question-id', item.id);
+                
+                const questionNumber = document.createElement('div');
+                questionNumber.className = 'text-sm font-semibold text-[#81b29a] mb-2';
+                questionNumber.textContent = `Question ${item.id}`;
+                card.appendChild(questionNumber);
+
+                const question = document.createElement('p');
+                question.className = 'question-text font-semibold text-lg mb-4 text-[#3d405b]';
+                question.textContent = item.question;
+                card.appendChild(question);
+
+                // Display all options with correct answer highlighted
+                const optionsContainer = document.createElement('div');
+                optionsContainer.className = 'options-container space-y-2 mb-4';
+                
+                item.options.forEach(option => {
+                    const optionDiv = document.createElement('div');
+                    optionDiv.className = 'p-3 rounded-lg border-2 transition-colors';
+                    
+                    if (option === item.correct_answer) {
+                        optionDiv.className += ' bg-green-100 border-green-500 text-green-800';
+                        optionDiv.innerHTML = `<span class="font-bold">✓</span> ${option}`;
+                    } else {
+                        optionDiv.className += ' bg-gray-50 border-gray-200 text-gray-700';
+                        optionDiv.innerHTML = `<span class="font-bold">○</span> ${option}`;
+                    }
+                    
+                    optionsContainer.appendChild(optionDiv);
+                });
+                card.appendChild(optionsContainer);
+
+                // Correct answer section
+                const correctAnswerDiv = document.createElement('div');
+                correctAnswerDiv.className = 'bg-green-50 border-l-4 border-green-500 p-4 mb-4';
+                correctAnswerDiv.innerHTML = `
+                    <p class="font-semibold text-green-800">Correct Answer: <span class="text-green-900">${item.correct_answer}</span></p>
+                `;
+                card.appendChild(correctAnswerDiv);
+
+                // Explanation section
+                const explanationContainer = document.createElement('div');
+                explanationContainer.className = 'explanation';
+                
+                const explanationHeader = document.createElement('button');
+                explanationHeader.className = 'w-full text-left bg-blue-50 hover:bg-blue-100 p-3 rounded-lg font-semibold text-blue-800 transition-colors flex justify-between items-center';
+                explanationHeader.innerHTML = `
+                    <span>View Explanation</span>
+                    <span class="text-blue-600">▼</span>
+                `;
+                
+                const explanationContent = document.createElement('div');
+                explanationContent.className = 'bg-blue-50 p-4 rounded-lg mt-2 text-blue-900';
+                explanationContent.textContent = item.explanation;
+                
+                explanationContainer.appendChild(explanationHeader);
+                explanationContainer.appendChild(explanationContent);
+                card.appendChild(explanationContainer);
+
+                // Toggle explanation visibility
+                explanationHeader.addEventListener('click', () => {
+                    const isExpanded = explanationContainer.classList.contains('show');
+                    if (isExpanded) {
+                        explanationContainer.classList.remove('show');
+                        explanationHeader.innerHTML = `
+                            <span>View Explanation</span>
+                            <span class="text-blue-600">▼</span>
+                        `;
+                    } else {
+                        explanationContainer.classList.add('show');
+                        explanationHeader.innerHTML = `
+                            <span>Hide Explanation</span>
+                            <span class="text-blue-600">▲</span>
+                        `;
+                    }
+                });
+
+                container.appendChild(card);
+            });
+        }
+
+        // Expand all explanations
+        document.getElementById('expand-all-btn').addEventListener('click', () => {
+            const explanations = document.querySelectorAll('.explanation');
+            const headers = document.querySelectorAll('.explanation button');
+            
+            explanations.forEach((exp, index) => {
+                exp.classList.add('show');
+                headers[index].innerHTML = `
+                    <span>Hide Explanation</span>
+                    <span class="text-blue-600">▲</span>
+                `;
+            });
+        });
+
+        // Collapse all explanations
+        document.getElementById('collapse-all-btn').addEventListener('click', () => {
+            const explanations = document.querySelectorAll('.explanation');
+            const headers = document.querySelectorAll('.explanation button');
+            
+            explanations.forEach((exp, index) => {
+                exp.classList.remove('show');
+                headers[index].innerHTML = `
+                    <span>View Explanation</span>
+                    <span class="text-blue-600">▼</span>
+                `;
+            });
+        });
+
+        // Download PDF functionality (placeholder)
+        document.getElementById('download-pdf-btn').addEventListener('click', () => {
+            alert('PDF download functionality will be implemented here. For now, you can use your browser\'s print function (Ctrl+P) to save as PDF.');
+        });
+
+        // Add mobile-specific enhancements
+        function addMobileEnhancements() {
+            // Add touch-friendly scrolling for long explanations
+            const explanations = document.querySelectorAll('.explanation');
+            explanations.forEach(exp => {
+                exp.addEventListener('touchstart', function(e) {
+                    // Prevent default only if content is scrollable
+                    if (this.scrollHeight > this.clientHeight) {
+                        e.stopPropagation();
+                    }
+                }, { passive: true });
+            });
+
+            // Add haptic feedback for mobile devices (if supported)
+            if ('vibrate' in navigator) {
+                const buttons = document.querySelectorAll('button');
+                buttons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        navigator.vibrate(10);
+                    });
+                });
+            }
+        }
+
+        // Initialize mobile enhancements after content loads
+        setTimeout(addMobileEnhancements, 1000);
+    });
+    </script>
+    
+    <script>
+    function openMenu() {
+      document.getElementById('site-menu').style.transform = 'translateX(0)';
+      document.getElementById('menu-backdrop').classList.remove('hidden');
+    }
+    function closeMenu() {
+      document.getElementById('site-menu').style.transform = 'translateX(-100%)';
+      document.getElementById('menu-backdrop').classList.add('hidden');
+    }
+    fetch('../assets/shared-menu.html')
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('menu-container').innerHTML = html;
+        document.getElementById('menu-btn').style.display = '';
+        window.openMenu = function() {
+          document.getElementById('site-menu').style.transform = 'translateX(0)';
+          document.getElementById('menu-backdrop').classList.remove('hidden');
+        };
+        window.closeMenu = function() {
+          document.getElementById('site-menu').style.transform = 'translateX(-100%)';
+          document.getElementById('menu-backdrop').classList.add('hidden');
+        };
+      });
+    </script>
+</body>
+</html>

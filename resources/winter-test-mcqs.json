@@ -1,0 +1,193 @@
+{
+  "title": "PS7002 TB1 Winter Test - Multiple Choice Questions",
+  "description": "Answers and explanations for the 25 multiple choice questions from the winter test",
+  "questions": [
+    {
+      "id": 1,
+      "question": "How many independent variables are there in a 2x2 mixed design?",
+      "options": ["4", "2", "1 with 2 levels", "4 experimental groups"],
+      "correct_answer": "2",
+      "explanation": "In a 2x2 mixed design, there are exactly 2 independent variables. The '2x2' notation indicates that each of the 2 IVs has 2 levels. One IV is typically manipulated between-subjects and the other within-subjects (repeated measures), hence 'mixed' design."
+    },
+    {
+      "id": 2,
+      "question": "At the heart of the determining the correlation between two variables is the calculation and sum of",
+      "options": ["deviations from the mean.", "the products of standardized scores.", "squared deviations from the mean.", "Z scores."],
+      "correct_answer": "the products of standardized scores.",
+      "explanation": "The Pearson correlation coefficient is calculated using the sum of the products of standardized scores (z-scores). This standardization allows variables measured on different scales to be compared, and the product of z-scores captures the degree to which variables vary together."
+    },
+    {
+      "id": 3,
+      "question": "In a 2x2 between-subjects experiment, the cross over interaction is significant, with a large effect size. What is (are) the implication (s) of this significant interaction for the interpretation of the main effects?",
+      "options": ["The main effects are much less important.", "The interpretation of the main effects must take into account the significant interaction.", "The main effects can explain some of the variance in the data.", "All of the above."],
+      "correct_answer": "All of the above.",
+      "explanation": "When there's a significant crossover interaction, all three statements are true. The interaction indicates that the effect of one IV depends on the level of the other IV, making main effects less interpretable in isolation. The interaction must be considered when interpreting main effects, and main effects still contribute to explaining variance in the data."
+    },
+    {
+      "id": 4,
+      "question": "Calculating a correlation between two variables is only possible when the two variables are measured along the same scale. How is this possible when, for example, the correlation between height (in cm) and weight (in kg) is calculated?",
+      "options": ["It is not possible.", "Deviations from the mean are correlated (not the raw scores).", "The correlation proceeds on the basis of the absolute values.", "The scores are standardized first."],
+      "correct_answer": "The scores are standardized first.",
+      "explanation": "Variables with different units (like cm and kg) can be correlated because the scores are standardized first. Standardization converts raw scores to z-scores, which are unitless and can be compared across different scales. This is why we can correlate height and weight despite their different measurement units."
+    },
+    {
+      "id": 5,
+      "question": "A repeated measures design assesses taste ratings for a beverage as a function of its sugar content (low, high) and its degree of caffeine (no caffeine, low degree, high degree). This design is a",
+      "options": ["2x2 repeated measures design.", "2x2 between beverage design.", "2x3 repeated measures design.", "2x2 mixed design."],
+      "correct_answer": "2x3 repeated measures design.",
+      "explanation": "This is a 2x3 repeated measures design because there are 2 levels of sugar content (low, high) and 3 levels of caffeine (none, low, high). Since all participants experience all conditions, it's a repeated measures design, not mixed or between-subjects."
+    },
+    {
+      "id": 6,
+      "question": "How should the data for the previous scenario be entered in Excel for JASP?",
+      "options": ["In 3 columns (one for taste ratings, and the other two coding for sugar and caffeine).", "In 2 columns (one for each IV)", "In 4 columns.", "In 6 columns (one for each of the experimental conditions)."],
+      "correct_answer": "In 6 columns (one for each of the experimental conditions).",
+      "explanation": "For a 2x3 repeated measures design, data should be entered in 6 columns - one for each experimental condition (2 sugar levels × 3 caffeine levels = 6 conditions). Each row represents one participant, with their taste rating for each condition in the respective columns."
+    },
+    {
+      "id": 7,
+      "question": "In a regression equation, b₀ refers to",
+      "options": ["the intercept.", "where the regression line intersects the Y axis.", "the standardized residuals.", "A and B."],
+      "correct_answer": "A and B.",
+      "explanation": "b₀ is the intercept in a regression equation, which represents where the regression line intersects the Y axis when X = 0. Both statements A and B are correct and refer to the same concept - the intercept is the point where the regression line crosses the Y axis."
+    },
+    {
+      "id": 8,
+      "question": "What is a conceptual replication?",
+      "options": ["Similar comparison and similar measures are reported to assess a conceptually similar phenomenon.", "Different comparisons and different measures are reported to assess a conceptually similar phenomenon.", "Different comparisons and different measures are reported to assess an identical phenomenon.", "A pre-registered report."],
+      "correct_answer": "Different comparisons and different measures are reported to assess a conceptually similar phenomenon.",
+      "explanation": "A conceptual replication tests the same underlying theory or concept but uses different operationalizations, measures, and procedures. It's more flexible than exact replication and helps establish the generalizability of findings across different contexts and methods."
+    },
+    {
+      "id": 9,
+      "question": "The correct rejection of the null hypothesis is also called",
+      "options": ["the effect size.", "the coefficient of correction.", "power.", "a type III error."],
+      "correct_answer": "power.",
+      "explanation": "Power is the probability of correctly rejecting the null hypothesis when it is false (i.e., detecting a true effect). It's the complement of Type II error (β), where power = 1 - β. Higher power means a greater chance of finding a significant result when there truly is an effect."
+    },
+    {
+      "id": 10,
+      "question": "In a meta-analysis, the researchers generate a funnel plot of effect sizes against a measure of study size. The plot is illustrated on the right. This is ___ funnel plot, with missing data points suggesting that the meta-analysis will ___ the treatment effect.",
+      "options": ["a symmetric, truly estimate.", "a triangular, truly estimate.", "an asymmetric, overestimate.", "an asymmetric, underestimate."],
+      "correct_answer": "an asymmetric, overestimate.",
+      "explanation": "An asymmetric funnel plot indicates publication bias, where smaller studies with non-significant results are missing. This typically leads to overestimation of the treatment effect because the meta-analysis includes mostly larger studies and significant findings, creating a biased upward estimate."
+    },
+    {
+      "id": 11,
+      "question": "In a 2x2 between subjects analysis of variance, there is (are)",
+      "options": ["one important F ratio.", "one main effect.", "three F ratios.", "2 or 4 F ratios."],
+      "correct_answer": "three F ratios.",
+      "explanation": "In a 2x2 between-subjects ANOVA, there are exactly 3 F ratios: one for each main effect (2 F ratios) and one for the interaction effect. This is because there are 2 independent variables, each with their own main effect, plus the interaction between them."
+    },
+    {
+      "id": 12,
+      "question": "R² in a regression model is the ___ variance between the Y and X variable.",
+      "options": ["shared", "significant", "critical", "important"],
+      "correct_answer": "shared",
+      "explanation": "R² (the coefficient of determination) represents the proportion of variance in the dependent variable (Y) that is explained by or shared with the independent variable (X). It indicates how much of the variability in Y can be accounted for by the linear relationship with X."
+    },
+    {
+      "id": 13,
+      "question": "According to Simmons et al. (2011) which of the following is NOT a common researcher's degree of freedom?",
+      "options": ["choosing among independent variables.", "choosing sample size.", "using covariates.", "reporting subsets of experimental conditions."],
+      "correct_answer": "choosing among independent variables.",
+      "explanation": "Simmons et al. (2011) identified researcher degrees of freedom as practices that can inflate false positive rates. Choosing sample size, using covariates, and reporting subsets of conditions are common degrees of freedom, but choosing among independent variables is not typically considered one of these problematic practices."
+    },
+    {
+      "id": 14,
+      "question": "In a repeated measures design",
+      "options": ["participants are tested in all conditions.", "individual differences add a substantial amount of noise.", "individual differences are removed from the within-condition variance.", "A & C."],
+      "correct_answer": "A & C.",
+      "explanation": "In repeated measures designs, participants are tested in all conditions (A), and individual differences are removed from the within-condition variance (C) because each participant serves as their own control. This is why repeated measures designs are more powerful than between-subjects designs."
+    },
+    {
+      "id": 15,
+      "question": "A researcher assessed memory abilities in children aged 5-6, 7-8, and 9-10. The scores should be analysed using",
+      "options": ["a series of t tests", "a between-subjects analysis of variance", "a repeated measures analysis of variance", "a mixed analysis of variance."],
+      "correct_answer": "a between-subjects analysis of variance",
+      "explanation": "This is a between-subjects design because different children are in each age group (5-6, 7-8, 9-10). Since participants are not tested in all conditions, it's not repeated measures. A one-way between-subjects ANOVA is the appropriate analysis for comparing three independent groups."
+    },
+    {
+      "id": 16,
+      "question": "Based on the Levene's test (F=1.057, p=0.361), was the assumption of homogeneity of variance met?",
+      "options": ["Yes because p > .05", "No because p < .05", "Yes because F is greater than 1.", "No because F is close to 1."],
+      "correct_answer": "Yes because p > .05",
+      "explanation": "The assumption of homogeneity of variance is met when Levene's test is non-significant (p > .05). Here, p = 0.361, which is greater than 0.05, indicating that the variances across groups are not significantly different. The F value itself is not the criterion for this decision."
+    },
+    {
+      "id": 17,
+      "question": "In a one-way ANOVA, if the F ratio is smaller than 1, this means that",
+      "options": ["the numerator estimate of variance is larger than the denominator.", "the denominator estimate of variance is larger than the numerator.", "the null hypothesis cannot be rejected.", "B and C."],
+      "correct_answer": "B and C.",
+      "explanation": "When F < 1, the denominator (within-group variance) is larger than the numerator (between-group variance), indicating that group differences are smaller than individual differences within groups. This typically means the null hypothesis cannot be rejected, as there's insufficient evidence of group differences."
+    },
+    {
+      "id": 18,
+      "question": "In a 2x2 between-subjects ANOVA, a significant interaction F ratio means that",
+      "options": ["the influence of one IV is not constant across the levels of the other IV.", "the lines in the plot of the four means cross.", "the Levene's test was not significant.", "the main effects are also significant."],
+      "correct_answer": "the influence of one IV is not constant across the levels of the other IV.",
+      "explanation": "A significant interaction indicates that the effect of one independent variable depends on the level of the other independent variable. The effect of one IV is not uniform across all levels of the other IV. While interactions can involve crossing lines, this is not always the case."
+    },
+    {
+      "id": 19,
+      "question": "In a mixed experimental design one or more IVs is manipulated between subjects, and one or more IVs are",
+      "options": ["repeated measures.", "measuring demographic information (such as gender).", "mixed with the others.", "None of the above."],
+      "correct_answer": "repeated measures.",
+      "explanation": "A mixed design combines between-subjects and within-subjects (repeated measures) factors. Some independent variables are manipulated between different groups of participants, while others are manipulated within the same participants (repeated measures)."
+    },
+    {
+      "id": 20,
+      "question": "At the heart of determining the correlation between two variables is the calculation and sum of",
+      "options": ["deviations from the mean.", "the products of standardized scores.", "squared deviations from the mean.", "Z scores."],
+      "correct_answer": "the products of standardized scores.",
+      "explanation": "The Pearson correlation coefficient is calculated using the sum of the products of standardized scores (z-scores). This is the fundamental mathematical operation that captures the linear relationship between two variables, allowing for comparison across different scales."
+    },
+    {
+      "id": 21,
+      "question": "In a simple regression (errors regressed on maths anxiety), what is the correlation between these two variables?",
+      "options": [".484", ".056", ".015", "-.590"],
+      "correct_answer": "-.590",
+      "explanation": "Based on the regression output provided, the standardized coefficient (beta) for maths anxiety is -0.590, which represents the correlation between the two variables in simple regression. The negative sign indicates an inverse relationship - higher maths anxiety is associated with lower error scores."
+    },
+    {
+      "id": 22,
+      "question": "What is the proportion of variance in error scores explained by maths anxiety?",
+      "options": [".768", ".348", ".484", ".046"],
+      "correct_answer": ".348",
+      "explanation": "The proportion of variance explained is R², which equals the squared correlation coefficient. Since the correlation is -0.590, R² = (-0.590)² = 0.348. This means that 34.8% of the variance in error scores can be explained by maths anxiety."
+    },
+    {
+      "id": 23,
+      "question": "What is a false positive?",
+      "options": ["A Type II error", "A non significant p value.", "A type I error.", "A true negative."],
+      "correct_answer": "A type I error.",
+      "explanation": "A false positive is a Type I error - rejecting the null hypothesis when it is actually true. This occurs when we conclude there is an effect when there really isn't one. The probability of a Type I error is controlled by the alpha level (typically 0.05)."
+    },
+    {
+      "id": 24,
+      "question": "An F ratio is a ratio of two estimates of variance. If the denominator is larger than the numerator, the F ratio",
+      "options": ["may be significant.", "is greater than 1, hence significant.", "is smaller than 1, possibly still significant.", "is smaller than 1."],
+      "correct_answer": "is smaller than 1.",
+      "explanation": "When the denominator (within-group variance) is larger than the numerator (between-group variance), the F ratio will be smaller than 1. This typically indicates that group differences are smaller than individual differences within groups, suggesting no significant effect."
+    },
+    {
+      "id": 25,
+      "question": "R² in a regression model is the shared variance between the Y and X variable and it is called the coefficient of",
+      "options": ["implication.", "determination.", "contamination.", "hyperaction."],
+      "correct_answer": "determination.",
+      "explanation": "R² is called the coefficient of determination because it determines or indicates the proportion of variance in the dependent variable that is explained by the independent variable. It represents how well the regression model 'determines' or predicts the dependent variable."
+    }
+  ],
+  "metadata": {
+    "total_questions": 25,
+    "topics_covered": [
+      "Experimental Design",
+      "Correlation and Regression",
+      "Analysis of Variance (ANOVA)",
+      "Statistical Power and Error Types",
+      "Research Methods",
+      "Meta-analysis"
+    ],
+    "difficulty_level": "Intermediate to Advanced"
+  }
+}
