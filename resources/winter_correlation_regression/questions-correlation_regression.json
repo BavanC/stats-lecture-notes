@@ -104,7 +104,7 @@
       "id": 8,
       "topic": "Correlation",
       "section": "Application & Calculation",
-      "question": "If R² = 0.25, what percentage of the variance in one variable is 'explained' by the other variable?",
+      "question": "If R² = 0.25, what percentage of the variance in the outcome variable is 'explained' by the predictor variable?",
       "options": [
         "50%",
         "2.5%",
@@ -143,8 +143,22 @@
       "explanation": "The Pearson's r value is 0.418, which is generally considered a medium or moderate strength in psychology. The p-value is < .001, so the relationship is statistically significant and positive.",
       "jaspTable": {
         "title": "Pearson's Correlations",
-        "headers": ["Variable 1", "Variable 2", "Pearson's r", "p-value", "N"],
-        "rows": [["outdoors_hrs", "life_satisfaction", "0.418", "<.001", "62"]]
+        "headers": [
+          "Variable 1",
+          "Variable 2",
+          "Pearson's r",
+          "p-value",
+          "N"
+        ],
+        "rows": [
+          [
+            "outdoors_hrs",
+            "life_satisfaction",
+            "0.418",
+            "<.001",
+            "62"
+          ]
+        ]
       }
     },
     {
@@ -176,20 +190,6 @@
       "explanation": "A strong correlation means the points are tightly clustered around an imaginary line. A positive correlation means this line slopes upwards (as X increases, Y increases)."
     },
     {
-      "id": 13,
-      "topic": "Correlation",
-      "section": "Application & Calculation",
-      "question": "Using the Z-score formula z = (X - X̄) / S, what is the Z-score for a person who scored 75 on a test where the mean (X̄) was 60 and the standard deviation (S) was 10?",
-      "options": [
-        "1.5",
-        "-1.5",
-        "15",
-        "0.66"
-      ],
-      "correctAnswer": "A",
-      "explanation": "z = (75 - 60) / 10 = 15 / 10 = 1.5. This means the score is 1.5 standard deviations above the mean."
-    },
-    {
       "id": 14,
       "topic": "Correlation",
       "section": "Conceptual Understanding",
@@ -207,7 +207,7 @@
       "id": 15,
       "topic": "Correlation",
       "section": "Conceptual Understanding",
-      "question": "If the sum of the products of standardized scores (Σ(ZxZy)) is negative, what does this imply?",
+      "question": "If the sum of the products of standardized scores is negative, what does this imply?",
       "options": [
         "A calculation error has been made.",
         "The correlation coefficient will be positive.",
@@ -215,7 +215,7 @@
         "The correlation cannot be calculated."
       ],
       "correctAnswer": "C",
-      "explanation": "The formula for r is Σ(ZxZy) / (N-1). Since N-1 is always positive, the sign of the correlation coefficient is determined entirely by the sign of the sum of the products of the Z-scores."
+      "explanation": "The formula for r is (sum of (products of standardised scores of means) / (N-1). Since N-1 is always positive, the sign of the correlation coefficient is determined entirely by the sign of the sum of the products of the Z-scores."
     },
     {
       "id": 16,
@@ -414,8 +414,22 @@
       "explanation": "The 'R²' (R Square) value directly represents the proportion of explained variance. A value of 0.295 corresponds to 29.5%.",
       "jaspTable": {
         "title": "Model Summary",
-        "headers": ["Model", "R", "R²", "Adjusted R²", "RMSE"],
-        "rows": [["H₁", "0.544", "0.295", "0.269", "19.406"]]
+        "headers": [
+          "Model",
+          "R",
+          "R²",
+          "Adjusted R²",
+          "RMSE"
+        ],
+        "rows": [
+          [
+            "H₁",
+            "0.544",
+            "0.295",
+            "0.269",
+            "19.406"
+          ]
+        ]
       }
     },
     {
@@ -433,8 +447,26 @@
       "explanation": "The ANOVA table in regression tests whether the overall model (using the predictor) is significantly better at explaining the outcome than a null model (with no predictors). A significant p-value (p < .05) means the model is a good fit.",
       "jaspTable": {
         "title": "ANOVA",
-        "headers": ["Model", "", "Sum of Squares", "df", "Mean Square", "F", "p"],
-        "rows": [["H₁", "Regression", "4262.933", "1", "4262.933", "11.320", ".002"]]
+        "headers": [
+          "Model",
+          "",
+          "Sum of Squares",
+          "df",
+          "Mean Square",
+          "F",
+          "p"
+        ],
+        "rows": [
+          [
+            "H₁",
+            "Regression",
+            "4262.933",
+            "1",
+            "4262.933",
+            "11.320",
+            ".002"
+          ]
+        ]
       }
     },
     {
@@ -452,10 +484,34 @@
       "explanation": "The slope (b₁) is the 'Unstandardized' coefficient for the predictor variable. In the row for 'revision_hrs', this value is 0.480.",
       "jaspTable": {
         "title": "Coefficients",
-        "headers": ["Model", "", "Unstandardized", "Standard Error", "Standardized", "t", "p"],
+        "headers": [
+          "Model",
+          "",
+          "Unstandardized",
+          "Standard Error",
+          "Standardized",
+          "t",
+          "p"
+        ],
         "rows": [
-          ["H₁", "(Intercept)", "29.574", "9.431", "", "3.136", ".004"],
-          ["", "revision_hrs", "0.480", "0.143", "0.544", "3.365", ".002"]
+          [
+            "H₁",
+            "(Intercept)",
+            "29.574",
+            "9.431",
+            "",
+            "3.136",
+            ".004"
+          ],
+          [
+            "",
+            "revision_hrs",
+            "0.480",
+            "0.143",
+            "0.544",
+            "3.365",
+            ".002"
+          ]
         ]
       }
     },
@@ -472,12 +528,36 @@
       ],
       "correctAnswer": "B",
       "explanation": "The equation is Y' = b₀ + b₁(X). The intercept (b₀) is 29.574 and the slope (b₁) for the predictor is 0.480. Therefore, the equation is Y' = 29.574 + 0.480(X).",
-       "jaspTable": {
+      "jaspTable": {
         "title": "Coefficients",
-        "headers": ["Model", "", "Unstandardized", "Standard Error", "Standardized", "t", "p"],
+        "headers": [
+          "Model",
+          "",
+          "Unstandardized",
+          "Standard Error",
+          "Standardized",
+          "t",
+          "p"
+        ],
         "rows": [
-          ["H₁", "(Intercept)", "29.574", "9.431", "", "3.136", ".004"],
-          ["", "revision_hrs", "0.480", "0.143", "0.544", "3.365", ".002"]
+          [
+            "H₁",
+            "(Intercept)",
+            "29.574",
+            "9.431",
+            "",
+            "3.136",
+            ".004"
+          ],
+          [
+            "",
+            "revision_hrs",
+            "0.480",
+            "0.143",
+            "0.544",
+            "3.365",
+            ".002"
+          ]
         ]
       }
     },
@@ -485,7 +565,7 @@
       "id": 33,
       "topic": "Regression",
       "section": "Application & Calculation",
-      "question": "Using the equation 'Predicted Score = 29.574 + 0.480(Revision Hours)', what is the predicted score for someone who revised for 0 hours?",
+      "question": "Using the equation 'Predicted Score = 29.574 + 0.480 * Revision Hours', what is the predicted score for someone who revised for 0 hours?",
       "options": [
         "0",
         "29.574",
@@ -494,27 +574,6 @@
       ],
       "correctAnswer": "B",
       "explanation": "When X=0, the equation becomes Predicted Score = 29.574 + (0.480 * 0), which equals 29.574. This demonstrates the definition of the intercept."
-    },
-    {
-      "id": 34,
-      "topic": "Regression",
-      "section": "JASP Interpretation",
-      "question": "In the JASP 'Coefficients' table, the Standardized coefficient for 'revision_hrs' is 0.544. What other value from a related analysis would be identical to this?",
-      "options": [
-        "The R² value.",
-        "The Pearson's r correlation coefficient between revision hours and exam score.",
-        "The F-statistic from the ANOVA table.",
-        "The unstandardized slope."
-      ],
-      "correctAnswer": "B",
-      "explanation": "In simple linear regression (with only one predictor), the standardized beta (β) coefficient is always equal to the Pearson's r correlation coefficient.",
-      "jaspTable": {
-        "title": "Coefficients",
-        "headers": ["Model", "", "Unstandardized", "Standard Error", "Standardized", "t", "p"],
-        "rows": [
-          ["", "revision_hrs", "0.480", "0.143", "0.544", "3.365", ".002"]
-        ]
-      }
     },
     {
       "id": 35,
@@ -545,10 +604,31 @@
       "explanation": "Predicted Error = -3.93 + (0.189 * 50) = -3.93 + 9.45 = 5.52.",
       "jaspTable": {
         "title": "Coefficients",
-        "headers": ["Model", "Unstandardized", "Standard Error", "Standardized", "t", "p"],
+        "headers": [
+          "Model",
+          "Unstandardized",
+          "Standard Error",
+          "Standardized",
+          "t",
+          "p"
+        ],
         "rows": [
-          ["(Intercept)", "-3.930", "2.725", "", "-1.442", "0.155"],
-          ["MAS", "0.189", "0.047", "0.498", "4.058", "<.001"]
+          [
+            "(Intercept)",
+            "-3.930",
+            "2.725",
+            "",
+            "-1.442",
+            "0.155"
+          ],
+          [
+            "MAS",
+            "0.189",
+            "0.047",
+            "0.498",
+            "4.058",
+            "<.001"
+          ]
         ]
       }
     },
@@ -623,10 +703,22 @@
       "explanation": "The p-value for the intercept tests if it is significantly different from zero. The p-value for the predictor tests if its slope is significantly different from zero. Since both p-values (.004 and .002) are less than .05, both are statistically significant contributors.",
       "jaspTable": {
         "title": "Coefficients",
-        "headers": ["", "t", "p"],
+        "headers": [
+          "",
+          "t",
+          "p"
+        ],
         "rows": [
-          ["(Intercept)", "3.136", ".004"],
-          ["revision_hrs", "3.365", ".002"]
+          [
+            "(Intercept)",
+            "3.136",
+            ".004"
+          ],
+          [
+            "revision_hrs",
+            "3.365",
+            ".002"
+          ]
         ]
       }
     },
@@ -673,34 +765,6 @@
       "explanation": "The equation is Growth = 5.0 + 1.2 * (sunlight). For 6 hours of sunlight: Growth = 5.0 + 1.2 * 6 = 5.0 + 7.2 = 12.2 cm."
     },
     {
-      "id": 45,
-      "topic": "Regression",
-      "section": "Conceptual Understanding",
-      "question": "Why would a researcher choose to report the 'Adjusted R²' from the model summary instead of the regular 'R²'?",
-      "options": [
-        "Adjusted R² is always larger than R².",
-        "Adjusted R² is easier to interpret.",
-        "Adjusted R² provides a better estimate of the model's predictive accuracy in the population, especially in multiple regression.",
-        "Adjusted R² is the same as the correlation coefficient."
-      ],
-      "correctAnswer": "C",
-      "explanation": "R² can be an inflated estimate of how well the model fits the population. Adjusted R² 'shrinks' the R² value based on the number of predictors and sample size, providing a more conservative and often more realistic estimate of the model's true explanatory power."
-    },
-    {
-      "id": 46,
-      "topic": "Regression",
-      "section": "Conceptual Understanding",
-      "question": "In simple regression, if the slope (b₁) is 0, what would the R² value be?",
-      "options": [
-        "1",
-        "0.5",
-        "0",
-        "It would be negative."
-      ],
-      "correctAnswer": "C",
-      "explanation": "A slope of 0 means the predictor has no linear relationship with the outcome. The regression line would be flat. In this case, the predictor explains none of the variance in the outcome, so R² would be 0."
-    },
-    {
       "id": 47,
       "topic": "Regression",
       "section": "Application & Calculation",
@@ -727,34 +791,6 @@
       ],
       "correctAnswer": "A",
       "explanation": "RMSE is the standard deviation of the residuals. It gives you a sense of the typical distance between the observed data points and the regression line, in the original units of your outcome variable."
-    },
-    {
-      "id": 49,
-      "topic": "Regression",
-      "section": "Conceptual Understanding",
-      "question": "If you ran a simple regression and found that the correlation coefficient was r = -0.60, what would the standardized beta (β) coefficient be?",
-      "options": [
-        "0.60",
-        "-0.60",
-        "0.36",
-        "-0.36"
-      ],
-      "correctAnswer": "B",
-      "explanation": "In simple linear regression, the standardized beta coefficient is always identical to the Pearson correlation coefficient, including the sign. Therefore, β = -0.60."
-    },
-    {
-      "id": 50,
-      "topic": "Regression",
-      "section": "Application & Calculation",
-      "question": "A regression analysis predicting happiness (Y) from income (X) yields the equation Y' = 30 + 0.0005(X). A participant's actual happiness score is 70, but their predicted score was 65. What is their residual?",
-      "options": [
-        "5",
-        "-5",
-        "65",
-        "70"
-      ],
-      "correctAnswer": "A",
-      "explanation": "The residual is the actual score minus the predicted score. Residual (ε) = Y - Y' = 70 - 65 = 5."
     }
   ]
 }

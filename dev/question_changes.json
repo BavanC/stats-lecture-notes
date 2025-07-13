@@ -1,0 +1,89 @@
+[
+  {
+    "file": "resources/winter_correlation_regression/questions-correlation_regression.json",
+    "id": "15",
+    "action": "edit",
+    "newData": {
+      "id": 15,
+      "topic": "Correlation",
+      "section": "Conceptual Understanding",
+      "question": "If the sum of the products of standardized scores is negative, what does this imply?",
+      "options": [
+        "A calculation error has been made.",
+        "The correlation coefficient will be positive.",
+        "The correlation coefficient will be negative.",
+        "The correlation cannot be calculated."
+      ],
+      "correctAnswer": "C",
+      "explanation": "The formula for r is (sum of (products of standardised scores of means) / (N-1). Since N-1 is always positive, the sign of the correlation coefficient is determined entirely by the sign of the sum of the products of the Z-scores."
+    }
+  },
+  {
+    "file": "resources/winter_correlation_regression/questions-correlation_regression.json",
+    "id": "45",
+    "action": "delete"
+  },
+  {
+    "file": "resources/winter_correlation_regression/questions-correlation_regression.json",
+    "id": "46",
+    "action": "delete"
+  },
+  {
+    "file": "resources/winter_correlation_regression/questions-correlation_regression.json",
+    "id": "49",
+    "action": "delete"
+  },
+  {
+    "file": "resources/winter_correlation_regression/questions-correlation_regression.json",
+    "id": "8",
+    "action": "edit",
+    "newData": {
+      "id": 8,
+      "topic": "Correlation",
+      "section": "Application & Calculation",
+      "question": "If R² = 0.25, what percentage of the variance in the outcome variable is 'explained' by the predictor variable?",
+      "options": [
+        "50%",
+        "2.5%",
+        "25%",
+        "It cannot be determined."
+      ],
+      "correctAnswer": "C",
+      "explanation": "The R-squared value, when multiplied by 100, gives the percentage of shared variance. 0.25 * 100 = 25%."
+    }
+  },
+  {
+    "file": "resources/winter_correlation_regression/questions-correlation_regression.json",
+    "id": "13",
+    "action": "delete"
+  },
+  {
+    "file": "resources/winter_correlation_regression/questions-correlation_regression.json",
+    "id": "33",
+    "action": "edit",
+    "newData": {
+      "id": 33,
+      "topic": "Regression",
+      "section": "Application & Calculation",
+      "question": "Using the equation 'Predicted Score = 29.574 + 0.480 * Revision Hours', what is the predicted score for someone who revised for 0 hours?",
+      "options": [
+        "0",
+        "29.574",
+        "0.480",
+        "30.054"
+      ],
+      "correctAnswer": "B",
+      "explanation": "When X=0, the equation becomes Predicted Score = 29.574 + (0.480 * 0), which equals 29.574. This demonstrates the definition of the intercept."
+    }
+  },
+  {
+    "file": "resources/winter_correlation_regression/questions-correlation_regression.json",
+    "id": "50",
+    "action": "delete"
+  },
+  {
+    "file": "resources/winter_correlation_regression/questions-correlation_regression.json",
+    "id": "34",
+    "action": "delete"
+  }
+]

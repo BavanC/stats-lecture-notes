@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All ANOVA Questions Validation</title>
+    <title>All Quiz Questions Validation</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
         .correct-answer {
@@ -14,11 +14,18 @@
 </head>
 <body class="bg-gray-50 min-h-screen p-6">
     <div class="max-w-4xl mx-auto">
-        <h1 class="text-3xl font-bold mb-6 text-center">All ANOVA Questions Validation</h1>
+        <h1 class="text-3xl font-bold mb-6 text-center">All Quiz Questions Validation</h1>
         <div class="mb-4 flex justify-end">
             <button id="downloadChangesBtn" class="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700">Download Changes</button>
         </div>
         <div class="flex flex-col md:flex-row gap-4 mb-8 justify-center">
+            <div>
+                <label for="quizType" class="block text-sm font-medium text-gray-700 mb-1">Quiz Type</label>
+                <select id="quizType" class="p-2 border border-gray-300 rounded-md w-full">
+                    <option value="anova">ANOVA Quiz</option>
+                    <option value="correlation">Correlation & Regression Quiz</option>
+                </select>
+            </div>
             <div>
                 <label for="anovaType" class="block text-sm font-medium text-gray-700 mb-1">ANOVA Type</label>
                 <select id="anovaType" class="p-2 border border-gray-300 rounded-md w-full">
@@ -36,35 +43,92 @@
         </div>
         <div id="questionsContainer" class="space-y-8"></div>
     </div>
+    <!-- Scroll to Top Button -->
+    <button id="scrollToTopBtn" style="display:none;position:fixed;bottom:2rem;right:2rem;z-index:2000;" class="bg-blue-600 text-white rounded-full p-3 shadow-lg hover:bg-blue-700 transition-all">
+        &#8679;
+    </button>
     <script>
         // File paths
         const files = {
-            independent: '../resources/ANOVA_1/independent-anova-questions.json',
-            repeated: '../resources/ANOVA_1/questions_one-way-repeated-anovas.json',
-            followup: '../resources/ANOVA_1/questions-follow_up_tests.json'
+            anova: {
+                independent: '../resources/ANOVA_1/independent-anova-questions.json',
+                repeated: '../resources/ANOVA_1/questions_one-way-repeated-anovas.json',
+                followup: '../resources/ANOVA_1/questions-follow_up_tests.json'
+            },
+            correlation: {
+                main: '../resources/winter_correlation_regression/questions-correlation_regression.json'
+            }
         };
-        let allQuestions = { independent: [], repeated: [], followup: [] };
-        let sections = { independent: new Set(), repeated: new Set(), followup: new Set() };
+        
+        let allQuestions = { 
+            anova: { independent: [], repeated: [], followup: [] },
+            correlation: { main: [] }
+        };
+        let sections = { 
+            anova: { independent: new Set(), repeated: new Set(), followup: new Set() },
+            correlation: { main: new Set() }
+        };
         let changes = [];
+        // Helper to get the latest version of a question (edited or original)
+        function getLatestQuestion(quizType, anovaType, id) {
+            const change = changes.find(c => c.id == id && c.file === getFilePath(quizType, anovaType));
+            if (change && change.action === 'edit') {
+                return change.newData;
+            }
+            if (quizType === 'anova') {
+                return allQuestions.anova[anovaType].find(q => String(q.id) === String(id));
+            } else {
+                return allQuestions.correlation.main.find(q => String(q.id) === String(id));
+            }
+        }
+        function getFilePath(quizType, anovaType) {
+            return quizType === 'anova' ? fileMap.anova[anovaType] : fileMap.correlation.main;
+        }
+        function isEdited(quizType, anovaType, id) {
+            return changes.some(c => c.id == id && c.file === getFilePath(quizType, anovaType) && c.action === 'edit');
+        }
+        function isDeleted(quizType, anovaType, id) {
+            return changes.some(c => c.id == id && c.file === getFilePath(quizType, anovaType) && c.action === 'delete');
+        }
         const fileMap = {
-            independent: 'resources/ANOVA_1/independent-anova-questions.json',
-            repeated: 'resources/ANOVA_1/questions_one-way-repeated-anovas.json',
-            followup: 'resources/ANOVA_1/questions-follow_up_tests.json'
+            anova: {
+                independent: 'resources/ANOVA_1/independent-anova-questions.json',
+                repeated: 'resources/ANOVA_1/questions_one-way-repeated-anovas.json',
+                followup: 'resources/ANOVA_1/questions-follow_up_tests.json'
+            },
+            correlation: {
+                main: 'resources/winter_correlation_regression/questions-correlation_regression.json'
+            }
         };
 
         async function loadQuestions() {
+            // Load ANOVA questions
             for (const type of ['independent', 'repeated', 'followup']) {
-                const res = await fetch(files[type]);
+                const res = await fetch(files.anova[type]);
                 const data = await res.json();
-                allQuestions[type] = data.questions;
-                data.questions.forEach(q => sections[type].add(q.section));
+                allQuestions.anova[type] = data.questions;
+                data.questions.forEach(q => sections.anova[type].add(q.section));
             }
+            
+            // Load correlation questions
+            const corrRes = await fetch(files.correlation.main);
+            const corrData = await corrRes.json();
+            allQuestions.correlation.main = corrData.questions;
+            corrData.questions.forEach(q => sections.correlation.main.add(q.section));
         }
 
-        function populateSections(type) {
+        function populateSections(quizType, anovaType) {
             const sectionSelect = document.getElementById('section');
             sectionSelect.innerHTML = '<option value="all">All Sections</option>';
-            Array.from(sections[type]).forEach(section => {
+            
+            let sectionSet;
+            if (quizType === 'anova') {
+                sectionSet = sections.anova[anovaType];
+            } else {
+                sectionSet = sections.correlation.main;
+            }
+            
+            Array.from(sectionSet).forEach(section => {
                 const opt = document.createElement('option');
                 opt.value = section;
                 opt.textContent = section;
@@ -72,17 +136,28 @@
             });
         }
 
-        function renderQuestions(type, section) {
+        function renderQuestions(quizType, anovaType, section) {
             const container = document.getElementById('questionsContainer');
-            let questions = allQuestions[type];
-            if (section !== 'all') {
-                questions = questions.filter(q => q.section === section);
+            let questions = [];
+            
+            if (quizType === 'anova') {
+                questions = allQuestions.anova[anovaType];
+                if (section !== 'all') {
+                    questions = questions.filter(q => q.section === section);
+                }
+            } else {
+                questions = allQuestions.correlation.main;
+                if (section !== 'all') {
+                    questions = questions.filter(q => q.section === section);
+                }
             }
+            
             container.innerHTML = '';
             if (questions.length === 0) {
                 container.innerHTML = '<div class="text-center text-gray-500">No questions found for this filter.</div>';
                 return;
             }
+            
             function createJaspTable(tableData) {
                 if (!tableData) return '';
                 // Support both single and multiple tables (for some follow-up questions)
@@ -109,32 +184,49 @@
                     </div>
                 `;
             }
+            
             questions.forEach((q, idx) => {
+                const latestQ = getLatestQuestion(quizType, anovaType, q.id);
+                const edited = isEdited(quizType, anovaType, q.id);
+                const deleted = isDeleted(quizType, anovaType, q.id);
+                let cardBg = '';
+                if (deleted) cardBg = 'bg-red-100 opacity-70';
+                else if (edited) cardBg = 'bg-yellow-100';
                 const qDiv = document.createElement('div');
-                qDiv.className = 'bg-white p-6 rounded-lg shadow';
+                qDiv.className = `p-6 rounded-lg shadow ${cardBg}`;
+                
+                const quizTypeLabel = quizType === 'anova' ? 
+                    (anovaType === 'independent' ? 'Independent ANOVA' : 
+                     anovaType === 'repeated' ? 'Repeated-Measures ANOVA' : 'Follow-Up Tests') :
+                    'Correlation & Regression';
+                
+                const topicBadge = latestQ.topic ? 
+                    `<span class="inline-block bg-purple-100 text-purple-800 text-xs font-medium px-2 py-1 rounded">${latestQ.topic}</span>` : '';
+                
                 qDiv.innerHTML = `
                     <div class="mb-2 flex flex-wrap gap-2 items-center">
-                        <span class="inline-block bg-gray-100 text-gray-800 text-xs font-medium px-2 py-1 rounded">${q.section}</span>
-                        <span class="inline-block bg-blue-100 text-blue-800 text-xs font-medium px-2 py-1 rounded">${type === 'independent' ? 'Independent ANOVA' : type === 'repeated' ? 'Repeated-Measures ANOVA' : 'Follow-Up Tests'}</span>
-                        <span class="inline-block bg-gray-200 text-gray-700 text-xs font-mono px-2 py-1 rounded">ID: ${q.id}</span>
-                        <button class="edit-btn ml-2 bg-yellow-400 hover:bg-yellow-500 text-xs px-2 py-1 rounded" data-qid="${q.id}" data-type="${type}">Edit</button>
-                        <button class="delete-btn ml-2 bg-red-500 hover:bg-red-600 text-xs px-2 py-1 rounded text-white" data-qid="${q.id}" data-type="${type}">Delete</button>
+                        <span class="inline-block bg-gray-100 text-gray-800 text-xs font-medium px-2 py-1 rounded">${latestQ.section}</span>
+                        <span class="inline-block bg-blue-100 text-blue-800 text-xs font-medium px-2 py-1 rounded">${quizTypeLabel}</span>
+                        ${topicBadge}
+                        <span class="inline-block bg-gray-200 text-gray-700 text-xs font-mono px-2 py-1 rounded">ID: ${latestQ.id}</span>
+                        <button class="edit-btn ml-2 bg-yellow-400 hover:bg-yellow-500 text-xs px-2 py-1 rounded" data-qid="${latestQ.id}" data-quiz-type="${quizType}" data-anova-type="${anovaType}" ${deleted ? 'disabled style="opacity:0.5;cursor:not-allowed;"' : ''}>Edit</button>
+                        <button class="delete-btn ml-2 bg-red-500 hover:bg-red-600 text-xs px-2 py-1 rounded text-white" data-qid="${latestQ.id}" data-quiz-type="${quizType}" data-anova-type="${anovaType}" ${deleted ? 'disabled style="opacity:0.5;cursor:not-allowed;"' : ''}>Delete</button>
                     </div>
                     <div class="mb-3">
-                        <span class="font-semibold">Q${idx + 1}:</span> ${q.question}
+                        <span class="font-semibold">Q${idx + 1}:</span> ${latestQ.question}
                     </div>
-                    ${q.jaspTable ? createJaspTable(q.jaspTable) : ''}
+                    ${latestQ.jaspTable ? createJaspTable(latestQ.jaspTable) : ''}
                     <div class="mb-3 space-y-1">
-                        ${q.options.map((opt, i) => {
+                        ${latestQ.options.map((opt, i) => {
                             const letter = String.fromCharCode(65 + i);
-                            const isCorrect = letter === q.correctAnswer;
+                            const isCorrect = letter === latestQ.correctAnswer;
                             return `<div class="p-2 rounded border ${isCorrect ? 'correct-answer' : 'border-gray-200'} flex items-center">
                                 <span class="font-bold mr-2">${letter})</span> <span>${opt}</span>
                             </div>`;
                         }).join('')}
                     </div>
                     <div class="bg-blue-50 p-3 rounded">
-                        <span class="text-sm text-blue-800"><strong>Explanation:</strong> ${q.explanation}</span>
+                        <span class="text-sm text-blue-800"><strong>Explanation:</strong> ${latestQ.explanation}</span>
                     </div>
                 `;
                 container.appendChild(qDiv);
@@ -143,31 +235,39 @@
             // Add edit/delete event listeners
             container.querySelectorAll('.edit-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
+                    if (this.disabled) return;
                     const qid = this.getAttribute('data-qid');
-                    const qtype = this.getAttribute('data-type');
-                    const question = allQuestions[qtype].find(qq => String(qq.id) === String(qid));
-                    showEditDialog(qtype, qid, question);
+                    const quizType = this.getAttribute('data-quiz-type');
+                    const anovaType = this.getAttribute('data-anova-type');
+                    const latestQ = getLatestQuestion(quizType, anovaType, qid);
+                    showEditDialog(quizType, anovaType, qid, latestQ);
                 });
             });
+            
             container.querySelectorAll('.delete-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
+                    if (this.disabled) return;
                     const qid = this.getAttribute('data-qid');
-                    const qtype = this.getAttribute('data-type');
+                    const quizType = this.getAttribute('data-quiz-type');
+                    const anovaType = this.getAttribute('data-anova-type');
+                    
                     if (confirm('Are you sure you want to DELETE this question (ID: ' + qid + ')? This will be saved as a change for later.')) {
+                        const filePath = getFilePath(quizType, anovaType);
+                        // Remove any previous edit for this question
+                        changes = changes.filter(c => !(c.id == qid && c.file === filePath));
                         changes.push({
-                            file: fileMap[qtype],
+                            file: filePath,
                             id: qid,
                             action: 'delete'
                         });
-                        // Remove from UI
-                        this.closest('.bg-white').remove();
+                        renderQuestions(quizType, anovaType, document.getElementById('section').value);
                     }
                 });
             });
         }
 
         // Edit dialog logic
-        function showEditDialog(type, id, question) {
+        function showEditDialog(quizType, anovaType, id, question) {
             // Modal overlay
             let modal = document.createElement('div');
             modal.style.position = 'fixed';
@@ -198,13 +298,17 @@
                     alert('Invalid JSON!');
                     return;
                 }
+                const filePath = getFilePath(quizType, anovaType);
+                // Remove any previous edit for this question
+                changes = changes.filter(c => !(c.id == id && c.file === filePath));
                 changes.push({
-                    file: fileMap[type],
+                    file: filePath,
                     id: id,
                     action: 'edit',
                     newData: newData
                 });
                 modal.remove();
+                renderQuestions(quizType, anovaType, document.getElementById('section').value);
             };
         }
 
@@ -229,19 +333,54 @@
 
         document.addEventListener('DOMContentLoaded', async () => {
             await loadQuestions();
-            populateSections('independent');
-            renderQuestions('independent', 'all');
+            
+            // Initialize with ANOVA questions
+            populateSections('anova', 'independent');
+            renderQuestions('anova', 'independent', 'all');
 
+            // Quiz type change handler
+            document.getElementById('quizType').addEventListener('change', e => {
+                const quizType = e.target.value;
+                const anovaType = document.getElementById('anovaType').value;
+                
+                // Show/hide ANOVA type selector based on quiz type
+                const anovaTypeDiv = document.getElementById('anovaType').parentElement;
+                anovaTypeDiv.style.display = quizType === 'anova' ? 'block' : 'none';
+                
+                populateSections(quizType, anovaType);
+                renderQuestions(quizType, anovaType, 'all');
+            });
+            
+            // ANOVA type change handler
             document.getElementById('anovaType').addEventListener('change', e => {
-                const type = e.target.value;
-                populateSections(type);
-                renderQuestions(type, 'all');
+                const quizType = document.getElementById('quizType').value;
+                const anovaType = e.target.value;
+                const section = document.getElementById('section').value;
+                
+                populateSections(quizType, anovaType);
+                renderQuestions(quizType, anovaType, section);
             });
+            
+            // Section change handler
             document.getElementById('section').addEventListener('change', e => {
-                const type = document.getElementById('anovaType').value;
+                const quizType = document.getElementById('quizType').value;
+                const anovaType = document.getElementById('anovaType').value;
                 const section = e.target.value;
-                renderQuestions(type, section);
+                renderQuestions(quizType, anovaType, section);
             });
+        });
+
+        // Scroll to Top Button logic
+        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 200) {
+                scrollToTopBtn.style.display = 'block';
+            } else {
+                scrollToTopBtn.style.display = 'none';
+            }
+        });
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     </script>
 </body>

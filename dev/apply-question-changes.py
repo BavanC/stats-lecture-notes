@@ -60,26 +60,19 @@ def apply_changes(changes_data, dry_run=True):
     if not changes_data:
         print("Error: No changes data loaded")
         return False
-    
     changes = changes_data.get('changes', [])
     deletes = changes_data.get('deletes', [])
-    
+    print(f"[DEBUG] Loaded {len(changes)} changes and {len(deletes)} deletes.")
     if not changes and not deletes:
         print("No changes or deletes found in the file")
         return True
-    
     # Track which files will be modified
     files_to_modify = set()
-    
-    # Collect all files that need modification
     for change in changes:
         files_to_modify.add(change['file'])
-    
     for delete in deletes:
         files_to_modify.add(delete['file'])
-    
     print(f"\nFiles that will be modified: {', '.join(sorted(files_to_modify))}")
-    
     # Load all target files
     file_data = {}
     for filepath in files_to_modify:
@@ -87,54 +80,53 @@ def apply_changes(changes_data, dry_run=True):
         if data is None:
             print(f"Error: Could not load {filepath}")
             return False
-        file_data[filepath] = data
-    
+        # If file is a dict with 'questions', operate on that; else, treat as list
+        if isinstance(data, dict) and 'questions' in data:
+            file_data[filepath] = data
+        elif isinstance(data, list):
+            file_data[filepath] = {'questions': data}
+        else:
+            print(f"Error: {filepath} is not a recognized questions file format.")
+            return False
     # Apply changes
     for change in changes:
         filepath = change['file']
-        question_id = change['question_id']
-        field = change['field']
-        new_value = change['new_value']
-        
-        # Find the question in the file
-        questions = file_data[filepath]
+        question_id = change['id']
+        new_data = change.get('newData')
+        questions = file_data[filepath]['questions']
         question_found = False
-        
-        for question in questions:
-            if question.get('id') == question_id:
-                if dry_run:
-                    old_value = question.get(field, "N/A")
-                    print(f"DRY RUN: Would change {filepath} - Question {question_id} - {field}: '{old_value}' → '{new_value}'")
-                else:
-                    question[field] = new_value
-                    print(f"✓ Applied change: {filepath} - Question {question_id} - {field}: '{new_value}'")
+        for i, question in enumerate(questions):
+            # Match id as string or int
+            if str(question.get('id')) == str(question_id):
                 question_found = True
+                if new_data:
+                    if dry_run:
+                        print(f"DRY RUN: Would replace question {question_id} in {filepath}")
+                    else:
+                        questions[i] = new_data
+                        print(f"✓ Replaced question {question_id} in {filepath}")
                 break
-        
+        print(f"[DEBUG] Change: file={filepath}, id={question_id}, found={question_found}")
         if not question_found:
             print(f"Warning: Question {question_id} not found in {filepath}")
-    
     # Apply deletes
     for delete in deletes:
         filepath = delete['file']
-        question_id = delete['question_id']
-        
-        questions = file_data[filepath]
+        question_id = delete['id']
+        questions = file_data[filepath]['questions']
         question_found = False
-        
         for i, question in enumerate(questions):
-            if question.get('id') == question_id:
+            if str(question.get('id')) == str(question_id):
+                question_found = True
                 if dry_run:
                     print(f"DRY RUN: Would delete question {question_id} from {filepath}")
                 else:
                     deleted_question = questions.pop(i)
                     print(f"✓ Deleted question {question_id} from {filepath}")
-                question_found = True
                 break
-        
+        print(f"[DEBUG] Delete: file={filepath}, id={question_id}, found={question_found}")
         if not question_found:
             print(f"Warning: Question {question_id} not found in {filepath} for deletion")
-    
     # Save files if not dry run
     if not dry_run:
         for filepath, data in file_data.items():
@@ -143,49 +135,54 @@ def apply_changes(changes_data, dry_run=True):
             else:
                 print(f"Error: Failed to save {filepath}")
                 return False
-    
     return True
 
 def main():
-    if len(sys.argv) < 2:
-        print("Usage: python apply-question-changes.py <changes_file> [--apply]")
-        print("  --apply: Actually apply the changes (default is dry-run)")
-        sys.exit(1)
-    
-    changes_file = sys.argv[1]
+    # If no changes file is passed, use question_changes.json in the same directory as this script
+    if len(sys.argv) < 2 or sys.argv[1].startswith('--'):
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        changes_file = os.path.join(script_dir, 'question_changes.json')
+        print(f"No changes file specified. Using default: {changes_file}")
+        arg_offset = 1
+    else:
+        changes_file = sys.argv[1]
+        arg_offset = 2
     dry_run = "--apply" not in sys.argv
-    
     if not os.path.exists(changes_file):
         print(f"Error: Changes file not found: {changes_file}")
         sys.exit(1)
-    
     print(f"Loading changes from: {changes_file}")
     changes_data = load_json_file(changes_file)
-    
+    print(f"[DEBUG] Loaded changes_data: {repr(changes_data)[:500]}...")
     if changes_data is None:
+        print("[DEBUG] changes_data is None, exiting.")
         sys.exit(1)
-    
+    # --- Handle new flat array format ---
+    if isinstance(changes_data, list):
+        converted = {"changes": [], "deletes": []}
+        for item in changes_data:
+            if item.get("action") == "edit":
+                converted["changes"].append(item)
+            elif item.get("action") == "delete":
+                converted["deletes"].append(item)
+        changes_data = converted
+    # --- End new format handling ---
     # Extract target files from changes
     target_files = set()
     for change in changes_data.get('changes', []):
         target_files.add(change['file'])
     for delete in changes_data.get('deletes', []):
         target_files.add(delete['file'])
-    
     if not target_files:
         print("No target files found in changes")
         sys.exit(0)
-    
     # Create validation backups
     print(f"\nCreating validation backups...")
     timestamp = create_validation_backups(changes_file, target_files)
-    
     # Apply changes
     print(f"\n{'DRY RUN MODE' if dry_run else 'APPLYING CHANGES'}")
     print("=" * 50)
-    
     success = apply_changes(changes_data, dry_run)
-    
     if success:
         if dry_run:
             print(f"\n✓ Dry run completed successfully!")
