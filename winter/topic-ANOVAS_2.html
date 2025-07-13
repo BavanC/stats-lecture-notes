@@ -267,6 +267,64 @@
                     <p class="mt-4"><strong>Interpretation:</strong> The p-value for comparing Joyzepam and Anxifree is <.001 (significant). The p-value for comparing Joyzepam and Placebo is <.001 (significant). The p-value for comparing Anxifree and Placebo is .214 (not significant). Therefore, Joyzepam leads to significantly higher mood gain than both Anxifree and the placebo.</p>
                     <h3 class="text-xl font-semibold mt-8 mb-2">Final Write-Up</h3>
                     <p class="mt-4">"A 2(therapy) x 3(drug) between-subjects ANOVA was conducted. There was a significant main effect of therapy, <em>F</em>(1, 12) = 8.58, <em>p</em> = .013, &eta;<sub>p</sub><sup>2</sup> = .096, indicating that participants who received CBT had a greater mood gain (M = 1.0) than those who did not (M = 0.7). There was also a significant main effect of drug, <em>F</em>(2, 12) = 31.7, <em>p</em> < .001, &eta;<sub>p</sub><sup>2</sup> = .713$. Bonferroni post-hoc tests revealed that mood gain was significantly greater with Joyzepam (M = 1.5) than with either Anxifree (M = 0.7, <em>p</em> < .001) or the placebo (M = 0.5, <em>p</em> < .001). The difference between Anxifree and the placebo was not significant (<em>p</em> = .214). The interaction between therapy and drug was not significant, <em>F</em>(2, 12) = 2.49, <em>p</em> = .125, &eta;<sub>p</sub><sup>2</sup> = .056$."</p>
+                    
+                    <hr class="my-12 border-gray-600">
+
+                    <!-- NEW EXAMPLE STARTS HERE -->
+                    <h3 class="text-xl font-semibold mt-8 mb-2">A Second Example: When the Interaction is Significant</h3>
+                    <p class="mb-4">Let's look at a new study on learning. The two IVs are Teaching Method (Standard vs. Visual) and Practice Time (Low, Medium, High). The dependent variable is the score on a test (out of 100). This is a 2x3 independent ANOVA.</p>
+                    <div class="data-table-wrapper">
+                        <h4 class="font-semibold text-lg mb-2">Mean Test Scores</h4>
+                        <table class="w-full text-sm text-center">
+                            <thead>
+                                <tr><th class="p-2"></th><th class="p-2">Standard Method</th><th class="p-2">Visual Method</th><th class="p-2 table-summary-col">Practice Mean</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-gray-700"><td class="p-2 font-semibold">Low Practice</td><td class="p-1">65</td><td class="p-1">68</td><td class="p-1 table-summary-col">66.5</td></tr>
+                                <tr class="border-b border-gray-700"><td class="p-2 font-semibold">Medium Practice</td><td class="p-1">70</td><td class="p-1">75</td><td class="p-1 table-summary-col">72.5</td></tr>
+                                <tr><td class="p-2 font-semibold">High Practice</td><td class="p-1">72</td><td class="p-1">90</td><td class="p-1 table-summary-col">81.0</td></tr>
+                            </tbody>
+                            <tfoot class="font-bold">
+                                <tr><td class="p-2">Method Mean</td><td class="p-2">69</td><td class="p-2">77.7</td><td class="p-2 table-summary-col"></td></tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <h3 class="text-xl font-semibold mt-8 mb-2">Interpreting the Output with a Significant Interaction</h3>
+                    <p class="mb-4">Here is the JASP output for this new study. Notice the p-value for the interaction term.</p>
+                    <div class="data-table-wrapper">
+                        <h4 class="font-semibold text-lg mb-2">JASP ANOVA Summary Table</h4>
+                        <table class="w-full text-sm text-left">
+                            <thead class="text-xs uppercase">
+                                <tr><th class="px-4 py-2 lowercase">cases</th><th class="px-4 py-2 lowercase">sum of squares</th><th class="px-4 py-2 lowercase">df</th><th class="px-4 py-2 lowercase">mean square</th><th class="px-4 py-2 lowercase">f</th><th class="px-4 py-2 lowercase">p</th><th class="px-4 py-2 lowercase">$\eta_p^2$</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-gray-700"><td class="px-4 py-2 font-semibold">method</td><td class="px-4 py-2">1126.6</td><td class="px-4 py-2">1</td><td class="px-4 py-2">1126.6</td><td class="px-4 py-2">25.8</td><td class="px-4 py-2">&lt; .001</td><td class="px-4 py-2">0.529</td></tr>
+                                <tr class="border-b border-gray-700"><td class="px-4 py-2 font-semibold">practice</td><td class="px-4 py-2">2116.8</td><td class="px-4 py-2">2</td><td class="px-4 py-2">1058.4</td><td class="px-4 py-2">24.2</td><td class="px-4 py-2">&lt; .001</td><td class="px-4 py-2">0.678</td></tr>
+                                <tr class="border-b border-gray-700"><td class="px-4 py-2 font-semibold">method * practice</td><td class="px-4 py-2">788.1</td><td class="px-4 py-2">2</td><td class="px-4 py-2">394.1</td><td class="px-4 py-2">9.0</td><td class="px-4 py-2">.002</td><td class="px-4 py-2">0.429</td></tr>
+                                <tr class="bg-gray-900"><td class="px-4 py-2 font-semibold">Residuals</td><td class="px-4 py-2">1050.0</td><td class="px-4 py-2">24</td><td class="px-4 py-2">43.75</td><td class="px-4 py-2"></td><td class="px-4 py-2"></td><td class="px-4 py-2"></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="space-y-4 mt-6">
+                        <p><strong>Step 1: Check the interaction effect.</strong> This is always your first step. Look at the `method * practice` line. The p-value is .002. Since this is less than .05, the interaction is <strong>significant</strong>. This is our most important result! It tells us that the effect of practice time on test scores <em>depends on which teaching method was used</em>. Because of this, we must be very cautious about interpreting the main effects.</p>
+                        <p><strong>Step 2: Visualize the interaction.</strong> A plot is the best way to understand what is happening. The non-parallel lines in the plot below are a classic sign of an interaction.</p>
+                    </div>
+                    <div class="my-4 chart-wrapper">
+                        <h4 class="text-center">Interaction Plot: Test Scores</h4>
+                        <canvas id="teachingMethodChart"></canvas>
+                    </div>
+                    <p class="mb-4">Looking at the graph, we can see the interaction clearly. For the 'Standard Method' (blue line), increasing practice time gives a modest boost in scores. But for the 'Visual Method' (red line), the benefit of practice is much larger, especially the jump to 'High' practice. The methods are similar with low practice, but the visual method becomes far superior with high practice.</p>
+                    <p><strong>Step 3: Unpack the interaction with <span class="glossary-term" data-term-id="simple-effects">Simple Effects</span> Analysis.</strong> Since the interaction is significant, we don't just report the main effects. We need to break down the interaction by looking at the simple effects. This means we test the effect of one IV at each level of the other IV. For example, we could run one-way ANOVAs to see if 'Practice Time' has a significant effect for the 'Standard' group and then separately for the 'Visual' group.</p>
+                    <p class="mt-2">Alternatively, and perhaps more directly, we could run independent t-tests to compare the two 'Methods' at each level of 'Practice'.</p>
+                    <ul class="list-disc list-inside space-y-2 pl-4 mt-2">
+                        <li>At 'Low Practice', a t-test comparing Standard (M=65) and Visual (M=68) methods might not be significant.</li>
+                        <li>At 'Medium Practice', the difference between Standard (M=70) and Visual (M=75) might be significant.</li>
+                        <li>At 'High Practice', the difference between Standard (M=72) and Visual (M=90) would almost certainly be highly significant.</li>
+                    </ul>
+                    <h3 class="text-xl font-semibold mt-8 mb-2">Final Write-Up (with Significant Interaction)</h3>
+                    <p class="mt-4">"A 2 (Method: Standard vs. Visual) x 3 (Practice: Low, Medium, High) between-subjects ANOVA was conducted on test scores. This revealed a significant interaction between teaching method and practice time, <em>F</em>(2, 24) = 9.0, <em>p</em> = .002, &eta;<sub>p</sub><sup>2</sup> = .429$. Although the main effects for method, <em>F</em>(1, 24) = 25.8, <em>p</em> < .001, and practice, <em>F</em>(2, 24) = 24.2, <em>p</em> < .001, were also significant, they are qualified by the interaction. Analysis of the simple effects showed that while there was no significant difference between the standard and visual teaching methods for the low practice group, the visual method produced significantly higher test scores in the high practice group (M = 90) compared to the standard method (M = 72). This indicates that the advantage of the visual teaching method is greatest when combined with a high amount of practice."</p>
+                    <!-- NEW EXAMPLE ENDS HERE -->
+
                 </div>
                 <div id="rm-fact" role="tabpanel" aria-labelledby="btn-rm-fact" class="section-content">
                     <h2 class="text-2xl md:text-3xl font-bold border-b-2 pb-2 mb-4">Two-Way Repeated-Measures <span class="glossary-term" data-term-id="factorial-anova-glossary">ANOVA</span></h2>
@@ -479,10 +537,72 @@
         });
     }
 
+    function renderTeachingMethodChart() {
+        const ctx = document.getElementById('teachingMethodChart');
+        if (!ctx) return;
+        if (Chart.getChart(ctx)) Chart.getChart(ctx).destroy();
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Low Practice', 'Medium Practice', 'High Practice'],
+                datasets: [
+                    {
+                        label: 'Standard Method',
+                        data: [65, 70, 72],
+                        borderColor: '#60a5fa',
+                        backgroundColor: '#60a5fa',
+                        tension: 0.1,
+                        fill: false
+                    },
+                    {
+                        label: 'Visual Method',
+                        data: [68, 75, 90],
+                        borderColor: '#f87171',
+                        backgroundColor: '#f87171',
+                        tension: 0.1,
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: { color: '#ffffff' }
+                    },
+                    title: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        title: {
+                            display: true,
+                            text: 'Mean Test Score',
+                            color: '#ffffff'
+                        },
+                        ticks: { color: '#ffffff' },
+                        grid: { color: 'rgba(255, 255, 255, 0.2)' }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Practice Time',
+                            color: '#ffffff'
+                        },
+                        ticks: { color: '#ffffff' },
+                        grid: { color: 'rgba(255, 255, 255, 0.2)' }
+                    }
+                }
+            }
+        });
+    }
+
     // --- INITIALIZATION ---
     document.addEventListener('DOMContentLoaded', () => {
         // Render charts
         renderFizzyDrinksChart();
+        renderTeachingMethodChart();
     });
     </script>
     <script>
