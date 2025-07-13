@@ -37,6 +37,10 @@
             --info-box-border: #f59e0b;   /* amber-500 */
             --info-box-text: #fef3c7;         /* amber-100 */
             --table-bg: #3f3f46;           /* zinc-700 */
+            --table-header-bg: #52525b;     /* zinc-600 */
+            --table-body-bg: #3f3f46;      /* zinc-700 */
+            --table-row-banded-bg: #374151; /* zinc-800 */
+            --table-footer-bg: #1a202c;    /* gray-900 */
             --chart-bg: #18181b;           /* zinc-900 */
         }
         body {
@@ -59,14 +63,44 @@
             border: 1px solid var(--info-box-border);
             color: var(--info-box-text);
         }
+        .application-corner {
+            background-color: #064e3b;
+            border: 1px solid #10b981;
+            color: #a7f3d0;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-top: 1.5rem;
+        }
+        .application-corner h4 {
+            color: #d1fae5;
+            font-size: 1.125rem;
+            border-bottom: 1px solid #10b981;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
         .data-table-wrapper {
             background-color: var(--table-bg);
             padding: 1rem;
             border-radius: 0.5rem;
             overflow-x: auto;
         }
+        .data-table-wrapper table {
+            min-width: 100%; /* Ensure table takes up full width of wrapper */
+        }
         .data-table-wrapper table thead {
-            background-color: #52525b; /* zinc-600 */
+            background-color: var(--table-header-bg);
+        }
+        .data-table-wrapper table tfoot {
+            background-color: var(--table-footer-bg);
+        }
+        /* Zebra-striping for table rows */
+        .data-table-wrapper tbody tr:nth-child(even) {
+            background-color: var(--table-row-banded-bg);
+        }
+        /* Remove forced uppercase from JASP output table headers */
+        .data-table-wrapper thead tr th {
+            text-transform: none !important;
+            font-size: inherit !important;
         }
         .chart-wrapper {
             background-color: var(--chart-bg);
@@ -192,31 +226,121 @@
                             <summary>JASP Output: Model Summary</summary>
                             <div>
                                 <div class="data-table-wrapper">
-                                    <table class="w-full text-sm text-left">
-                                        <thead class="text-xs"><tr><th class="px-4 py-2">Model</th><th class="px-4 py-2">df</th><th class="px-4 py-2">χ²</th><th class="px-4 py-2">p</th><th class="px-4 py-2">Nagelkerke R²</th><th class="px-4 py-2">Cox & Snell R²</th></tr></thead>
+                                    <table class="w-full text-sm text-left whitespace-nowrap">
+                                        <thead>
+                                            <tr class="text-xs">
+                                                <th class="px-4 py-2">Model</th>
+                                                <th class="px-4 py-2">Deviance</th>
+                                                <th class="px-4 py-2">AIC</th>
+                                                <th class="px-4 py-2">BIC</th>
+                                                <th class="px-4 py-2">df</th>
+                                                <th class="px-4 py-2">χ²</th>
+                                                <th class="px-4 py-2">p</th>
+                                                <th class="px-4 py-2">McFadden R²</th>
+                                                <th class="px-4 py-2">Nagelkerke R²</th>
+                                                <th class="px-4 py-2">Tjur R²</th>
+                                                <th class="px-4 py-2">Cox & Snell R²</th>
+                                            </tr>
+                                        </thead>
                                         <tbody>
-                                         <tr class="border-t border-gray-700"><td class="px-4 py-2 font-bold">H₁</td><td>97</td><td>33.156</td><td>&lt; .001</td><td>0.375</td><td>0.280</td></tr>
+                                            <tr class="border-t border-gray-700">
+                                                <td class="px-4 py-2 font-bold">H₀</td>
+                                                <td class="px-4 py-2">138.815</td>
+                                                <td class="px-4 py-2">140.815</td>
+                                                <td class="px-4 py-2">143.430</td>
+                                                <td class="px-4 py-2">100</td>
+                                                <td class="px-4 py-2"></td>
+                                                <td class="px-4 py-2"></td>
+                                                <td class="px-4 py-2"></td>
+                                                <td class="px-4 py-2"></td>
+                                                <td class="px-4 py-2"></td>
+                                                <td class="px-4 py-2"></td>
+                                            </tr>
+                                            <tr class="border-t border-gray-700">
+                                                 <td class="px-4 py-2 font-bold">H₁</td>
+                                                 <td class="px-4 py-2">105.659</td>
+                                                 <td class="px-4 py-2">113.659</td>
+                                                 <td class="px-4 py-2">124.120</td>
+                                                 <td class="px-4 py-2">97</td>
+                                                 <td class="px-4 py-2">33.156</td>
+                                                 <td class="px-4 py-2">&lt; .001</td>
+                                                 <td class="px-4 py-2">0.239</td>
+                                                 <td class="px-4 py-2">0.375</td>
+                                                 <td class="px-4 py-2">0.286</td>
+                                                 <td class="px-4 py-2">0.280</td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
-                                <p class="mt-4">The first step is to check the overall model fit. The significant Chi-Square ($\chi^2$) test ($p < .001$) indicates that our model with the three predictors is significantly better at predicting pass/fail status than a null model with no predictors. The <strong>Nagelkerke R²</strong> is a pseudo R-squared value, suggesting our model explains approximately 37.5% of the variation in the outcome.</p>
+                                <p class="mt-4">The first step is to check the overall model fit by comparing the null model (H₀) with our predictor model (H₁). The significant Chi-Square (χ²) test (p < .001) indicates that our model with the three predictors is significantly better at predicting pass/fail status than a null model with no predictors. The <strong>Nagelkerke R²</strong> is a pseudo R-squared value, suggesting our model explains approximately 37.5% of the variation in the outcome.</p>
                             </div>
                         </details>
+
                         <details open>
                             <summary>JASP Output: Coefficients</summary>
                             <div>
                                 <div class="data-table-wrapper">
-                                    <table class="w-full text-sm text-left">
-                                        <thead class="text-xs"><tr><th class="px-4 py-2">Predictor</th><th class="px-4 py-2">Estimate (b)</th><th class="px-4 py-2">Odds Ratio</th><th class="px-4 py-2">Wald Statistic</th><th class="px-4 py-2">p</th></tr></thead>
+                                    <table class="w-full text-sm text-left whitespace-nowrap">
+                                         <thead>
+                                            <tr class="text-xs">
+                                                <th rowspan="2" class="px-4 py-2 align-bottom">Predictor</th>
+                                                <th rowspan="2" class="px-4 py-2 align-bottom">Estimate</th>
+                                                <th rowspan="2" class="px-4 py-2 align-bottom">Standard Error</th>
+                                                <th rowspan="2" class="px-4 py-2 align-bottom">Odds Ratio</th>
+                                                <th rowspan="2" class="px-4 py-2 align-bottom">z</th>
+                                                <th colspan="3" class="px-4 py-2 text-center border-b border-gray-600">Wald Test</th>
+                                            </tr>
+                                            <tr class="text-xs">
+                                                <th class="px-4 py-2">Wald Statistic</th>
+                                                <th class="px-4 py-2">df</th>
+                                                <th class="px-4 py-2">p</th>
+                                            </tr>
+                                        </thead>
                                         <tbody>
-                                         <tr class="border-t border-gray-700"><td class="px-4 py-2 font-bold">(Intercept)</td><td>-6.481</td><td>0.002</td><td>22.037</td><td>&lt; .001</td></tr>
-                                         <tr class="border-t border-gray-700"><td class="px-4 py-2">stats_fear</td><td>0.277</td><td>1.319</td><td>12.725</td><td>&lt; .001</td></tr>
-                                         <tr class="border-t border-gray-700"><td class="px-4 py-2">comp_fear</td><td>0.020</td><td>1.020</td><td>0.057</td><td>.811</td></tr>
-                                         <tr class="border-t border-gray-700"><td class="px-4 py-2">fear_maths</td><td>-0.041</td><td>0.960</td><td>0.105</td><td>.746</td></tr>
+                                             <tr class="border-t border-gray-700">
+                                                 <td class="px-4 py-2 font-bold">(Intercept)</td>
+                                                 <td class="px-4 py-2">-6.481</td>
+                                                 <td class="px-4 py-2">1.380</td>
+                                                 <td class="px-4 py-2">0.002</td>
+                                                 <td class="px-4 py-2">-4.694</td>
+                                                 <td class="px-4 py-2">22.037</td>
+                                                 <td class="px-4 py-2">1</td>
+                                                 <td class="px-4 py-2">&lt; .001</td>
+                                             </tr>
+                                             <tr class="border-t border-gray-700">
+                                                 <td class="px-4 py-2">stats_fear</td>
+                                                 <td class="px-4 py-2">0.277</td>
+                                                 <td class="px-4 py-2">0.078</td>
+                                                 <td class="px-4 py-2">1.319</td>
+                                                 <td class="px-4 py-2">3.567</td>
+                                                 <td class="px-4 py-2">12.725</td>
+                                                 <td class="px-4 py-2">1</td>
+                                                 <td class="px-4 py-2">&lt; .001</td>
+                                             </tr>
+                                             <tr class="border-t border-gray-700">
+                                                 <td class="px-4 py-2">comp_fear</td>
+                                                 <td class="px-4 py-2">0.020</td>
+                                                 <td class="px-4 py-2">0.083</td>
+                                                 <td class="px-4 py-2">1.020</td>
+                                                 <td class="px-4 py-2">0.239</td>
+                                                 <td class="px-4 py-2">0.057</td>
+                                                 <td class="px-4 py-2">1</td>
+                                                 <td class="px-4 py-2">.811</td>
+                                             </tr>
+                                             <tr class="border-t border-gray-700">
+                                                 <td class="px-4 py-2">fear_maths</td>
+                                                 <td class="px-4 py-2">-0.041</td>
+                                                 <td class="px-4 py-2">0.128</td>
+                                                 <td class="px-4 py-2">0.960</td>
+                                                 <td class="px-4 py-2">-0.324</td>
+                                                 <td class="px-4 py-2">0.105</td>
+                                                 <td class="px-4 py-2">1</td>
+                                                 <td class="px-4 py-2">.746</td>
+                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
-                                <p class="mt-4">This table shows the contribution of each individual predictor. The <strong>Wald statistic</strong> and its p-value tell us which predictors are significant. Here, only <strong>stats_fear</strong> ($p < .001$) significantly predicts exam outcome.</p>
+                                <p class="mt-4">This table shows the contribution of each individual predictor. The <strong>Wald statistic</strong> and its p-value tell us which predictors are significant. Here, only <strong>stats_fear</strong> ($p < .001$) significantly predicts the exam outcome.</p>
                                 <p class="mt-2">The <strong>Odds Ratio</strong> for stats_fear is 1.319. This means that for every one-unit increase on the stats fear scale (i.e., less fear), the odds of passing the exam increase by a factor of 1.319 (or increase by 31.9%). Since the odds ratios for the other predictors are close to 1 and not significant, they don't have a meaningful impact on the outcome.</p>
                             </div>
                         </details>
@@ -227,6 +351,7 @@
                 <section id="accuracy" class="mb-12">
                     <h2 class="text-2xl md:text-3xl font-bold border-b-2 pb-2 mb-4">Assessing Model Accuracy</h2>
                     <p class="mb-4">A significant model is good, but we also need to know how accurately it classifies individual cases. We use a confusion matrix and associated metrics for this.</p>
+                    
                     <div class="grid md:grid-cols-2 gap-6 mt-6">
                         <div class="data-table-wrapper">
                             <h4 class="font-bold mb-2">Confusion Matrix</h4>
@@ -264,6 +389,48 @@
                 <section id="write-up">
                     <h2 class="text-2xl md:text-3xl font-bold border-b-2 pb-2 mb-4">Writing Up the Results</h2>
                     <p class="mb-4">A complete write-up should include the model fit, the significant predictors with their odds ratios, and the classification accuracy.</p>
+                    
+                    <div class="application-corner">
+                        <h4>Calculation Corner: Key Performance Metrics</h4>
+                        <p class="mb-4">Here are the essential calculations for binary logistic regression performance:</p>
+                        
+                        <div class="grid md:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <h5 class="font-semibold text-lg mt-4 mb-2">1. Converting Odds to Probability</h5>
+                                <p class="text-center text-lg font-mono my-2 p-2 bg-zinc-900 rounded-lg min-h-[80px]">$$ \text{Probability} = \frac{\text{Odds}}{1 + \text{Odds}} $$</p>
+                                <p class="mt-2">If odds = 1.319, then probability = 1.319 / (1 + 1.319) = <strong>0.569</strong> or <strong>56.9%</strong></p>
+                            </div>
+                            
+                            <div>
+                                <h5 class="font-semibold text-lg mt-4 mb-2">2. Odds Ratio Interpretation</h5>
+                                <p class="text-center text-lg font-mono my-2 p-2 bg-zinc-900 rounded-lg min-h-[80px]">$$ \text{Change in Odds} = \text{Odds Ratio} - 1 $$</p>
+                                <p class="mt-2">For stats_fear (OR = 1.319): 1.319 - 1 = <strong>0.319</strong> or <strong>31.9%</strong></p>
+                                <p class="text-sm text-gray-300">A one-unit increase in stats fear score increases the odds of passing by 31.9%.</p>
+                            </div>
+                        </div>
+                        <div class="grid md:grid-cols-3 gap-4">
+                            <div>
+                                <h5 class="font-semibold text-lg mt-4 mb-2">3. Overall Accuracy</h5>
+                                <p class="text-center text-sm font-mono my-2 p-2 bg-zinc-900 rounded-lg">$$ \text{Accuracy} = \frac{\text{TP} + \text{TN}}{\text{Total}} $$</p>
+                                <p class="mt-2 text-sm">(42 + 29) / 101 = <strong>70.3%</strong></p>
+                            </div>
+                            
+                            <div>
+                                <h5 class="font-semibold text-lg mt-4 mb-2">4. Sensitivity</h5>
+                                <p class="text-center text-sm font-mono my-2 p-2 bg-zinc-900 rounded-lg">$$ \text{Sensitivity} = \frac{\text{TP}}{\text{TP} + \text{FN}} $$</p>
+                                <p class="mt-2 text-sm">29 / (29 + 16) = <strong>64.4%</strong></p>
+                                <p class="text-xs text-gray-300">Correctly identified 64.4% of students who passed.</p>
+                            </div>
+                            
+                            <div>
+                                <h5 class="font-semibold text-lg mt-4 mb-2">5. Specificity</h5>
+                                <p class="text-center text-sm font-mono my-2 p-2 bg-zinc-900 rounded-lg">$$ \text{Specificity} = \frac{\text{TN}}{\text{TN} + \text{FP}} $$</p>
+                                <p class="mt-2 text-sm">42 / (42 + 14) = <strong>75.0%</strong></p>
+                                <p class="text-xs text-gray-300">Correctly identified 75.0% of students who failed.</p>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-300 mt-4">TP = True Positives, TN = True Negatives, FP = False Positives, FN = False Negatives</p>
+                    </div>
                     <div class="p-4 rounded-lg bg-zinc-900 border border-zinc-700">
                         <h4 class="font-bold text-lg text-amber-400">Example Write-Up</h4>
                         <p class="mt-3">A logistic regression analysis was conducted to predict success or failure on a stats test from fear of stats, fear of computers, and fear of maths. The overall model was statistically significant, $\chi^2(3, N=101) = 33.16, p < .001$. The model explained 37.5% (Nagelkerke R²) of the variance in exam outcome and correctly classified 70.3% of cases. Sensitivity was 64.4% and specificity was 75.0%. The Wald criterion indicated that only fear of stats made a significant contribution to the model's prediction ($p < .001$). The odds ratio of 1.319 indicates that for a one-unit increase on the stats fear scale (less fear), the odds of passing the test increased by a factor of 1.32.</p>
