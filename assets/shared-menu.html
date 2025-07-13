@@ -1,39 +1,84 @@
 <nav id="site-menu" class="fixed top-0 left-0 h-full w-64 bg-gray-900 text-white shadow-lg z-50 transform -translate-x-full transition-transform duration-300">
   <div class="p-4 border-b border-gray-700 flex justify-between items-center">
-    <a href="../index.html" class="hover:underline font-bold text-lg">Home</a>
+    <a href="#" id="home-link" class="hover:underline font-bold text-lg">Home</a>
     <button onclick="closeMenu()" class="text-xl">&times;</button>
   </div>
   <div class="p-4">
     <h3 class="font-semibold mb-2">Winter Term</h3>
     <ul class="mb-4">
-      <li><a href="../winter/winter-guide.html" class="hover:underline">Revision Guide</a></li>
-      <li><a href="../winter/flowchart.html" class="hover:underline">Decision Flowchart</a></li>
+      <li><a href="#" id="winter-guide-link" class="hover:underline">Revision Guide</a></li>
+      <li><a href="#" id="flowchart-link" class="hover:underline">Decision Flowchart</a></li>
       <li class="mt-2 mb-1"><strong>Topics</strong></li>
       <ul class="ml-4 space-y-1">
-        <li><a href="../winter/topic-introduction.html" class="hover:underline">Introduction</a></li>
-        <li><a href="../winter/topic-ANOVAS_1.html" class="hover:underline">One-Way ANOVAs</a></li>
-        <li><a href="../winter/topic-ANOVAS_2.html" class="hover:underline">Factorial Anovas</a></li>
-        <li><a href="../winter/topic-correlation.html" class="hover:underline">Correlation & Regression</a></li>
+        <li><a href="#" id="intro-link" class="hover:underline">Introduction</a></li>
+        <li><a href="#" id="anovas1-link" class="hover:underline">One-Way ANOVAs</a></li>
+        <li><a href="#" id="anovas2-link" class="hover:underline">Factorial Anovas</a></li>
+        <li><a href="#" id="correlation-link" class="hover:underline">Correlation & Regression</a></li>
       </ul>
     </ul>
     <h3 class="font-semibold mb-2">Spring Term</h3>
     <ul class="mb-4">
-      <li><a href="../spring/spring-summary.html" class="hover:underline">Summary</a></li>
+      <li><a href="#" id="spring-summary-link" class="hover:underline">Summary</a></li>
       <li class="mt-2 mb-1"><strong>Topics</strong></li>
       <ul class="ml-4 space-y-1">
-        <li><a href="../spring/topic-regression_cont.html" class="hover:underline">Regression Continued</a></li>
-        <li><a href="../spring/topic-categorical_data.html" class="hover:underline">Categorical Data</a></li>
-        <li><a href="../spring/topic-survival_analysis.html" class="hover:underline">Survival Analysis</a></li>
-        <li><a href="../spring/topic-binary_logistic_regression.html" class="hover:underline">Binary Logistic Regression</a></li>
-        <li><a href="../spring/topic-factor_analysis.html" class="hover:underline">Exploratory Factor Analysis</a></li>
+        <li><a href="#" id="regression-cont-link" class="hover:underline">Regression Continued</a></li>
+        <li><a href="#" id="categorical-link" class="hover:underline">Categorical Data</a></li>
+        <li><a href="#" id="survival-link" class="hover:underline">Survival Analysis</a></li>
+        <li><a href="#" id="logistic-link" class="hover:underline">Binary Logistic Regression</a></li>
+        <li><a href="#" id="factor-link" class="hover:underline">Exploratory Factor Analysis</a></li>
       </ul>
     </ul>
     <h3 class="font-semibold mb-2">Practice Tests</h3>
     <ul>
-      <li><a href="../practice/winter-test.html" class="hover:underline">Winter Test</a></li>
-      <li><a href="../practice/spring-test.html" class="hover:underline">Spring Test</a></li>
-      <li><a href="../practice/anova-quiz.html" class="hover:underline">ANOVA Quiz</a></li>
+      <li><a href="#" id="winter-test-link" class="hover:underline">Winter Test</a></li>
+      <li><a href="#" id="spring-test-link" class="hover:underline">Spring Test</a></li>
+      <li><a href="#" id="anova-quiz-link" class="hover:underline">ANOVA Quiz</a></li>
     </ul>
   </div>
 </nav>
 <div id="menu-backdrop" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden" onclick="closeMenu()"></div>
+
+<script>
+// Determine the base path based on current location
+function getBasePath() {
+  const path = window.location.pathname;
+  // If we're at the root (index.html), use './'
+  if (path === '/' || path.endsWith('/index.html') || path.split('/').length <= 2) {
+    return './';
+  }
+  // Otherwise, we're in a subdirectory, so go up one level
+  return '../';
+}
+
+// Set all the navigation links with correct paths
+function setupMenuLinks() {
+  const basePath = getBasePath();
+  
+  // Home link
+  document.getElementById('home-link').href = basePath + 'index.html';
+  
+  // Winter term links
+  document.getElementById('winter-guide-link').href = basePath + 'winter/winter-guide.html';
+  document.getElementById('flowchart-link').href = basePath + 'winter/flowchart.html';
+  document.getElementById('intro-link').href = basePath + 'winter/topic-introduction.html';
+  document.getElementById('anovas1-link').href = basePath + 'winter/topic-ANOVAS_1.html';
+  document.getElementById('anovas2-link').href = basePath + 'winter/topic-ANOVAS_2.html';
+  document.getElementById('correlation-link').href = basePath + 'winter/topic-correlation.html';
+  
+  // Spring term links
+  document.getElementById('spring-summary-link').href = basePath + 'spring/spring-summary.html';
+  document.getElementById('regression-cont-link').href = basePath + 'spring/topic-regression_cont.html';
+  document.getElementById('categorical-link').href = basePath + 'spring/topic-categorical_data.html';
+  document.getElementById('survival-link').href = basePath + 'spring/topic-survival_analysis.html';
+  document.getElementById('logistic-link').href = basePath + 'spring/topic-binary_logistic_regression.html';
+  document.getElementById('factor-link').href = basePath + 'spring/topic-factor_analysis.html';
+  
+  // Practice test links
+  document.getElementById('winter-test-link').href = basePath + 'practice/winter-test.html';
+  document.getElementById('spring-test-link').href = basePath + 'practice/spring-test.html';
+  document.getElementById('anova-quiz-link').href = basePath + 'practice/anova-quiz.html';
+}
+
+// Initialize the menu links when the script loads
+setupMenuLinks();
+</script>
