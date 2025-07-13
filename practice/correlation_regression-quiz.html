@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Correlation & Regression Quiz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f7f4;
+            color: #3d405b;
+            padding-bottom: 80px;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        .table-cell {
+            padding: 0.75rem;
+            text-align: right;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .jasp-table {
+            background-color: #f9fafb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+        }
+        .jasp-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .jasp-table th {
+            background-color: #e5e7eb;
+            font-weight: 600;
+            text-align: left;
+            padding: 0.75rem;
+            border-bottom: 1px solid #d1d5db;
+        }
+        .jasp-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .jasp-table tr:nth-child(even) {
+            background-color: #f3f4f6;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <button id="menu-btn" onclick="openMenu()" style="display:none" class="fixed top-4 left-4 z-50 bg-emerald-600 text-white px-4 py-2 rounded shadow hover:bg-emerald-700">☰ Menu</button>
+    <div id="menu-container"></div>
+
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="../index.html" class="mr-4 text-lg font-bold text-[#3d405b] hover:underline">Home</a>
+                    <h1 class="text-xl font-bold text-[#3d405b]">Correlation & Regression Quiz</h1>
+                </div>
+                <div class="hidden md:block">
+                    <button id="resetQuizTopBtn" class="ml-10 bg-[#e07a5f] text-white px-4 py-2 rounded shadow hover:bg-[#d46a50] text-sm font-medium">Reset Quiz</button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main id="main-content" class="container mx-auto p-4 sm:p-6 lg:p-8 pt-20">
+        
+        <section id="welcome" class="text-center mb-16">
+            <h2 class="text-4xl font-bold text-[#3d405b] mb-4">Correlation & Regression Quiz</h2>
+            <p class="max-w-3xl mx-auto text-lg text-gray-700 mb-8">Test your knowledge of Correlation and Simple Linear Regression with this interactive quiz. Choose between Correlation, Regression, or both topics. Select from conceptual questions, JASP output interpretation, or calculation problems.</p>
+            
+            <div class="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-lg font-semibold mb-4">Quiz Settings</h3>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Topic(s):</label>
+                        <select id="topicType" class="w-full p-2 border border-gray-300 rounded-md">
+                            <option value="correlation">Correlation Only</option>
+                            <option value="regression">Regression Only</option>
+                            <option value="both">Both Topics</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Question Selection:</label>
+                        <select id="questionSelection" class="w-full p-2 border border-gray-300 rounded-md">
+                            <option value="random">Random 15 Questions</option>
+                            <option value="conceptual">15 Conceptual Questions</option>
+                            <option value="jasp">15 JASP Output Questions</option>
+                            <option value="calculation">15 Calculation Questions</option>
+                            <option value="mixed">Mixed Selection (evenly from each section)</option>
+                        </select>
+                    </div>
+                    <button id="startQuizBtn" class="w-full bg-[#81b29a] text-white font-bold py-2 px-6 rounded-lg hover:bg-[#6a9a81] transition-colors">
+                        Start Quiz
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section id="quiz" class="mb-16" style="display: none;">
+            <div class="text-center mb-8">
+                <h3 class="text-2xl font-bold text-[#3d405b] mb-2">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">15</span></h3>
+                <div class="w-full bg-gray-200 rounded-full h-2">
+                    <div id="progressBar" class="bg-[#81b29a] h-2 rounded-full transition-all duration-300" style="width: 6.67%"></div>
+                </div>
+            </div>
+            
+            <div id="questionContainer" class="max-w-4xl mx-auto">
+                <!-- Questions will be loaded here -->
+            </div>
+            
+            <div class="flex justify-between mt-8">
+                <div>
+                    <button id="prevBtn" class="bg-gray-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-gray-600 transition-colors" style="display: none;">Previous</button>
+                </div>
+                <div>
+                    <button id="nextBtn" class="bg-[#81b29a] text-white font-bold py-2 px-6 rounded-lg hover:bg-[#6a9a81] transition-colors">Next</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="results" class="mb-16" style="display: none;">
+            <div class="text-center mb-8">
+                <h3 class="text-3xl font-bold text-[#3d405b] mb-4">Quiz Results</h3>
+                <div class="text-2xl mb-4">
+                    Score: <span id="finalScore">0</span> out of <span id="finalTotal">15</span>
+                </div>
+                <div class="text-lg text-gray-600 mb-8">
+                    Percentage: <span id="finalPercentage">0</span>%
+                </div>
+            </div>
+            
+            <div id="resultsContainer" class="max-w-4xl mx-auto space-y-6">
+                <!-- Results will be loaded here -->
+            </div>
+            
+            <div class="text-center mt-8">
+                <button id="restartBtn" class="bg-[#e07a5f] text-white font-bold py-2 px-6 rounded-lg hover:bg-[#d46a50] transition-colors">Restart Quiz</button>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        let correlationQuizData = [];
+        let regressionQuizData = [];
+        let selectedQuestions = [];
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+        let quizStarted = false;
+
+        // Load questions from JSON file
+        async function loadQuestions() {
+            try {
+                // Load correlation and regression questions
+                const response = await fetch('../resources/winter_correlation_regression/questions-correlation_regression.json');
+                const data = await response.json();
+                
+                // Separate questions by topic
+                correlationQuizData = data.questions.filter(q => q.topic === 'Correlation');
+                regressionQuizData = data.questions.filter(q => q.topic === 'Regression');
+                
+                console.log('Loaded', correlationQuizData.length, 'correlation questions');
+                console.log('Loaded', regressionQuizData.length, 'regression questions');
+            } catch (error) {
+                console.error('Error loading questions:', error);
+                alert('Error loading questions. Please check the console for details.');
+            }
+        }
+
+        // Select questions based on criteria
+        function selectQuestions(criteria, topicType) {
+            let questions = [];
+            let availableQuestions = [];
+            
+            // Determine which question sets to use based on topic type
+            switch(topicType) {
+                case 'correlation':
+                    availableQuestions = correlationQuizData.map(q => ({...q, source: 'correlation'}));
+                    break;
+                case 'regression':
+                    availableQuestions = regressionQuizData.map(q => ({...q, source: 'regression'}));
+                    break;
+                case 'both':
+                    const correlationWithSource = correlationQuizData.map(q => ({...q, source: 'correlation'}));
+                    const regressionWithSource = regressionQuizData.map(q => ({...q, source: 'regression'}));
+                    availableQuestions = [...correlationWithSource, ...regressionWithSource];
+                    break;
+            }
+            
+            switch(criteria) {
+                case 'random':
+                    questions = [...availableQuestions].sort(() => Math.random() - 0.5).slice(0, 15);
+                    break;
+                case 'conceptual':
+                    questions = availableQuestions.filter(q => q.section === 'Conceptual Understanding').slice(0, 15);
+                    break;
+                case 'jasp':
+                    questions = availableQuestions.filter(q => q.section === 'JASP Interpretation').slice(0, 15);
+                    break;
+                case 'calculation':
+                    questions = availableQuestions.filter(q => q.section === 'Application & Calculation').slice(0, 15);
+                    break;
+                case 'mixed':
+                    const questionsPerSection = 5;
+                    // Get conceptual questions
+                    const conceptual = availableQuestions.filter(q => q.section === 'Conceptual Understanding').slice(0, questionsPerSection);
+                    // Get JASP questions
+                    const jasp = availableQuestions.filter(q => q.section === 'JASP Interpretation').slice(0, questionsPerSection);
+                    // Get calculation questions
+                    const calculation = availableQuestions.filter(q => q.section === 'Application & Calculation').slice(0, questionsPerSection);
+                    
+                    questions = [...conceptual, ...jasp, ...calculation];
+                    break;
+            }
+            
+            return questions;
+        }
+
+        // Display current question
+        function displayQuestion(index) {
+            const question = selectedQuestions[index];
+            const container = document.getElementById('questionContainer');
+            const topicTypeSelection = document.getElementById('topicType').value;
+            
+            // Determine if this is a correlation or regression question
+            const topicType = question.source === 'correlation' ? 'Correlation' : 'Regression';
+            
+            let badgeHTML = '';
+            if (topicTypeSelection !== 'both') {
+                badgeHTML = `
+                    <span class="inline-block bg-gray-100 text-gray-800 text-sm font-medium px-3 py-1 rounded-full">
+                        ${question.section}
+                    </span>
+                    <span class="inline-block bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full">
+                        ${topicType}
+                    </span>
+                `;
+            } else {
+                badgeHTML = `
+                    <span class="inline-block bg-gray-100 text-gray-800 text-sm font-medium px-3 py-1 rounded-full">
+                        ${question.section}
+                    </span>
+                `;
+            }
+            container.innerHTML = `
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="mb-4 flex gap-2">
+                        ${badgeHTML}
+                    </div>
+                    <h4 class="text-xl font-semibold mb-4">${question.question}</h4>
+                    ${question.jaspTable ? createJaspTable(question.jaspTable) : ''}
+                    <div class="space-y-3 mt-6">
+                        ${question.options.map((option, i) => `
+                            <label class="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors">
+                                <input type="radio" name="question${index}" value="${String.fromCharCode(65 + i)}" class="mr-3" ${userAnswers[index] === String.fromCharCode(65 + i) ? 'checked' : ''}>
+                                <span class="font-medium mr-2">${String.fromCharCode(65 + i)})</span>
+                                <span>${option}</span>
+                            </label>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            
+            // Add event listeners to radio buttons
+            container.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    userAnswers[index] = e.target.value;
+                    updateNavigationButtons();
+                });
+            });
+            
+            updateNavigationButtons();
+        }
+
+        // Create JASP table HTML
+        function createJaspTable(tableData) {
+            return `
+                <div class="jasp-table">
+                    <h5 class="font-sans font-bold text-lg mb-2 text-gray-700">${tableData.title}</h5>
+                    <table>
+                        <thead>
+                            <tr>
+                                ${tableData.headers.map(header => `<th class="table-cell text-left">${header}</th>`).join('')}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${tableData.rows.map(row => `
+                                <tr>
+                                    ${row.map(cell => `<td class="table-cell text-left">${cell}</td>`).join('')}
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        }
+
+        // Update navigation buttons
+        function updateNavigationButtons() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            prevBtn.style.display = currentQuestionIndex === 0 ? 'none' : 'block';
+            
+            if (currentQuestionIndex === selectedQuestions.length - 1) {
+                nextBtn.textContent = 'Finish Quiz';
+                nextBtn.classList.remove('bg-[#81b29a]', 'hover:bg-[#6a9a81]');
+                nextBtn.classList.add('bg-[#e07a5f]', 'hover:bg-[#d46a50]');
+            } else {
+                nextBtn.textContent = 'Next';
+                nextBtn.classList.remove('bg-[#e07a5f]', 'hover:bg-[#d46a50]');
+                nextBtn.classList.add('bg-[#81b29a]', 'hover:bg-[#6a9a81]');
+            }
+        }
+
+        // Update progress
+        function updateProgress() {
+            const progress = ((currentQuestionIndex + 1) / selectedQuestions.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+        }
+
+        // Show results
+        function showResults() {
+            let score = 0;
+            const resultsContainer = document.getElementById('resultsContainer');
+            
+            resultsContainer.innerHTML = '';
+            
+            selectedQuestions.forEach((question, index) => {
+                const userAnswer = userAnswers[index];
+                const correctAnswer = question.correctAnswer;
+                const isCorrect = userAnswer === correctAnswer;
+                
+                if (isCorrect) score++;
+                
+                // Determine if this is a correlation or regression question
+                const topicType = question.source === 'correlation' ? 'Correlation' : 'Regression';
+                
+                const resultDiv = document.createElement('div');
+                resultDiv.className = `bg-white p-6 rounded-lg shadow-md ${isCorrect ? 'border-l-4 border-green-500' : 'border-l-4 border-red-500'}`;
+                
+                resultDiv.innerHTML = `
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h4 class="text-lg font-semibold">Question ${index + 1}</h4>
+                            <div class="flex gap-2 mt-1">
+                                <span class="inline-block bg-gray-100 text-gray-800 text-sm font-medium px-2 py-1 rounded-full">
+                                    ${question.section}
+                                </span>
+                                <span class="inline-block bg-blue-100 text-blue-800 text-sm font-medium px-2 py-1 rounded-full">
+                                    ${topicType}
+                                </span>
+                            </div>
+                        </div>
+                        <span class="inline-block px-3 py-1 rounded-full text-sm font-medium ${isCorrect ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
+                            ${isCorrect ? '✓ Correct' : '✗ Incorrect'}
+                        </span>
+                    </div>
+                    
+                    <p class="mb-4">${question.question}</p>
+                    
+                    ${question.jaspTable ? createJaspTable(question.jaspTable) : ''}
+                    
+                    <div class="space-y-2 mb-4">
+                        ${question.options.map((option, i) => {
+                            const optionLetter = String.fromCharCode(65 + i);
+                            let className = 'p-2 rounded';
+                            
+                            if (optionLetter === correctAnswer) {
+                                className += ' bg-green-100 border border-green-300';
+                            } else if (optionLetter === userAnswer && !isCorrect) {
+                                className += ' bg-red-100 border border-red-300';
+                            } else {
+                                className += ' bg-gray-100';
+                            }
+                            
+                            return `<div class="${className}">
+                                <span class="font-medium">${optionLetter})</span> ${option}
+                                ${optionLetter === correctAnswer ? ' <span class="text-green-600 font-bold">(Correct)</span>' : ''}
+                                ${optionLetter === userAnswer && !isCorrect ? ' <span class="text-red-600 font-bold">(Your Answer)</span>' : ''}
+                            </div>`;
+                        }).join('')}
+                    </div>
+                    
+                    <div class="bg-blue-50 p-3 rounded-lg">
+                        <p class="text-sm text-blue-800"><strong>Explanation:</strong> ${question.explanation}</p>
+                    </div>
+                `;
+                
+                resultsContainer.appendChild(resultDiv);
+            });
+            
+            document.getElementById('finalScore').textContent = score;
+            document.getElementById('finalTotal').textContent = selectedQuestions.length;
+            document.getElementById('finalPercentage').textContent = Math.round((score / selectedQuestions.length) * 100);
+            
+            document.getElementById('quiz').style.display = 'none';
+            document.getElementById('results').style.display = 'block';
+        }
+
+        // Event listeners
+        document.getElementById('startQuizBtn').addEventListener('click', () => {
+            const topicType = document.getElementById('topicType').value;
+            const selection = document.getElementById('questionSelection').value;
+            selectedQuestions = selectQuestions(selection, topicType);
+            
+            if (selectedQuestions.length === 0) {
+                alert('No questions available for the selected criteria. Please try a different selection.');
+                return;
+            }
+            
+            userAnswers = new Array(selectedQuestions.length).fill(null);
+            currentQuestionIndex = 0;
+            quizStarted = true;
+            
+            document.getElementById('totalQuestions').textContent = selectedQuestions.length;
+            document.getElementById('welcome').style.display = 'none';
+            document.getElementById('quiz').style.display = 'block';
+            
+            displayQuestion(0);
+            updateProgress();
+        });
+
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                displayQuestion(currentQuestionIndex);
+                updateProgress();
+            }
+        });
+
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            if (currentQuestionIndex < selectedQuestions.length - 1) {
+                currentQuestionIndex++;
+                displayQuestion(currentQuestionIndex);
+                updateProgress();
+            } else {
+                showResults();
+            }
+        });
+
+        document.getElementById('restartBtn').addEventListener('click', () => {
+            location.reload();
+        });
+
+        // Add event listener for top-right Reset Quiz button
+        document.getElementById('resetQuizTopBtn').addEventListener('click', () => {
+            if (quizStarted && document.getElementById('quiz').style.display === 'block') {
+                if (!confirm('Are you sure you want to reset the quiz? Your progress will be lost.')) {
+                    return;
+                }
+            }
+            // Reset quiz state and show welcome screen
+            document.getElementById('welcome').style.display = 'block';
+            document.getElementById('quiz').style.display = 'none';
+            document.getElementById('results').style.display = 'none';
+            quizStarted = false;
+            userAnswers = [];
+            selectedQuestions = [];
+            currentQuestionIndex = 0;
+        });
+
+        // Warn user before leaving or refreshing if quiz is in progress
+        window.addEventListener('beforeunload', function (e) {
+            if (quizStarted && document.getElementById('quiz').style.display === 'block') {
+                e.preventDefault();
+                e.returnValue = '';
+                return '';
+            }
+        });
+
+        // Load questions when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            loadQuestions();
+        });
+    </script>
+    
+    <script>
+        function openMenu() {
+            document.getElementById('site-menu').style.transform = 'translateX(0)';
+            document.getElementById('menu-backdrop').classList.remove('hidden');
+        }
+        function closeMenu() {
+            document.getElementById('site-menu').style.transform = 'translateX(-100%)';
+            document.getElementById('menu-backdrop').classList.add('hidden');
+        }
+        fetch('../assets/shared-menu.html')
+            .then(res => res.text())
+            .then(html => {
+                document.getElementById('menu-container').innerHTML = html;
+                document.getElementById('menu-btn').style.display = '';
+                window.openMenu = function() {
+                    document.getElementById('site-menu').style.transform = 'translateX(0)';
+                    document.getElementById('menu-backdrop').classList.remove('hidden');
+                };
+                window.closeMenu = function() {
+                    document.getElementById('site-menu').style.transform = 'translateX(-100%)';
+                    document.getElementById('site-menu').classList.add('hidden');
+                };
+            });
+    </script>
+</body>
+</html>

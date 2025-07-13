@@ -1,0 +1,760 @@
+{
+  "title": "Correlation & Simple Regression Questions",
+  "description": "A set of 50 multiple-choice questions covering the concepts, interpretation, and application of correlation and simple linear regression.",
+  "questions": [
+    {
+      "id": 1,
+      "topic": "Correlation",
+      "section": "Conceptual Understanding",
+      "question": "A Pearson correlation is most appropriate for measuring the relationship between which types of variables?",
+      "options": [
+        "Two nominal variables.",
+        "One continuous and one categorical variable.",
+        "Two continuous variables.",
+        "A ranked variable and a nominal variable."
+      ],
+      "correctAnswer": "C",
+      "explanation": "Pearson's correlation is designed to measure the linear relationship between two continuous variables (e.g., height and weight, or revision hours and exam score)."
+    },
+    {
+      "id": 2,
+      "topic": "Correlation",
+      "section": "Conceptual Understanding",
+      "question": "A researcher finds a correlation of r = +0.75 between daily ice cream sales and the number of drowning incidents. This is a classic example of what principle?",
+      "options": [
+        "A strong causal relationship.",
+        "Correlation does not equal causation, as a third variable (e.g., hot weather) likely influences both.",
+        "A negative correlation.",
+        "A calculation error, as these variables cannot be related."
+      ],
+      "correctAnswer": "B",
+      "explanation": "This is a textbook example of a spurious correlation. A third, confounding variable (the heat of the day) causes both an increase in ice cream sales and an increase in people swimming (and thus drowning incidents). The two variables are correlated, but one does not cause the other."
+    },
+    {
+      "id": 3,
+      "topic": "Correlation",
+      "section": "Conceptual Understanding",
+      "question": "To compare two variables measured on completely different scales (e.g., height in cm and annual income in £), correlation works by first:",
+      "options": [
+        "Removing all outliers from both datasets.",
+        "Converting all scores for each variable into standardized Z-scores.",
+        "Calculating the mean of each variable and correlating the means.",
+        "Using only the top 50% of the data."
+      ],
+      "correctAnswer": "B",
+      "explanation": "Standardization is the key to correlation. By converting each score to a Z-score (how many standard deviations it is from its own mean), we put both variables onto a common, unit-less scale, allowing them to be compared and correlated."
+    },
+    {
+      "id": 4,
+      "topic": "Correlation",
+      "section": "Conceptual Understanding",
+      "question": "What does a correlation coefficient of r = 0.00 indicate?",
+      "options": [
+        "A perfect negative linear relationship.",
+        "A perfect positive linear relationship.",
+        "The absence of any linear relationship between the variables.",
+        "That the two variables are identical."
+      ],
+      "correctAnswer": "C",
+      "explanation": "An r-value of 0 means there is no linear association. As one variable changes, there is no consistent, predictable linear change in the other. It does not rule out a non-linear relationship (e.g., a U-shape)."
+    },
+    {
+      "id": 5,
+      "topic": "Correlation",
+      "section": "Conceptual Understanding",
+      "question": "What are the degrees of freedom (df) for a Pearson's correlation coefficient?",
+      "options": [
+        "N - 1, where N is the total number of scores.",
+        "k - 1, where k is the number of variables.",
+        "N - 2, where N is the number of pairs of scores.",
+        "The number of pairs minus the number of variables."
+      ],
+      "correctAnswer": "C",
+      "explanation": "The degrees of freedom for a Pearson's correlation are calculated as N - 2, where N is the number of participants or pairs of data points."
+    },
+    {
+      "id": 6,
+      "topic": "Correlation",
+      "section": "Application & Calculation",
+      "question": "A study finds that the correlation between revision hours and exam score is r = 0.80. What is the coefficient of determination (R²)?",
+      "options": [
+        "0.80",
+        "0.64",
+        "0.40",
+        "1.60"
+      ],
+      "correctAnswer": "B",
+      "explanation": "The coefficient of determination (R²) is found by squaring the correlation coefficient (r). So, R² = 0.80 * 0.80 = 0.64."
+    },
+    {
+      "id": 7,
+      "topic": "Correlation",
+      "section": "Application & Calculation",
+      "question": "A researcher reports that R² = 0.49 for the relationship between mindfulness and anxiety. What is the Pearson's r value, assuming the relationship is negative?",
+      "options": [
+        "-0.49",
+        "0.24",
+        "0.70",
+        "-0.70"
+      ],
+      "correctAnswer": "D",
+      "explanation": "Pearson's r is the square root of R². The square root of 0.49 is 0.70. Since the question specifies the relationship is negative, the r value must be -0.70."
+    },
+    {
+      "id": 8,
+      "topic": "Correlation",
+      "section": "Application & Calculation",
+      "question": "If R² = 0.25, what percentage of the variance in one variable is 'explained' by the other variable?",
+      "options": [
+        "50%",
+        "2.5%",
+        "25%",
+        "It cannot be determined."
+      ],
+      "correctAnswer": "C",
+      "explanation": "The R-squared value, when multiplied by 100, gives the percentage of shared variance. 0.25 * 100 = 25%."
+    },
+    {
+      "id": 9,
+      "topic": "Correlation",
+      "section": "JASP Interpretation",
+      "question": "A researcher investigates the relationship between hours of sleep and mood rating in 50 students. They find a significant positive correlation, r = .50, p = .002. Which is the correct APA-style report?",
+      "options": [
+        "There was a correlation, r(50) = .50, p = .002.",
+        "There was a significant positive correlation, r(48) = .50, p = .002.",
+        "There was a correlation, F(1, 48) = .50, p = .002.",
+        "There was a significant positive correlation, r = .50."
+      ],
+      "correctAnswer": "B",
+      "explanation": "The correct format is r(df) = value, p = value. The degrees of freedom (df) are N-2, which is 50 - 2 = 48. Option B correctly reports all components."
+    },
+    {
+      "id": 10,
+      "topic": "Correlation",
+      "section": "JASP Interpretation",
+      "question": "A psychologist studies the link between time spent outdoors (hours per week) and self-reported life satisfaction (score out of 100) in 62 participants. Below is the JASP output. How would you describe the relationship?",
+      "options": [
+        "A strong, significant positive correlation.",
+        "A moderate, non-significant positive correlation.",
+        "A moderate, significant positive correlation.",
+        "A weak, significant negative correlation."
+      ],
+      "correctAnswer": "C",
+      "explanation": "The Pearson's r value is 0.418, which is generally considered a medium or moderate strength in psychology. The p-value is < .001, so the relationship is statistically significant and positive.",
+      "jaspTable": {
+        "title": "Pearson's Correlations",
+        "headers": ["Variable 1", "Variable 2", "Pearson's r", "p-value", "N"],
+        "rows": [["outdoors_hrs", "life_satisfaction", "0.418", "<.001", "62"]]
+      }
+    },
+    {
+      "id": 11,
+      "topic": "Correlation",
+      "section": "JASP Interpretation",
+      "question": "Using the JASP output from the outdoors/satisfaction study, what is the correct APA-style write-up for the finding?",
+      "options": [
+        "r(62) = .418, p < .001",
+        "r(61) = .418, p < .001",
+        "r(60) = .418, p < .001",
+        "r = .418"
+      ],
+      "correctAnswer": "C",
+      "explanation": "The degrees of freedom (df) for correlation are N - 2. With N=62, the df is 60. Therefore, the correct report is r(60) = .418, p < .001."
+    },
+    {
+      "id": 12,
+      "topic": "Correlation",
+      "section": "Conceptual Understanding",
+      "question": "Visually, what does a strong positive correlation look like on a scatterplot?",
+      "options": [
+        "The data points form a tight cluster sloping upwards from left to right.",
+        "The data points are widely scattered with no clear pattern.",
+        "The data points form a tight cluster sloping downwards from left to right.",
+        "The data points form a perfect horizontal line."
+      ],
+      "correctAnswer": "A",
+      "explanation": "A strong correlation means the points are tightly clustered around an imaginary line. A positive correlation means this line slopes upwards (as X increases, Y increases)."
+    },
+    {
+      "id": 13,
+      "topic": "Correlation",
+      "section": "Application & Calculation",
+      "question": "Using the Z-score formula z = (X - X̄) / S, what is the Z-score for a person who scored 75 on a test where the mean (X̄) was 60 and the standard deviation (S) was 10?",
+      "options": [
+        "1.5",
+        "-1.5",
+        "15",
+        "0.66"
+      ],
+      "correctAnswer": "A",
+      "explanation": "z = (75 - 60) / 10 = 15 / 10 = 1.5. This means the score is 1.5 standard deviations above the mean."
+    },
+    {
+      "id": 14,
+      "topic": "Correlation",
+      "section": "Conceptual Understanding",
+      "question": "The standard deviation of any set of standardized scores (Z-scores) is always:",
+      "options": [
+        "0",
+        "1",
+        "Unknown, it depends on the raw data.",
+        "Equal to the mean."
+      ],
+      "correctAnswer": "B",
+      "explanation": "A key property of Z-scores is that when you transform a dataset into Z-scores, the new dataset will always have a mean of 0 and a standard deviation of 1."
+    },
+    {
+      "id": 15,
+      "topic": "Correlation",
+      "section": "Conceptual Understanding",
+      "question": "If the sum of the products of standardized scores (Σ(ZxZy)) is negative, what does this imply?",
+      "options": [
+        "A calculation error has been made.",
+        "The correlation coefficient will be positive.",
+        "The correlation coefficient will be negative.",
+        "The correlation cannot be calculated."
+      ],
+      "correctAnswer": "C",
+      "explanation": "The formula for r is Σ(ZxZy) / (N-1). Since N-1 is always positive, the sign of the correlation coefficient is determined entirely by the sign of the sum of the products of the Z-scores."
+    },
+    {
+      "id": 16,
+      "topic": "Correlation",
+      "section": "Conceptual Understanding",
+      "question": "A Pearson's correlation coefficient is the...",
+      "options": [
+        "sum of the products of pairs of standardized scores.",
+        "sum of the products for pairs of standardized scores divided by N.",
+        "sum of the products for pairs of standardized scores divided by N-1.",
+        "square root of the sum of the products for pairs of standardized scores divided by N-1."
+      ],
+      "correctAnswer": "C",
+      "explanation": "The formula for the sample Pearson's r is the sum of the cross-products of Z-scores, divided by N-1, which makes it the average cross-product."
+    },
+    {
+      "id": 17,
+      "topic": "Correlation",
+      "section": "Conceptual Understanding",
+      "question": "If two variables are perfectly correlated (r = 1.00), what would their scatterplot look like?",
+      "options": [
+        "A circle of points.",
+        "A random cloud of points.",
+        "A straight line sloping upwards.",
+        "A straight line sloping downwards."
+      ],
+      "correctAnswer": "C",
+      "explanation": "A perfect positive correlation means that for every increase in X, there is a perfectly proportional increase in Y. This forms a perfectly straight line with a positive slope."
+    },
+    {
+      "id": 18,
+      "topic": "Correlation",
+      "section": "Conceptual Understanding",
+      "question": "Which of these is NOT an assumption of Pearson's correlation?",
+      "options": [
+        "The variables must be continuous (interval or ratio).",
+        "There needs to be a linear relationship between the variables.",
+        "The groups being compared must have equal variance.",
+        "There should be no significant outliers."
+      ],
+      "correctAnswer": "C",
+      "explanation": "Homogeneity of variance is an assumption for tests that compare group means, like t-tests and ANOVA. Correlation analyzes the relationship between two variables within a single group, so this assumption does not apply."
+    },
+    {
+      "id": 19,
+      "topic": "Correlation",
+      "section": "Application & Calculation",
+      "question": "In a study with 100 participants, a correlation is reported as r(98) = -0.25, p = .01. What does 'r(98)' signify?",
+      "options": [
+        "The correlation coefficient is 98.",
+        "98% of the variance is explained.",
+        "The degrees of freedom for the test are 98.",
+        "The test was run 98 times."
+      ],
+      "correctAnswer": "C",
+      "explanation": "In APA format, the number in the parentheses after the statistic's symbol (r) represents the degrees of freedom for that test. For correlation, df = N - 2 = 100 - 2 = 98."
+    },
+    {
+      "id": 20,
+      "topic": "Correlation",
+      "section": "JASP Interpretation",
+      "question": "A researcher examines the correlation between caffeine intake (mg) and reaction time (ms). The output shows r = -0.45, p = .005. What is the most accurate conclusion?",
+      "options": [
+        "Higher caffeine intake is significantly associated with a slower (higher) reaction time.",
+        "Higher caffeine intake is significantly associated with a faster (lower) reaction time.",
+        "There is no significant relationship between caffeine and reaction time.",
+        "Caffeine intake causes an improvement in reaction time."
+      ],
+      "correctAnswer": "B",
+      "explanation": "The correlation is negative (-0.45), meaning as one variable (caffeine) goes up, the other (reaction time) goes down. A lower reaction time is a faster reaction. The p-value of .005 indicates this is a statistically significant relationship."
+    },
+    {
+      "id": 21,
+      "topic": "Correlation",
+      "section": "Conceptual Understanding",
+      "question": "Why is it important to look at a scatterplot before calculating a correlation?",
+      "options": [
+        "To ensure the sample size is large enough.",
+        "To check for non-linear relationships, which Pearson's r might miss.",
+        "To calculate the p-value manually.",
+        "To determine the mean of each variable."
+      ],
+      "correctAnswer": "B",
+      "explanation": "Pearson's r only measures linear relationships. A scatterplot can reveal obvious non-linear patterns (like a U-shape), where r might be close to 0, misleadingly suggesting no relationship at all."
+    },
+    {
+      "id": 22,
+      "topic": "Correlation",
+      "section": "Conceptual Understanding",
+      "question": "The proportion of variance shared between two variables is expressed as:",
+      "options": [
+        "the correlation coefficient.",
+        "the square root of the correlation coefficient.",
+        "the square of the correlation coefficient.",
+        "the slope of the line of best fit."
+      ],
+      "correctAnswer": "C",
+      "explanation": "This is the definition of the coefficient of determination (R²). Squaring the correlation coefficient gives you the proportion of shared variance."
+    },
+    {
+      "id": 23,
+      "topic": "Correlation",
+      "section": "Application & Calculation",
+      "question": "If the correlation between two variables is .4, the coefficient of determination is:",
+      "options": [
+        ".4",
+        "1.6%",
+        ".16",
+        "40%"
+      ],
+      "correctAnswer": "C",
+      "explanation": "The coefficient of determination (R²) is the square of the correlation coefficient (r). r² = .4 * .4 = .16."
+    },
+    {
+      "id": 24,
+      "topic": "Correlation",
+      "section": "JASP Interpretation",
+      "question": "You correlate two variables, `positivity` and `resilience`, and JASP gives you r = .55, p = .001. A colleague suggests this means `positivity` causes `resilience`. Why is this conclusion flawed?",
+      "options": [
+        "The p-value is too low to make a causal claim.",
+        "Correlation cannot establish the direction of causality; it's equally possible that resilience causes positivity.",
+        "A third variable, like a supportive environment, could be causing both.",
+        "Both B and C are correct."
+      ],
+      "correctAnswer": "D",
+      "explanation": "This is the core 'correlation is not causation' issue. Correlation is symmetrical and does not show which variable came first (directionality problem) and cannot rule out the influence of unmeasured third variables (third variable problem)."
+    },
+    {
+      "id": 25,
+      "topic": "Correlation",
+      "section": "Conceptual Understanding",
+      "question": "Which of these statements best describes the difference between correlation and ANOVA?",
+      "options": [
+        "Correlation looks for relationships between continuous variables, while ANOVA looks for differences between group means.",
+        "ANOVA is used for experimental data, while correlation is only for observational data.",
+        "Correlation is more statistically powerful than ANOVA.",
+        "ANOVA can establish causation, while correlation cannot."
+      ],
+      "correctAnswer": "A",
+      "explanation": "This is the fundamental difference. Correlation assesses the co-variation of two continuous variables. ANOVA assesses whether the mean of a continuous variable differs across two or more discrete groups."
+    },
+    {
+      "id": 26,
+      "topic": "Regression",
+      "section": "Conceptual Understanding",
+      "question": "In the regression equation Y' = b₀ + b₁X, Y' represents:",
+      "options": [
+        "The actual observed value of the outcome variable.",
+        "The predicted value of the outcome variable.",
+        "The slope of the regression line.",
+        "The error or residual for a given participant."
+      ],
+      "correctAnswer": "B",
+      "explanation": "Y-prime (Y') is the standard notation for the value of Y that is predicted by the model for a given value of X."
+    },
+    {
+      "id": 27,
+      "topic": "Regression",
+      "section": "Conceptual Understanding",
+      "question": "The gradient of the slope of the line of best fit is:",
+      "options": [
+        "R square",
+        "r",
+        "calculated on the basis of unstandardized scores.",
+        "calculated on the basis of standardized scores."
+      ],
+      "correctAnswer": "C",
+      "explanation": "The unstandardized slope (b₁) is calculated from the original, unstandardized units of the variables, making it directly interpretable (e.g., 'a 0.48 point increase in score for every 1 hour of revision'). The standardized slope (beta) is based on standardized scores."
+    },
+    {
+      "id": 28,
+      "topic": "Regression",
+      "section": "Application & Calculation",
+      "question": "A regression model is: Predicted Exam Score = 45 + (1.5 * Study Hours). If a student studies for 10 hours, what is their predicted exam score?",
+      "options": [
+        "46.5",
+        "55",
+        "60",
+        "45"
+      ],
+      "correctAnswer": "C",
+      "explanation": "Substitute X=10 into the equation: Predicted Score = 45 + (1.5 * 10) = 45 + 15 = 60."
+    },
+    {
+      "id": 29,
+      "topic": "Regression",
+      "section": "JASP Interpretation",
+      "question": "Based on the JASP 'Model Summary' table, what percentage of the variance in exam scores is explained by revision hours?",
+      "options": [
+        "54.4%",
+        "29.5%",
+        "26.9%",
+        "19.4%"
+      ],
+      "correctAnswer": "B",
+      "explanation": "The 'R²' (R Square) value directly represents the proportion of explained variance. A value of 0.295 corresponds to 29.5%.",
+      "jaspTable": {
+        "title": "Model Summary",
+        "headers": ["Model", "R", "R²", "Adjusted R²", "RMSE"],
+        "rows": [["H₁", "0.544", "0.295", "0.269", "19.406"]]
+      }
+    },
+    {
+      "id": 30,
+      "topic": "Regression",
+      "section": "JASP Interpretation",
+      "question": "Looking at the JASP 'ANOVA' table for the regression, what does the p-value of .002 indicate?",
+      "options": [
+        "The correlation is not significant.",
+        "The regression model as a whole is a statistically significant predictor of the outcome, better than just using the mean.",
+        "The intercept is a significant predictor.",
+        "The assumption of homogeneity of variance has been violated."
+      ],
+      "correctAnswer": "B",
+      "explanation": "The ANOVA table in regression tests whether the overall model (using the predictor) is significantly better at explaining the outcome than a null model (with no predictors). A significant p-value (p < .05) means the model is a good fit.",
+      "jaspTable": {
+        "title": "ANOVA",
+        "headers": ["Model", "", "Sum of Squares", "df", "Mean Square", "F", "p"],
+        "rows": [["H₁", "Regression", "4262.933", "1", "4262.933", "11.320", ".002"]]
+      }
+    },
+    {
+      "id": 31,
+      "topic": "Regression",
+      "section": "JASP Interpretation",
+      "question": "From the JASP 'Coefficients' table, what is the value of the slope (b₁) for the predictor 'revision_hrs'?",
+      "options": [
+        "29.574",
+        "0.143",
+        "0.544",
+        "0.480"
+      ],
+      "correctAnswer": "D",
+      "explanation": "The slope (b₁) is the 'Unstandardized' coefficient for the predictor variable. In the row for 'revision_hrs', this value is 0.480.",
+      "jaspTable": {
+        "title": "Coefficients",
+        "headers": ["Model", "", "Unstandardized", "Standard Error", "Standardized", "t", "p"],
+        "rows": [
+          ["H₁", "(Intercept)", "29.574", "9.431", "", "3.136", ".004"],
+          ["", "revision_hrs", "0.480", "0.143", "0.544", "3.365", ".002"]
+        ]
+      }
+    },
+    {
+      "id": 32,
+      "topic": "Regression",
+      "section": "JASP Interpretation",
+      "question": "Using the JASP 'Coefficients' table, what is the regression equation for predicting exam scores?",
+      "options": [
+        "Y' = 0.480 + 29.574(X)",
+        "Y' = 29.574 + 0.480(X)",
+        "Y' = 0.544 + 3.365(X)",
+        "Y' = 29.574 + 0.544(X)"
+      ],
+      "correctAnswer": "B",
+      "explanation": "The equation is Y' = b₀ + b₁(X). The intercept (b₀) is 29.574 and the slope (b₁) for the predictor is 0.480. Therefore, the equation is Y' = 29.574 + 0.480(X).",
+       "jaspTable": {
+        "title": "Coefficients",
+        "headers": ["Model", "", "Unstandardized", "Standard Error", "Standardized", "t", "p"],
+        "rows": [
+          ["H₁", "(Intercept)", "29.574", "9.431", "", "3.136", ".004"],
+          ["", "revision_hrs", "0.480", "0.143", "0.544", "3.365", ".002"]
+        ]
+      }
+    },
+    {
+      "id": 33,
+      "topic": "Regression",
+      "section": "Application & Calculation",
+      "question": "Using the equation 'Predicted Score = 29.574 + 0.480(Revision Hours)', what is the predicted score for someone who revised for 0 hours?",
+      "options": [
+        "0",
+        "29.574",
+        "0.480",
+        "30.054"
+      ],
+      "correctAnswer": "B",
+      "explanation": "When X=0, the equation becomes Predicted Score = 29.574 + (0.480 * 0), which equals 29.574. This demonstrates the definition of the intercept."
+    },
+    {
+      "id": 34,
+      "topic": "Regression",
+      "section": "JASP Interpretation",
+      "question": "In the JASP 'Coefficients' table, the Standardized coefficient for 'revision_hrs' is 0.544. What other value from a related analysis would be identical to this?",
+      "options": [
+        "The R² value.",
+        "The Pearson's r correlation coefficient between revision hours and exam score.",
+        "The F-statistic from the ANOVA table.",
+        "The unstandardized slope."
+      ],
+      "correctAnswer": "B",
+      "explanation": "In simple linear regression (with only one predictor), the standardized beta (β) coefficient is always equal to the Pearson's r correlation coefficient.",
+      "jaspTable": {
+        "title": "Coefficients",
+        "headers": ["Model", "", "Unstandardized", "Standard Error", "Standardized", "t", "p"],
+        "rows": [
+          ["", "revision_hrs", "0.480", "0.143", "0.544", "3.365", ".002"]
+        ]
+      }
+    },
+    {
+      "id": 35,
+      "topic": "Regression",
+      "section": "Conceptual Understanding",
+      "question": "If a regression model for predicting weight (kg) from height (cm) has a slope (b₁) of 0.8, what does this mean?",
+      "options": [
+        "For every 1 cm increase in height, weight is predicted to increase by 0.8 kg.",
+        "For every 1 kg increase in weight, height is predicted to increase by 0.8 cm.",
+        "The correlation between height and weight is 0.8.",
+        "The model explains 80% of the variance in weight."
+      ],
+      "correctAnswer": "A",
+      "explanation": "The slope (b₁) represents the predicted change in the Y variable (weight) for every one-unit increase in the X variable (height)."
+    },
+    {
+      "id": 36,
+      "topic": "Regression",
+      "section": "JASP Interpretation",
+      "question": "A case study predicts calculation error from maths anxiety score (MAS). The regression equation is: Error = -3.93 + 0.189(MAS). What is the predicted error for a participant with a MAS of 50?",
+      "options": [
+        "-3.74",
+        "5.52",
+        "9.45",
+        "46.07"
+      ],
+      "correctAnswer": "B",
+      "explanation": "Predicted Error = -3.93 + (0.189 * 50) = -3.93 + 9.45 = 5.52.",
+      "jaspTable": {
+        "title": "Coefficients",
+        "headers": ["Model", "Unstandardized", "Standard Error", "Standardized", "t", "p"],
+        "rows": [
+          ["(Intercept)", "-3.930", "2.725", "", "-1.442", "0.155"],
+          ["MAS", "0.189", "0.047", "0.498", "4.058", "<.001"]
+        ]
+      }
+    },
+    {
+      "id": 37,
+      "topic": "Regression",
+      "section": "JASP Interpretation",
+      "question": "In the maths anxiety study, the ANOVA for the regression model yielded F(1, 50) = 16.47, p < .001, and R² = .248. What is the correct write-up?",
+      "options": [
+        "The model was not significant, F(1, 50) = 16.47, p < .001.",
+        "A significant regression equation was found (F(1, 50) = 16.47, p < .001), with an R² of .248.",
+        "A significant regression equation was found (t(50) = 16.47, p < .001), with an r of .248.",
+        "The model explained 16.47% of the variance."
+      ],
+      "correctAnswer": "B",
+      "explanation": "This option correctly reports the F-statistic with its degrees of freedom, the p-value indicating significance, and the R-squared value, following standard APA-style reporting."
+    },
+    {
+      "id": 38,
+      "topic": "Regression",
+      "section": "Conceptual Understanding",
+      "question": "What is the key difference between an unstandardized coefficient (b) and a standardized coefficient (β)?",
+      "options": [
+        "Unstandardized coefficients are used in correlation, while standardized are used in regression.",
+        "Unstandardized coefficients are in the original units of the variables, while standardized coefficients are in units of standard deviations.",
+        "Standardized coefficients are always larger than unstandardized coefficients.",
+        "There is no difference; the terms are interchangeable."
+      ],
+      "correctAnswer": "B",
+      "explanation": "Unstandardized coefficients (b) are easy to interpret in real-world units (e.g., kg per cm). Standardized coefficients (β) are unit-less and represent the change in standard deviations, which is useful for comparing the relative importance of predictors in multiple regression."
+    },
+    {
+      "id": 39,
+      "topic": "Regression",
+      "section": "Conceptual Understanding",
+      "question": "If a simple regression model is NOT statistically significant (p > .05), what is the best prediction for any individual's Y score?",
+      "options": [
+        "The intercept of the regression line.",
+        "Zero.",
+        "The mean of the Y variable.",
+        "The mean of the X variable."
+      ],
+      "correctAnswer": "C",
+      "explanation": "If the predictor variable (X) does not significantly predict the outcome (Y), then the regression model is no better than chance. In this case, our 'best guess' for any individual's score reverts to the mean of the outcome variable."
+    },
+    {
+      "id": 40,
+      "topic": "Regression",
+      "section": "Application & Calculation",
+      "question": "A model predicting job satisfaction (Y) from salary (X, in thousands) is: Y' = 2.1 + 0.05(X). How is the slope (0.05) interpreted?",
+      "options": [
+        "For every £1 increase in salary, job satisfaction is predicted to increase by 0.05 points.",
+        "For every £1000 increase in salary, job satisfaction is predicted to increase by 0.05 points.",
+        "For every 1 point increase in job satisfaction, salary is predicted to increase by £50.",
+        "The model explains 5% of the variance in job satisfaction."
+      ],
+      "correctAnswer": "B",
+      "explanation": "The slope is the change in Y for a one-unit change in X. Since X is measured in 'thousands of pounds', a one-unit change in X corresponds to a £1000 increase in salary."
+    },
+    {
+      "id": 41,
+      "topic": "Regression",
+      "section": "JASP Interpretation",
+      "question": "In the regression output, the p-value for the Intercept is .004, and the p-value for the predictor 'revision_hrs' is .002. What does this mean?",
+      "options": [
+        "Only the intercept is a significant part of the model.",
+        "Neither the intercept nor the predictor are significant.",
+        "Both the intercept and the predictor 'revision_hrs' make a statistically significant contribution to the model.",
+        "Only the predictor 'revision_hrs' is significant."
+      ],
+      "correctAnswer": "C",
+      "explanation": "The p-value for the intercept tests if it is significantly different from zero. The p-value for the predictor tests if its slope is significantly different from zero. Since both p-values (.004 and .002) are less than .05, both are statistically significant contributors.",
+      "jaspTable": {
+        "title": "Coefficients",
+        "headers": ["", "t", "p"],
+        "rows": [
+          ["(Intercept)", "3.136", ".004"],
+          ["revision_hrs", "3.365", ".002"]
+        ]
+      }
+    },
+    {
+      "id": 42,
+      "topic": "Regression",
+      "section": "Conceptual Understanding",
+      "question": "The total variance in a regression model (Total Sum of Squares) can be partitioned into:",
+      "options": [
+        "The slope and the intercept.",
+        "The variance explained by the model (Regression Sum of Squares) and the unexplained variance (Residual Sum of Squares).",
+        "Systematic variance and random variance.",
+        "The correlation and the coefficient of determination."
+      ],
+      "correctAnswer": "B",
+      "explanation": "This is a fundamental concept of ANOVA and regression. The total variability (SS Total) is broken down into the part our model can explain (SS Regression) and the part it can't (SS Residual)."
+    },
+    {
+      "id": 43,
+      "topic": "Regression",
+      "section": "Conceptual Understanding",
+      "question": "In the full regression equation, Y = b₀ + b₁X + ε, what does the ε (epsilon) term represent?",
+      "options": [
+        "The effect size.",
+        "The error, or residual, for each data point.",
+        "An extra predictor variable.",
+        "The expected value of Y."
+      ],
+      "correctAnswer": "B",
+      "explanation": "The epsilon (ε) term represents the error or residual – the difference between the actual observed value Y and the value predicted by the model (Y'). It acknowledges that our predictions are not perfect."
+    },
+    {
+      "id": 44,
+      "topic": "Regression",
+      "section": "JASP Interpretation",
+      "question": "A study predicts plant growth (cm) from hours of sunlight. The JASP 'Coefficients' output shows an unstandardized coefficient for 'sunlight' of 1.2 and an intercept of 5.0. What is the predicted growth for a plant that gets 6 hours of sunlight?",
+      "options": [
+        "6.2 cm",
+        "11.0 cm",
+        "7.2 cm",
+        "12.2 cm"
+      ],
+      "correctAnswer": "D",
+      "explanation": "The equation is Growth = 5.0 + 1.2 * (sunlight). For 6 hours of sunlight: Growth = 5.0 + 1.2 * 6 = 5.0 + 7.2 = 12.2 cm."
+    },
+    {
+      "id": 45,
+      "topic": "Regression",
+      "section": "Conceptual Understanding",
+      "question": "Why would a researcher choose to report the 'Adjusted R²' from the model summary instead of the regular 'R²'?",
+      "options": [
+        "Adjusted R² is always larger than R².",
+        "Adjusted R² is easier to interpret.",
+        "Adjusted R² provides a better estimate of the model's predictive accuracy in the population, especially in multiple regression.",
+        "Adjusted R² is the same as the correlation coefficient."
+      ],
+      "correctAnswer": "C",
+      "explanation": "R² can be an inflated estimate of how well the model fits the population. Adjusted R² 'shrinks' the R² value based on the number of predictors and sample size, providing a more conservative and often more realistic estimate of the model's true explanatory power."
+    },
+    {
+      "id": 46,
+      "topic": "Regression",
+      "section": "Conceptual Understanding",
+      "question": "In simple regression, if the slope (b₁) is 0, what would the R² value be?",
+      "options": [
+        "1",
+        "0.5",
+        "0",
+        "It would be negative."
+      ],
+      "correctAnswer": "C",
+      "explanation": "A slope of 0 means the predictor has no linear relationship with the outcome. The regression line would be flat. In this case, the predictor explains none of the variance in the outcome, so R² would be 0."
+    },
+    {
+      "id": 47,
+      "topic": "Regression",
+      "section": "Application & Calculation",
+      "question": "Scores for variable Y were regressed onto scores for variable X. The resulting model is: Y' = 5.43 + (.76 * X) + e. If a participant's score for variable X is 12, what is their predicted score for variable Y?",
+      "options": [
+        "17.43",
+        "9.12",
+        "74.28",
+        "14.55"
+      ],
+      "correctAnswer": "D",
+      "explanation": "The predicted score (Y') does not include the error term (e). Y' = 5.43 + (0.76 * 12) = 5.43 + 9.12 = 14.55."
+    },
+    {
+      "id": 48,
+      "topic": "Regression",
+      "section": "JASP Interpretation",
+      "question": "The 'RMSE' (Root Mean Square Error) in the JASP Model Summary table represents:",
+      "options": [
+        "The average size of the prediction errors (residuals) in the units of the dependent variable.",
+        "The percentage of variance explained by the model.",
+        "The statistical significance of the model.",
+        "The correlation coefficient."
+      ],
+      "correctAnswer": "A",
+      "explanation": "RMSE is the standard deviation of the residuals. It gives you a sense of the typical distance between the observed data points and the regression line, in the original units of your outcome variable."
+    },
+    {
+      "id": 49,
+      "topic": "Regression",
+      "section": "Conceptual Understanding",
+      "question": "If you ran a simple regression and found that the correlation coefficient was r = -0.60, what would the standardized beta (β) coefficient be?",
+      "options": [
+        "0.60",
+        "-0.60",
+        "0.36",
+        "-0.36"
+      ],
+      "correctAnswer": "B",
+      "explanation": "In simple linear regression, the standardized beta coefficient is always identical to the Pearson correlation coefficient, including the sign. Therefore, β = -0.60."
+    },
+    {
+      "id": 50,
+      "topic": "Regression",
+      "section": "Application & Calculation",
+      "question": "A regression analysis predicting happiness (Y) from income (X) yields the equation Y' = 30 + 0.0005(X). A participant's actual happiness score is 70, but their predicted score was 65. What is their residual?",
+      "options": [
+        "5",
+        "-5",
+        "65",
+        "70"
+      ],
+      "correctAnswer": "A",
+      "explanation": "The residual is the actual score minus the predicted score. Residual (ε) = Y - Y' = 70 - 65 = 5."
+    }
+  ]
+}
