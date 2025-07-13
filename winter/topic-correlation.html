@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Correlation & Regression Topics</title>
+    <title>Correlation & Simple Regression</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -189,8 +189,8 @@
     </button>
     <div class="container mx-auto p-4 md:p-8">
         <header class="text-center mb-8 relative">
-            <h1 class="text-4xl md:text-5xl font-bold">Correlation & Regression Topics</h1>
-            <p class="text-xl mt-2">Understanding Relationships and Prediction in Psychology</p>
+            <h1 class="text-4xl md:text-5xl font-bold">Correlation & Simple Regression</h1>
+            <p class="text-xl mt-2">Understanding Relationships and Basic Prediction in Psychology</p>
         </header>
         <div id="page-grid" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <!-- Main Content -->
@@ -199,7 +199,6 @@
                     <ul role="tablist" class="flex flex-wrap gap-4 justify-center">
                         <li role="presentation"><button role="tab" id="btn-correlation" aria-controls="correlation" class="nav-button active" onclick="switchContent(event, 'correlation', 'section-content', 'nav-button')">Correlation</button></li>
                         <li role="presentation"><button role="tab" id="btn-simple-regression" aria-controls="simple-regression" class="nav-button" onclick="switchContent(event, 'simple-regression', 'section-content', 'nav-button')">Simple Regression</button></li>
-                        <li role="presentation"><button role="tab" id="btn-multiple-regression" aria-controls="multiple-regression" class="nav-button" onclick="switchContent(event, 'multiple-regression', 'section-content', 'nav-button')">Multiple Regression</button></li>
                     </ul>
                 </nav>
                 <div id="correlation" role="tabpanel" aria-labelledby="btn-correlation" class="section-content" style="display: block;">
@@ -337,67 +336,6 @@
                     <p class="mt-2">This table gives us the values for our equation. The (Intercept) is our $b_0$ (29.574) and the value for our predictor (revision_hrs) is our $b_1$ (0.480). The p-value for the predictor tells us if it significantly contributes to the model. Since $p=.002$, revision hours is a significant predictor.</p>
                     <h3 class="text-xl font-semibold mt-8 mb-2">Final Write-Up</h3>
                     <p>"A simple linear regression was calculated to predict exam scores based on revision hours. A significant regression equation was found (<em>F</em>(1, 27) = 11.32, <em>p</em> = .002), with an <em>R</em><sup>2</sup> of .295. Participants' predicted exam score is equal to 29.57 + 0.48 (revision hours). For every additional hour of revision, the exam score is predicted to increase by 0.48 points. Revision hours was a significant predictor of exam score (<em>p</em> = .002)."</p>
-                </div>
-                <div id="multiple-regression" role="tabpanel" aria-labelledby="btn-multiple-regression" class="section-content">
-                    <h2 class="text-2xl md:text-3xl font-bold border-b-2 pb-2 mb-4"><span class="glossary-term" data-term-id="multiple-regression">Multiple Regression</span></h2>
-                    <p class="mb-4">Multiple regression is an extension of simple regression. Instead of using just one predictor variable, we use <strong>two or more</strong> to try and predict an outcome. The goal is to see if we can create a better predictive model by including more relevant information.</p>
-                    <h3 class="text-xl font-semibold mt-6 mb-2">The Rationale: Explaining More Variance</h3>
-                    <p class="mb-4">Each predictor variable explains a certain amount of <span class="glossary-term" data-term-id="variance">variance</span> in the outcome. By combining predictors, we hope to explain more of the total variance than any single predictor could alone. The model tests the combined predictive power of all your chosen variables.</p>
-                    <h3 class="text-xl font-semibold mt-8 mb-2">A Worked Example: What Predicts Statistics Exam Scores?</h3>
-                    <p class="mb-4">Let's try to predict students' statistics exam scores (our outcome). We'll use three predictor variables: Fear of Stats, Fear of Computers, and Fear of Maths.</p>
-                    
-                    <div class="application-corner">
-                        <h4>Application Corner: Comparing Predictors</h4>
-                        <p>When you have multiple predictors, you might want to know which one is the most important or strongest. You <strong>cannot</strong> use the 'Unstandardized B' for this, as the predictors might be on different scales.</p>
-                         <p class="mt-2">Instead, you must look at the <strong>Standardized Beta (&beta;)</strong> column. This puts all predictors on the same scale, so they can be directly compared.</p>
-                         <p class="mt-4"><strong>Example:</strong> In our Coefficients table, 'Stats Fear' has a &beta; of <strong>0.529</strong>, while 'Computer Fear' has a &beta; of -0.086 and 'Maths Fear' has a &beta; of 0.070. By comparing the absolute values, we can see that 0.529 is much larger than the others, making 'Stats Fear' the strongest predictor in the model.</p>
-                    </div>
-
-                    <h3 class="text-xl font-semibold mt-8 mb-2">Interpreting the JASP Output</h3>
-                    <p class="mb-4">The interpretation follows a similar logic to simple regression, but now we have to consider the contribution of each predictor.</p>
-                    <div class="data-table-wrapper">
-                        <h4 class="font-semibold text-lg mb-2">1. Model Summary</h4>
-                         <table class="w-full text-sm text-left">
-                           <thead class="text-xs uppercase"><tr><th class="px-4 py-2">Model</th><th class="px-4 py-2">R</th><th class="px-4 py-2">R²</th><th class="px-4 py-2">Adjusted R²</th></tr></thead>
-                           <tbody><tr class="border-b border-gray-700"><td class="px-4 py-2">H₁</td><td class="px-4 py-2">0.517</td><td class="px-4 py-2">0.268</td><td class="px-4 py-2">0.245</td></tr></tbody>
-                        </table>
-                    </div>
-                    <p class="mt-2 mb-4">The <strong><span class="glossary-term" data-term-id="coefficient-of-determination">R²</span></strong> value of 0.268 means that our model (containing all three 'fear' predictors) explains <strong>26.8%</strong> of the variance in exam scores. The <strong>Adjusted R²</strong> is an estimate of how well our model would generalize to the population. A smaller gap between R² and Adjusted R² is better.</p>
-                    <div class="mt-4 data-table-wrapper">
-                        <h4 class="font-semibold text-lg mb-2">2. ANOVA</h4>
-                         <table class="w-full text-sm text-left">
-                           <thead class="text-xs uppercase"><tr><th class="px-4 py-2">Model</th><th class="px-4 py-2"></th><th class="px-4 py-2">F</th><th class="px-4 py-2">df1</th><th class="px-4 py-2">df2</th><th class="px-4 py-2">p</th></tr></thead>
-                           <tbody><tr class="border-b border-gray-700"><td class="px-4 py-2">H₁</td><td class="px-4 py-2 font-semibold">Regression</td><td class="px-4 py-2">11.811</td><td class="px-4 py-2">3</td><td class="px-4 py-2">97</td><td class="px-4 py-2">&lt; .001</td></tr></tbody>
-                        </table>
-                    </div>
-                    <p class="mt-2 mb-4">The <span class="glossary-term" data-term-id="anova-glossary">ANOVA</span> table shows our overall model is significant, $F(3, 97) = 11.81, p < .001$. This means our combination of predictors is significantly better than chance at predicting exam scores.</p>
-                    <div class="mt-4 data-table-wrapper">
-                        <h4 class="font-semibold text-lg mb-2">3. Coefficients</h4>
-                         <table class="w-full text-sm text-left">
-                           <thead class="text-xs uppercase"><tr><th class="px-4 py-2">Predictor</th><th class="px-4 py-2">Unstandardized B</th><th class="px-4 py-2">Standardized β</th><th class="px-4 py-2">t</th><th class="px-4 py-2">p</th></tr></thead>
-                           <tbody>
-                            <tr class="border-b border-gray-700"><td class="px-4 py-2">(Intercept)</td><td class="px-4 py-2">-6.315</td><td class="px-4 py-2"></td><td class="px-4 py-2">-0.686</td><td class="px-4 py-2">.494</td></tr>
-                            <tr class="border-b border-gray-700"><td class="px-4 py-2">Stats Fear</td><td class="px-4 py-2">2.384</td><td class="px-4 py-2">0.529</td><td class="px-4 py-2">4.064</td><td class="px-4 py-2">&lt;.001</td></tr>
-                            <tr class="border-b border-gray-700"><td class="px-4 py-2">Computer Fear</td><td class="px-4 py-2">-0.482</td><td class="px-4 py-2">-0.086</td><td class="px-4 py-2">-0.694</td><td class="px-4 py-2">.489</td></tr>
-                            <tr class="border-b border-gray-700"><td class="px-4 py-2">Maths Fear</td><td class="px-4 py-2">0.662</td><td class="px-4 py-2">0.070</td><td class="px-4 py-2">0.633</td><td class="px-4 py-2">.528</td></tr>
-                           </tbody>
-                        </table>
-                    </div>
-                    <p class="mt-2">This table tells us about each individual predictor. The <strong>p-values</strong> show that only 'Stats Fear' ($p < .001$) is a significant predictor in this model. The other two are not. As discussed in the Application Corner, the <strong>Standardized Beta (&beta;)</strong> values allow us to compare the relative importance of the predictors. Here, Stats Fear (&beta; = .529) is by far the strongest.</p>
-                    <details class="p-4 mt-6 rounded-lg bg-gray-800">
-                        <summary>Important Assumptions in Multiple Regression</summary>
-                        <div>
-                            <p>Multiple regression has several key assumptions you need to check:</p>
-                            <ul class="list-disc list-inside pl-4 space-y-2 mt-4">
-                                <li><strong>Linearity:</strong> The relationship between each predictor and the outcome should be linear.</li>
-                                <li><strong>Homoscedasticity:</strong> The variance of the errors (residuals) should be consistent across all levels of the predictors. You check this with a scatterplot of residuals vs. predicted values. You want to see a random cloud of dots, not a funnel shape.</li>
-                                <li><strong>Normality of Residuals:</strong> The errors your model makes should be normally distributed. You can check this with a Q-Q plot or a histogram of the residuals.</li>
-                                <li><strong>No <span class="glossary-term" data-term-id="multicollinearity">Multicollinearity</span>:</strong> Your predictors should not be too highly correlated with each other (e.g., $r > .80$). High correlation makes it difficult to tell which predictor is responsible for the variance. You can check this with a correlation matrix and by looking at VIF and Tolerance statistics in JASP (VIF > 10 or Tolerance < 0.1 are signs of a problem).</li>
-                            </ul>
-                        </div>
-                    </details>
-                    <h3 class="text-xl font-semibold mt-8 mb-2">Final Write-Up</h3>
-                    <p>"A multiple regression was run to predict statistics exam scores from fear of stats, fear of computers, and fear of maths. The regression model was statistically significant, <em>F</em>(3, 97) = 11.81, <em>p</em> < .001$, and accounted for 26.8% of the variance in exam scores (<em>R</em><sup>2</sup> = .268). Only fear of statistics was found to be a significant predictor of exam scores (&beta; = .53, <em>p</em> < .001)."</p>
                 </div>
             </main>
             <!-- Glossary Sidebar -->
