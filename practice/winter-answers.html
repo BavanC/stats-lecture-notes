@@ -87,6 +87,55 @@
                 max-height: 600px;
             }
         }
+        
+        /* Tab system styles */
+        .tab-button {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tab-button.active {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .tab-content {
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .tab-content.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Mobile tab improvements */
+        @media (max-width: 768px) {
+            .tab-button {
+                min-width: 80px;
+                font-size: 14px;
+                padding: 10px 12px;
+            }
+            
+            .tab-button span {
+                display: block;
+                text-align: center;
+            }
+        }
+        
+        /* Wrong option hiding */
+        .wrong-option {
+            transition: all 0.3s ease;
+        }
+        
+        .wrong-option.hidden {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -104,8 +153,7 @@
                 </div>
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-4">
-                        <a href="#mcq-answers" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">MCQ Answers</a>
-                        <a href="#case-studies" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Case Studies</a>
+                        <a href="#tab-content" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">All Answers</a>
                     </div>
                 </div>
             </div>
@@ -119,44 +167,97 @@
             <p class="max-w-3xl mx-auto text-lg text-gray-700">Complete answers and detailed explanations for the PS7002 TB1 Winter Test. Use this resource to review your understanding and learn from any mistakes.</p>
         </section>
 
-        <section id="mcq-answers" class="mb-16">
-            <h3 class="text-3xl font-bold text-center mb-8 text-[#81b29a]">Multiple Choice Questions (1-25)</h3>
-            
-            <!-- Mobile quick navigation -->
-            <div class="md:hidden mb-6">
-                <div class="bg-white p-4 rounded-lg shadow-sm">
-                    <h4 class="font-semibold text-gray-700 mb-3">Quick Navigation</h4>
-                    <div class="grid grid-cols-5 gap-2">
-                        <!-- Question numbers will be added dynamically -->
-                    </div>
-                </div>
+        <!-- Tab Navigation -->
+        <div class="mb-8">
+            <div class="flex flex-wrap justify-center gap-2 md:gap-4">
+                <button id="tab-mcq" class="tab-button active bg-[#81b29a] text-white px-4 py-2 rounded-lg font-semibold transition-all duration-200 hover:bg-[#6a9a81] focus:outline-none focus:ring-2 focus:ring-[#81b29a] focus:ring-offset-2">
+                    <span class="hidden sm:inline">Multiple Choice</span>
+                    <span class="sm:hidden">MCQs</span>
+                </button>
+                <button id="tab-case26" class="tab-button bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-semibold transition-all duration-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2">
+                    Case Study 26
+                </button>
+                <button id="tab-case27" class="tab-button bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-semibold transition-all duration-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2">
+                    Case Study 27
+                </button>
+                <button id="tab-case28" class="tab-button bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-semibold transition-all duration-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2">
+                    Case Study 28
+                </button>
             </div>
-            
-            <div id="mcq-container" class="space-y-6 max-w-4xl mx-auto">
-                <!-- MCQ answers will be loaded here -->
-            </div>
-        </section>
+        </div>
 
-        <section id="case-studies" class="mb-16">
-            <h3 class="text-3xl font-bold text-center mb-8 text-[#e07a5f]">Case Study Answers</h3>
-            <div class="text-center text-gray-600">
-                <p class="text-lg">Case study answers will be added here as they become available.</p>
-                <p class="mt-2">Check back for updates on Case Studies 26, 27, and 28.</p>
+        <!-- Tab Content -->
+        <div id="tab-content" class="space-y-8">
+            <!-- MCQ Tab -->
+            <div id="content-mcq" class="tab-content active">
+                <section class="mb-16">
+                    <h3 class="text-3xl font-bold text-center mb-8 text-[#81b29a]">Multiple Choice Questions (1-25)</h3>
+                    
+                    <!-- Mobile quick navigation -->
+                    <div class="md:hidden mb-6">
+                        <div class="bg-white p-4 rounded-lg shadow-sm">
+                            <h4 class="font-semibold text-gray-700 mb-3">Quick Navigation</h4>
+                            <div class="grid grid-cols-5 gap-2">
+                                <!-- Question numbers will be added dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="mcq-container" class="space-y-6 max-w-4xl mx-auto">
+                        <!-- MCQ answers will be loaded here -->
+                    </div>
+                </section>
             </div>
-        </section>
+
+            <!-- Case Study 26 Tab -->
+            <div id="content-case26" class="tab-content hidden">
+                <section class="mb-16">
+                    <h3 class="text-3xl font-bold text-center mb-8 text-[#e07a5f]">Case Study 26: Maths Anxiety and Mental Arithmetic</h3>
+                    <div class="text-center text-gray-600">
+                        <p class="text-lg">Case study 26 answers will be added here.</p>
+                        <p class="mt-2">This case study covers correlation and regression analysis.</p>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Case Study 27 Tab -->
+            <div id="content-case27" class="tab-content hidden">
+                <section class="mb-16">
+                    <h3 class="text-3xl font-bold text-center mb-8 text-[#e07a5f]">Case Study 27: Amphetamine Dose and Task Performance</h3>
+                    <div class="text-center text-gray-600">
+                        <p class="text-lg">Case study 27 answers will be added here.</p>
+                        <p class="mt-2">This case study covers one-way ANOVA and planned comparisons.</p>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Case Study 28 Tab -->
+            <div id="content-case28" class="tab-content hidden">
+                <section class="mb-16">
+                    <h3 class="text-3xl font-bold text-center mb-8 text-[#e07a5f]">Case Study 28: Expertise and Memory</h3>
+                    <div class="text-center text-gray-600">
+                        <p class="text-lg">Case study 28 answers will be added here.</p>
+                        <p class="mt-2">This case study covers mixed ANOVA and interaction effects.</p>
+                    </div>
+                </section>
+            </div>
+        </div>
     </main>
     
     <footer id="action-footer" class="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-sm border-t border-gray-200 p-4 shadow-lg-top z-50">
         <div class="container mx-auto flex justify-center items-center space-x-4">
-            <button id="expand-all-btn" class="bg-[#81b29a] text-white font-bold py-2 px-6 rounded-lg hover:bg-[#6a9a81] transition-colors">Expand All Explanations</button>
             <button id="collapse-all-btn" class="bg-gray-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-gray-700 transition-colors">Collapse All</button>
-            <button id="download-pdf-btn" class="bg-[#e07a5f] text-white font-bold py-2 px-6 rounded-lg hover:bg-[#d46a50] transition-colors">Download PDF</button>
+            <button id="expand-all-btn" class="bg-[#81b29a] text-white font-bold py-2 px-6 rounded-lg hover:bg-[#6a9a81] transition-colors">
+                <span class="hidden sm:inline">Expand All Explanations</span>
+                <span class="sm:hidden">Expand All</span>
+            </button>
         </div>
     </footer>
 
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         let quizData = [];
+        let isExpandedView = false; // Track current view state
         
         // Load the MCQ data from the JSON file
         fetch('../resources/winter-test-mcqs.json')
@@ -214,10 +315,10 @@
                     optionDiv.className = 'p-3 rounded-lg border-2 transition-colors';
                     
                     if (option === item.correct_answer) {
-                        optionDiv.className += ' bg-green-100 border-green-500 text-green-800';
+                        optionDiv.className += ' bg-green-100 border-green-500 text-green-800 correct-option';
                         optionDiv.innerHTML = `<span class="font-bold">✓</span> ${option}`;
                     } else {
-                        optionDiv.className += ' bg-gray-50 border-gray-200 text-gray-700';
+                        optionDiv.className += ' bg-gray-50 border-gray-200 text-gray-700 wrong-option';
                         optionDiv.innerHTML = `<span class="font-bold">○</span> ${option}`;
                     }
                     
@@ -278,7 +379,9 @@
         document.getElementById('expand-all-btn').addEventListener('click', () => {
             const explanations = document.querySelectorAll('.explanation');
             const headers = document.querySelectorAll('.explanation button');
+            const wrongOptions = document.querySelectorAll('.wrong-option');
             
+            // Show all explanations
             explanations.forEach((exp, index) => {
                 exp.classList.add('show');
                 headers[index].innerHTML = `
@@ -286,13 +389,23 @@
                     <span class="text-blue-600">▲</span>
                 `;
             });
+            
+            // Show all options (including wrong ones)
+            wrongOptions.forEach(option => {
+                option.classList.remove('hidden');
+            });
+            
+            isExpandedView = true;
+            updateExpandButtonText();
         });
 
-        // Collapse all explanations
+        // Collapse all explanations and hide wrong options
         document.getElementById('collapse-all-btn').addEventListener('click', () => {
             const explanations = document.querySelectorAll('.explanation');
             const headers = document.querySelectorAll('.explanation button');
+            const wrongOptions = document.querySelectorAll('.wrong-option');
             
+            // Hide all explanations
             explanations.forEach((exp, index) => {
                 exp.classList.remove('show');
                 headers[index].innerHTML = `
@@ -300,12 +413,17 @@
                     <span class="text-blue-600">▼</span>
                 `;
             });
+            
+            // Hide wrong options (show only correct answers)
+            wrongOptions.forEach(option => {
+                option.classList.add('hidden');
+            });
+            
+            isExpandedView = false;
+            updateExpandButtonText();
         });
 
-        // Download PDF functionality (placeholder)
-        document.getElementById('download-pdf-btn').addEventListener('click', () => {
-            alert('PDF download functionality will be implemented here. For now, you can use your browser\'s print function (Ctrl+P) to save as PDF.');
-        });
+
 
         // Add mobile-specific enhancements
         function addMobileEnhancements() {
@@ -333,6 +451,69 @@
 
         // Initialize mobile enhancements after content loads
         setTimeout(addMobileEnhancements, 1000);
+
+        // Tab switching functionality
+        function initializeTabs() {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetTab = button.id.replace('tab-', 'content-');
+                    
+                    // Update button states
+                    tabButtons.forEach(btn => {
+                        btn.classList.remove('active', 'bg-[#81b29a]', 'text-white');
+                        btn.classList.add('bg-gray-200', 'text-gray-700');
+                    });
+                    button.classList.add('active', 'bg-[#81b29a]', 'text-white');
+                    button.classList.remove('bg-gray-200', 'text-gray-700');
+                    
+                    // Update content visibility
+                    tabContents.forEach(content => {
+                        content.classList.remove('active');
+                        content.classList.add('hidden');
+                    });
+                    
+                    const targetContent = document.getElementById(targetTab);
+                    if (targetContent) {
+                        targetContent.classList.remove('hidden');
+                        // Small delay to ensure display change before adding active class
+                        setTimeout(() => {
+                            targetContent.classList.add('active');
+                        }, 10);
+                    }
+                    
+                    // Scroll to top of content area
+                    document.getElementById('tab-content').scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'start' 
+                    });
+                });
+            });
+        }
+
+        // Function to update expand button text based on current state
+        function updateExpandButtonText() {
+            const expandBtn = document.getElementById('expand-all-btn');
+            if (isExpandedView) {
+                expandBtn.innerHTML = `
+                    <span class="hidden sm:inline">Collapse All Explanations</span>
+                    <span class="sm:hidden">Collapse All</span>
+                `;
+            } else {
+                expandBtn.innerHTML = `
+                    <span class="hidden sm:inline">Expand All Explanations</span>
+                    <span class="sm:hidden">Expand All</span>
+                `;
+            }
+        }
+
+        // Initialize tabs after content loads
+        setTimeout(initializeTabs, 500);
+        
+        // Initialize button text
+        setTimeout(updateExpandButtonText, 1000);
     });
     </script>
     
