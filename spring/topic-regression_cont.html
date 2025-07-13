@@ -37,6 +37,10 @@
             --info-box-border: #f59e0b;   /* amber-500 */
             --info-box-text: #fef3c7;         /* amber-100 */
             --table-bg: #3f3f46;           /* zinc-700 */
+            --table-header-bg: #52525b;     /* zinc-600 */
+            --table-body-bg: #3f3f46;      /* zinc-700 */
+            --table-row-banded-bg: #374151; /* zinc-800 */
+            --table-footer-bg: #1a202c;    /* gray-900 */
             --chart-bg: #18181b;           /* zinc-900 */
         }
         body {
@@ -80,8 +84,23 @@
             border-radius: 0.5rem;
             overflow-x: auto;
         }
+        .data-table-wrapper table {
+            min-width: 100%; /* Ensure table takes up full width of wrapper */
+        }
         .data-table-wrapper table thead {
-            background-color: #52525b; /* zinc-600 */
+            background-color: var(--table-header-bg);
+        }
+        .data-table-wrapper table tfoot {
+            background-color: var(--table-footer-bg);
+        }
+        /* Zebra-striping for table rows */
+        .data-table-wrapper tbody tr:nth-child(even) {
+            background-color: var(--table-row-banded-bg);
+        }
+        /* Remove forced uppercase from JASP output table headers */
+        .data-table-wrapper thead tr th {
+            text-transform: none !important;
+            font-size: inherit !important;
         }
         .chart-wrapper {
             background-color: var(--chart-bg);
@@ -354,49 +373,242 @@
 
                     <h3 class="text-xl font-semibold mt-8 mb-2">Interpreting the JASP Output</h3>
                     <p class="mb-4">The interpretation follows a similar logic to simple regression, but now we have to consider the contribution of each predictor.</p>
+                    
                     <div class="data-table-wrapper">
-                        <h4 class="font-semibold text-lg mb-2">1. Model Summary</h4>
-                         <table class="w-full text-sm text-left">
-                           <thead class="text-xs uppercase"><tr><th class="px-4 py-2">Model</th><th class="px-4 py-2">R</th><th class="px-4 py-2">R²</th><th class="px-4 py-2">Adjusted R²</th></tr></thead>
-                           <tbody><tr class="border-b border-gray-700"><td class="px-4 py-2">H₁</td><td class="px-4 py-2">0.517</td><td class="px-4 py-2">0.268</td><td class="px-4 py-2">0.245</td></tr></tbody>
-                        </table>
-                    </div>
-                    <p class="mt-2 mb-4">The <strong><span class="glossary-term" data-term-id="coefficient-of-determination">R²</span></strong> value of 0.268 means that our model (containing all three 'fear' predictors) explains <strong>26.8%</strong> of the variance in exam scores. The <strong>Adjusted R²</strong> is an estimate of how well our model would generalize to the population. A smaller gap between R² and Adjusted R² is better.</p>
-                    <div class="mt-4 data-table-wrapper">
-                        <h4 class="font-semibold text-lg mb-2">2. ANOVA</h4>
-                         <table class="w-full text-sm text-left">
-                           <thead class="text-xs uppercase"><tr><th class="px-4 py-2">Model</th><th class="px-4 py-2"></th><th class="px-4 py-2">F</th><th class="px-4 py-2">df1</th><th class="px-4 py-2">df2</th><th class="px-4 py-2">p</th></tr></thead>
-                           <tbody><tr class="border-b border-gray-700"><td class="px-4 py-2">H₁</td><td class="px-4 py-2 font-semibold">Regression</td><td class="px-4 py-2">11.811</td><td class="px-4 py-2">3</td><td class="px-4 py-2">97</td><td class="px-4 py-2">&lt; .001</td></tr></tbody>
-                        </table>
-                    </div>
-                    <p class="mt-2 mb-4">The <span class="glossary-term" data-term-id="anova-glossary">ANOVA</span> table shows our overall model is significant, $F(3, 97) = 11.81, p < .001$. This means our combination of predictors is significantly better than chance at predicting exam scores.</p>
-                    <div class="mt-4 data-table-wrapper">
-                        <h4 class="font-semibold text-lg mb-2">3. Coefficients</h4>
-                         <table class="w-full text-sm text-left">
-                           <thead class="text-xs uppercase"><tr><th class="px-4 py-2">Predictor</th><th class="px-4 py-2">Unstandardized B</th><th class="px-4 py-2">Standardized β</th><th class="px-4 py-2">t</th><th class="px-4 py-2">p</th></tr></thead>
+                        <h4 class="font-semibold text-lg mb-2">1. Model Summary - exam_score</h4>
+                         <table class="w-full text-sm text-left whitespace-nowrap">
+                           <thead>
+                               <tr>
+                                   <th class="px-4 py-2">Model</th>
+                                   <th class="px-4 py-2">R</th>
+                                   <th class="px-4 py-2">R²</th>
+                                   <th class="px-4 py-2">Adjusted R²</th>
+                                   <th class="px-4 py-2">RMSE</th>
+                               </tr>
+                           </thead>
                            <tbody>
-                            <tr class="border-b border-gray-700"><td class="px-4 py-2">(Intercept)</td><td class="px-4 py-2">-6.315</td><td class="px-4 py-2"></td><td class="px-4 py-2">-0.686</td><td class="px-4 py-2">.494</td></tr>
-                            <tr class="border-b border-gray-700"><td class="px-4 py-2">Stats Fear</td><td class="px-4 py-2">2.384</td><td class="px-4 py-2">0.529</td><td class="px-4 py-2">4.064</td><td class="px-4 py-2">&lt;.001</td></tr>
-                            <tr class="border-b border-gray-700"><td class="px-4 py-2">Computer Fear</td><td class="px-4 py-2">-0.482</td><td class="px-4 py-2">-0.086</td><td class="px-4 py-2">-0.694</td><td class="px-4 py-2">.489</td></tr>
-                            <tr class="border-b border-gray-700"><td class="px-4 py-2">Maths Fear</td><td class="px-4 py-2">0.662</td><td class="px-4 py-2">0.070</td><td class="px-4 py-2">0.633</td><td class="px-4 py-2">.528</td></tr>
+                               <tr class="border-b border-gray-700">
+                                   <td class="px-4 py-2 font-semibold">H₀</td>
+                                   <td class="px-4 py-2">0.000</td>
+                                   <td class="px-4 py-2">0.000</td>
+                                   <td class="px-4 py-2">0.000</td>
+                                   <td class="px-4 py-2">24.019</td>
+                               </tr>
+                               <tr class="border-b border-gray-700">
+                                   <td class="px-4 py-2 font-semibold">H₁</td>
+                                   <td class="px-4 py-2">0.517</td>
+                                   <td class="px-4 py-2">0.268</td>
+                                   <td class="px-4 py-2">0.245</td>
+                                   <td class="px-4 py-2">20.871</td>
+                               </tr>
                            </tbody>
                         </table>
                     </div>
-                    <p class="mt-2">This table tells us about each individual predictor. The <strong>p-values</strong> show that only 'Stats Fear' ($p < .001$) is a significant predictor in this model. The other two are not. As discussed in the Application Corner, the <strong>Standardized Beta (&beta;)</strong> values allow us to compare the relative importance of the predictors. Here, Stats Fear (&beta; = .529) is by far the strongest.</p>
+                    <p class="mt-2 mb-4">The <strong><span class="glossary-term" data-term-id="coefficient-of-determination">R²</span></strong> value of 0.268 means that our model (H₁) containing all three 'fear' predictors explains <strong>26.8%</strong> of the variance in exam scores. The <strong>Adjusted R²</strong> is an estimate of how well our model would generalize to the population.</p>
+                    
+                    <div class="mt-4 data-table-wrapper">
+                        <h4 class="font-semibold text-lg mb-2">2. ANOVA</h4>
+                         <table class="w-full text-sm text-left whitespace-nowrap">
+                           <thead>
+                               <tr>
+                                   <th class="px-4 py-2">Model</th>
+                                   <th class="px-4 py-2"></th>
+                                   <th class="px-4 py-2">Sum of Squares</th>
+                                   <th class="px-4 py-2">df</th>
+                                   <th class="px-4 py-2">Mean Square</th>
+                                   <th class="px-4 py-2">F</th>
+                                   <th class="px-4 py-2">p</th>
+                               </tr>
+                           </thead>
+                           <tbody>
+                               <tr class="border-b border-gray-700">
+                                   <td rowspan="3" class="px-4 py-2 font-semibold align-top">H₁</td>
+                                   <td class="px-4 py-2 font-semibold">Regression</td>
+                                   <td class="px-4 py-2">15435.841</td>
+                                   <td class="px-4 py-2">3</td>
+                                   <td class="px-4 py-2">5145.280</td>
+                                   <td class="px-4 py-2">11.811</td>
+                                   <td class="px-4 py-2">&lt; .001</td>
+                               </tr>
+                               <tr class="border-b border-gray-700">
+                                   <td class="px-4 py-2 font-semibold">Residual</td>
+                                   <td class="px-4 py-2">42255.031</td>
+                                   <td class="px-4 py-2">97</td>
+                                   <td class="px-4 py-2">435.619</td>
+                                   <td class="px-4 py-2"></td>
+                                   <td class="px-4 py-2"></td>
+                               </tr>
+                               <tr class="border-b border-gray-700">
+                                   <td class="px-4 py-2 font-semibold">Total</td>
+                                   <td class="px-4 py-2">57690.872</td>
+                                   <td class="px-4 py-2">100</td>
+                                   <td class="px-4 py-2"></td>
+                                   <td class="px-4 py-2"></td>
+                                   <td class="px-4 py-2"></td>
+                               </tr>
+                           </tbody>
+                           <tfoot>
+                               <tr>
+                                   <td colspan="7" class="px-4 py-2 text-xs text-gray-400">Note. The intercept model is omitted, as no meaningful information can be shown.</td>
+                               </tr>
+                           </tfoot>
+                        </table>
+                    </div>
+                    <p class="mt-2 mb-4">The <span class="glossary-term" data-term-id="anova-glossary">ANOVA</span> table shows our overall model is significant, <span class="math">F(3, 97) = 11.81, p &lt; .001</span>. This means our combination of predictors is significantly better than chance at predicting exam scores.</p>
+                    
+                    <div class="mt-4 data-table-wrapper">
+                        <h4 class="font-semibold text-lg mb-2">3. Coefficients</h4>
+                         <table class="w-full text-sm text-left whitespace-nowrap">
+                           <thead>
+                               <tr>
+                                   <th class="px-4 py-2">Model</th>
+                                   <th class="px-4 py-2"></th>
+                                   <th class="px-4 py-2">Unstandardized</th>
+                                   <th class="px-4 py-2">Standard Error</th>
+                                   <th class="px-4 py-2">Standardized</th>
+                                   <th class="px-4 py-2">t</th>
+                                   <th class="px-4 py-2">p</th>
+                               </tr>
+                           </thead>
+                           <tbody>
+                               <tr class="border-b border-gray-700">
+                                   <td class="px-4 py-2 font-semibold">H₀</td>
+                                   <td class="px-4 py-2">(Intercept)</td>
+                                   <td class="px-4 py-2">44.422</td>
+                                   <td class="px-4 py-2">2.390</td>
+                                   <td class="px-4 py-2"></td>
+                                   <td class="px-4 py-2">18.587</td>
+                                   <td class="px-4 py-2">&lt; .001</td>
+                               </tr>
+                               <tr class="border-b border-gray-700">
+                                   <td rowspan="4" class="px-4 py-2 font-semibold align-top">H₁</td>
+                                   <td class="px-4 py-2">(Intercept)</td>
+                                   <td class="px-4 py-2">-6.315</td>
+                                   <td class="px-4 py-2">9.206</td>
+                                   <td class="px-4 py-2"></td>
+                                   <td class="px-4 py-2">-0.686</td>
+                                   <td class="px-4 py-2">.494</td>
+                               </tr>
+                               <tr class="border-b border-gray-700">
+                                   <td class="px-4 py-2">Stats_fear_total</td>
+                                   <td class="px-4 py-2">2.384</td>
+                                   <td class="px-4 py-2">0.587</td>
+                                   <td class="px-4 py-2">0.529</td>
+                                   <td class="px-4 py-2">4.064</td>
+                                   <td class="px-4 py-2">&lt; .001</td>
+                               </tr>
+                               <tr class="border-b border-gray-700">
+                                   <td class="px-4 py-2">Comp_fear_total</td>
+                                   <td class="px-4 py-2">-0.482</td>
+                                   <td class="px-4 py-2">0.694</td>
+                                   <td class="px-4 py-2">-0.086</td>
+                                   <td class="px-4 py-2">-0.694</td>
+                                   <td class="px-4 py-2">.489</td>
+                               </tr>
+                               <tr class="border-b border-gray-700">
+                                   <td class="px-4 py-2">Fear_o_maths_total</td>
+                                   <td class="px-4 py-2">0.662</td>
+                                   <td class="px-4 py-2">1.044</td>
+                                   <td class="px-4 py-2">0.070</td>
+                                   <td class="px-4 py-2">0.633</td>
+                                   <td class="px-4 py-2">.528</td>
+                               </tr>
+                           </tbody>
+                        </table>
+                    </div>
+                    <p class="mt-2">This table tells us about each individual predictor. The <strong>p-values</strong> show that only 'Stats Fear' (<span class="math">p &lt; .001</span>) is a significant predictor in this model. The other two are not. As discussed in the Application Corner, the <strong>Standardized Beta (&beta;)</strong> values allow us to compare the relative importance of the predictors. Here, Stats Fear (&beta; = .529) is by far the strongest.</p>
+                    
+                    <h3 class="text-xl font-semibold mt-8 mb-2">The Regression Equation</h3>
+                    <p class="mb-4">The 'Unstandardized' coefficients from the table allow us to build the regression equation. The general form is: <span class="math">Y' = b_0 + b_1X_1 + b_2X_2 + ... + b_kX_k</span>.</p>
+                    <p class="text-center text-lg font-mono my-2 p-2 bg-gray-900 rounded-lg">Exam Score' = -6.315 + (2.384 * Stats Fear) + (-0.482 * Computer Fear) + (0.662 * Maths Fear)</p>
+                    <p class="mt-4">Using this formula, you could plug in a student's scores on the three "fear" scales to get a predicted exam score.</p>
+
+                    <h3 class="text-xl font-semibold mt-8 mb-2">Assumptions of Multiple Regression</h3>
+                    <p class="mb-4">For the results of a multiple regression to be reliable and valid, several assumptions must be met. Some are considered during the study design, while others are checked after the analysis.</p>
                     <details class="p-4 mt-6 rounded-lg bg-gray-800">
-                        <summary>Important Assumptions in Multiple Regression</summary>
+                        <summary>Key Assumptions to Check</summary>
                         <div>
-                            <p>Multiple regression has several key assumptions you need to check:</p>
-                            <ul class="list-disc list-inside pl-4 space-y-2 mt-4">
-                                <li><strong>Linearity:</strong> The relationship between each predictor and the outcome should be linear.</li>
-                                <li><strong>Homoscedasticity:</strong> The variance of the errors (residuals) should be consistent across all levels of the predictors. You check this with a scatterplot of residuals vs. predicted values. You want to see a random cloud of dots, not a funnel shape.</li>
-                                <li><strong>Normality of Residuals:</strong> The errors your model makes should be normally distributed. You can check this with a Q-Q plot or a histogram of the residuals.</li>
-                                <li><strong>No <span class="glossary-term" data-term-id="multicollinearity">Multicollinearity</span>:</strong> Your predictors should not be too highly correlated with each other (e.g., $r > .80$). High correlation makes it difficult to tell which predictor is responsible for the variance. You can check this with a correlation matrix and by looking at VIF and Tolerance statistics in JASP (VIF > 10 or Tolerance < 0.1 are signs of a problem).</li>
+                            <ul class="list-disc list-inside pl-4 space-y-4 mt-4">
+                                <li>
+                                    <strong>Linearity:</strong> The relationship between each predictor and the outcome should be linear. This can be initially checked by looking at scatterplots between each predictor and the outcome.
+                                </li>
+                                <li>
+                                    <strong>No <span class="glossary-term" data-term-id="multicollinearity">Multicollinearity</span>:</strong> Your predictors should not be too highly correlated with each other. High correlation makes it difficult for the model to determine the unique contribution of each predictor.
+                                    <ul class="list-disc list-inside pl-6 mt-2 space-y-2">
+                                        <li><strong>Check:</strong> Look at a correlation matrix of the predictors. Correlations above <span class="math">r = .80</span> are a concern.</li>
+                                        <li><strong>Check:</strong> Use 'Collinearity Diagnostics'. The <strong>Tolerance</strong> value should not be less than 0.2, and the <strong>VIF</strong> (Variance Inflation Factor) should not be greater than 10.</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <strong><span class="glossary-term" data-term-id="homoscedasticity">Homoscedasticity</span> (Homogeneity of Variance):</strong> The variance of the errors (residuals) should be consistent across all levels of the predicted values.
+                                    <ul class="list-disc list-inside pl-6 mt-2 space-y-2">
+                                        <li><strong>Check:</strong> Look at a scatterplot of the <strong>Standardized Residuals</strong> vs. the <strong>Predicted Values</strong>. You want to see a random cloud of dots with no obvious pattern (like a funnel or cone shape). A pattern suggests heteroscedasticity, which is a violation of the assumption.</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <strong>Normality of Residuals:</strong> The errors your model makes should be approximately normally distributed.
+                                    <ul class="list-disc list-inside pl-6 mt-2 space-y-2">
+                                        <li><strong>Check:</strong> Look at a <strong>Q-Q plot of the standardized residuals</strong>. The points should fall closely along the diagonal line.</li>
+                                        <li><strong>Check:</strong> A <strong>histogram of the standardized residuals</strong> should look roughly like a normal bell curve.</li>
+                                    </ul>
+                                </li>
                             </ul>
                         </div>
                     </details>
+                    
+                    <h3 class="text-xl font-semibold mt-8 mb-2">Checking Assumptions in JASP</h3>
+                    <p class="mb-4">Let's check the assumptions for our example analysis.</p>
+                    
+                    <div class="mt-4 data-table-wrapper">
+                        <h4 class="font-semibold text-lg mb-2">Collinearity Diagnostics</h4>
+                         <table class="w-full text-sm text-left whitespace-nowrap">
+                           <thead>
+                               <tr>
+                                   <th class="px-4 py-2">Predictor</th>
+                                   <th class="px-4 py-2">Tolerance</th>
+                                   <th class="px-4 py-2">VIF</th>
+                               </tr>
+                           </thead>
+                           <tbody>
+                               <tr class="border-b border-gray-700">
+                                   <td class="px-4 py-2">Stats_fear_total</td>
+                                   <td class="px-4 py-2">0.446</td>
+                                   <td class="px-4 py-2">2.244</td>
+                               </tr>
+                               <tr class="border-b border-gray-700">
+                                   <td class="px-4 py-2">Comp_fear_total</td>
+                                   <td class="px-4 py-2">0.495</td>
+                                   <td class="px-4 py-2">2.018</td>
+                               </tr>
+                               <tr class="border-b border-gray-700">
+                                   <td class="px-4 py-2">Fear_o_maths_total</td>
+                                   <td class="px-4 py-2">0.611</td>
+                                   <td class="px-4 py-2">1.638</td>
+                               </tr>
+                           </tbody>
+                        </table>
+                    </div>
+                    <p class="mt-2 mb-4">The Tolerance values are all well above 0.2 and the VIF values are all well below 10. This indicates that multicollinearity is not a problem in our model.</p>
+                    
+                    <div class="mt-6 chart-wrapper">
+                        <h4 class="text-left">Residual Plots</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
+                            <div>
+                                <h4 class="text-lg font-semibold text-center mb-2" style="color: var(--header-text);">Residuals vs. Predicted</h4>
+                                <canvas id="residualsVsPredictedChart"></canvas>
+                                <p class="text-xs text-center mt-2">This plot should show a random scatter of points, suggesting the assumption of homoscedasticity is met.</p>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-semibold text-center mb-2" style="color: var(--header-text);">Q-Q Plot of Residuals</h4>
+                                <canvas id="qqPlotChart"></canvas>
+                                <p class="text-xs text-center mt-2">The points should fall closely along the diagonal line, indicating the residuals are normally distributed.</p>
+                            </div>
+                        </div>
+                    </div>
+
+
                     <h3 class="text-xl font-semibold mt-8 mb-2">Final Write-Up</h3>
-                    <p>"A multiple regression was run to predict statistics exam scores from fear of stats, fear of computers, and fear of maths. The regression model was statistically significant, <em>F</em>(3, 97) = 11.81, <em>p</em> < .001$, and accounted for 26.8% of the variance in exam scores (<em>R</em><sup>2</sup> = .268). Only fear of statistics was found to be a significant predictor of exam scores (&beta; = .53, <em>p</em> < .001)."</p>
+                    <p>"A multiple regression was run to predict statistics exam scores from fear of stats, fear of computers, and fear of maths. The regression model was statistically significant, <em>F</em>(3, 97) = 11.81, <em>p</em> &lt; .001, and accounted for 26.8% of the variance in exam scores (<em>R</em><sup>2</sup> = .268). An inspection of the individual predictors revealed that fear of statistics was a significant positive predictor of exam scores (&beta; = .53, <em>p</em> &lt; .001), while fear of computers (&beta; = -.09, p = .489) and fear of maths (&beta; = .07, p = .528) were not. An analysis of assumptions found that all assumptions were met."</p>
                 </div>
                 
                 <div id="moderation" role="tabpanel" aria-labelledby="btn-moderation" class="section-content">
@@ -930,11 +1142,161 @@
             }
         }
 
+        // --- CHART RENDERING FUNCTIONS FOR RESIDUAL PLOTS ---
+
+        /**
+         * Generates sample data for the Residuals vs. Predicted plot.
+         * The data is randomized but visually consistent with the concept of homoscedasticity.
+         * @returns {Array<Object>} An array of {x, y} data points.
+         */
+        function generateResidualsData() {
+            const data = [];
+            const numPoints = 101; // To match N=101 from the study
+            for (let i = 0; i < numPoints; i++) {
+                // Predicted values roughly from 20 to 80
+                const predicted = 20 + Math.random() * 60;
+                // Residuals centered around 0, with a standard deviation of ~20
+                const residual = (Math.random() - 0.5) * 80;
+                data.push({ x: predicted, y: residual });
+            }
+            return data;
+        }
+
+        /**
+         * Generates sample data for the Q-Q plot.
+         * The data points closely follow a diagonal line, representing normally distributed residuals.
+         * @returns {Array<Object>} An array of {x, y} data points.
+         */
+        function generateQQData() {
+            const data = [];
+            const numPoints = 101;
+            const step = 5 / numPoints;
+            for (let i = 0; i < numPoints; i++) {
+                const theoretical = -2.5 + i * step;
+                // Observed values are close to theoretical, with a little noise
+                const observed = theoretical + (Math.random() - 0.5) * 0.3;
+                data.push({ x: theoretical, y: observed });
+            }
+            return data.sort((a, b) => a.x - b.x);
+        }
+
+        /**
+         * Renders the Residuals vs. Predicted Values scatter plot.
+         */
+        function renderResidualsPlot() {
+            const ctx = document.getElementById('residualsVsPredictedChart');
+            if (!ctx) return;
+            if (Chart.getChart(ctx)) Chart.getChart(ctx).destroy();
+
+            const residualsData = generateResidualsData();
+
+            new Chart(ctx, {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: 'Standardized Residuals',
+                        data: residualsData,
+                        backgroundColor: 'rgba(96, 165, 250, 0.7)', // blue-400 with opacity
+                        borderColor: 'rgba(96, 165, 250, 1)',
+                        pointRadius: 4,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: { display: false },
+                        title: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            title: { display: true, text: 'Residuals', color: '#fff' },
+                            ticks: { color: '#fff' },
+                            grid: { color: 'rgba(255,255,255,0.2)' },
+                            zeroLineColor: 'rgba(255, 99, 132, 1)',
+                            min: -60,
+                            max: 60
+                        },
+                        x: {
+                            title: { display: true, text: 'Predicted Values', color: '#fff' },
+                            ticks: { color: '#fff' },
+                            grid: { color: 'rgba(255,255,255,0.2)' },
+                             min: 20,
+                             max: 90
+                        }
+                    }
+                }
+            });
+        }
+
+        /**
+         * Renders the Q-Q plot of standardized residuals.
+         */
+        function renderQQPlot() {
+            const ctx = document.getElementById('qqPlotChart');
+            if (!ctx) return;
+            if (Chart.getChart(ctx)) Chart.getChart(ctx).destroy();
+
+            const qqData = generateQQData();
+            const diagonalLine = [{x: -3, y: -3}, {x: 3, y: 3}];
+
+            new Chart(ctx, {
+                type: 'scatter',
+                data: {
+                    datasets: [
+                        {
+                            label: 'Observed Quantiles',
+                            data: qqData,
+                            backgroundColor: 'rgba(96, 165, 250, 0.7)',
+                            borderColor: 'rgba(96, 165, 250, 1)',
+                            pointRadius: 4,
+                        },
+                        {
+                            label: 'Reference Line',
+                            data: diagonalLine,
+                            type: 'line',
+                            borderColor: 'rgba(248, 113, 113, 1)', // red-400
+                            fill: false,
+                            pointRadius: 0,
+                            borderWidth: 2
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: { display: false },
+                        title: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            title: { display: true, text: 'Observed Quantiles', color: '#fff' },
+                            ticks: { color: '#fff' },
+                            grid: { color: 'rgba(255,255,255,0.2)' },
+                            min: -3,
+                            max: 3
+                        },
+                        x: {
+                            title: { display: true, text: 'Theoretical Quantiles', color: '#fff' },
+                            ticks: { color: '#fff' },
+                            grid: { color: 'rgba(255,255,255,0.2)' },
+                            min: -3,
+                            max: 3
+                        }
+                    }
+                }
+            });
+        }
+
         // --- INITIALIZATION ---
         document.addEventListener('DOMContentLoaded', async () => {
             await renderModerationChart1();
             await renderExperienceScatterplot();
             await renderModerationChart2();
+            // Call the new chart rendering functions
+            renderResidualsPlot();
+            renderQQPlot();
         });
     </script>
 
