@@ -173,7 +173,26 @@
         "r = .418"
       ],
       "correctAnswer": "C",
-      "explanation": "The degrees of freedom (df) for correlation are N - 2. With N=62, the df is 60. Therefore, the correct report is r(60) = .418, p < .001."
+      "explanation": "The degrees of freedom (df) for correlation are N - 2. With N=62, the df is 60. Therefore, the correct report is r(60) = .418, p < .001.",
+      "jaspTable": {
+        "title": "Pearson's Correlations",
+        "headers": [
+          "Variable 1",
+          "Variable 2",
+          "Pearson's r",
+          "p-value",
+          "N"
+        ],
+        "rows": [
+          [
+            "outdoors_hrs",
+            "life_satisfaction",
+            "0.418",
+            "<.001",
+            "62"
+          ]
+        ]
+      }
     },
     {
       "id": 12,
