@@ -40,6 +40,10 @@
             --info-box-border: #2563eb;
             --info-box-text: #dbeafe;
             --table-bg: #2d3748;
+            --table-header-bg: #4a5568;
+            --table-body-bg: #2d3748;
+            --table-row-banded-bg: #374151;
+            --table-footer-bg: #1a202c;
             --chart-bg: #374151;
             --application-bg: #064e3b;
             --application-border: #10b981;
@@ -140,9 +144,10 @@
         
         /* Table Styling */
         .data-table-wrapper {
-            background-color: var(--table-bg);
+            background-color: var(--table-body-bg);
             padding: 1rem;
             border-radius: 0.5rem;
+            overflow-x: auto; /* Ensure tables are scrollable on small screens */
         }
         .data-table-wrapper h4 {
             font-weight: 600;
@@ -150,14 +155,26 @@
             margin-bottom: 0.5rem;
             color: var(--header-text);
         }
+        .data-table-wrapper table {
+            min-width: 100%; /* Ensure table takes up full width of wrapper */
+        }
         .data-table-wrapper table thead {
-            background-color: #4a5568; /* gray-600 */
+            background-color: var(--table-header-bg);
         }
         .data-table-wrapper table tfoot {
-             background-color: #1a202c; /* gray-900 */
+             background-color: var(--table-footer-bg);
         }
         .table-summary-col {
             background-color: #1a202c; /* gray-900 */
+        }
+        /* Zebra-striping for table rows */
+        .data-table-wrapper tbody tr:nth-child(even) {
+            background-color: var(--table-row-banded-bg);
+        }
+        /* Remove forced uppercase from JASP output table headers */
+        .data-table-wrapper thead tr th {
+            text-transform: none !important;
+            font-size: inherit !important;
         }
 
         /* Chart Styling */
@@ -172,11 +189,6 @@
             margin-bottom: 0.5rem;
             color: var(--header-text);
         }
-        /* Remove forced uppercase from JASP output table headers */
-        .data-table-wrapper thead tr th {
-            text-transform: none !important;
-            font-size: inherit !important;
-        }
     </style>
 </head>
 <body class="transition-colors duration-300">
@@ -189,8 +201,8 @@
     </button>
     <div class="container mx-auto p-4 md:p-8">
         <header class="text-center mb-8 relative">
-            <h1 class="text-4xl md:text-5xl font-bold">Correlation & Simple Regression</h1>
-            <p class="text-xl mt-2">Understanding Relationships and Basic Prediction in Psychology</p>
+            <h1 class="text-4xl md:text-5xl font-bold">Correlation & Regression</h1>
+            <p class="text-xl mt-2">Understanding Relationships and Prediction in Psychology</p>
         </header>
         <div id="page-grid" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <!-- Main Content -->
@@ -206,10 +218,20 @@
                     <p class="mb-4">While ANOVA looks for differences between group means, correlation looks for <strong>relationships</strong> between continuous variables. It tells us if two variables tend to move together, and how strongly.</p>
                     
                     <div class="application-corner">
-                        <h4>Application Corner: The Heart of Correlation</h4>
-                        <p>How can you correlate two things measured on different scales, like height (cm) and weight (kg)?</p>
-                        <p class="mt-2">The answer is <strong>standardization</strong>. Before correlating, the analysis converts all scores on each variable into <strong>standardized scores</strong> (also known as Z-scores). A Z-score simply expresses how many standard deviations a raw score is from its own mean. This puts both variables onto the same standardized scale.</p>
-                        <p class="mt-2">At its core, the correlation calculation is based on the <strong>sum of the products of these standardized scores</strong> for each participant. This standardized approach is what makes correlation so versatile.</p>
+                        <h4>The Math Behind Correlation: Z-Scores</h4>
+                        <p>How can you correlate two things measured on different scales, like height (cm) and weight (kg)? The answer is <strong>standardization</strong>. Before correlating, we convert all scores on each variable into <strong>Z-scores</strong>. A Z-score expresses how many standard deviations a raw score is from its own variable's mean.</p>
+                        <details class="p-4 mt-4 rounded-lg bg-gray-800 bg-opacity-50">
+                            <summary class="cursor-pointer font-semibold">View Z-Score and Pearson's r Formulas</summary>
+                            <div class="mt-4">
+                                <p><strong>Z-Score Formula:</strong></p>
+                                <p class="text-center text-xl font-mono my-2 p-2 bg-gray-900 rounded-lg">$$z = \frac{(X - \bar{X})}{S}$$</p>
+                                <p>Where $X$ is the individual score, $\bar{X}$ is the mean of the variable, and $S$ is the standard deviation.</p>
+                                <p class="mt-4"><strong>Pearson's r Formula:</strong></p>
+                                <p>Once Z-scores are calculated for both variables (let's call them $Z_x$ and $Z_y$), Pearson's r is simply the average of their products:</p>
+                                <p class="text-center text-xl font-mono my-2 p-2 bg-gray-900 rounded-lg">$$r = \frac{\sum (Z_x Z_y)}{N-1}$$</p>
+                                <p>This process is what allows correlation to work on any two continuous variables, regardless of their original units.</p>
+                            </div>
+                        </details>
                     </div>
 
                     <h3 class="text-xl font-semibold mt-6 mb-2">Visualizing Relationships: <span class="glossary-term" data-term-id="scatterplot">Scatterplots</span></h3>
@@ -276,60 +298,154 @@
                     
                     <h3 class="text-xl font-semibold mt-6 mb-2">The <span class="glossary-term" data-term-id="line-of-best-fit">Line of Best Fit</span> & The Regression Equation</h3>
                     <p class="mb-4">Simple regression finds the single best straight line that goes through the data points on a <span class="glossary-term" data-term-id="scatterplot">scatterplot</span>. This line minimizes the overall distance between itself and all the individual data points (this is called the method of least squares). The line is described by a simple equation:</p>
-                    <p class="text-center text-xl font-mono my-2 p-2 bg-gray-900 rounded-lg">$$Y = b_0 + b_1X$$</p>
+                    <p class="text-center text-xl font-mono my-2 p-2 bg-gray-900 rounded-lg">$$Y' = b_0 + b_1X$$</p>
                     <div class="my-4 chart-wrapper">
                          <h4 class="text-center">Regression Plot: The Line of Best Fit</h4>
                         <canvas id="regressionLineChart"></canvas>
                     </div>
                     <div class="space-y-3 mt-4">
-                        <p>This equation has two key parts that you can see on the graph:</p>
+                        <p>This equation has three key parts:</p>
                         <ul class="list-disc list-inside pl-4 space-y-2 mt-2">
-                            <li><strong>$b_0$ (The <span class="glossary-term" data-term-id="intercept">Intercept</span>):</strong> This is the value of Y when X is 0. It's the point where the red regression line <strong>crosses the vertical Y-axis</strong>. In our example, if someone did 0 hours of revision, we would predict their exam score to be the intercept value.</li>
-                            <li><strong>$b_1$ (The <span class="glossary-term" data-term-id="slope">Slope</span>):</strong> This represents the steepness of the red line. It tells us how much Y is predicted to change for every one-unit increase in X. A steeper line means a larger slope and a stronger prediction. A flat line means the predictor has no effect.</li>
-                            <li><strong>Y and X:</strong> Y is the outcome variable we are trying to predict (the value on the Y-axis), and X is the predictor variable we are using (the value on the X-axis).</li>
+                            <li><strong>$Y'$ (Y-prime):</strong> The predicted value of the outcome variable.</li>
+                            <li><strong>$b_0$ (The <span class="glossary-term" data-term-id="intercept">Intercept</span>):</strong> This is the predicted value of Y when X is 0. It's the point where the regression line <strong>crosses the vertical Y-axis</strong>.</li>
+                            <li><strong>$b_1$ (The <span class="glossary-term" data-term-id="slope">Slope</span>):</strong> This represents the steepness of the line. It tells us how much Y is predicted to change for every one-unit increase in X.</li>
                         </ul>
                     </div>
                     
                      <div class="application-corner">
-                        <h4>Application Corner: Making a Prediction</h4>
-                        <p>You can use the regression equation from your output to predict a score. Let's use an example where we predict plant growth (cm) from hours of sunlight (Sunlight).</p>
-                         <p class="mt-2"><strong>JASP Output gives us:</strong> Intercept ($b_0$) = 5.2, and the slope for Sunlight ($b_1$) = 2.1.</p>
-                         <p><strong>Equation:</strong> Growth = 5.2 + (2.1 * Sunlight)</p>
-                         <p class="mt-4"><strong>Question:</strong> What is the predicted growth for a plant that gets 7 hours of sunlight?</p>
-                        <ul class="list-disc list-inside space-y-2 mt-2">
-                            <li>Growth = 5.2 + (2.1 * 7)</li>
-                            <li>Growth = 5.2 + 14.7</li>
-                            <li><strong>Predicted Growth = 19.9 cm</strong></li>
-                        </ul>
+                        <h4>Application Corner: The Error Term ($\epsilon$)</h4>
+                        <p>In reality, our predictions are never perfect. The difference between the actual value ($Y$) and our predicted value ($Y'$) is the error, or <span class="glossary-term" data-term-id="residual">residual</span> ($\epsilon$). The full regression equation is actually $Y = b_0 + b_1X + \epsilon$.</p>
+                        <p class="mt-2">The goal of regression is to find the line that makes the sum of all the squared errors ($\sum\epsilon^2$) as small as possible.</p>
                     </div>
 
                     <h3 class="text-xl font-semibold mt-8 mb-2">Interpreting the JASP Output</h3>
                     <p class="mb-4">When you run a simple regression in JASP, you get three key tables to look at.</p>
                     <div class="data-table-wrapper">
                         <h4 class="font-semibold text-lg mb-2">1. Model Summary</h4>
-                         <table class="w-full text-sm text-left">
-                           <thead class="text-xs uppercase"><tr><th class="px-4 py-2">Model</th><th class="px-4 py-2">R</th><th class="px-4 py-2">R Square</th><th class="px-4 py-2">Adjusted R²</th></tr></thead>
-                           <tbody><tr class="border-b border-gray-700"><td class="px-4 py-2">H₁</td><td class="px-4 py-2">0.544</td><td class="px-4 py-2">0.295</td><td class="px-4 py-2">0.269</td></tr></tbody>
+                         <table class="w-full text-sm text-left whitespace-nowrap">
+                           <thead class="text-xs uppercase">
+                               <tr>
+                                   <th class="px-4 py-2">Model</th>
+                                   <th class="px-4 py-2">R</th>
+                                   <th class="px-4 py-2">R²</th>
+                                   <th class="px-4 py-2">Adjusted R²</th>
+                                   <th class="px-4 py-2">RMSE</th>
+                               </tr>
+                           </thead>
+                           <tbody>
+                               <tr class="border-b border-gray-700">
+                                   <td class="px-4 py-2 font-semibold">H₀</td>
+                                   <td class="px-4 py-2">0.000</td>
+                                   <td class="px-4 py-2">0.000</td>
+                                   <td class="px-4 py-2">0.000</td>
+                                   <td class="px-4 py-2">22.702</td>
+                               </tr>
+                               <tr class="border-b border-gray-700">
+                                   <td class="px-4 py-2 font-semibold">H₁</td>
+                                   <td class="px-4 py-2">0.544</td>
+                                   <td class="px-4 py-2">0.295</td>
+                                   <td class="px-4 py-2">0.269</td>
+                                   <td class="px-4 py-2">19.406</td>
+                               </tr>
+                           </tbody>
                         </table>
                     </div>
-                    <p class="mt-2 mb-4">The <strong>R</strong> value is the Pearson correlation coefficient. The <strong>R Square</strong> (<span class="glossary-term" data-term-id="coefficient-of-determination">$R^2$</span>) value is the coefficient of determination. It tells you the proportion of variance in the outcome variable that is explained by the predictor. Here, 0.295 means that <strong>29.5%</strong> of the variance in exam scores can be explained by revision hours.</p>
+                    <p class="mt-2 mb-4">The <strong>R Square</strong> (<span class="glossary-term" data-term-id="coefficient-of-determination">$R^2$</span>) value for our model (H₁) is the coefficient of determination. It tells you the proportion of variance in the outcome variable that is explained by the predictor. Here, 29.5% of the variance in exam scores can be explained by revision hours.</p>
                     
                     <div class="mt-4 data-table-wrapper">
                         <h4 class="font-semibold text-lg mb-2">2. ANOVA</h4>
-                         <table class="w-full text-sm text-left">
-                           <thead class="text-xs uppercase"><tr><th class="px-4 py-2">Model</th><th class="px-4 py-2"></th><th class="px-4 py-2">Sum of Squares</th><th class="px-4 py-2">df</th><th class="px-4 py-2">F</th><th class="px-4 py-2">p</th></tr></thead>
-                           <tbody><tr class="border-b border-gray-700"><td class="px-4 py-2">H₁</td><td class="px-4 py-2 font-semibold">Regression</td><td class="px-4 py-2">4262.9</td><td class="px-4 py-2">1</td><td class="px-4 py-2">11.32</td><td class="px-4 py-2">.002</td></tr></tbody>
+                         <table class="w-full text-sm text-left whitespace-nowrap">
+                           <thead class="text-xs uppercase">
+                               <tr>
+                                   <th class="px-4 py-2">Model</th>
+                                   <th class="px-4 py-2"></th>
+                                   <th class="px-4 py-2">Sum of Squares</th>
+                                   <th class="px-4 py-2">df</th>
+                                   <th class="px-4 py-2">Mean Square</th>
+                                   <th class="px-4 py-2">F</th>
+                                   <th class="px-4 py-2">p</th>
+                               </tr>
+                           </thead>
+                           <tbody>
+                               <tr class="border-b border-gray-700">
+                                   <td class="px-4 py-2 font-semibold">H₁</td>
+                                   <td class="px-4 py-2 font-semibold">Regression</td>
+                                   <td class="px-4 py-2">4262.933</td>
+                                   <td class="px-4 py-2">1</td>
+                                   <td class="px-4 py-2">4262.933</td>
+                                   <td class="px-4 py-2">11.320</td>
+                                   <td class="px-4 py-2">.002</td>
+                               </tr>
+                               <tr class="border-b border-gray-700">
+                                   <td class="px-4 py-2 font-semibold"></td>
+                                   <td class="px-4 py-2 font-semibold">Residual</td>
+                                   <td class="px-4 py-2">10167.757</td>
+                                   <td class="px-4 py-2">27</td>
+                                   <td class="px-4 py-2">376.584</td>
+                                   <td class="px-4 py-2"></td>
+                                   <td class="px-4 py-2"></td>
+                               </tr>
+                               <tr class="border-b border-gray-700">
+                                   <td class="px-4 py-2 font-semibold"></td>
+                                   <td class="px-4 py-2 font-semibold">Total</td>
+                                   <td class="px-4 py-2">14430.690</td>
+                                   <td class="px-4 py-2">28</td>
+                                   <td class="px-4 py-2"></td>
+                                   <td class="px-4 py-2"></td>
+                                   <td class="px-4 py-2"></td>
+                               </tr>
+                           </tbody>
+                           <tfoot>
+                               <tr>
+                                   <td colspan="7" class="px-4 py-2 text-xs text-gray-400">Note. The intercept model is omitted, as no meaningful information can be shown.</td>
+                               </tr>
+                           </tfoot>
                         </table>
                     </div>
-                    <p class="mt-2 mb-4">The <span class="glossary-term" data-term-id="anova-glossary">ANOVA</span> table tells you if your regression model is statistically significant. If the p-value is less than .05, it means your model (using revision hours to predict scores) is significantly better at predicting the outcome than just using the mean score as a guess. Here, $p = .002$, so our model is significant.</p>
+                    <p class="mt-2 mb-4">The <span class="glossary-term" data-term-id="anova-glossary">ANOVA</span> table tells you if the regression model is statistically significant. If the p-value is less than .05, it means your model (using revision hours to predict scores) is significantly better at predicting the outcome than just using the mean score as a guess. Here, $p = .002$, so our model is significant.</p>
                     
                     <div class="mt-4 data-table-wrapper">
                         <h4 class="font-semibold text-lg mb-2">3. Coefficients</h4>
-                         <table class="w-full text-sm text-left">
-                           <thead class="text-xs uppercase"><tr><th class="px-4 py-2">Model</th><th class="px-4 py-2">Unstandardized B</th><th class="px-4 py-2">t</th><th class="px-4 py-2">p</th></tr></thead>
+                         <table class="w-full text-sm text-left whitespace-nowrap">
+                           <thead class="text-xs uppercase">
+                               <tr>
+                                   <th class="px-4 py-2">Model</th>
+                                   <th class="px-4 py-2"></th>
+                                   <th class="px-4 py-2">Unstandardized</th>
+                                   <th class="px-4 py-2">Standard Error</th>
+                                   <th class="px-4 py-2">Standardized</th>
+                                   <th class="px-4 py-2">t</th>
+                                   <th class="px-4 py-2">p</th>
+                               </tr>
+                           </thead>
                            <tbody>
-                            <tr class="border-b border-gray-700"><td class="px-4 py-2">(Intercept)</td><td class="px-4 py-2">29.574</td><td class="px-4 py-2">3.136</td><td class="px-4 py-2">.004</td></tr>
-                            <tr class="border-b border-gray-700"><td class="px-4 py-2">revision_hrs</td><td class="px-4 py-2">0.480</td><td class="px-4 py-2">3.365</td><td class="px-4 py-2">.002</td></tr>
+                               <tr class="border-b border-gray-700">
+                                   <td class="px-4 py-2 font-semibold">H₀</td>
+                                   <td class="px-4 py-2">(Intercept)</td>
+                                   <td class="px-4 py-2">58.897</td>
+                                   <td class="px-4 py-2">4.216</td>
+                                   <td class="px-4 py-2"></td>
+                                   <td class="px-4 py-2">13.971</td>
+                                   <td class="px-4 py-2">&lt; .001</td>
+                               </tr>
+                               <tr class="border-b border-gray-700">
+                                   <td class="px-4 py-2 font-semibold">H₁</td>
+                                   <td class="px-4 py-2">(Intercept)</td>
+                                   <td class="px-4 py-2">29.574</td>
+                                   <td class="px-4 py-2">9.431</td>
+                                   <td class="px-4 py-2"></td>
+                                   <td class="px-4 py-2">3.136</td>
+                                   <td class="px-4 py-2">.004</td>
+                               </tr>
+                               <tr class="border-b border-gray-700">
+                                   <td class="px-4 py-2 font-semibold"></td>
+                                   <td class="px-4 py-2">revision_hrs</td>
+                                   <td class="px-4 py-2">0.480</td>
+                                   <td class="px-4 py-2">0.143</td>
+                                   <td class="px-4 py-2">0.544</td>
+                                   <td class="px-4 py-2">3.365</td>
+                                   <td class="px-4 py-2">.002</td>
+                               </tr>
                            </tbody>
                         </table>
                     </div>
