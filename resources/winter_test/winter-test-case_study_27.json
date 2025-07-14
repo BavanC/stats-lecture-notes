@@ -1,0 +1,108 @@
+{
+    "title": "Case Study 27: Amphetamine Dose and Task Performance",
+    "description": "A study exploring how different doses of an amphetamine affect the task performance of adults with attention deficit disorder (ADD).",
+    "case_study": {
+      "research_scenario": "Researchers are exploring how an amphetamine dose helps adult participants with an attention deficit disorder complete tasks in the correct order in a planning task scenario (the scenario involves preparation for a holiday). Eighty participants with ADD are randomly allocated to one of four groups (n=20 in each group): 0mg (placebo), 1mg, 2mg, and 3mg. The data are plotted below.",
+      "statistical_tables": {
+        "descriptives": {
+          "title": "Descriptives",
+          "headers": ["", "N", "Mean", "Std. Deviation", "Std. Error"],
+          "rows": [
+            ["placebo", "20", "4.0500", "2.06410", ""],
+            ["1mg", "20", "5.9000", "1.61897", ""],
+            ["2mg", "20", "7.8500", "2.15883", ""],
+            ["3mg", "20", "8.5500", "2.91051", ""],
+            ["Total", "80", "6.5875", "2.81809", ".31507"]
+          ]
+        },
+        "anova": {
+          "title": "ANOVA - task_number",
+          "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F", "p", "η²p"],
+          "rows": [
+            ["group", "247.138", "3", "82.379", "16.465", "<.001", "0.394"],
+            ["Residuals", "380.250", "76", "5.003", "", "", ""]
+          ]
+        },
+        "levenes_test": {
+          "title": "Test for Equality of Variances (Levene's)",
+          "headers": ["F", "df1", "df2", "p"],
+          "rows": [
+            ["2.301", "3.000", "76.000", "0.084"]
+          ]
+        },
+        "custom_contrasts": {
+          "title": "Custom for group",
+          "headers": ["group", "Contrast 1", "Contrast 2", "Contrast 3"],
+          "rows": [
+            ["0mg", "3", "0", "0"],
+            ["1mg", "-1", "2", "0"],
+            ["2mg", "-1", "-1", "1"],
+            ["3mg", "-1", "-1", "-1"]
+          ]
+        },
+        "custom_contrast_results": {
+          "title": "Custom Contrast - group",
+          "headers": ["Comparison", "Estimate", "SE", "df", "t", "p"],
+          "rows": [
+            ["1", "-10.150", "1.733", "76", "-5.858", "<.001"],
+            ["2", "-4.600", "1.225", "76", "-3.755", "<.001"],
+            ["3", "-0.700", "0.707", "76", "-0.990", "0.325"]
+          ]
+        }
+      }
+    },
+    "questions": [
+      {
+        "id": "a",
+        "question": "Describe the pattern in the data in plain English (2 marks)",
+        "answer": "The higher the dosage of amphetamines, the more tasks participants could complete.",
+        "explanation": "This is a direct interpretation of the 'Descriptives' table. As you move from the placebo (Mean = 4.05) to 1mg (5.90), 2mg (7.85), and 3mg (8.55), the mean number of completed tasks consistently increases. This suggests a positive relationship between dosage and performance."
+      },
+      {
+        "id": "b",
+        "question": "The graph uses the standard errors for the error bars. Calculate the standard error of the mean for each of the four groups. (4 marks)",
+        "answer": "Placebo - 0.46, 1mg - 0.36, 2mg - 0.48, 3mg - 0.65",
+        "explanation": "The Standard Error of the Mean (SEM) is calculated by dividing the Standard Deviation (SD) by the square root of the sample size (N). For the placebo group: SEM = 2.06410 / √20 ≈ 0.46. This calculation is repeated for each group. The SEM indicates the precision of the sample mean as an estimate of the population mean."
+      },
+      {
+        "id": "c",
+        "question": "What type of analysis of variance was conducted on these data? (2 marks)",
+        "answer": "One-Way Independent ANOVA",
+        "explanation": "It's a 'One-Way' ANOVA because there is only one independent variable (amphetamine dose). It's an 'Independent' (or between-subjects) ANOVA because participants were randomly allocated to *one* of the four dose groups, meaning the groups are independent of each other."
+      },
+      {
+        "id": "d",
+        "question": "On the basis of the JASP output below, report the analysis of variance as in psychological science report. (4 marks)",
+        "answer": "F = 16.465 / df = (3, 76) / p < 0.001 / η²p = 0.394. The ANOVA shows a significant difference between the groups (F(3, 76) = 16.465, p < 0.001, η²p = 0.394) where varying dosages of amphetamine (or placebo) are utilised. The Levene's test was not significant (p < 0.084), so the assumption of homogeneity was met.",
+        "explanation": "This answer correctly reports the key ANOVA results in APA format: F(degrees of freedom between, degrees of freedom within) = F-value, p-value, effect size. The F-value of 16.465 with a p < .001 indicates a statistically significant difference somewhere among the group means. The partial eta squared (η²p) of 0.394 means that about 39.4% of the variance in task performance can be attributed to the amphetamine dosage. Mentioning the non-significant Levene's test (p = 0.084) is good practice as it confirms the homogeneity of variance assumption was met."
+      },
+      {
+        "id": "e",
+        "question": "The researchers used the following planned comparisons. Describe what hypothesis each contrast is testing. (6 marks)",
+        "answer": "First contrast was testing the placebo against all three dosages together. The second contrast was testing 1mg against both 2mg and 3mg together. The third contrast was testing 2mg against 3mg.",
+        "explanation": "Planned contrasts test specific hypotheses. Contrast 1 (Placebo vs. All Doses) tests if taking *any* dose of the drug is better than taking none. Contrast 2 (1mg vs. 2mg & 3mg) tests if the *higher* doses are more effective than the lowest dose. Contrast 3 (2mg vs. 3mg) tests if there is any additional benefit of the highest dose compared to the 2mg dose."
+      },
+      {
+        "id": "f",
+        "question": "Report each contrast as in a psychological science report. What dose should the researchers recommend on the basis of their findings? (7 marks)",
+        "answer": "The first contrast shows that the effect of drugs was significantly different to the effect of the placebo (t(76) = -5.858, p < 0.001). The second contrast shows that the effect of a higher than 1mg dosage was significantly better than the effect of a 1mg dosage (t(76) = -3.755, p < 0.001). The third contrast did not show a significant difference between 2mg and 3mg dosages (t(76) = -0.990, p = 0.325). The researchers should recommend the 2mg dosage as the 3mg dosage does not significantly differ.",
+        "explanation": "The results show that taking the drug is better than placebo (Contrast 1) and that higher doses (2mg/3mg) are better than the 1mg dose (Contrast 2). However, there is no statistically significant difference between the 2mg and 3mg doses (Contrast 3, p = 0.325). Therefore, the 2mg dose is the most logical recommendation because it provides the maximum significant benefit without needing to increase the dosage further, which might carry additional risks or side effects for no extra gain in performance."
+      }
+    ],
+    "metadata": {
+      "total_questions": 6,
+      "topics_covered": [
+        "One-Way Independent ANOVA",
+        "Descriptive Statistics",
+        "Standard Error",
+        "Planned Contrasts",
+        "APA Format Reporting",
+        "Homogeneity of Variance"
+      ],
+      "difficulty_level": "Intermediate",
+      "sample_size": 80,
+      "dependent_variable": "Number of tasks completed correctly",
+      "independent_variable": "Amphetamine Dose (0mg, 1mg, 2mg, 3mg)"
+    }
+  }
+  

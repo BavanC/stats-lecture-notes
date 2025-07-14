@@ -1,0 +1,82 @@
+{
+    "title": "Case Study 28: Expertise and Memory",
+    "description": "A study exploring the role of expertise (London cab drivers vs. novices) and list structure (configured vs. random) on memory recall.",
+    "case_study": {
+      "research_scenario": "Researchers explored the role of expertise in memory. They recruited experienced London cab drivers (experts) and a group of university undergraduates studying at a university in London (novices). The two groups of participants were presented with two lists of 20 London Street names, one list configured an actual route through London, the other, made up of different street names, was a random collection of street names (the order of presentation was counterbalanced across participants). The data plotted below is the mean number of correctly recalled street names for each of the two groups of participants in both conditions.",
+      "statistical_tables": {
+        "within_subjects_effects": {
+          "title": "Within Subjects Effects",
+          "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F", "p"],
+          "rows": [
+            ["Type of list", "348.613", "1", "348.613", "97.712", "<.001"],
+            ["Type of list * Group", "340.313", "1", "340.313", "95.326", "<.001"],
+            ["Residuals", "135.575", "38", "3.568", "", ""]
+          ]
+        },
+        "between_subjects_effects": {
+          "title": "Between Subjects Effects",
+          "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F", "p"],
+          "rows": [
+            ["Group", "340.313", "1", "340.313", "63.033", "<.001"],
+            ["Residuals", "205.175", "38", "5.399", "", ""]
+          ]
+        }
+      }
+    },
+    "questions": [
+      {
+        "id": "a",
+        "question": "Describe the pattern in the data in plain English (3 marks)",
+        "answer": "Experienced taxi drivers are able to recall configured routes better than when they have a random route. The novices have similar results between configured and random routes.",
+        "explanation": "This describes the interaction effect visible in the line graph. The effect of the 'type of list' (configured vs. random) is different for the two groups. For experts, there's a large drop in performance from configured to random lists. For novices, performance is roughly the same for both list types, showing that the structure didn't help them."
+      },
+      {
+        "id": "b",
+        "question": "what would be the appropriate analysis of variance for these data? (4 marks)",
+        "answer": "Two-Way Mixed ANOVA",
+        "explanation": "It's a 'Two-Way' ANOVA because there are two independent variables (IVs): 'Group' and 'Type of list'. It's a 'Mixed' design because one IV ('Group': expert vs. novice) is a between-subjects factor (participants are in one group or the other), while the other IV ('Type of list': configured vs. random) is a within-subjects (or repeated measures) factor (all participants were tested on both types of lists)."
+      },
+      {
+        "id": "c",
+        "question": "Enter the missing values in this redacted ANOVA table (2 marks each)",
+        "answer": "MS residuals = 3.568, Interaction F-ratio = 95.326, MS group = 340.313, group F-ratio = 63.033",
+        "explanation": "Values are calculated as follows: Mean Square (MS) = Sum of Squares (SS) / degrees of freedom (df). F-ratio = MS (effect) / MS (residual/error). For Within-Subjects: MS Residuals = 135.575 / 38 = 3.568. Interaction F = MS (Interaction) / MS (Residuals) = 340.313 / 3.568 = 95.326. For Between-Subjects: MS Group = 340.313 / 1 = 340.313. Group F = MS (Group) / MS (Residuals) = 340.313 / 5.399 = 63.033."
+      },
+      {
+        "id": "d",
+        "question": "On the basis of the JASP output, report the analysis of variance as in psychological science report. (5 marks)",
+        "answer": "In this study, there was a significant interaction effect between experience and route (F(1, 38) = 95.326, p < 0.001). The differences within type of list (F(1, 38) = 97.712, p < 0.001) and experience (F(1, 38) = 63.033, p < 0.001) were also both significant, though qualified by the significant interaction effect.",
+        "explanation": "This report correctly prioritizes the interaction effect, as its significance is the most important finding. It reports the F-ratio, degrees of freedom (for the effect and for the error term), and p-value for the interaction first. It then reports the main effects, correctly noting that their interpretation is 'qualified' (or complicated) by the interaction."
+      },
+      {
+        "id": "e",
+        "question": "Why is there no need to check the assumption of sphericity for the repeated measures factor? (2 marks)",
+        "answer": "The within-groups variable only has two levels.",
+        "explanation": "The assumption of sphericity applies only when a within-subjects (repeated measures) factor has three or more levels. Sphericity assumes that the variances of the differences between all possible pairs of conditions are equal. When there are only two levels (e.g., configured vs. random), there is only one set of differences, so the assumption is always met by definition."
+      },
+      {
+        "id": "f",
+        "question": "Is it fair to say that cab drivers have developed better memory skills than university students? Refer to the ANOVA to support your answer (3 marks)",
+        "answer": "The evidence is inconclusive. While there were significant results for the main effects, as they had p values less than 0.001, the strong interaction effect that was seen (also with a p-value less than 0.001) means that the main effects cannot be considered without this qualifier, and further testing would be required in order to answer this questions.",
+        "explanation": "This is a crucial point in interpreting ANOVAs. A significant main effect of 'Group' might suggest experts are better overall. However, the significant interaction tells us this isn't the whole story. The experts' advantage is almost entirely in the 'configured route' condition; their memory for 'random' lists is similar to the novices'. Therefore, you can't make a simple, general statement about their memory. The interaction is the key finding, and it overrides a simple interpretation of the main effects."
+      }
+    ],
+    "metadata": {
+      "total_questions": 6,
+      "topics_covered": [
+        "Two-Way Mixed ANOVA",
+        "Interaction Effects",
+        "Main Effects",
+        "Sphericity",
+        "APA Format Reporting",
+        "Interpreting ANOVA results"
+      ],
+      "difficulty_level": "Advanced",
+      "dependent_variable": "Mean number of correctly recalled street names",
+      "independent_variables": [
+        "Group (Expert vs. Novice)",
+        "Type of list (Configured vs. Random)"
+      ]
+    }
+  }
+  
