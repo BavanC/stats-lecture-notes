@@ -759,7 +759,7 @@
       "id": 43,
       "topic": "Regression",
       "section": "Conceptual Understanding",
-      "question": "In the full regression equation, Y = b₀ + b₁X + ε, what does the ε (epsilon) term represent?",
+      "question": "In the full regression equation, Y = b₀ + b₁X + ε, what does the ε term represent?",
       "options": [
         "The effect size.",
         "The error, or residual, for each data point.",
@@ -767,7 +767,7 @@
         "The expected value of Y."
       ],
       "correctAnswer": "B",
-      "explanation": "The epsilon (ε) term represents the error or residual – the difference between the actual observed value Y and the value predicted by the model (Y'). It acknowledges that our predictions are not perfect."
+      "explanation": "The ε term represents the error or residual – the difference between the actual observed value Y and the value predicted by the model (Y'). It acknowledges that our predictions are not perfect."
     },
     {
       "id": 44,

@@ -54,8 +54,8 @@
     {
       "id": "d",
       "question": "Report the regression equation (5 marks)",
-      "answer": "Error load = -3.93 + 0.189 × MAS + epsilon",
-      "explanation": "The regression equation shows how to predict error load from maths anxiety (MAS). The intercept is -3.93, and each one-point increase in MAS increases error load by 0.189 units. \"Epsilon\" represents random error."
+      "answer": "Error load = -3.93 + 0.189 × MAS + ε",
+      "explanation": "The regression equation shows how to predict error load from maths anxiety (MAS). The intercept is -3.93, and each one-point increase in MAS increases error load by 0.189 units. \"ε\" represents random error."
     },
     {
       "id": "e",

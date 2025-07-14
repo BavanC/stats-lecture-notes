@@ -36,7 +36,7 @@ resources/
 │   ├── winter-test-case_study_26.json
 │   ├── winter-test-case_study_27.json
 │   └── winter-test-case_study_28.json
-└── spring_test/        # Spring test JSON files (to be created)
+└── spring_test/        # Spring test JSON files
     ├── spring-test-mcqs.json
     ├── spring-test-case_study_1.json
     ├── spring-test-case_study_2.json

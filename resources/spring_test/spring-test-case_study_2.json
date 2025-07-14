@@ -1,0 +1,95 @@
+{
+  "title": "Case Study 2: Binary Logistic Regression - Predicting Problem Solving",
+  "description": "A study using binary logistic regression to predict the ability to solve a visuo-spatial problem based on measures of visual imagery.",
+  "case_study": {
+    "research_scenario": "A researcher explores how measures of visual imagery predicts participants' ability to solve a difficult visuo-spatial problem. She employed the Object-Spatial Imagery Questionnaire (OSIQ; a self-report scale) and the Image Control and Recognition Tests (ICRT, a test to measure people's visual imagery skills). Ninety-five participants were recruited for this experiment. She conducted a binary logistic regression to determine if OSIQ and ICRT scores can predict problem solving success.",
+    "statistical_tables": {
+      "model_summary": {
+        "title": "Model Summary - Success",
+        "headers": ["Model", "Deviance", "AIC", "BIC", "df", "χ²", "p", "McFadden R²", "Nagelkerke R²", "Tjur R²", "Cox & Snell R²"],
+        "rows": [
+          ["H₀", "127.872", "129.872", "132.426", "94", "", "", "", "", "", ""],
+          ["H₁", "118.963", "124.963", "132.624", "92", "8.910", "0.012", "0.070", "0.121", "0.095", "0.090"]
+        ]
+      },
+      "classification_table": {
+        "title": "Performance Diagnostics",
+        "headers": ["Observed", "Predicted 0", "Predicted 1"],
+        "rows": [
+          ["0", "16", "22"],
+          ["1", "7", "50"]
+        ]
+      },
+      "coefficients": {
+        "title": "Coefficients",
+        "headers": ["", "Estimate", "Standard Error", "Odds Ratio", "z", "Wald Statistic", "df", "p"],
+        "rows": [
+          ["(Intercept)", "-2.756", "1.665", "0.064", "-1.655", "2.739", "1", "0.098"],
+          ["OSIQ", "0.023", "0.018", "1.024", "1.320", "1.742", "1", "0.187"],
+          ["ICRT", "0.196", "0.078", "1.216", "2.498", "6.238", "1", "0.013"]
+        ]
+      }
+    }
+  },
+  "questions": [
+    {
+      "id": "a",
+      "question": "Was the model significant? Report the test statistic. (2 marks)",
+      "answer": "The model was significant, χ²(2, N = 94) = 8.910, p = 0.012.",
+      "explanation": "The significance of the overall logistic regression model is assessed using the Omnibus Test of Model Coefficients. This test uses a Chi-Square (χ²) statistic. A significant p-value (typically < .05) indicates that the model with predictors is a significantly better fit for the data than a null model with no predictors."
+    },
+    {
+      "id": "b",
+      "question": "What is the pseudo coefficient of determination and its value? (2 marks)",
+      "answer": "Nagelkerke R² was 0.121",
+      "explanation": "In logistic regression, pseudo R-squared values like Nagelkerke's R² are used to estimate the proportion of variance in the dependent variable that is explained by the predictors. A value of 0.121 suggests that the model explains approximately 12.1% of the variation in the outcome."
+    },
+    {
+      "id": "c",
+      "question": "What was the overall prediction performance of the model? Show how you calculate this value. (3 marks)",
+      "answer": "prediction performance = correct predictions / all predictions. correct predictions = 16 + 50 = 66. all predictions = 16 + 22 + 7 + 50 = 95. prediction performance = 66 / 95 = 0.695 = 69.5%",
+      "explanation": "The overall prediction performance, or accuracy, is calculated from the classification table. It is the ratio of the number of correctly classified cases (true negatives + true positives) to the total number of cases. This metric shows the percentage of cases the model correctly predicted."
+    },
+    {
+      "id": "d",
+      "question": "What was the model's sensitivity? Show how you calculate this value. (3 marks)",
+      "answer": "sensitivity = true positives / observed positives. true positives = 50. observed positives = 7 + 50 = 57. sensitivity = 50/57 = 0.877 = 87.7%",
+      "explanation": "Sensitivity (also known as the true positive rate) measures the model's ability to correctly identify cases with the positive outcome. It is calculated by dividing the number of true positives by the total number of observed positive cases."
+    },
+    {
+      "id": "e",
+      "question": "What was the model's specificity? Show how you calculate this value. (3 marks)",
+      "answer": "specificity = true negatives / observed negatives. true negatives = 16. observed negatives = 16 + 22 = 38. specificity = 16 / 38 = 0.421 = 42.1%",
+      "explanation": "Specificity (also known as the true negative rate) measures the model's ability to correctly identify cases with the negative outcome. It is calculated by dividing the number of true negatives by the total number of observed negative cases."
+    },
+    {
+      "id": "f",
+      "question": "What is the change to the odds of solving the problem with a one unit increase in ICRT? (2 marks)",
+      "answer": "change in odds = odds ratio - 1 = 1.216 - 1 = 0.216 = 21.6%",
+      "explanation": "The odds ratio for a predictor indicates how the odds of the outcome change for a one-unit increase in that predictor. An odds ratio of 1.216 means that for each one-unit increase in ICRT, the odds of solving the problem increase by a factor of 1.216, which corresponds to a 21.6% increase in the odds."
+    },
+    {
+      "id": "g",
+      "question": "Report the findings from this logistic regression analysis for a lab report. (10 marks)",
+      "answer": "Measures of visual imagery were studied for their ability to predict participants' ability to solve a difficult visuo-spatial problem. A logistic regression analysis was performed to deduct the degree to which OSIQ and ICRT contributed towards the prediction of the result. The model was significant, χ²(2, N = 94) = 8.910, p = 0.012. Nagelkerke R² was 0.121; the model's overall accuracy was 69.5%, sensitivity was 87.7%, and specificity was 42.1%. The Wald criterion showed that OSIQ did not make a significant contribution towards the prediction (p = 0.187), while ICRT did (p = 0.013) with an odds ratio of 1.216, representing a 21.6% change in odds per unit change in ICRT.",
+      "explanation": "A comprehensive lab report summary for logistic regression should begin by stating the model's overall significance (χ² test). It should then provide a measure of effect size (Nagelkerke R²) and classification performance (accuracy, sensitivity, specificity). Finally, it must detail the contribution of individual predictors, noting which are significant (based on the Wald test p-value) and interpreting the odds ratio for any significant predictors."
+    }
+  ],
+  "metadata": {
+    "total_questions": 7,
+    "topics_covered": [
+      "Binary Logistic Regression",
+      "Classification Analysis",
+      "Confusion Matrix",
+      "Odds Ratios",
+      "Sensitivity and Specificity",
+      "APA Format Reporting"
+    ],
+    "difficulty_level": "Advanced",
+    "dependent_variable": "Solved visuo-spatial problem (Binary: Yes/No)",
+    "independent_variables": [
+      "OSIQ (Object-Spatial Imagery Questionnaire)",
+      "ICRT (Mental Rotation Task)"
+    ]
+  }
+} 

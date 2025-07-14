@@ -9,15 +9,15 @@
           "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F", "p"],
           "rows": [
             ["Type of list", "348.613", "1", "348.613", "97.712", "<.001"],
-            ["Type of list * Group", "340.313", "1", "340.313", "95.326", "<.001"],
-            ["Residuals", "135.575", "38", "3.568", "", ""]
+            ["Type of list * Group", "340.313", "1", "340.313", "?", "<.001"],
+            ["Residuals", "135.575", "38", "?", "", ""]
           ]
         },
         "between_subjects_effects": {
           "title": "Between Subjects Effects",
           "headers": ["Cases", "Sum of Squares", "df", "Mean Square", "F", "p"],
           "rows": [
-            ["Group", "340.313", "1", "340.313", "63.033", "<.001"],
+            ["Group", "340.313", "1", "?", "?", "<.001"],
             ["Residuals", "205.175", "38", "5.399", "", ""]
           ]
         }
