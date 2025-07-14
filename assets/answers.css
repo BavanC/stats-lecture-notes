@@ -1,0 +1,245 @@
+/* Answers Page Styles */
+/* Custom styles for test answers pages (winter, spring, etc.) */
+
+/* Base styles */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f8f7f4;
+    color: #3d405b;
+    padding-bottom: 80px;
+}
+
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+/* Card styles */
+.answer-card {
+    background-color: #ecfdf5 !important;
+    border: 1px solid #6ee7b7 !important;
+    color: #065f46 !important;
+}
+
+.explanation-card {
+    background-color: #ffe4ef !important;
+    border: 1px solid #f9a8d4 !important;
+    color: #831843 !important;
+}
+
+.content-card {
+    background-color: #eff6ff !important;
+    border: 1px solid #93c5fd !important;
+    color: #1e3a8a !important;
+}
+
+/* Explanation content styles */
+.explanation {
+    transition: max-height 0.3s ease-out;
+}
+
+.explanation-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, padding 0.3s, background 0.3s;
+    padding: 0 !important;
+    background: none !important;
+    box-sizing: border-box;
+}
+
+.explanation-content.show {
+    max-height: 500px;
+    padding: 1rem !important;
+}
+
+.bg-pink-50 .explanation-content.show {
+    background: #ffe4ef !important;
+}
+
+.bg-green-50 .explanation-content.show {
+    background: #ecfdf5 !important;
+}
+
+/* Collapsible content styles */
+.collapsible-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s, padding 0.3s, background 0.3s;
+    padding: 0 1rem;
+}
+
+.collapsible-content.show {
+    max-height: 500px;
+    padding: 1rem;
+}
+
+/* Collapsible toggle styles */
+.collapsible-toggle {
+    width: 100%;
+    text-align: left;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.collapsible-toggle[data-type="explanation"] { 
+    color: #831843; 
+}
+
+.collapsible-toggle[data-type="answer"] { 
+    color: #065f46; 
+}
+
+.collapsible-toggle[data-type="content"] { 
+    color: #1e3a8a; 
+}
+
+.collapsible-toggle .arrow { 
+    font-size: 1.25em; 
+    margin-left: 0.5em; 
+}
+
+/* Tab system styles */
+.tab-button {
+    position: relative;
+    overflow: hidden;
+}
+
+.tab-button.active {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.tab-content {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+}
+
+.tab-content.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Wrong option hiding */
+.wrong-option {
+    transition: all 0.3s ease;
+}
+
+.wrong-option.hidden {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+/* Color overrides */
+.bg-blue-50 {
+    background-color: #eff6ff !important;
+}
+
+.bg-pink-50 {
+    background-color: #ffe4ef !important;
+}
+
+.bg-pink-100 {
+    background-color: #ffd6e7 !important;
+}
+
+.text-pink-800 {
+    color: #9d174d !important;
+}
+
+.text-pink-900 {
+    color: #831843 !important;
+}
+
+.text-pink-600 {
+    color: #db2777 !important;
+}
+
+/* Case study specific overrides */
+#content-case26 .answer-card.bg-blue-50 .explanation-content.show {
+    background: #f0f7ff !important;
+    color: #1e3a8a !important;
+}
+
+#content-case26 .answer-card.bg-blue-50 .explanation-content {
+    color: #1e3a8a !important;
+}
+
+/* Mobile-specific adjustments */
+@media (max-width: 768px) {
+    .answer-card {
+        margin: 0 -1rem;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+    }
+    
+    .explanation-content.show {
+        max-height: 800px; /* Allow more space on mobile for longer explanations */
+    }
+    
+    /* Improve touch targets */
+    .explanation button {
+        min-height: 48px;
+        padding: 12px 16px;
+    }
+    
+    /* Better spacing for mobile */
+    .options-container {
+        gap: 8px;
+    }
+    
+    .options-container > div {
+        padding: 12px 16px;
+        font-size: 16px; /* Prevent zoom on iOS */
+    }
+    
+    /* Improve readability on small screens */
+    .question-text {
+        font-size: 16px;
+        line-height: 1.5;
+    }
+    
+    /* Better footer layout on mobile */
+    #action-footer .container {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    #action-footer button {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    /* Mobile tab improvements */
+    .tab-button {
+        min-width: 80px;
+        font-size: 14px;
+        padding: 10px 12px;
+    }
+    
+    .tab-button span {
+        display: block;
+        text-align: center;
+    }
+}
+
+/* Tablet adjustments */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .answer-card {
+        padding: 1.5rem;
+    }
+    
+    .explanation-content.show {
+        max-height: 600px;
+    }
+} 

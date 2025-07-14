@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PS7002 TB2: Spring Test Answers</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../assets/answers.css">
+</head>
+<body class="antialiased" data-answers-config='{
+    "season": "spring",
+    "mcqPath": "../resources/spring_test/spring-test-mcqs.json",
+    "caseStudies": [
+        {"number": 1, "path": "../resources/spring_test/spring-test-case_study_1.json"},
+        {"number": 2, "path": "../resources/spring_test/spring-test-case_study_2.json"},
+        {"number": 3, "path": "../resources/spring_test/spring-test-case_study_3.json"}
+    ]
+}'>
+
+    <button id="menu-btn" onclick="openMenu()" style="display:none" class="fixed top-4 left-4 z-50 bg-emerald-600 text-white px-4 py-2 rounded shadow hover:bg-emerald-700">☰ Menu</button>
+    <div id="menu-container"></div>
+
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="../index.html" class="mr-4 text-lg font-bold text-[#3d405b] hover:underline">Home</a>
+                    <h1 class="text-xl font-bold text-[#3d405b] hidden sm:block">PS7002 TB2 Spring Test Answers</h1>
+                    <h1 class="text-lg font-bold text-[#3d405b] sm:hidden">Spring Test Answers</h1>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#tab-content" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">All Answers</a>
+                    </div>
+                </div>
+                <!-- Scroll to Top Button in Header -->
+                <button id="scrollToTopBtn" title="Scroll to top" class="hidden absolute right-0 top-1/2 -translate-y-1/2 bg-[#81b29a] text-white p-2 sm:p-3 rounded-full shadow-lg hover:bg-[#6a9a81] focus:outline-none focus:ring-2 focus:ring-[#81b29a] focus:ring-offset-2 transition-all duration-200" style="box-shadow: 0 2px 8px rgba(0,0,0,0.12);">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" /></svg>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main id="main-content" class="container mx-auto p-4 sm:p-6 lg:p-8 pt-20">
+        
+        <section id="welcome" class="text-center mb-16">
+            <h2 class="text-4xl font-bold text-[#3d405b] mb-4">Spring Test Answers & Explanations</h2>
+            <p class="max-w-3xl mx-auto text-lg text-gray-700">Complete answers and detailed explanations for the PS7002 TB2 Spring Test. Use this resource to review your understanding and learn from any mistakes.</p>
+        </section>
+
+        <!-- Tab Navigation -->
+        <div class="mb-8">
+            <div class="flex flex-wrap justify-center gap-2 md:gap-4">
+                <button id="tab-mcq" class="tab-button active bg-[#81b29a] text-white px-4 py-2 rounded-lg font-semibold transition-all duration-200 hover:bg-[#6a9a81] focus:outline-none focus:ring-2 focus:ring-[#81b29a] focus:ring-offset-2">
+                    <span class="hidden sm:inline">Multiple Choice</span>
+                    <span class="sm:hidden">MCQs</span>
+                </button>
+                <button id="tab-case1" class="tab-button bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-semibold transition-all duration-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2">
+                    Case Study 1
+                </button>
+                <button id="tab-case2" class="tab-button bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-semibold transition-all duration-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2">
+                    Case Study 2
+                </button>
+                <button id="tab-case3" class="tab-button bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-semibold transition-all duration-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2">
+                    Case Study 3
+                </button>
+            </div>
+        </div>
+
+        <!-- Tab Content -->
+        <div id="tab-content" class="space-y-8">
+            <!-- MCQ Tab -->
+            <div id="content-mcq" class="tab-content active">
+                <section class="mb-16">
+                    <h3 class="text-3xl font-bold text-center mb-8 text-[#81b29a]">Multiple Choice Questions (1-25)</h3>
+                    
+                    <div id="mcq-container" class="space-y-6 max-w-4xl mx-auto">
+                        <!-- MCQ answers will be loaded here -->
+                    </div>
+                </section>
+            </div>
+
+            <!-- Case Study 1 Tab -->
+            <div id="content-case1" class="tab-content hidden">
+                <section class="mb-16">
+                    <h3 class="text-3xl font-bold text-center mb-8 text-[#e07a5f]">Case Study 1: Loading...</h3>
+                    <div class="max-w-2xl mx-auto space-y-8">
+                        <!-- Content will be loaded dynamically -->
+                    </div>
+                </section>
+            </div>
+
+            <!-- Case Study 2 Tab -->
+            <div id="content-case2" class="tab-content hidden">
+                <section class="mb-16">
+                    <h3 class="text-3xl font-bold text-center mb-8 text-[#e07a5f]">Case Study 2: Loading...</h3>
+                    <div class="max-w-2xl mx-auto space-y-8">
+                        <!-- Content will be loaded dynamically -->
+                    </div>
+                </section>
+            </div>
+
+            <!-- Case Study 3 Tab -->
+            <div id="content-case3" class="tab-content hidden">
+                <section class="mb-16">
+                    <h3 class="text-3xl font-bold text-center mb-8 text-[#e07a5f]">Case Study 3: Loading...</h3>
+                    <div class="max-w-2xl mx-auto space-y-8">
+                        <!-- Content will be loaded dynamically -->
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+    
+    <footer id="action-footer" class="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-sm border-t border-gray-200 p-4 shadow-lg-top z-50">
+        <div class="container mx-auto flex justify-center items-center space-x-4">
+            <button id="toggle-expand-btn" class="bg-[#81b29a] text-white font-bold py-2 px-6 rounded-lg hover:bg-[#6a9a81] transition-colors">
+                <span class="hidden sm:inline">Expand/Collapse All</span>
+                <span class="sm:hidden">Expand/Collapse All</span>
+            </button>
+        </div>
+    </footer>
+
+    <!-- External JavaScript -->
+    <script src="../assets/answers.js"></script>
+    
+    <!-- Menu functionality -->
+    <script>
+    function openMenu() {
+      document.getElementById('site-menu').style.transform = 'translateX(0)';
+      document.getElementById('menu-backdrop').classList.remove('hidden');
+    }
+    function closeMenu() {
+      document.getElementById('site-menu').style.transform = 'translateX(-100%)';
+      document.getElementById('menu-backdrop').classList.add('hidden');
+    }
+    fetch('../assets/shared-menu.html')
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('menu-container').innerHTML = html;
+        document.getElementById('menu-btn').style.display = '';
+        window.openMenu = function() {
+          document.getElementById('site-menu').style.transform = 'translateX(0)';
+          document.getElementById('menu-backdrop').classList.remove('hidden');
+        };
+        window.closeMenu = function() {
+          document.getElementById('site-menu').style.transform = 'translateX(-100%)';
+          document.getElementById('menu-backdrop').classList.add('hidden');
+        };
+      });
+    </script>
+</body>
+</html> 

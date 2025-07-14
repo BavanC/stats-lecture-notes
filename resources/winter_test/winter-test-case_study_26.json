@@ -1,0 +1,80 @@
+{
+  "title": "Case Study 26: Maths Anxiety and Mental Arithmetic",
+  "description": "A study examining the relationship between mathematics anxiety scores (MAS) and calculation errors in mental arithmetic tasks with working memory load",
+  "case_study": {
+    "research_scenario": "A researcher examined mental arithmetic performance for a set of long additions in a sample of 52 participants. Her dependent measure was absolute calculation error (absolute deviation from the correct total). Her research explored how loading up working memory with a secondary task (such as concurrently rehearsing a list of words) might impact performance on the primary mental arithmetic task. She was interested in determining how mathematics anxiety scores (MAS) predicted calculation errors in a condition where participants completed the sums while having to perform a secondary working memory task (she called this dependent variable, 'errorload'). She plotted the errors as a function of MAS and determined their degree of correlation. She also performed a simple regression analysis to help her predict a participant's error from his or her level of maths anxiety.",
+    "statistical_tables": {
+      "model_summary": {
+        "title": "Model Summary - error_load",
+        "headers": ["Model", "R", "R²", "Adjusted R²", "RMSE"],
+        "rows": [
+          ["H₀", "0.000", "0.000", "0.000", "5.604"],
+          ["H₁", "0.498", "0.248", "0.233", "4.909"]
+        ]
+      },
+      "anova": {
+        "title": "ANOVA",
+        "headers": ["Model", "Sum of Squares", "df", "Mean Square", "F", "p"],
+        "rows": [
+          ["H₁ Regression", "396.911", "1", "396.911", "16.470", "<.001"],
+          ["  Residual", "1204.982", "50", "24.100", "", ""],
+          ["  Total", "1601.892", "51", "", "", ""]
+        ]
+      },
+      "coefficients": {
+        "title": "Coefficients",
+        "headers": ["Model", "Unstandardized", "Standard Error", "Standardized", "t", "p"],
+        "rows": [
+          ["H₀ (Intercept)", "6.777", "0.777", "", "8.720", "<.001"],
+          ["H₁ (Intercept)", "-3.930", "2.725", "", "-1.442", "0.155"],
+          ["  MAS", "0.189", "0.047", "0.498", "4.058", "<.001"]
+        ]
+      }
+    }
+  },
+  "questions": [
+    {
+      "id": "a",
+      "question": "Examining the scatterplot, how would you describe the relationship between error and maths anxiety scores? (5 marks)",
+      "answer": "As the MAS increases, so does the error load. This is a moderate positive correlation, because the points are somewhat spread out, and move in a positive direction.",
+      "explanation": "A scatterplot showing a moderate positive correlation means that as one variable increases (maths anxiety), the other (error load) also tends to increase, but the relationship is not perfect. The spread of points indicates some variability, but the overall trend is upward."
+    },
+    {
+      "id": "b",
+      "question": "What was the correlation between error and maths anxiety? Describe it in a full sentence along with the correlation coefficient, degrees of freedom and p value as per APA guidance (5 marks)",
+      "answer": "The correlation between error and MAS is a moderate positive correlation (r(50) = 0.498, p < 0.001), which is significant at 5%.",
+      "explanation": "The correlation coefficient (r) quantifies the strength and direction of the relationship. Here, r = 0.498 indicates a moderate positive relationship. The p-value < 0.001 shows this result is statistically significant, and the degrees of freedom (50) are based on the sample size minus 2."
+    },
+    {
+      "id": "c",
+      "question": "Was the regression analysis significant? Using well-structured sentences, Report the F ratio and the coefficient of determination (5 marks).",
+      "answer": "Yes, the regression analysis was a significantly better fit to data (F(1, 50) = 16.470, p < 0.001) than chance. The coefficient of determination (R²) was 0.248.",
+      "explanation": "The F ratio tests whether the regression model explains a significant amount of variance in the outcome. A significant F (p < 0.001) means the model fits better than a model with no predictors. R² = 0.248 means about 25% of the variance in error load is explained by maths anxiety."
+    },
+    {
+      "id": "d",
+      "question": "Report the regression equation (5 marks)",
+      "answer": "Error load = -3.93 + 0.189 × MAS + ε",
+      "explanation": "The regression equation shows how to predict error load from maths anxiety (MAS). The intercept is -3.93, and each one-point increase in MAS increases error load by 0.189 units. \"ε\" represents random error."
+    },
+    {
+      "id": "e",
+      "question": "If a participant's maths anxiety score is 80, what is his or her predicted calculation error on the mental arithmetic task? (5 marks)",
+      "answer": "-3.93 + 0.189 × 80 = 11.19",
+      "explanation": "Plugging MAS = 80 into the regression equation gives a predicted error load of 11.19. This is calculated as -3.93 + (0.189 × 80)."
+    }
+  ],
+  "metadata": {
+    "total_questions": 5,
+    "topics_covered": [
+      "Correlation Analysis",
+      "Simple Linear Regression",
+      "Statistical Reporting",
+      "APA Format"
+    ],
+    "difficulty_level": "Intermediate",
+    "sample_size": 52,
+    "dependent_variable": "Absolute calculation error (errorload)",
+    "independent_variable": "Mathematics anxiety scores (MAS)"
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "title": "Case Study 3: Simple Regression - Verbal Fluency & Word Generation",
+  "description": "A study examining the relationship between verbal fluency and interactivity boost in word generation tasks",
+  "case_study": {
+    "research_scenario": "A researcher is interested in determining the role of interacting with letter tiles in a simple word generation task. Using a repeated measures design, twenty participants are given sets of seven letters and five minutes to generate as many words as possible (excluding acronyms, initialisms, brand names and proper names) in a condition where they can manipulate Scrabble-like letter tiles (the interactive condition) and in a condition where they can't (the control condition where the seven letters are shown on a computer screen; the order of conditions was counterbalanced, as are the letter sets presented in each condition). The mean number of words generated in the interactive condition (M=18.65, SD=18.42) was significantly higher than the mean number of words generated in the control condition (M=13.50, SD=13.21, t(19)=7.56, p<.001). All participants were also profiled in terms of verbal fluency, scored on a scale from 1 to 10, the higher the score, the higher the participants' verbal fluency. She took the difference between the interactive and control condition (she called this measure 'Interactivity Boost'), a gauge of how many more words each participant could generate by interacting with the letter tiles. She was interested in determining how the participants' verbal fluency moderated the impact of interactivity on word production performance. She plotted each participant's Interactivity Boost against their verbal fluency (as shown in the scatterplot).",
+    "statistical_tables": {
+      "raw_data": {
+        "title": "Words Produced",
+        "headers": ["#", "Interactive", "Control", "Difference", "Verbal Fluency"],
+        "rows": [
+          ["1", "23", "19", "4", "8"],
+          ["2", "19", "11", "8", "6"],
+          ["3", "17", "9", "8", "4"],
+          ["4", "12", "11", "1", "5"],
+          ["5", "23", "21", "2", "9"],
+          ["6", "22", "19", "3", "8"],
+          ["7", "14", "6", "8", "6"],
+          ["8", "29", "22", "7", "8"],
+          ["9", "15", "7", "8", "3"],
+          ["10", "20", "12", "8", "4"],
+          ["11", "26", "20", "6", "8"],
+          ["12", "18", "9", "9", "4"],
+          ["13", "13", "9", "4", "3"],
+          ["14", "13", "10", "3", "4"],
+          ["15", "13", "8", "5", "3"],
+          ["16", "18", "9", "9", "2"],
+          ["17", "20", "19", "1", "6"],
+          ["18", "21", "18", "3", "7"],
+          ["19", "21", "22", "-1", "9"],
+          ["20", "16", "9", "7", "5"],
+          ["M", "18.65", "13.50", "5.15", "5.60"],
+          ["SD", "18.42", "13.21", "5.21", "5.47"]
+        ]
+      },
+      "model_summary": {
+        "title": "Model Summary - Difference",
+        "headers": ["Model", "R", "R²", "Adjusted R²", "RMSE"],
+        "rows": [
+          ["H₀", "0.000", "0.000", "0.000", "3.043"],
+          ["H₁", "---", "---", "---", "2.715"]
+        ]
+      },
+      "anova": {
+        "title": "ANOVA",
+        "headers": ["Model", "Sum of Squares", "df", "Mean Square", "F", "p"],
+        "rows": [
+          ["H₁ Regression", "43.882", "1", "43.882", "7.372", "0.025"],
+          ["  Residual", "132.687", "18", "", "", ""],
+          ["  Total", "176.550", "19", "", "", ""]
+        ]
+      },
+      "coefficients": {
+        "title": "Coefficients",
+        "headers": ["Model", "Unstandardized", "Standard Error", "Standardized", "t", "p"],
+        "rows": [
+          ["H₀ (Intercept)", "5.150", "0.682", "", "7.555", "<.001"],
+          ["H₁ (Intercept)", "9.000", "1.601", "", "5.322", "<.001"],
+          ["  verbal_fluency", "-0.690", "0.282", "-0.498", "-2.439", "0.025"]
+        ]
+      }
+    }
+  },
+  "questions": [
+    {
+      "id": "a",
+      "question": "Describe the pattern illustrated in the scatterplot above (3 marks)",
+      "answer": "There is a moderate negative correlation between interactivity boost and verbal fluency. It shows that verbal fluency is a moderator that affects the strength of the relationship between interactivity and word production performance. At low verbal fluency, interactivity has a high positive moderating effect on word production performance. As verbal fluency increases, this moderating effect decreases.",
+      "explanation": "The scatterplot shows a general downward trend from left to right, indicating a negative correlation: as verbal fluency scores go up, the 'Interactivity Boost' tends to go down. This suggests that the benefit of being able to manipulate letter tiles is greatest for people with lower verbal fluency and less pronounced for those with higher verbal fluency."
+    },
+    {
+      "id": "b",
+      "question": "In this analysis, what was the outcome variable (the Y variable) and what was the predictor variable? (4 marks)",
+      "answer": "Interactivity boost was the Y variable, and Verbal Fluency the X variable.",
+      "explanation": "In a regression analysis, the outcome (or dependent) variable (Y) is the one being predicted. The predictor (or independent) variable (X) is the one used to make the prediction. Here, the analysis aims to predict the 'Interactivity Boost' based on 'Verbal Fluency' scores."
+    },
+    {
+      "id": "c",
+      "question": "What was the correlation between verbal fluency and the interactivity boost? (3 marks)",
+      "answer": "As the verbal fluency increases, the interactivity boost decreases. There is a moderate negative correlation, shown by the r value of -0.498",
+      "explanation": "The correlation coefficient (r) measures the strength and direction of a linear relationship. For a simple linear regression, the value of 'r' is equal to the Standardized Coefficient (β). In this case, r = -0.498, which indicates a moderate negative linear relationship between the two variables."
+    },
+    {
+      "id": "d",
+      "question": "Report the results of the regression analysis as in an empirical report (including the regression equation), observing APA format guidance to the of your best ability. (8 marks)",
+      "answer": "The linear regression analysis gave a significant model, F(1, 18) = 7.372, p = 0.025, that indicates that it fits to data well. It accounts for 24.8% of the variance in interactivity bonus, and the effect of verbal fluency was significant (b1 = -0.690, p = 0.025). The model indicates that increasing verbal fluency has a negative moderating effect on the boost in word production performance due to interactivity. The regression equation is: Interactivity Boost = 9.000 - 0.690 * verbal_fluency + ε",
+      "explanation": "A formal report of a simple regression should include the F-test for the overall model significance, including degrees of freedom and p-value. It should also state the R² value to indicate the proportion of variance explained. The report must also detail the effect of the predictor, including its unstandardized coefficient (b) and p-value, and present the final regression equation."
+    },
+    {
+      "id": "e",
+      "question": "If a participant's verbal fluency score was 7, what was their predicted interactivity boost score? Show your calculations (2 marks)",
+      "answer": "Interactivity Boost = 9.000 - 0.690 * verbal fluency = 9.000 - 0.690 * 7 = 4.17",
+      "explanation": "To find the predicted score, the value of the predictor variable (X=7) is substituted into the regression equation. The calculation multiplies the predictor's value by its coefficient and adds the intercept to yield the predicted value for the outcome variable (Y)."
+    },
+    {
+      "id": "f",
+      "question": "On the basis of this analysis, what can the researcher conclude about the role of verbal fluency in this experiment on interactivity in a word production task? (5 marks)",
+      "answer": "At low levels of verbal fluency, interactivity gives a strong positive boost to the performance in the word production task. The linear regression analysis indicates that this positive moderation decreases in strength as verbal fluency decreases, ultimately resulting in a lower boost in word production performance under interactivity when compared to no interactivity. It is worth noting that this could be due to the non-interactive condition score being higher for high fluency participants, effectively making it harder to gain more increases in their score.",
+      "explanation": "The significant negative relationship between verbal fluency and the interactivity boost suggests that verbal fluency moderates the effect of interactivity. The benefit of being able to physically manipulate letter tiles is most pronounced for individuals with lower verbal fluency. As verbal fluency increases, this benefit diminishes, possibly because high-fluency individuals are already performing closer to their maximum potential in the non-interactive control condition, leaving less room for improvement (a potential ceiling effect)."
+    }
+  ],
+  "metadata": {
+    "total_questions": 6,
+    "topics_covered": [
+      "Simple Linear Regression",
+      "Correlation Analysis",
+      "Scatterplot Interpretation",
+      "Regression Equation",
+      "APA Format Reporting",
+      "Prediction"
+    ],
+    "difficulty_level": "Intermediate",
+    "dependent_variable": "Interactivity Boost (difference between interactive and control conditions)",
+    "independent_variable": "Verbal fluency scores (1-10 scale)"
+  }
+} 

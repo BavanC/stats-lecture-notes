@@ -1,0 +1,179 @@
+{
+  "questions": [
+    {
+      "id": "1",
+      "question": "What kind of variable is 'gender'?",
+      "options": ["Categorical", "Sexual", "Interval", "Personal"],
+      "correct_answer": "Categorical",
+      "explanation": "Gender is a categorical variable because it represents distinct categories or groups rather than numerical values on a continuous scale."
+    },
+    {
+      "id": "2",
+      "question": "In a multiple regression analysis which of the following assumptions is of greater relevance?",
+      "options": ["Normal distribution of the residuals.", "Normal distribution of the predictor variables.", "Equal number of males and females.", "Gender and age should be unrelated to the outcome variable."],
+      "correct_answer": "Normal distribution of the residuals.",
+      "explanation": "In multiple regression, the normality assumption applies to the residuals (errors), not the predictor variables themselves."
+    },
+    {
+      "id": "3",
+      "question": "What does Cronbach's alpha measure?",
+      "options": ["The validity of a scale.", "The reliability of a scale.", "The sensitivity of a scale.", "The specificity of a scale."],
+      "correct_answer": "The reliability of a scale.",
+      "explanation": "Cronbach's alpha measures internal consistency reliability, indicating how well the items in a scale measure the same construct."
+    },
+    {
+      "id": "4",
+      "question": "In a binary logistic regression, if the value of the odds ratio is greater than 1 then it indicates that as the predictor increases, the odds of the outcome occurring increase. Conversely, a value less than 1 indicates that as the predictor increases, the odds of the outcome occurring...",
+      "options": ["don't change.", "decrease.", "increase.", "are not significant."],
+      "correct_answer": "decrease.",
+      "explanation": "An odds ratio less than 1 indicates that as the predictor increases, the odds of the outcome occurring decrease."
+    },
+    {
+      "id": "5",
+      "question": "Which of the following is NOT an assumption of binary logistic regression?",
+      "options": ["A linear relationships between the outcome and predictor variables.", "The outcome variable must be dichotomous.", "The outcome categories should be mutually exclusive.", "Larger samples are needed than for linear regression."],
+      "correct_answer": "A linear relationships between the outcome and predictor variables.",
+      "explanation": "Logistic regression does not assume a linear relationship between the outcome and predictors; it uses a logit transformation."
+    },
+    {
+      "id": "6",
+      "question": "Exploratory factor analysis is employed to...",
+      "options": ["discover the pattern of relationships between variables.", "reduce a correlation matrix to a smaller number of underlying variables.", "to factor out spurious correlations.", "A and B."],
+      "correct_answer": "A and B.",
+      "explanation": "Exploratory factor analysis is used to discover patterns of relationships and reduce many variables to fewer underlying factors."
+    },
+    {
+      "id": "7",
+      "question": "In a multiple regression analysis, a high coefficient of determination but with non significant beta coefficients may be a sign of...",
+      "options": ["sampling error.", "data entry error.", "multicollinearity.", "heterogeneity of variance."],
+      "correct_answer": "multicollinearity.",
+      "explanation": "Multicollinearity can result in high R² but non-significant individual predictors due to shared variance."
+    },
+    {
+      "id": "8",
+      "question": "In a binary logistic regression analysis, the confusion matrix is a measure of...",
+      "options": ["the model's confusion.", "the researcher's confusion.", "the model's correct classification.", "the model's significance."],
+      "correct_answer": "the model's correct classification.",
+      "explanation": "The confusion matrix shows how well the model correctly classifies cases into their actual categories."
+    },
+    {
+      "id": "9",
+      "question": "What does it mean when a data point is censored in survival analysis?",
+      "options": ["The data point is excluded from the analysis.", "The event of interest has not occurred by the end of the study period.", "The event has occurred (but does not count, hence censored).", "The data point is an outlier (and hence censored)."],
+      "correct_answer": "The event of interest has not occurred by the end of the study period.",
+      "explanation": "Censored data points represent cases where the event of interest has not occurred by the end of the study period."
+    },
+    {
+      "id": "10",
+      "question": "What is an acceptable value of Cronbach's alpha for most research?",
+      "options": ["Below 0.50.", "Between 0.50 and 0.60.", "Between 0.60 and 0.70.", "Above 0.70."],
+      "correct_answer": "Above 0.70.",
+      "explanation": "Cronbach's alpha above 0.70 is generally considered acceptable for research purposes."
+    },
+    {
+      "id": "11",
+      "question": "Participants are invited to solve a problem, and are given five minutes to solve it. Participants are allocated to two experimental conditions, A and B. To determine the effect of the experimental conditions on performance, why would you not compare mean latencies to solution in both conditions with a t-test?",
+      "options": ["It could violate variance homogeneity.", "It would ignore censoring.", "Participant numbers might differ.", "Time should be log transformed first."],
+      "correct_answer": "It would ignore censoring.",
+      "explanation": "When participants have a time limit, those who don't solve the problem within the time limit have censored data that a t-test cannot handle properly."
+    },
+    {
+      "id": "12",
+      "question": "A researcher asked participants where they currently lived, choosing from three alternatives: City, Village, or Rural. Which type of data best describes their answers?",
+      "options": ["Ordinal categorical", "Discrete numerical", "Nominal categorical", "Continuous numerical"],
+      "correct_answer": "Nominal categorical",
+      "explanation": "These categories have no inherent order or ranking, making them nominal categorical data."
+    },
+    {
+      "id": "13",
+      "question": "The explanatory value of a regression model is assessed with...",
+      "options": ["a large sample size.", "a well designed experiment.", "R².", "the sum of squared deviations."],
+      "correct_answer": "R².",
+      "explanation": "R² (coefficient of determination) measures the proportion of variance in the dependent variable explained by the independent variables."
+    },
+    {
+      "id": "14",
+      "question": "If an event has probability > 50% of occurring, what are its odds?",
+      "options": ["0", "1", "> 1", "< 1"],
+      "correct_answer": "> 1",
+      "explanation": "When probability > 0.5, odds = p/(1-p) will be greater than 1."
+    },
+    {
+      "id": "15",
+      "question": "Technically, a score on one Likert scale question produces...",
+      "options": ["personal data.", "interval data.", "ratio data.", "ordinal data."],
+      "correct_answer": "ordinal data.",
+      "explanation": "Individual Likert scale items produce ordinal data because the intervals between response options may not be equal."
+    },
+    {
+      "id": "16",
+      "question": "A chi-square test can be conducted on...",
+      "options": ["parametric data.", "nominal data.", "correlational data.", "asymptotic data."],
+      "correct_answer": "nominal data.",
+      "explanation": "Chi-square tests are designed for categorical (nominal) data to test for independence between variables."
+    },
+    {
+      "id": "17",
+      "question": "Factor interpretation in factor analysis is determined by...",
+      "options": ["the eigenvalue.", "the number of factors.", "a careful analysis of the items that load on the same factor.", "the sampling adequacy."],
+      "correct_answer": "a careful analysis of the items that load on the same factor.",
+      "explanation": "Factor interpretation requires examining which items load together to understand what construct the factor represents."
+    },
+    {
+      "id": "18",
+      "question": "What is the effect size for contingency tables larger than 2x2?",
+      "options": ["Cramer's V", "Phi", "Cohen's d", "Partial eta squared"],
+      "correct_answer": "Cramer's V",
+      "explanation": "Cramer's V is the appropriate effect size measure for contingency tables larger than 2x2."
+    },
+    {
+      "id": "19",
+      "question": "The regression coefficients in a logistic regression...",
+      "options": ["are the negative exponents of e.", "are the predictors of the outcome variable.", "must be normally distributed.", "must be based on continuous predictor variables."],
+      "correct_answer": "are the negative exponents of e.",
+      "explanation": "In logistic regression, the odds ratio is calculated as e^β, where β is the regression coefficient."
+    },
+    {
+      "id": "20",
+      "question": "The output of a chi-square test should be interpreted particularly cautiously if over ___% of the ___ frequencies are smaller than 5.",
+      "options": ["5, expected", "20, expected", "5, observed", "20, observed"],
+      "correct_answer": "20, expected",
+      "explanation": "When more than 20% of expected frequencies are less than 5, the chi-square test may not be reliable."
+    },
+    {
+      "id": "21",
+      "question": "In developing a scale to measure a psychological variable (e.g. social anxiety) comparing your participants' performance on your new questionnaire to existing measures that are thought to be associated with the psychological construct you want to quantify is done to establish...",
+      "options": ["Construct validity.", "Test-retest reliability.", "Inter-coder reliability.", "Split-half reliability."],
+      "correct_answer": "Construct validity.",
+      "explanation": "Comparing to related measures establishes convergent validity, a type of construct validity."
+    },
+    {
+      "id": "22",
+      "question": "The branch of psychology that is explicitly interested in the design, administration and interpretation of questionnaires and scales that seek to quantify and measure aspects of psychological ability and experience is called...",
+      "options": ["Longitudinal research.", "Psychometrics.", "Psychophysics.", "Cross-sectional sampling."],
+      "correct_answer": "Psychometrics.",
+      "explanation": "Psychometrics is the field concerned with the theory and technique of psychological measurement."
+    },
+    {
+      "id": "23",
+      "question": "In survival analysis, the event of interest must be...",
+      "options": ["interval data.", "ratio data.", "binary.", "ordinal data."],
+      "correct_answer": "binary.",
+      "explanation": "Survival analysis requires a binary event (e.g., occurred/not occurred) and time-to-event data."
+    },
+    {
+      "id": "24",
+      "question": "Which is NOT an assumption for a chi-square analysis?",
+      "options": ["The data must be normally distributed.", "Data must be nominal.", "Observations are independent.", "An observation cannot be in more than one cell."],
+      "correct_answer": "The data must be normally distributed.",
+      "explanation": "Chi-square tests do not require normally distributed data; they are non-parametric tests."
+    },
+    {
+      "id": "25",
+      "question": "The odds of an event is the probability of it occurring (p) divided by...",
+      "options": [".05", "1", "1-p", "100"],
+      "correct_answer": "1-p",
+      "explanation": "Odds = p/(1-p), where p is the probability of the event occurring."
+    }
+  ]
+} 

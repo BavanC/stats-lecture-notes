@@ -1,0 +1,87 @@
+{
+  "title": "Case Study 1: Multiple Regression - Predicting Malevolent Creativity",
+  "description": "A study examining how emotional intelligence, physical aggression, empathic concern, and perspective taking predict malevolent creativity scores",
+  "case_study": {
+    "research_scenario": "Researchers explored how scores on a malevolent creativity scale (Malevolent Creative Behavior Scale; MCBS) are predicted by measures of emotional intelligence (EI_TOT), physical aggression (Buss-Perry Aggression Questionnaire; BPAQ_TOT), empathic concern (Interpersonal Reactivity Index, Empathic Concern; IRI_EC_TOT) and perspective taking (Interpersonal Reactivity Index, Perspective Taking; IRI_PT_TOT). The JASP output from the multiple regression analysis is shown below.",
+    "statistical_tables": {
+      "model_summary": {
+        "title": "Model Summary - MCBS_TOT",
+        "headers": ["Model", "R", "R²", "Adjusted R²", "RMSE"],
+        "rows": [
+          ["H₀", "0.000", "0.000", "0.000", "6.096"],
+          ["H₁", "0.622", "0.387", "0.359", "4.876"]
+        ]
+      },
+      "anova": {
+        "title": "ANOVA",
+        "headers": ["Model", "Sum of Squares", "df", "Mean Square", "F", "p"],
+        "rows": [
+          ["H₁ Regression", "1365.855", "4", "341.464", "14.359", "<.001"],
+          ["  Residual", "2163.979", "91", "23.780", "", ""],
+          ["  Total", "3529.833", "95", "", "", ""]
+        ]
+      },
+      "coefficients": {
+        "title": "Coefficients",
+        "headers": ["Model", "Unstandardized", "Standard Error", "Standardized", "t", "p"],
+        "rows": [
+          ["H₀ (Intercept)", "21.542", "0.622", "", "34.626", "<.001"],
+          ["H₁ (Intercept)", "23.511", "6.090", "", "3.861", "<.001"],
+          ["  EI_TOT", "0.009", "0.046", "0.017", "0.189", "0.851"],
+          ["  BPAQ_TOT", "0.413", "0.073", "0.493", "5.629", "<.001"],
+          ["  IRI_EC_TOT", "-0.270", "0.131", "-0.202", "-2.062", "0.042"],
+          ["  IRI_PT_TOT", "-0.111", "0.144", "-0.077", "---", "0.443"]
+        ]
+      }
+    }
+  },
+  "questions": [
+    {
+      "id": "a",
+      "question": "What was the value of the coefficient of determination for this regression model? Show your calculations (4 marks)",
+      "answer": "R-squared = SSregression / SStotal = 1365.855 / 3529.833 = 0.387",
+      "explanation": "The coefficient of determination, or R², represents the proportion of the variance in the dependent variable (Malevolent Creativity) that is predictable from the independent variables. It is calculated by dividing the Sum of Squares for the regression model by the Total Sum of Squares."
+    },
+    {
+      "id": "b",
+      "question": "What was the F ratio for this model? Show your calculations (4 Marks).",
+      "answer": "F = MSregression / MSresidual = 341.464 / 23.780 = 14.359",
+      "explanation": "The F-ratio tests the overall significance of the regression model. It is the ratio of the Mean Square of the regression to the Mean Square of the residuals (error). The resulting value shows whether the model is a significantly better fit than a model with no predictors."
+    },
+    {
+      "id": "c",
+      "question": "What was the t ratio to determine whether the coefficient for perspective taking was significant? Show your calculations (4 marks)",
+      "answer": "t = Unstandardized / Standard Error = -0.111 / 0.144 = -0.771",
+      "explanation": "The t-ratio for an individual predictor is calculated by dividing its unstandardized coefficient (the 'B' or 'β' value) by its standard error. This test determines whether that specific predictor is making a significant contribution to the model."
+    },
+    {
+      "id": "d",
+      "question": "What was the unstandardized coefficient for emotional intelligence? (3 marks).",
+      "answer": "coefficient for emotional intelligence is β1, value of 0.009",
+      "explanation": "The unstandardized coefficient (β) for Emotional Intelligence is 0.009. This value represents the change in the malevolent creativity score for every one-unit increase in the emotional intelligence score, assuming all other variables are held constant."
+    },
+    {
+      "id": "e",
+      "question": "Report the findings from this multiple regression analysis for a lab report. (10 marks)",
+      "answer": "The model was significant, F(4, 91) = 14.359, p < 0.001, accounting for 38.7% of the variance in the MCBS. Physical aggression (β2 = 0.413, p < 0.001) and empathic concern (β3 = -0.270, p = 0.042) were significant predictors. Emotional intelligence (β1 = 0.009, p = 0.851) and perspective taking (β4 = -0.111, p = 0.443) were not significant predictors.",
+      "explanation": "A summary for a lab report should include the overall model's F-test, degrees of freedom, p-value, and R² (as a percentage). It should also identify which individual predictors were significant and which were not, reporting their unstandardized coefficients (β) and p-values to clearly and concisely communicate the study's findings."
+    }
+  ],
+  "metadata": {
+    "total_questions": 5,
+    "topics_covered": [
+      "Multiple Regression",
+      "Statistical Reporting",
+      "APA Format",
+      "Model Interpretation"
+    ],
+    "difficulty_level": "Advanced",
+    "dependent_variable": "Malevolent Creativity (MCBS_TOT)",
+    "independent_variables": [
+      "Emotional Intelligence (EI_TOT)",
+      "Physical Aggression (BPAQ_TOT)", 
+      "Empathic Concern (IRI_EC_TOT)",
+      "Perspective Taking (IRI_PT_TOT)"
+    ]
+  }
+} 
